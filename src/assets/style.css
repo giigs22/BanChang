@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400&display=swap');
+body{
+    font-family: 'Barlow', sans-serif;
+}
+
+.bg-nav-dark{
+    background-color: #1F295A;
+}
+.bg-nav-light{
+    background-color: #035671;
+}
