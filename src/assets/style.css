@@ -143,3 +143,10 @@ background-color: rgb(32, 42, 90,0.4);
     @apply text-center p-5 border;
     border: 2px solid rgb(36, 46, 95);
 }
+.bg-footer{
+    background-color: rgb(27, 37, 71);
+}
+.circle-stat{
+     background:url('@/assets/demo_circle.png') no-repeat;
+     background-size: contain;;
+}
