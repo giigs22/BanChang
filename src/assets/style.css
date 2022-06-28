@@ -2,13 +2,144 @@
 @tailwind components;
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400&display=swap');
-body{
+
+body {
     font-family: 'Barlow', sans-serif;
+    background-color: #374B91;
 }
 
-.bg-nav-dark{
+.bg-nav-dark {
     background-color: #1F295A;
 }
-.bg-nav-light{
+
+.bg-nav-light {
     background-color: #035671;
+}
+
+.nav-menu {
+    @apply flex items-center gap-1 py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white;
+}
+
+.section-content {
+    background-color: rgb(47, 64, 126, 0.5);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 0 auto;
+    position: relative;
+}
+.main-content{
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.block-content {
+    background-color: rgb(36, 46, 95, 0.5);
+    @apply rounded-lg p-5 relative;
+}
+
+.top-bar {
+    @apply flex gap-3;
+}
+
+.wether {
+    @apply rounded-lg;
+    background-color: rgb(38, 51, 104);
+}
+
+.block-env {
+    background-color: rgb(32, 42, 90, 0.6);
+    @apply flex flex-col py-2 px-6 text-white text-center rounded-lg;
+}
+
+.icon-env {
+    background: #7A7AFE;
+    border-radius: 10px;
+    padding: 10px;
+    width: 62px;
+    height: 62px;
+    @apply flex items-center justify-center;
+}
+.icon-top{
+    @apply absolute right-2 top-3
+}
+.block-layer{
+    background-color: rgb(32, 42, 90);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.list-data-layer li{
+    @apply flex justify-between relative;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgb(255, 255, 255,0.2);
+    padding-left: 45px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background-color: rgb(0, 0, 0,0.08);
+}
+.cus-checkbox{
+        height: 25px;
+        width: 25px;
+}
+.btn-purple{
+    @apply text-white rounded-lg px-7 py-2 bg-gradient-to-r from-purple-500 via-purple-500 to-fuchsia-300;
+}
+.btn-red{
+    @apply text-white rounded-lg px-7 py-2 bg-gradient-to-b from-red-300 via-red-500 to-red-600;
+}
+.btn-gray{
+    @apply  rounded-lg px-7 py-2 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-100;
+}
+.covid-19{
+background-color: rgb(32, 42, 90,0.4);
+}
+.list-item-covid{
+    background-color: rgb(32, 42, 90);
+    @apply rounded text-white text-sm;
+}
+.status{
+    @apply flex items-center gap-1 text-white text-lg;
+}
+.block-widgets{
+    background-color: rgb(31, 41, 88,0.91);
+    border-radius: 8px;
+    padding: 10px;
+    position: relative;
+}
+.detail{
+    @apply flex justify-evenly items-center mt-6;
+}
+.detail-inner{
+    background-color: rgb(255, 255, 255,0.06);
+    border-radius: 10px;
+    margin: 15px;
+}
+.detail-covid{
+    @apply flex flex-col;
+}
+.bg-table-head{
+    background-color: rgb(255, 255, 255,0.06);
+}
+.border-table{
+    border-bottom: 1px solid rgb(255, 255, 255,0.2);
+}
+.table-complaint{
+    background-color: rgb(36, 46, 95);
+    border-radius: 10px;
+}
+.bg-head-table-comp{
+    background-color: rgb(58, 67, 109);
+    @apply text-white text-sm
+}
+.bg-body-table-comp{
+    background-color: rgb(255, 255, 255);
+    @apply text-gray-600 text-sm
+}
+.bg-head-table-comp tr td{
+    @apply text-center p-5 border;
+    border: 2px solid rgb(36, 46, 95);
+}
+.bg-body-table-comp tr td{
+    @apply text-center p-5 border;
+    border: 2px solid rgb(36, 46, 95);
 }
