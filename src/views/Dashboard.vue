@@ -22,7 +22,6 @@
                     <h1 class="text-xl text-white">Dashboard</h1>
                     <div class="block-content">
                         <img src="@/assets/btn_top.png" alt="" class="w-9 h-9 icon-top">
-                        {{$t('environment')}}
                         <Environment></Environment>
                         <div class="grid grid-cols-12 gap-4">
                             <div class="col-span-3">
