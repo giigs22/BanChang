@@ -1,13 +1,25 @@
 import axios from "axios";
-const username = 'bc5gapi@planetcomm.com'
-const password = '5gct@123456'
+
 const api_baseURL = 'https://api.planetcloud.cloud/banchang/smartcity/' 
 
 class AuthService{
-    login(){
-        axios.post(api_baseURL+'api/auth/login',{username:username,password:password}).then((res)=>{
-            localStorage.setItem('token',JSON.stringify(res.data.token))
+    login(user){
+        return axios.post(api_baseURL+'api/auth/login',{username:user.username,password:user.password}).then((res)=>{
+            if(res.data.token){
+                localStorage.setItem('token',res.data.token)
+            }
+            return res
         })
+    }
+    logout(){
+        localStorage.setItem('token',null)
+    }
+    Expire(data){
+        if(data.errorCode === 10 || data.errorCode === 11){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
 export default new AuthService();

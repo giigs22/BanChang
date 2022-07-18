@@ -10,7 +10,7 @@
                 <div class="hidden w-full md:block md:w-auto" id="mobile-menu">
                     <ul class="flex flex-col mt-4 mb-10 md:flex-row md:space-x-8 md:mt-0 md:text-md content-end">
                         <li>
-                            <a href="#" class="nav-menu" aria-current="page"><svg xmlns="http://www.w3.org/2000/svg"
+                            <a href="/" class="nav-menu" aria-current="page"><svg xmlns="http://www.w3.org/2000/svg"
                                     class="w-5 h-5" viewBox="0 0 24.86 22">
                                     <path id="Path_1850" data-name="Path 1850"
                                         d="M115.895,172.555l-12.43,12.43h2.768v9.57h5.975v-6.626h7.374v6.626h5.67v-9.57h3.073Z"
@@ -127,8 +127,8 @@
                                     Mr.Smart
                                 </div>
                                 <div class="flex gap-2">
-                                    <span class="text-yellow-400">Edit Profile</span> | <span
-                                        class="text-yellow-400">Logout</span>
+                                    <span class="text-yellow-400">Edit Profile</span> | <span @click="Logout"
+                                        class="text-yellow-400 cursor-pointer">Logout</span>
                                 </div>
                             </div>
                         </div>
@@ -154,6 +154,12 @@
 import LanguageSwitcher from '../../components/utility/LanguageSwitcher.vue';
 import ThemeSwitcher from '../../components/utility/ThemeSwitcher.vue';
 export default {
-    components: { LanguageSwitcher, ThemeSwitcher }
+    components: { LanguageSwitcher, ThemeSwitcher },
+    methods:{
+        Logout(){
+            this.$store.dispatch('auth/logout')
+            window.location.reload()
+        }
+    }
 }
 </script>

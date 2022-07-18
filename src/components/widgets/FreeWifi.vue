@@ -35,6 +35,7 @@
 </template>
 <script>
     import axios from 'axios'
+    import AuthService from '../../services/auth.services'
     import authHeader from '../../services/auth.header'
 
     export default {
@@ -53,7 +54,7 @@
             }
         },
         created() {
-                this.getAPData()
+            this.getAPData()
         },
         mounted() {
             setInterval(() => {
@@ -69,13 +70,17 @@
                         headers: authHeader()
                     }
                     axios.get(this.$api_baseURL + api_last, options).then((res) => {
-                        var data = res.data
-                        this.client.push(data.client[0].value)
-                        this.status.push({
-                            id: el,
-                            status: data.status[0].value
-                        })
-                        this.setData()
+                        if (AuthService.Expire(res.data)) {
+                            this.$store.dispatch('auth/logout')
+                        } else {
+                            var data = res.data
+                            this.client.push(data.client[0].value)
+                            this.status.push({
+                                id: el,
+                                status: data.status[0].value
+                            })
+                            this.setData()
+                        }
                     })
                 });
             },
@@ -100,13 +105,13 @@
                 var avg_users = sum_client / count_avg;
                 this.avg_users = isNaN(avg_users.toFixed(2)) ? 0 : avg_users.toFixed(2)
             },
-            clearData(){
-                this.client= []
-                this.status= []
-                this.online= 0
-                this.offline= 0
-                this.users= 0
-                this.avg_users= 0
+            clearData() {
+                this.client = []
+                this.status = []
+                this.online = 0
+                this.offline = 0
+                this.users = 0
+                this.avg_users = 0
             }
         }
     }

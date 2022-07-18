@@ -1,5 +1,7 @@
 <template>
-      <div class="flex items-center justify-end my-5">
+    <TopMenu />
+    <main class="m-10">
+        <div class="flex items-center justify-end my-5">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36" height="36"
                 viewBox="0 0 36 36">
                 <defs>
@@ -29,7 +31,7 @@
                             </div>
                             <div class="col-span-6">
                                 <MapLocation></MapLocation>
-                               
+
                             </div>
                             <div class="col-span-3">
                                 <Devices></Devices>
@@ -54,27 +56,27 @@
                             <!-- Air Quality -->
                             <AirQuality></AirQuality>
                             <!-- Smart Lighting -->
-                           <SmartLighting></SmartLighting>
+                            <SmartLighting></SmartLighting>
                             <!-- Smart Pole Energy -->
-                           <SmartPoleEnergy></SmartPoleEnergy>
+                            <SmartPoleEnergy></SmartPoleEnergy>
                             <!-- CCTV Camera -->
-                           <CCTVCamera></CCTVCamera>
+                            <CCTVCamera></CCTVCamera>
                             <!-- CCTV Surviellance -->
-                           <CCTVSurviellance></CCTVSurviellance>
+                            <CCTVSurviellance></CCTVSurviellance>
                             <!-- Parking -->
-                           <Parking></Parking>
+                            <Parking></Parking>
                             <!-- Check license Plate -->
-                           <CheckLicensePlate></CheckLicensePlate>
+                            <CheckLicensePlate></CheckLicensePlate>
                             <!-- License Plate -->
                             <LicensePlate></LicensePlate>
                             <!-- Free WiFi -->
-                           <FreeWifi></FreeWifi>
+                            <FreeWifi></FreeWifi>
                             <!-- Digital Signage -->
                             <DigitalSignage></DigitalSignage>
                             <!-- Complaint -->
                             <Complaint></Complaint>
                             <!-- SOS -->
-                           <Sos></Sos>
+                            <Sos></Sos>
                         </div>
                         <div class="py-5 clear-both"></div>
 
@@ -98,51 +100,70 @@
 
             <!-- End Recent Complaint -->
         </section>
-
-
+    </main>
+    <FooterPage />
 </template>
 <script>
-import Environment from '../components/Environment.vue';
-import DataLayer from '../components/DataLayer.vue';
-import MapLocation from '../components/MapLocation.vue';
-import Devices from '../components/Devices.vue';
-import Covid19 from '../components/Covid19.vue';
-import SOS from '../components/SOS.vue';
-import AirQuality from '../components/widgets/AirQuality.vue';
-import CCTVCamera from '../components/widgets/CCTVCamera.vue';
-import CCTVSurviellance from '../components/widgets/CCTVSurviellance.vue';
-import Parking from '../components/widgets/Parking.vue';
-import CheckLicensePlate from '../components/widgets/CheckLicensePlate.vue';
-import LicensePlate from '../components/widgets/LicensePlate.vue';
-import FreeWifi from '../components/widgets/FreeWifi.vue';
-import DigitalSignage from '../components/widgets/DigitalSignage.vue';
-import Complaint from '../components/widgets/Complaint.vue';
-import Sos from '../components/widgets/Sos.vue';
-import RecentComplaint from '../components/RecentComplaint.vue';
-import SmartLighting from '../components/widgets/SmartLighting.vue';
-import SmartPoleEnergy from '../components/widgets/SmartPoleEnergy.vue';
+    import Environment from '../components/Environment.vue';
+    import DataLayer from '../components/DataLayer.vue';
+    import MapLocation from '../components/MapLocation.vue';
+    import Devices from '../components/Devices.vue';
+    import Covid19 from '../components/Covid19.vue';
+    import SOS from '../components/SOS.vue';
+    import AirQuality from '../components/widgets/AirQuality.vue';
+    import CCTVCamera from '../components/widgets/CCTVCamera.vue';
+    import CCTVSurviellance from '../components/widgets/CCTVSurviellance.vue';
+    import Parking from '../components/widgets/Parking.vue';
+    import CheckLicensePlate from '../components/widgets/CheckLicensePlate.vue';
+    import LicensePlate from '../components/widgets/LicensePlate.vue';
+    import FreeWifi from '../components/widgets/FreeWifi.vue';
+    import DigitalSignage from '../components/widgets/DigitalSignage.vue';
+    import Complaint from '../components/widgets/Complaint.vue';
+    import Sos from '../components/widgets/Sos.vue';
+    import RecentComplaint from '../components/RecentComplaint.vue';
+    import SmartLighting from '../components/widgets/SmartLighting.vue';
+    import SmartPoleEnergy from '../components/widgets/SmartPoleEnergy.vue';
+    import TopMenu from './layout/TopMenu.vue';
+    import FooterPage from './layout/FooterPage.vue';
 
-export default{
-    components:{
-    Environment,
-    DataLayer,
-    MapLocation,
-    Devices,
-    Covid19,
-    SOS,
-    AirQuality,
-    CCTVCamera,
-    CCTVSurviellance,
-    Parking,
-    CheckLicensePlate,
-    LicensePlate,
-    FreeWifi,
-    DigitalSignage,
-    Complaint,
-    Sos,
-    RecentComplaint,
-    SmartLighting,
-    SmartPoleEnergy
-}
-}
+    export default {
+        components: {
+            Environment,
+            DataLayer,
+            MapLocation,
+            Devices,
+            Covid19,
+            SOS,
+            AirQuality,
+            CCTVCamera,
+            CCTVSurviellance,
+            Parking,
+            CheckLicensePlate,
+            LicensePlate,
+            FreeWifi,
+            DigitalSignage,
+            Complaint,
+            Sos,
+            RecentComplaint,
+            SmartLighting,
+            SmartPoleEnergy,
+            TopMenu,
+            FooterPage
+        },
+
+        computed: {
+            loggedIn() {
+                return this.$store.state.auth.status.loggedIn;
+            }
+        },
+        created() {
+            if (this.loggedIn) {
+                this.$router.push("/");
+            } else {
+                this.$store.dispatch('auth/logout');
+                this.$router.push('/login')
+            }
+        },
+
+    }
 </script>

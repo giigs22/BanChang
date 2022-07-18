@@ -2,7 +2,7 @@
     <h2 class="text-lg text-white mb-2">{{$t('environment')}}</h2>
     <div class="top-bar">
         <div class="wether flex w-1/4 py-3 px-7">
-            <div class="flex flex-col text-center">
+            <div class="flex flex-col text-center cursor-pointer" @click="$router.push('/view/aqi_healthy')">
                 <div class="icon-env-main" :style="{background:aqi.level.color}">
                     <img :src="'/src/assets/'+((aqi.level.icon == null)?'':aqi.level.icon)" alt="">
                 </div>
@@ -23,7 +23,7 @@
             <div class="aqi block-env">
                 <h3>AQI</h3>
                 <span class="text-xs my-1">{{aqi.value}}</span>
-                <div class="icon-env" :style="{background:aqi.level.color}">
+                <div class="icon-env">
                     <img :src="'/src/assets/'+aqi.level.icon" />
                 </div>
                 <span class="text-xs my-1">{{aqi.level.label}}</span>
@@ -31,7 +31,7 @@
             <div class="co2 block-env">
                 <h3>Co2</h3>
                 <span class="text-xs my-1">{{avg_data.co2}}</span>
-                <div class="icon-env" :style="{background:_co2.color}">
+                <div class="icon-env">
                     <img src="@/assets/icon_co2.png" />
                 </div>
                 <span class="text-xs my-1">{{_co2.label}}</span>
@@ -39,7 +39,7 @@
             <div class="pm25 block-env">
                 <h3>PM2.5</h3>
                 <span class="text-xs my-1">{{pm25.value}}</span>
-                <div class="icon-env" :style="{background:pm25.level.color}">
+                <div class="icon-env">
                     <img src="@/assets/icon_pm25.png" />
                 </div>
                 <span class="text-xs my-1">{{pm25.level.label}}</span>
@@ -63,7 +63,7 @@
             <div class="uv block-env">
                 <h3>UV</h3>
                 <span class="text-xs my-1">{{avg_data.uv}}</span>
-                <div class="icon-env" :style="{background:_uv.color}">
+                <div class="icon-env">
                     <img src="@/assets/icon_uv.png" />
                 </div>
                 <span class="text-xs my-1">{{_uv.label}}</span>
@@ -135,9 +135,9 @@
             }
         },
         async created() {
-                await this.getEnvSensor()
-                await this.getLNRSensor()
-                this.calAvg()
+            await this.getEnvSensor()
+            await this.getLNRSensor()
+            this.calAvg()
         },
         async mounted() {
             setInterval(async () => {
@@ -154,9 +154,9 @@
                 }
 
                 return axios.get(this.$api_baseURL + api_last, options).then((res) => {
-                    if (res.data.errorCode == 11 || res.data.errorCode == 10 || authHeader() == null ||
-                        authHeader() == undefined) {
-                        AuthService.login()
+                   
+                    if (AuthService.Expire(res.data)) {
+                        this.$store.dispatch('auth/logout')
                     } else {
 
                         var data = res.data
@@ -191,19 +191,23 @@
                 list_lnr_id.forEach(el => {
                     var api_last = 'api/plugins/telemetry/DEVICE/' + el + '/values/timeseries'
                     promises.push(axios.get(this.$api_baseURL + api_last, options).then((res) => {
-                        var data = res.data
-                        this.co2.push({
-                            id: el,
-                            data: data.co2[0]
-                        })
-                        this.uv.push({
-                            id: el,
-                            data: data.uv[0]
-                        })
-                        this.voc.push({
-                            id: el,
-                            data: data.voc[0]
-                        })
+                        if (AuthService.Expire(res.data)) {
+                            this.$store.dispatch('auth/logout')
+                        } else {
+                            var data = res.data
+                            this.co2.push({
+                                id: el,
+                                data: data.co2[0]
+                            })
+                            this.uv.push({
+                                id: el,
+                                data: data.uv[0]
+                            })
+                            this.voc.push({
+                                id: el,
+                                data: data.voc[0]
+                            })
+                        }
                     }).catch((err) => console.error(err)))
                 });
 

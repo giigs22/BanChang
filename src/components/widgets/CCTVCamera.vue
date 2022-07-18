@@ -33,6 +33,7 @@
 </template>
 <script>
     import axios from 'axios'
+    import AuthService from '../../services/auth.services'
     import authHeader from '../../services/auth.header'
 
     export default {
@@ -82,10 +83,10 @@
             }
         },
         created() {
-                this.getCamActive()
-                this.allcam = this.cam_set_p01.length + this.cam_set_p02.length + this.cam_set_p03.length + this
-                    .cam_set_p04
-                    .length + this.cam_set_p05.length + this.cam_set_dc.length
+            this.getCamActive()
+            this.allcam = this.cam_set_p01.length + this.cam_set_p02.length + this.cam_set_p03.length + this
+                .cam_set_p04
+                .length + this.cam_set_p05.length + this.cam_set_dc.length
         },
         mounted() {
             setInterval(() => {
@@ -106,16 +107,20 @@
                         headers: authHeader()
                     }
                     axios.get(this.$api_baseURL + api_attr, options).then((res) => {
-                        var data = res.data
-                        data.forEach(el => {
-                            if (el.key === 'active') {
-                                if (el.value === true) {
-                                    this.online += 1
-                                } else {
-                                    this.offline += 1
+                        if (AuthService.Expire(res.data)) {
+                            this.$store.dispatch('auth/logout')
+                        } else {
+                            var data = res.data
+                            data.forEach(el => {
+                                if (el.key === 'active') {
+                                    if (el.value === true) {
+                                        this.online += 1
+                                    } else {
+                                        this.offline += 1
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     })
                 });
 
@@ -126,16 +131,20 @@
                         headers: authHeader()
                     }
                     axios.get(this.$api_baseURL + api_attr, options).then((res) => {
-                        var data = res.data
-                        data.forEach(el => {
-                            if (el.key === 'active') {
-                                if (el.value === true) {
-                                    this.online += 1
-                                } else {
-                                    this.offline += 1
+                        if (AuthService.Expire(res.data)) {
+                            this.$store.dispatch('auth/logout')
+                        } else {
+                            var data = res.data
+                            data.forEach(el => {
+                                if (el.key === 'active') {
+                                    if (el.value === true) {
+                                        this.online += 1
+                                    } else {
+                                        this.offline += 1
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     })
                 });
                 //Pole03
@@ -145,16 +154,20 @@
                         headers: authHeader()
                     }
                     axios.get(this.$api_baseURL + api_attr, options).then((res) => {
-                        var data = res.data
-                        data.forEach(el => {
-                            if (el.key === 'active') {
-                                if (el.value === true) {
-                                    this.online += 1
-                                } else {
-                                    this.offline += 1
+                        if (AuthService.Expire(res.data)) {
+                            this.$store.dispatch('auth/logout')
+                        } else {
+                            var data = res.data
+                            data.forEach(el => {
+                                if (el.key === 'active') {
+                                    if (el.value === true) {
+                                        this.online += 1
+                                    } else {
+                                        this.offline += 1
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     })
                 });
                 //Pole04
@@ -164,16 +177,20 @@
                         headers: authHeader()
                     }
                     axios.get(this.$api_baseURL + api_attr, options).then((res) => {
-                        var data = res.data
-                        data.forEach(el => {
-                            if (el.key === 'active') {
-                                if (el.value === true) {
-                                    this.online += 1
-                                } else {
-                                    this.offline += 1
+                        if (AuthService.Expire(res.data)) {
+                           this.$store.dispatch('auth/logout')
+                        } else {
+                            var data = res.data
+                            data.forEach(el => {
+                                if (el.key === 'active') {
+                                    if (el.value === true) {
+                                        this.online += 1
+                                    } else {
+                                        this.offline += 1
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     })
                 });
                 //Pole05
@@ -183,16 +200,20 @@
                         headers: authHeader()
                     }
                     axios.get(this.$api_baseURL + api_attr, options).then((res) => {
-                        var data = res.data
-                        data.forEach(el => {
-                            if (el.key === 'active') {
-                                if (el.value === true) {
-                                    this.online += 1
-                                } else {
-                                    this.offline += 1
+                        if (AuthService.Expire(res.data)) {
+                            this.$store.dispatch('auth/logout')
+                        } else {
+                            var data = res.data
+                            data.forEach(el => {
+                                if (el.key === 'active') {
+                                    if (el.value === true) {
+                                        this.online += 1
+                                    } else {
+                                        this.offline += 1
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     })
                 });
                 //DC
@@ -202,20 +223,24 @@
                         headers: authHeader()
                     }
                     axios.get(this.$api_baseURL + api_attr, options).then((res) => {
-                        var data = res.data
-                        data.forEach(el => {
-                            if (el.key === 'active') {
-                                if (el.value === true) {
-                                    this.online += 1
-                                } else {
-                                    this.offline += 1
+                        if (AuthService.Expire(res.data)) {
+                            this.$store.dispatch('auth/logout')
+                        } else {
+                            var data = res.data
+                            data.forEach(el => {
+                                if (el.key === 'active') {
+                                    if (el.value === true) {
+                                        this.online += 1
+                                    } else {
+                                        this.offline += 1
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     })
                 });
             },
-            clearData(){
+            clearData() {
                 this.online = 0
                 this.offline = 0
                 this.allcam = 0

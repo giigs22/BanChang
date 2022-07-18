@@ -8,12 +8,16 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
+    "vee-validate": "^4.6.1",
     "vue": "^3.2.37",
     "vue-i18n": "^9.1.10",
+    "vue-loading-overlay": "5.0",
     "vue-router": "^4.0.16",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.2",
     "@vitejs/plugin-vue": "^2.3.3",
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",
