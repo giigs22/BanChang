@@ -10,7 +10,7 @@ const local_token_planet = localStorage.getItem('token_planet')
 
 class AuthService{
     login(user){
-        return axios.post(api_backend+'login',{email:user.username,password:user.password}).then((res)=>{
+        return axios.post(api_backend+'login',{username:user.username,password:user.password}).then((res)=>{
             console.log(res);
             if(res.data.token){
                 localStorage.setItem('token',res.data.token)

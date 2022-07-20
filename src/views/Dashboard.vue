@@ -103,7 +103,7 @@
     </main>
     <FooterPage />
     <AlertConnectAPI v-if="alert.active"/>
-    <AlertDialogConfirm v-if="confirm.active" :msg="'Unable to Connect'" :type="error"/>
+    <AlertDialogConfirm v-if="confirm.active" :msg="'Unable to Connect'" :type="'error'" @close="closeAlert"/>
 </template>
 <script>
     import Environment from '../components/Environment.vue';
@@ -170,6 +170,9 @@
         computed: {
             loggedIn() {
                 return this.$store.state.auth.status.loggedIn;
+            },
+            statusServer(){
+                return this.$store.state.server.api_sensor.connect;
             }
         },
         created() {
@@ -179,11 +182,19 @@
             }
             this.loginPlanet()
         },
+        mounted(){
+            if(!this.statusServer){
+                setTimeout(() => {
+                    this.loginPlanet()
+                }, this.$reconnect_time);
+            }
+        },
         methods: {
             loginPlanet() {
                 this.alert.active = true
                 this.$store.dispatch('auth/login_planet').then((res) => {
-                    console.log(res);
+                    //console.log(res);
+                    this.$store.dispatch('server/setStatus',true)
                 }).catch((err) => {
                     if (err.code === "ECONNABORTED") {
                         LogService.sendLog('error', 'Error Connect Login time out.').then((res)=>{
@@ -198,6 +209,10 @@
                     }
                 })
             },
+            closeAlert(){
+                this.confirm.active = false
+                this.$store.dispatch('server/setStatus',false)
+            }
 
         }
 

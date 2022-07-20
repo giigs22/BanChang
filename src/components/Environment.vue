@@ -4,7 +4,7 @@
         <div class="wether flex w-1/4 py-3 px-7">
             <div class="flex flex-col text-center cursor-pointer" @click="$router.push('/view/aqi_healthy')">
                 <div class="icon-env-main" :style="{background:aqi.level.color}">
-                    <img :src="'/src/assets/'+((aqi.level.icon == null)?'':aqi.level.icon)" alt="">
+                    <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" alt="">
                 </div>
                 <h3 class="text-lg text-white">{{(aqi.level.label == null?'':aqi.level.label)}}</h3>
             </div>
@@ -24,7 +24,7 @@
                 <h3>AQI</h3>
                 <span class="text-xs my-1">{{aqi.value}}</span>
                 <div class="icon-env">
-                    <img :src="'/src/assets/'+aqi.level.icon" />
+                    <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" />
                 </div>
                 <span class="text-xs my-1">{{aqi.level.label}}</span>
             </div>
@@ -134,17 +134,26 @@
                 }
             }
         },
+        computed:{
+            statusAPI(){
+                return this.$store.state.server.api_sensor.connect;
+            }
+        },
         async created() {
+            if(this.statusAPI){
             await this.getEnvSensor()
             await this.getLNRSensor()
             this.calAvg()
+            }
         },
         async mounted() {
+            if(this.statusAPI){
             setInterval(async () => {
                 await this.getEnvSensor()
                 await this.getLNRSensor()
                 this.calAvg()
             }, this.$interval_time);
+            }
         },
         methods: {
             getEnvSensor() {

@@ -19,7 +19,7 @@
                                 Dashboard</a>
                         </li>
                         <li>
-                            <a href="#" class="nav-menu">
+                            <a href="#" class="peer nav-menu">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 23.667 22.738">
                                     <path id="Path_1860" data-name="Path 1860"
                                         d="M118.044,312.349l1.848,3.742a2.333,2.333,0,0,0,1.759,1.277l4.128.6a2.336,2.336,0,0,1,1.3,3.985l-2.986,2.913a2.334,2.334,0,0,0-.672,2.069l.7,4.112a2.336,2.336,0,0,1-3.39,2.463l-3.692-1.942a2.335,2.335,0,0,0-2.174,0l-3.694,1.942a2.337,2.337,0,0,1-3.39-2.463l.706-4.112a2.34,2.34,0,0,0-.672-2.069l-2.988-2.913a2.336,2.336,0,0,1,1.3-3.985l4.128-.6a2.336,2.336,0,0,0,1.761-1.277l1.846-3.742A2.336,2.336,0,0,1,118.044,312.349Z"
@@ -27,6 +27,18 @@
                                 </svg>
                                 Advance
                                 Info</a>
+                            <!-- the menu here -->
+                            <div class="hidden peer-hover:flex hover:flex
+         w-[150px]
+         flex-col bg-blue-400 drop-shadow-lg absolute z-50">
+                                <a class="px-5 py-2 text-white border-b border-dashed" href="#">Air Quality</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed" href="#">Lighting</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed" href="#">Smart Pole</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed" href="#">CCTV Camera</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed" href="#">Free Wifi</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed" href="#">Digital Signage</a>
+
+                            </div>
                         </li>
                         <li>
                             <a href="#" class="nav-menu"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
@@ -151,15 +163,18 @@
     </nav>
 </template>
 <script>
-import LanguageSwitcher from '../../components/utility/LanguageSwitcher.vue';
-import ThemeSwitcher from '../../components/utility/ThemeSwitcher.vue';
-export default {
-    components: { LanguageSwitcher, ThemeSwitcher },
-    methods:{
-        Logout(){
-            this.$store.dispatch('auth/logout')
-            window.location.reload()
+    import LanguageSwitcher from '../../components/utility/LanguageSwitcher.vue';
+    import ThemeSwitcher from '../../components/utility/ThemeSwitcher.vue';
+    export default {
+        components: {
+            LanguageSwitcher,
+            ThemeSwitcher
+        },
+        methods: {
+            Logout() {
+                this.$store.dispatch('auth/logout')
+                window.location.reload()
+            }
         }
     }
-}
 </script>

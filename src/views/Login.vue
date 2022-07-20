@@ -65,7 +65,7 @@
         },
         data() {
             const schema = yup.object().shape({
-                username: yup.string().email().required(this.$i18n.t("required.username")),
+                username: yup.string().required(this.$i18n.t("required.username")),
                 password: yup.string().required(this.$i18n.t("required.password"))
             })
             return {
@@ -94,15 +94,14 @@
                     password: this.password
                 }
                 this.$store.dispatch("auth/login", user).then((res) => {
-                    if (!this.loggedIn) {
+                    var data = res.data
+                    if (!data.success) {
                         this.message = res.data.message
                         this.loading = false
                     }else{
                         this.$router.push("/")
                     }
 
-                }, (error) => {
-                    console.log(error);
                 })
 
             },

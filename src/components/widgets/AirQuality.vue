@@ -15,7 +15,7 @@
         </div>
         <div class="detail gap-10">
             <div class="icon-env-main" :style="{background:aqi.level.color}">
-                <img :src="'/src/assets/'+((aqi.level.icon == null)?'':aqi.level.icon)" alt="">
+                <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" alt="">
             </div>
             <div class="flex flex-col text-center text-white">
                 <h1 class="text-6xl">{{pm25.value}}</h1>
@@ -50,13 +50,22 @@
                 },
             }
         },
+         computed:{
+            statusAPI(){
+                return this.$store.state.server.api_sensor.connect;
+            }
+        },
         created() {
+            if(this.statusAPI){
                 this.getEnvirontData()
+            }
         },
         mounted() {
+            if(this.statusAPI){
             setInterval(() => {
                 this.getEnvirontData()
             }, this.$interval_time);
+            }
         },
         methods: {
             getEnvirontData() {

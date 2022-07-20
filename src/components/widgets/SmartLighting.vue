@@ -52,15 +52,23 @@
                 offline: null
             }
         },
+         computed:{
+            statusAPI(){
+                return this.$store.state.server.api_sensor.connect;
+            }
+        },
         created() {
+            if(this.statusAPI){
             this.getStatusLamp()
-
+            }
         },
         mounted() {
+            if(this.statusAPI){
             setInterval(() => {
                 this.clearData()
                 this.getStatusLamp()
             }, this.$interval_time);
+            }
 
         },
         methods: {

@@ -53,14 +53,23 @@
                 avg_users: 0,
             }
         },
+         computed:{
+            statusAPI(){
+                return this.$store.state.server.api_sensor.connect;
+            }
+        },
         created() {
+            if(this.statusAPI){
             this.getAPData()
+            }
         },
         mounted() {
+            if(this.statusAPI){
             setInterval(() => {
                 this.clearData()
                 this.getAPData()
             }, this.$interval_time);
+            }
         },
         methods: {
             getAPData() {

@@ -82,13 +82,21 @@
                 }
             }
         },
+         computed:{
+            statusAPI(){
+                return this.$store.state.server.api_sensor.connect;
+            }
+        },
         async created() {
+            if(this.statusAPI){
             await this.getPowerData()
             await this.getPowerStatus()
             this.calEnergy()
             this.calAvgEnergy()
+            }
         },
         async mounted() {
+            if(this.statusAPI){
             setInterval(async () => {
                 this.clearData()
                 await this.getPowerData()
@@ -96,6 +104,7 @@
                 this.calEnergy()
                 this.calAvgEnergy()
             }, this.$interval_time);
+            }
 
         },
         methods: {

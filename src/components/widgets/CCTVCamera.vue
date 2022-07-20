@@ -82,13 +82,21 @@
                 ]
             }
         },
+         computed:{
+            statusAPI(){
+                return this.$store.state.server.api_sensor.connect;
+            }
+        },
         created() {
+            if(this.statusAPI){
             this.getCamActive()
             this.allcam = this.cam_set_p01.length + this.cam_set_p02.length + this.cam_set_p03.length + this
                 .cam_set_p04
-                .length + this.cam_set_p05.length + this.cam_set_dc.length
+                .length + this.cam_set_p05.length + this.cam_set_dc.length   
+            }
         },
         mounted() {
+            if(this.statusAPI){
             setInterval(() => {
                 this.clearData()
                 this.getCamActive()
@@ -96,6 +104,7 @@
                     .cam_set_p04
                     .length + this.cam_set_p05.length + this.cam_set_dc.length
             }, this.$interval_time);
+            }
         },
         methods: {
             getCamActive() {

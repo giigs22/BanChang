@@ -115,7 +115,7 @@
             </div>
         </section>
     </main>
-    <AlertDialog v-if="alert.active" :type="alert.type"></AlertDialog>
+    <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"></AlertDialog>
     <FooterPage class="fixed inset-x-0 bottom-0"/>
 </template>
 <script>
@@ -161,7 +161,8 @@
                 loading: false,
                 alert: {
                     active: false,
-                    type: null
+                    type: null,
+                    msg:null
                 }
             }
         },
@@ -182,13 +183,29 @@
                     if (data.success) {
                         this.alert.active = true
                         this.alert.type = "success"
-                    }
-                    this.loading = false
+                        this.alert.msg = "Data has been saved successfully"
+                        this.loading = false
                     setTimeout(() => {
                         this.alert.active = false
                         this.$router.push('/login')
                     }, 2000);
+                    }else{
+                        this.alert.active = true
+                        this.alert.type = "error"
+                        this.alert.msg = data.message
+                         setTimeout(() => {
+                        this.closeAlert()
+                        this.loading=false
+                       
+                    }, 2000);
+                    }
+                    
                 }).catch((error) => console.error(error))
+            },
+            closeAlert(){
+                    this.alert.active = false
+                    this.alert.type = null
+                    this.alert.msg = null
             }
         }
     }
