@@ -6,7 +6,7 @@ export const user = {
     actions: {
       register({commit},data){
         return UserService.register(data).then((res)=>{
-            return Promise.reject(res)
+            return Promise.resolve(res)
         }).catch((error)=>{
             return Promise.reject(error)
         })

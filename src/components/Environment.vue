@@ -154,7 +154,6 @@
                 }
 
                 return axios.get(this.$api_baseURL + api_last, options).then((res) => {
-                   
                     if (AuthService.Expire(res.data)) {
                         this.$store.dispatch('auth/logout')
                     } else {

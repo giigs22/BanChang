@@ -39,12 +39,14 @@
                 <button class="px-1 py-2 bg-violet-gradient text-white rounded w-24 absolute">OR</button>
                 <hr class="border border-cyan-500 w-full">
             </div>
-            <div class="mt-3">
-                <span class="text-cyan-500">forget password?</span>
+            <div class="mt-3 flex items-center gap-5">
+                <a href="/register" class="text-cyan-500">Register</a>
+                <p class="text-cyan-500">|</p>
+                <p class="text-cyan-500">Forget Password?</p>
             </div>
         </div>
     </div>
-    <FooterPage class="absolute bottom-0 w-full" />
+    <FooterPage class="fixed inset-x-0 bottom-0" />
 </template>
 <script>
     import {
@@ -52,7 +54,6 @@
         Field,
         ErrorMessage
     } from "vee-validate"
-    import 'vue-loading-overlay/dist/vue-loading.css';
     import * as yup from 'yup'
     import FooterPage from './layout/FooterPage.vue'
     export default {
@@ -64,7 +65,7 @@
         },
         data() {
             const schema = yup.object().shape({
-                username: yup.string().required(this.$i18n.t("required.username")),
+                username: yup.string().email().required(this.$i18n.t("required.username")),
                 password: yup.string().required(this.$i18n.t("required.password"))
             })
             return {
@@ -81,7 +82,6 @@
             },
         },
         created() {
-            console.log(this.loggedIn);
             if (this.loggedIn) {
                 this.$router.push("/");
             }
@@ -94,17 +94,19 @@
                     password: this.password
                 }
                 this.$store.dispatch("auth/login", user).then((res) => {
-                    if (res.data.errorCode) {
+                    if (!this.loggedIn) {
                         this.message = res.data.message
                         this.loading = false
                     }else{
                         this.$router.push("/")
                     }
+
                 }, (error) => {
                     console.log(error);
                 })
 
-            }
+            },
+            
         }
     }
 </script>

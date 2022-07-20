@@ -7,6 +7,7 @@
             <div class="inner-content mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
+                        <loading v-model:active="loading" />
                         <h1 class="text-xl text-white ml-10">Register</h1>
                         <div class="form-register mt-5 mb-5">
                             <Form @submit="register" :validation-schema="schema">
@@ -89,7 +90,7 @@
 
                                     </div>
                                     <div class="col-span-3">
-                                        <div class="flex justify-center flex-col w-32">
+                                        <!-- <div class="flex justify-center flex-col w-32">
                                             <div class="bg-gray-200 p-3 rounded">
                                                 <img src="@/assets/icon_picture.png" alt="" class="">
                                             </div>
@@ -97,13 +98,15 @@
                                             <button
                                                 class="mt-3 px-5 py-2 rounded-md text-white btn-blue-gradient">Browse....</button>
 
-                                        </div>
+                                        </div> -->
 
                                     </div>
                                 </div>
                                 <div class="flex gap-3 justify-end">
-                                    <button type="submit" class="px-5 py-2 rounded-md text-white btn-blue-gradient">Register</button>
-                                    <button type="reset" class="px-5 py-2 rounded-md text-white btn-red-gradient">Reset</button>
+                                    <button type="submit"
+                                        class="px-5 py-2 rounded-md text-white btn-blue-gradient">Register</button>
+                                    <button type="reset"
+                                        class="px-5 py-2 rounded-md text-white btn-red-gradient">Reset</button>
                                 </div>
                             </Form>
                         </div>
@@ -112,8 +115,8 @@
             </div>
         </section>
     </main>
-
-    <FooterPage/>
+    <AlertDialog v-if="alert.active" :type="alert.type"></AlertDialog>
+    <FooterPage class="fixed inset-x-0 bottom-0"/>
 </template>
 <script>
     import TopMenu from './layout/TopMenu.vue'
@@ -124,51 +127,68 @@
         ErrorMessage
     } from "vee-validate"
     import * as yup from 'yup'
+    import AlertDialog from '../components/utility/AlertDialog.vue'
     export default {
         components: {
             TopMenu,
             FooterPage,
             Form,
             Field,
-            ErrorMessage
+            ErrorMessage,
+            AlertDialog
         },
         data() {
-             const schema = yup.object().shape({
-                idcard:yup.string().required(),
+            const schema = yup.object().shape({
+                idcard: yup.string().required(),
                 username: yup.string().required(),
                 password: yup.string().required(),
-                con_password:yup.string().required().oneOf([yup.ref('password'),null],'Password not match'),
-                position:yup.string().required(),
-                location:yup.string().required(),
-                email:yup.string().email().required(),
-                phone:yup.string().required()
+                con_password: yup.string().required().oneOf([yup.ref('password'), null], 'Password not match'),
+                position: yup.string().required(),
+                location: yup.string().required(),
+                email: yup.string().email().required(),
+                phone: yup.string().required()
             })
             return {
                 schema,
-                idcard:null,
-                username:null,
-                password:null,
-                con_password:null,
-                position:null,
-                location:null,
-                email:null,
-                phone:null
+                idcard: null,
+                username: null,
+                password: null,
+                con_password: null,
+                position: null,
+                location: null,
+                email: null,
+                phone: null,
+                loading: false,
+                alert: {
+                    active: false,
+                    type: null
+                }
             }
         },
-        methods:{
-            register(){
-                var data={
-                    idcard:this.idcard,
-                    username:this.username,
-                    password:this.password,
-                    position:this.position,
-                    location:this.location,
-                    email:this.email,
-                    phone:this.phone
+        methods: {
+            register() {
+                var data = {
+                    idcard: this.idcard,
+                    username: this.username,
+                    password: this.password,
+                    position: this.position,
+                    location: this.location,
+                    email: this.email,
+                    phone: this.phone
                 }
-                this.$store.dispatch('user/register',data).then((res)=>{
-                    console.log(res);
-                })
+                this.loading = true
+                this.$store.dispatch('user/register', data).then((res) => {
+                    var data = res.data
+                    if (data.success) {
+                        this.alert.active = true
+                        this.alert.type = "success"
+                    }
+                    this.loading = false
+                    setTimeout(() => {
+                        this.alert.active = false
+                        this.$router.push('/login')
+                    }, 2000);
+                }).catch((error) => console.error(error))
             }
         }
     }

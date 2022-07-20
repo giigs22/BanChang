@@ -102,6 +102,8 @@
         </section>
     </main>
     <FooterPage />
+    <AlertConnectAPI v-if="alert.active"/>
+    <AlertDialogConfirm v-if="confirm.active" :msg="'Unable to Connect'" :type="error"/>
 </template>
 <script>
     import Environment from '../components/Environment.vue';
@@ -125,6 +127,9 @@
     import SmartPoleEnergy from '../components/widgets/SmartPoleEnergy.vue';
     import TopMenu from './layout/TopMenu.vue';
     import FooterPage from './layout/FooterPage.vue';
+    import AlertConnectAPI from '../components/utility/AlertConnectAPI.vue'
+    import LogService from '../services/log.service'
+    import AlertDialogConfirm from '../components/utility/AlertDialogConfirm.vue'
 
     export default {
         components: {
@@ -148,22 +153,53 @@
             SmartLighting,
             SmartPoleEnergy,
             TopMenu,
-            FooterPage
+            FooterPage,
+            AlertConnectAPI,
+            AlertDialogConfirm
         },
-
+        data() {
+            return {
+                alert: {
+                    active: false
+                },
+                confirm:{
+                    active:false
+                }
+            }
+        },
         computed: {
             loggedIn() {
                 return this.$store.state.auth.status.loggedIn;
             }
         },
         created() {
-            if (this.loggedIn) {
-                this.$router.push("/");
-            } else {
+            if (!this.loggedIn) {
                 this.$store.dispatch('auth/logout');
                 this.$router.push('/login')
             }
+            this.loginPlanet()
         },
+        methods: {
+            loginPlanet() {
+                this.alert.active = true
+                this.$store.dispatch('auth/login_planet').then((res) => {
+                    console.log(res);
+                }).catch((err) => {
+                    if (err.code === "ECONNABORTED") {
+                        LogService.sendLog('error', 'Error Connect Login time out.').then((res)=>{
+                            var data = res.data
+                            if(data.success){
+                                this.alert.active = false
+                                this.confirm.active = true
+                            }
+                        })
+                        
+                        
+                    }
+                })
+            },
+
+        }
 
     }
 </script>

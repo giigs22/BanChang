@@ -67,7 +67,7 @@
 
                 axios.get(this.$api_baseURL + api_last, options).then((res) => {
                     if (AuthService.Expire(res.data)) {
-                        this.$store.dispatch('auth/logout'); 
+                        this.$store.dispatch('auth/logout')
                     } else {
                         var data = res.data
                         var pm25 = data.pm25[0].value
