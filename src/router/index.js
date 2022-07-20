@@ -3,6 +3,7 @@ import AQIMap from '../views/aqi/Map.vue'
 import AQIHealthy from '../views/aqi/Healthy.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
 import SmartLightMap from '../views/smart_light/Map.vue'
 import SmartPole from '../views/smart_pole/Map.vue'
 
@@ -17,6 +18,10 @@ const router = createRouter({
     {
       path:'/login',
       component:Login
+    },
+    {
+      path:'/register',
+      component:Register
     },
     {
       path:'/view/aqi_map',

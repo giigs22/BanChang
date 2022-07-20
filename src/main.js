@@ -7,6 +7,7 @@ import { i18n } from './i18n'
 
 const app = createApp(App)
 app.config.globalProperties.$api_baseURL = 'https://api.planetcloud.cloud/banchang/smartcity/'
+app.config.globalProperties.$api_backend = 'http://localhost:8000/api/'
 app.config.globalProperties.$interval_time = '60000' 
 
 app.use(router)

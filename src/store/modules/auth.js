@@ -7,7 +7,6 @@ export const auth = {
   actions: {
     login({ commit }, user) {
       return AuthService.login(user).then((response) => {
-        console.log(response);
           if(response.data.token){
             console.log('success');
             commit('loginSuccess');
