@@ -1,3 +1,4 @@
+import axios from 'axios';
 import UserService from '../../services/user.service'
 
 export const user = {
@@ -10,6 +11,17 @@ export const user = {
         }).catch((error)=>{
             return Promise.reject(error)
         })
+      },
+      getRole(){
+        return axios.get(api_backend+'role_user',{
+          headers:{
+            Authorization:"Bearer "+rootState.auth.token
+          }
+        }).then((res)=>{
+          return Promise.resolve(res)
+        }).catch((err)=>{
+          return Promise.reject(err)
+        })     
       }
     },
     mutations: {

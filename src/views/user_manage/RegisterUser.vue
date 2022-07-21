@@ -1,4 +1,5 @@
 <template>
+    <TopMenu />
     <main class="mx-10 mt-20">
         <!-- Content -->
         <section class="">
@@ -31,22 +32,45 @@
                                             <ErrorMessage name="username" class="text-xs text-red-300" />
                                         </div>
                                         <div class="my-3">
-                                            <Field name="password" v-slot="{field}">
-                                                <label class="text-white">Password</label>
-                                                <input v-bind="field" v-model="password" type="password"
-                                                    class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
-                                                    placeholder="Password" :disabled="loading">
-                                            </Field>
-                                            <ErrorMessage name="password" class="text-xs text-red-300" />
+                                            <div class="flex gap-3">
+                                                <Field name="password" v-slot="{field}">
+                                                    <div class="flex flex-col">
+                                                        <label class="text-white">Password</label>
+                                                        <input v-bind="field" v-model="password" type="password"
+                                                            class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
+                                                            placeholder="Password" :disabled="loading">
+                                                        <ErrorMessage name="password" class="text-xs text-red-300" />
+
+                                                    </div>
+
+                                                </Field>
+                                                <Field name="con_password" v-slot="{field}">
+                                                    <div class="flex flex-col">
+                                                        <label class="text-white">Confirm Password</label>
+                                                        <input v-bind="field" type="password" v-model="con_password"
+                                                            class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
+                                                            placeholder="Confirm Password" :disabled="loading">
+                                                        <ErrorMessage name="con_password"
+                                                            class="text-xs text-red-300" />
+
+                                                    </div>
+
+                                                </Field>
+                                            </div>
+
                                         </div>
                                         <div class="my-3">
-                                            <Field name="con_password" v-slot="{field}">
-                                                <label class="text-white">Confirm Password</label>
-                                                <input v-bind="field" type="password" v-model="con_password"
-                                                    class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
-                                                    placeholder="Confirm Password" :disabled="loading">
+                                            <Field name="role" v-slot="{field}">
+                                                <div class="flex flex-col">
+                                                    <label class="text-white">Role</label>
+                                                    <select v-bind="field" class="form-select" v-model="role">
+                                                        <option value=""></option>
+                                                    </select>
+                                                    <ErrorMessage name="role" class="text-xs text-red-300" />
+
+                                                </div>
+
                                             </Field>
-                                            <ErrorMessage name="con_password" class="text-xs text-red-300" />
                                         </div>
                                     </div>
                                     <div class="col-span-3">
@@ -115,19 +139,21 @@
         </section>
     </main>
     <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"></AlertDialog>
-    <FooterPage class="fixed inset-x-0 bottom-0"/>
+    <FooterPage class="fixed inset-x-0 bottom-0" />
 </template>
 <script>
-    import FooterPage from './layout/FooterPage.vue'
+    import TopMenu from '../layout/TopMenu.vue'
+    import FooterPage from '../layout/FooterPage.vue'
     import {
         Form,
         Field,
         ErrorMessage
     } from "vee-validate"
     import * as yup from 'yup'
-    import AlertDialog from '../components/utility/AlertDialog.vue'
+    import AlertDialog from '../../components/utility/AlertDialog.vue'
     export default {
         components: {
+            TopMenu,
             FooterPage,
             Form,
             Field,
@@ -159,7 +185,7 @@
                 alert: {
                     active: false,
                     type: null,
-                    msg:null
+                    msg: null
                 }
             }
         },
@@ -182,27 +208,32 @@
                         this.alert.type = "success"
                         this.alert.msg = "Data has been saved successfully"
                         this.loading = false
-                    setTimeout(() => {
-                        this.alert.active = false
-                        this.$router.push('/login')
-                    }, 2000);
-                    }else{
+                        setTimeout(() => {
+                            this.alert.active = false
+                            this.$router.push('/login')
+                        }, 2000);
+                    } else {
                         this.alert.active = true
                         this.alert.type = "error"
                         this.alert.msg = data.message
-                         setTimeout(() => {
-                        this.closeAlert()
-                        this.loading=false
-                       
-                    }, 2000);
+                        setTimeout(() => {
+                            this.closeAlert()
+                            this.loading = false
+
+                        }, 2000);
                     }
-                    
+
                 }).catch((error) => console.error(error))
             },
-            closeAlert(){
-                    this.alert.active = false
-                    this.alert.type = null
-                    this.alert.msg = null
+            closeAlert() {
+                this.alert.active = false
+                this.alert.type = null
+                this.alert.msg = null
+            },
+            getRole(){
+                this.$store.dispatch('user/getRole').then((res)=>{
+                    console.log(res);
+                })
             }
         }
     }

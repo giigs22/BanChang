@@ -102,8 +102,8 @@
         </section>
     </main>
     <FooterPage />
-    <AlertConnectAPI v-if="alert.active"/>
-    <AlertDialogConfirm v-if="confirm.active" :msg="'Unable to Connect'" :type="'error'" @close="closeAlert"/>
+    <AlertConnectAPI v-if="alert.active" />
+    <AlertDialogConfirm v-if="confirm.active" :msg="'Unable to Connect'" :type="'error'" @close="closeAlert" />
 </template>
 <script>
     import Environment from '../components/Environment.vue';
@@ -128,7 +128,6 @@
     import TopMenu from './layout/TopMenu.vue';
     import FooterPage from './layout/FooterPage.vue';
     import AlertConnectAPI from '../components/utility/AlertConnectAPI.vue'
-    import LogService from '../services/log.service'
     import AlertDialogConfirm from '../components/utility/AlertDialogConfirm.vue'
 
     export default {
@@ -162,8 +161,8 @@
                 alert: {
                     active: false
                 },
-                confirm:{
-                    active:false
+                confirm: {
+                    active: false
                 }
             }
         },
@@ -171,7 +170,7 @@
             loggedIn() {
                 return this.$store.state.auth.status.loggedIn;
             },
-            statusServer(){
+            statusServer() {
                 return this.$store.state.server.api_sensor.connect;
             }
         },
@@ -182,11 +181,9 @@
             }
             this.loginPlanet()
         },
-        mounted(){
-            if(!this.statusServer){
-                setTimeout(() => {
-                    this.loginPlanet()
-                }, this.$reconnect_time);
+        mounted() {
+            if (!this.statusServer) {
+                this.loginPlanet()
             }
         },
         methods: {
@@ -194,24 +191,26 @@
                 this.alert.active = true
                 this.$store.dispatch('auth/login_planet').then((res) => {
                     //console.log(res);
-                    this.$store.dispatch('server/setStatus',true)
+                    this.$store.dispatch('server/setStatus', true)
                 }).catch((err) => {
+                    console.log(err);
                     if (err.code === "ECONNABORTED") {
-                        LogService.sendLog('error', 'Error Connect Login time out.').then((res)=>{
+                        
+                            this.$store.dispatch('server/sendLog',{type:'error',msg:'Error Connect Login time out.'}).then((res) => {
                             var data = res.data
-                            if(data.success){
+                            if (data.success) {
                                 this.alert.active = false
                                 this.confirm.active = true
                             }
-                        })
-                        
-                        
+                            })
+
+                       
                     }
                 })
             },
-            closeAlert(){
+            closeAlert() {
                 this.confirm.active = false
-                this.$store.dispatch('server/setStatus',false)
+                this.$store.dispatch('server/setStatus', false)
             }
 
         }

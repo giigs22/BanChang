@@ -10,7 +10,7 @@ body {
     background-color: #374B91;
 }
 /*Form Input*/
-.form-input{
+.form-input,.form-select{
     @apply rounded px-3 py-1
 }
 .bg-nav-dark {
