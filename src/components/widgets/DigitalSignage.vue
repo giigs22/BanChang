@@ -21,12 +21,12 @@
                                         <img src="@/assets/icon_digi.png" alt="" class="w-32">
                                     </div>
                                     <div class="flex flex-col justify-center text-white">
-                                        <h1 class="text-6xl">26 <span class="text-lg">/50</span></h1>
+                                        <h1 class="text-6xl">0 <span class="text-lg">/0</span></h1>
                                         <div class="flex items-baseline gap-3">
-                                            <h3 class="text-xl">2 <p class="text-red-400 text-xs">Offline</p>
+                                            <h3 class="text-xl">0 <p class="text-red-400 text-xs">Offline</p>
                                             </h3>
                                             <div class="border border-slate-500 h-6 my-auto"></div>
-                                            <h3 class="text-2xl">3 <p class="text-indigo-400 text-xs">No Good</p>
+                                            <h3 class="text-2xl">0 <p class="text-indigo-400 text-xs">No Good</p>
                                             </h3>
                                         </div>
                                     </div>

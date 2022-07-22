@@ -21,8 +21,8 @@
                                         <img src="@/assets/icon_comment.png" alt="" class="w-32">
                                     </div>
                                     <div class=" text-white">
-                                        <p class="text-2xl"><span class="text-6xl">98</span> Topics</p>
-                                        <p class="text-sm">30 Received / 0 Pending</p>
+                                        <p class="text-2xl"><span class="text-6xl">0</span> Topics</p>
+                                        <p class="text-sm">0 Received / 0 Pending</p>
                                     </div>
                                 </div>
                             </div>

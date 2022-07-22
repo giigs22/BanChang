@@ -12,9 +12,16 @@ class AuthService{
     login(user){
         return axios.post(api_backend+'login',{username:user.username,password:user.password}).then((res)=>{
             if(res.data.token){
-                localStorage.setItem('token',res.data.token)
+                var now = new Date();
+                var item = {
+                    value:res.data.token,
+                    expire:now.getTime() + (3600000*24)  //3600000 = 1HR
+                }
+                localStorage.setItem('token',JSON.stringify(item))
             }
             return res
+        }).catch((err)=>{
+            return err
         })
     }
     login_planet(){
@@ -26,10 +33,21 @@ class AuthService{
         })
     }
     logout(){
-        localStorage.setItem('token',null)
+        localStorage.setItem('token',JSON.stringify({value:null,expire:null}))
     }
     Expire(data){
         if(data.errorCode === 10 || data.errorCode === 11 || local_token_planet === 'null'){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    checkExpireToken(){
+        var token = localStorage.getItem('token')
+        var item = JSON.parse(token)
+        var now = new Date()
+        if(now.getTime() > item.expire){
+            localStorage.setItem('token',JSON.stringify({value:null,expire:null}))
             return true;
         }else{
             return false;

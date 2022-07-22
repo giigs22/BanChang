@@ -103,7 +103,7 @@
     </main>
     <FooterPage />
     <AlertConnectAPI v-if="alert.active" />
-    <AlertDialogConfirm v-if="confirm.active" :msg="'Unable to Connect'" :type="'error'" @close="closeAlert" />
+    <AlertDialogConfirm v-if="confirm.active" :msg="confirm.msg" :type="'error'" @close="closeAlert" />
 </template>
 <script>
     import Environment from '../components/Environment.vue';
@@ -162,7 +162,8 @@
                     active: false
                 },
                 confirm: {
-                    active: false
+                    active: false,
+                    msg:null
                 }
             }
         },
@@ -174,33 +175,35 @@
                 return this.$store.state.server.api_sensor.connect;
             }
         },
-        created() {
+        async created() {
             if (!this.loggedIn) {
                 this.$store.dispatch('auth/logout');
                 this.$router.push('/login')
             }
-            this.loginPlanet()
+            await this.loginPlanet()
+            await this.checkExpire()
         },
-        mounted() {
+        async mounted() {
             if (!this.statusServer) {
-                this.loginPlanet()
+                await this.loginPlanet()
+                await this.checkExpire()
             }
         },
         methods: {
             loginPlanet() {
                 this.alert.active = true
-                this.$store.dispatch('auth/login_planet').then((res) => {
-                    //console.log(res);
+                return this.$store.dispatch('auth/login_planet').then((res) => {
                     this.$store.dispatch('server/setStatus', true)
                 }).catch((err) => {
-                    console.log(err);
                     if (err.code === "ECONNABORTED") {
                         
                             this.$store.dispatch('server/sendLog',{type:'error',msg:'Error Connect Login time out.'}).then((res) => {
                             var data = res.data
                             if (data.success) {
+                                this.$store.dispatch('server/setStatus', false)
                                 this.alert.active = false
                                 this.confirm.active = true
+                                this.confirm.msg = 'Unable to Connect Sensor!'
                             }
                             })
 
@@ -210,8 +213,17 @@
             },
             closeAlert() {
                 this.confirm.active = false
-                this.$store.dispatch('server/setStatus', false)
+                this.confirm.msg = null
+            },
+            checkExpire(){
+                return this.$store.dispatch('auth/checkExpire').then((res)=>{
+                    if(res){
+                        this.confirm.active = true
+                        this.confirm.msg = 'Token is Expire!'
+                    }
+                })
             }
+            
 
         }
 

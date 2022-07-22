@@ -94,18 +94,17 @@
                     password: this.password
                 }
                 this.$store.dispatch("auth/login", user).then((res) => {
-                    var data = res.data
+                    var data = res
                     if (!data.success) {
-                        this.message = res.data.message
+                        this.message = data.message
                         this.loading = false
-                    }else{
+                    } else {
                         this.$router.push("/")
                     }
-
                 })
 
             },
-            
+
         }
     }
 </script>

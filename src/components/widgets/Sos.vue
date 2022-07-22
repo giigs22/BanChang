@@ -21,11 +21,10 @@
                                         <img src="@/assets/icon_sos.png" alt="" class="w-32">
                                     </div>
                                     <div class=" text-white">
-                                        <p class="text-2xl"><span class="text-6xl">15</span> Times</p>
+                                        <p class="text-2xl"><span class="text-6xl">0</span> Times</p>
                                         <div class="text-center">
                                             <p>SOS Latest</p>
                                             <p class="text-red-400">05/09/2021 6:55</p>
-                                            <p class="text-red-400">01/09/2021 11:55</p>
                                         </div>
                                     </div>
                                 </div>

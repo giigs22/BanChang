@@ -18,11 +18,11 @@
                                 </div>
                                 <div class="detail">
                                     <div class="flex items-center justify-center relative w-40 h-40 circle-stat">
-                                        <div class="text-4xl text-white">1</div>
+                                        <div class="text-4xl text-white">0</div>
                                     </div>
                                     <div class="text-white">
-                                        <p>Normal <span class="text-3xl text-cyan-400">999</span> Plate</p>
-                                        <p>Suspect <span class="text-3xl text-indigo-400">11</span> Plate</p>
+                                        <p>Normal <span class="text-3xl text-cyan-400">0</span> Plate</p>
+                                        <p>Suspect <span class="text-3xl text-indigo-400">0</span> Plate</p>
                                     </div>
                                 </div>
                             </div>

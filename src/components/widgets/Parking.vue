@@ -14,14 +14,14 @@
             </svg>
         </div>
         <div class="detail text-white flex-col">
-            <h1 class="text-6xl text-right ml-auto mr-16">51%</h1>
+            <h1 class="text-6xl text-right ml-auto mr-16">0%</h1>
             <div class="flex gap-5 items-center">
                 <div>
                     <img src="@/assets/icon_park.png" alt="" class="w-32">
                 </div>
                 <div>
-                    <p>Occupied Parking <span class="text-2xl text-cyan-400">9</span> Lots</p>
-                    <p>Vacant Parking <span class="text-2xl text-indigo-400">11</span> Lots</p>
+                    <p>Occupied Parking <span class="text-2xl text-cyan-400">0</span> Lots</p>
+                    <p>Vacant Parking <span class="text-2xl text-indigo-400">0</span> Lots</p>
                 </div>
             </div>
 
