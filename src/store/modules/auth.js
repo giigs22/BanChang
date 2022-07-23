@@ -5,6 +5,9 @@ if(local_token === null){
 }
 
 const local_token_planet = localStorage.getItem('token_planet')
+if(local_token === null){
+  localStorage.setItem('token',JSON.stringify({value:null,expire:null}))
+}
 //const initialState = (local_token !== "null")? { status: { loggedIn: true }, token:local_token }: { status: { loggedIn: false }, token: null };
 export const auth = {
   namespaced: true,

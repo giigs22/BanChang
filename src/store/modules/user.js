@@ -1,5 +1,6 @@
 import axios from 'axios';
 import UserService from '../../services/user.service'
+const api_backend = import.meta.env.VITE_API_SERVER;
 
 export const user = {
     namespaced: true,
@@ -12,8 +13,8 @@ export const user = {
             return Promise.reject(error)
         })
       },
-      getRole(){
-        return axios.get(api_backend+'role_user',{
+      getRole({rootState}){
+        return axios.get(api_backend+'role',{
           headers:{
             Authorization:"Bearer "+rootState.auth.token
           }
@@ -22,6 +23,9 @@ export const user = {
         }).catch((err)=>{
           return Promise.reject(err)
         })     
+      },
+      getdata(){
+        
       }
     },
     mutations: {

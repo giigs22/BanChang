@@ -88,19 +88,20 @@
 
                                     </div>
                                     <div class="col-span-3">
-                                        <!-- <div class="flex justify-center flex-col w-32">
-                                            <div class="bg-gray-200 p-3 rounded">
-                                                <img src="@/assets/icon_picture.png" alt="" class="">
+                                         <div class="flex justify-center flex-col w-32">
+                                            <div class="bg-gray-200 p-3 rounded" @click="$refs.profile.click()">
+                                                <img src="@/assets/icon_picture.png" alt="" class="max-h-30 mx-auto"
+                                                    id="preview">
                                             </div>
-
-                                            <button
+                                            <input type="file" class="hidden" ref="profile" @change="previewFile">
+                                            <button type="button" @click="$refs.profile.click()"
                                                 class="mt-3 px-5 py-2 rounded-md text-white btn-blue-gradient">Browse....</button>
 
-                                        </div> -->
+                                        </div>
 
                                     </div>
                                 </div>
-                                <div class="flex gap-3 justify-end">
+                                <div class="flex gap-3 justify-end mt-10">
                                     <button type="submit"
                                         class="px-5 py-2 rounded-md text-white btn-blue-gradient">Register</button>
                                     <button type="reset"
@@ -158,7 +159,8 @@
                     active: false,
                     type: null,
                     msg:null
-                }
+                },
+                file:null
             }
         },
         methods: {
@@ -170,7 +172,8 @@
                     position: this.position,
                     location: this.location,
                     email: this.email,
-                    phone: this.phone
+                    phone: this.phone,
+                    profile:this.file
                 }
                 this.loading = true
                 this.$store.dispatch('user/register', data).then((res) => {
@@ -201,6 +204,65 @@
                     this.alert.active = false
                     this.alert.type = null
                     this.alert.msg = null
+            },
+            previewFile(e) {
+                var file = e.target.files[0];
+                var imgfile;
+
+                if (file !== undefined) {
+                    var type = file.type
+                    var allowedExtension = ['image/jpeg', 'image/jpg', 'image/png'];
+
+                    if (allowedExtension.includes(type)) {
+                        var img = document.createElement("img");
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            img.src = e.target.result
+
+                            img.onload = function (e) {
+                                var canvas = document.createElement('canvas');
+                                var ctx = canvas.getContext("2d");
+                                ctx.drawImage(img, 0, 0);
+
+                                var MAX_WIDTH = 104;
+                                var MAX_HEIGHT = 119;
+                                var width = img.width;
+                                var height = img.height;
+
+                                if (width > height) {
+                                    if (width > MAX_WIDTH) {
+                                        height *= MAX_WIDTH / width;
+                                        width = MAX_WIDTH;
+                                    }
+                                } else {
+                                    if (height > MAX_HEIGHT) {
+                                        width *= MAX_HEIGHT / height;
+                                        height = MAX_HEIGHT;
+                                    }
+                                }
+                                canvas.width = width;
+                                canvas.height = height;
+                                var ctx = canvas.getContext("2d");
+                                ctx.drawImage(img, 0, 0, width, height);
+
+                                var dataurl = canvas.toDataURL(type);
+                                document.getElementById('preview').src = dataurl
+                                imgfile = dataurl
+                            }
+                        }
+                        reader.readAsDataURL(file);
+                        setTimeout(() => {
+                            this.file = imgfile
+                        }, 1000);
+                    } else {
+                        this.alert.active = true
+                        this.alert.type = 'error',
+                            this.alert.msg = 'Please Upload File [.jpeg, .jpg, .png] '
+                        setTimeout(() => {
+                            this.closeAlert()
+                        }, 2000);
+                    }
+                }
             }
         }
     }

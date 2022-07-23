@@ -182,6 +182,7 @@
             }
             await this.loginPlanet()
             await this.checkExpire()
+            this.getUserData()
         },
         async mounted() {
             if (!this.statusServer) {
@@ -220,8 +221,13 @@
                     if(res){
                         this.confirm.active = true
                         this.confirm.msg = 'Token is Expire!'
+                        this.$store.dispatch('auth/logout')
+                        this.$router.push('/login')
                     }
                 })
+            },
+            getUserData(){
+                this.$store.dispatch('user/getdata')
             }
             
 

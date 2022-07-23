@@ -64,7 +64,9 @@
                                                 <div class="flex flex-col">
                                                     <label class="text-white">Role</label>
                                                     <select v-bind="field" class="form-select" v-model="role">
-                                                        <option value=""></option>
+                                                        <option value="0">Select Role User</option>
+                                                        <option :value="item.id" v-for="item in list_role"
+                                                            :key="item.id">{{item.name}}</option>
                                                     </select>
                                                     <ErrorMessage name="role" class="text-xs text-red-300" />
 
@@ -110,22 +112,37 @@
                                             </Field>
                                             <ErrorMessage name="phone" class="text-xs text-red-300" />
                                         </div>
+                                        <div class="my-3">
+                                            <Field name="status" v-slot="{field}">
+                                                <div class="flex flex-col">
+                                                    <label class="text-white">Status</label>
+                                                    <select v-bind="field" class="form-select" v-model="status">
+                                                        <option value="1">Active</option>
+                                                        <option value="0">Disable</option>
+                                                    </select>
+                                                    <ErrorMessage name="status" class="text-xs text-red-300" />
+
+                                                </div>
+
+                                            </Field>
+                                        </div>
 
                                     </div>
                                     <div class="col-span-3">
-                                        <!-- <div class="flex justify-center flex-col w-32">
-                                            <div class="bg-gray-200 p-3 rounded">
-                                                <img src="@/assets/icon_picture.png" alt="" class="">
+                                        <div class="flex justify-center flex-col w-32">
+                                            <div class="bg-gray-200 p-3 rounded" @click="$refs.profile.click()">
+                                                <img src="@/assets/icon_picture.png" alt="" class="max-h-30 mx-auto"
+                                                    id="preview">
                                             </div>
-
-                                            <button
+                                            <input type="file" class="hidden" ref="profile" @change="previewFile">
+                                            <button type="button" @click="$refs.profile.click()"
                                                 class="mt-3 px-5 py-2 rounded-md text-white btn-blue-gradient">Browse....</button>
 
-                                        </div> -->
+                                        </div>
 
                                     </div>
                                 </div>
-                                <div class="flex gap-3 justify-end">
+                                <div class="flex gap-3 justify-end mt-10">
                                     <button type="submit"
                                         class="px-5 py-2 rounded-md text-white btn-blue-gradient">Register</button>
                                     <button type="reset"
@@ -169,7 +186,8 @@
                 position: yup.string().required(),
                 location: yup.string().required(),
                 email: yup.string().email().required(),
-                phone: yup.string().required()
+                phone: yup.string().required(),
+                role: yup.string().required().nullable(),
             })
             return {
                 schema,
@@ -181,13 +199,23 @@
                 location: null,
                 email: null,
                 phone: null,
+                status: 1,
+                role: 0,
                 loading: false,
                 alert: {
                     active: false,
                     type: null,
                     msg: null
-                }
+                },
+                list_role: [],
+                file:null,
             }
+        },
+        create() {
+            this.getRole()
+        },
+        mounted() {
+            this.getRole()
         },
         methods: {
             register() {
@@ -198,7 +226,10 @@
                     position: this.position,
                     location: this.location,
                     email: this.email,
-                    phone: this.phone
+                    phone: this.phone,
+                    role:this.role,
+                    status:this.status,
+                    profile:this.file
                 }
                 this.loading = true
                 this.$store.dispatch('user/register', data).then((res) => {
@@ -208,32 +239,91 @@
                         this.alert.type = "success"
                         this.alert.msg = "Data has been saved successfully"
                         this.loading = false
-                        setTimeout(() => {
-                            this.alert.active = false
-                            this.$router.push('/login')
-                        }, 2000);
-                    } else {
+                    setTimeout(() => {
+                        this.alert.active = false
+                        this.$router.push('/user/list')
+                    }, 2000);
+                    }else{
                         this.alert.active = true
                         this.alert.type = "error"
                         this.alert.msg = data.message
-                        setTimeout(() => {
-                            this.closeAlert()
-                            this.loading = false
-
-                        }, 2000);
+                         setTimeout(() => {
+                        this.closeAlert()
+                        this.loading=false
+                       
+                    }, 2000);
                     }
-
+                    
                 }).catch((error) => console.error(error))
-            },
+        },
             closeAlert() {
                 this.alert.active = false
                 this.alert.type = null
                 this.alert.msg = null
             },
-            getRole(){
-                this.$store.dispatch('user/getRole').then((res)=>{
-                    console.log(res);
+            getRole() {
+                this.$store.dispatch('user/getRole').then((res) => {
+                    this.list_role = res.data
                 })
+            },
+            previewFile(e) {
+                var file = e.target.files[0];
+                var imgfile;
+
+                if (file !== undefined) {
+                    var type = file.type
+                    var allowedExtension = ['image/jpeg', 'image/jpg', 'image/png'];
+
+                    if (allowedExtension.includes(type)) {
+                        var img = document.createElement("img");
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            img.src = e.target.result
+
+                            img.onload = function (e) {
+                                var canvas = document.createElement('canvas');
+                                var ctx = canvas.getContext("2d");
+                                ctx.drawImage(img, 0, 0);
+
+                                var MAX_WIDTH = 104;
+                                var MAX_HEIGHT = 119;
+                                var width = img.width;
+                                var height = img.height;
+
+                                if (width > height) {
+                                    if (width > MAX_WIDTH) {
+                                        height *= MAX_WIDTH / width;
+                                        width = MAX_WIDTH;
+                                    }
+                                } else {
+                                    if (height > MAX_HEIGHT) {
+                                        width *= MAX_HEIGHT / height;
+                                        height = MAX_HEIGHT;
+                                    }
+                                }
+                                canvas.width = width;
+                                canvas.height = height;
+                                var ctx = canvas.getContext("2d");
+                                ctx.drawImage(img, 0, 0, width, height);
+
+                                var dataurl = canvas.toDataURL(type);
+                                document.getElementById('preview').src = dataurl
+                                imgfile = dataurl
+                            }
+                        }
+                        reader.readAsDataURL(file);
+                        setTimeout(() => {
+                            this.file = imgfile
+                        }, 1000);
+                    } else {
+                        this.alert.active = true
+                        this.alert.type = 'error',
+                            this.alert.msg = 'Please Upload File [.jpeg, .jpg, .png] '
+                        setTimeout(() => {
+                            this.closeAlert()
+                        }, 2000);
+                    }
+                }
             }
         }
     }
