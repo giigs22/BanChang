@@ -1,7 +1,6 @@
 <template>
-    <main class="mx-10 mt-20">
+    <div class="mx-10 my-20 min-h-screen">
         <!-- Content -->
-        <section class="">
             <!-- Main Section -->
             <div class="inner-content mx-10">
                 <div class="main-content">
@@ -10,7 +9,7 @@
                         <h1 class="text-xl text-white ml-10">Register</h1>
                         <div class="form-register mt-5 mb-5">
                             <Form @submit="register" :validation-schema="schema">
-                                <div class="grid grid-cols-9 text-sm gap-40">
+                                <div class="grid grid-cols-9 text-sm lg:gap-20 2xl:gap-40">
                                     <div class="col-span-3">
                                         <div class="my-3">
                                             <Field name="idcard" v-slot="{field}">
@@ -112,10 +111,9 @@
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+    </div>
     <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"></AlertDialog>
-    <FooterPage class="fixed inset-x-0 bottom-0"/>
+    <FooterPage class="2xl:fixed inset-x-0 bottom-0"/>
 </template>
 <script>
     import FooterPage from './layout/FooterPage.vue'

@@ -46,7 +46,7 @@
             </div>
         </div>
     </div>
-    <FooterPage class="fixed inset-x-0 bottom-0" />
+    <FooterPage class="2xl:fixed inset-x-0 bottom-0" />
 </template>
 <script>
     import {

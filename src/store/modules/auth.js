@@ -1,14 +1,18 @@
 import AuthService from '../../services/auth.services';
 const local_token = JSON.parse(localStorage.getItem('token'))
+if(local_token === null){
+  localStorage.setItem('token',JSON.stringify({value:null,expire:null}))
+}
+
 const local_token_planet = localStorage.getItem('token_planet')
 //const initialState = (local_token !== "null")? { status: { loggedIn: true }, token:local_token }: { status: { loggedIn: false }, token: null };
 export const auth = {
   namespaced: true,
   state: {
     status:{
-      loggedIn:(local_token.value !== "null")?true:false,
+      loggedIn:(local_token.value !== null)?true:false,
     },
-    token:(local_token.value !== "null")?local_token.value:null,
+    token:(local_token.value !== null)?local_token.value:null,
     token_planet:local_token_planet
   },
   actions: {
