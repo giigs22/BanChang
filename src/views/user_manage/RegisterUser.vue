@@ -60,19 +60,13 @@
 
                                         </div>
                                         <div class="my-3">
-                                            <Field name="role" v-slot="{field}">
-                                                <div class="flex flex-col">
-                                                    <label class="text-white">Role</label>
-                                                    <select v-bind="field" class="form-select" v-model="role">
-                                                        <option value="0">Select Role User</option>
+                                             <label class="text-white">Role</label>
+                                            <Field name="role" as="select" v-model="role" class="form-select w-full" :disable="loading">
+                                                        <option value="">Select Role User</option>
                                                         <option :value="item.id" v-for="item in list_role"
                                                             :key="item.id">{{item.name}}</option>
-                                                    </select>
-                                                    <ErrorMessage name="role" class="text-xs text-red-300" />
-
-                                                </div>
-
                                             </Field>
+                                            <ErrorMessage name="role" class="text-xs text-red-300" />
                                         </div>
                                     </div>
                                     <div class="col-span-3">
@@ -113,18 +107,12 @@
                                             <ErrorMessage name="phone" class="text-xs text-red-300" />
                                         </div>
                                         <div class="my-3">
-                                            <Field name="status" v-slot="{field}">
-                                                <div class="flex flex-col">
-                                                    <label class="text-white">Status</label>
-                                                    <select v-bind="field" class="form-select" v-model="status">
+                                              <label class="text-white">Status</label>
+                                            <Field name="status" as="select" v-model="status" class="form-select w-full" :disabled="loading">
                                                         <option value="1">Active</option>
                                                         <option value="0">Disable</option>
-                                                    </select>
-                                                    <ErrorMessage name="status" class="text-xs text-red-300" />
-
-                                                </div>
-
                                             </Field>
+                                             <ErrorMessage name="status" class="text-xs text-red-300" />
                                         </div>
 
                                     </div>
@@ -200,7 +188,7 @@
                 email: null,
                 phone: null,
                 status: 1,
-                role: 0,
+                role: '',
                 loading: false,
                 alert: {
                     active: false,

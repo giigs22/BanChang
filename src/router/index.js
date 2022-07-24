@@ -7,6 +7,7 @@ import Register from '../views/Register.vue'
 import SmartLightMap from '../views/smart_light/Map.vue'
 import SmartPole from '../views/smart_pole/Map.vue'
 import UserRegister from '../views/user_manage/RegisterUser.vue'
+import UserList from '../views/user_manage/ListUser.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,10 +25,16 @@ const router = createRouter({
       path:'/register',
       component:Register
     },
+    
     {
       path:'/user/register',
       component:UserRegister
     },
+    {
+      path:'/user/list',
+      component:UserList
+    },
+  
     {
       path:'/view/aqi_map',
       component:AQIMap
