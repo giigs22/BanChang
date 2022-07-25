@@ -79,8 +79,8 @@
                             <div class="hidden peer-hover:flex hover:flex
          w-[150px]
          flex-col bg-blue-400 drop-shadow-lg absolute z-50">
-                                <a class="px-5 py-2 text-white border-b border-dashed" href="user/register">Register</a>
-                                <a class="px-5 py-2 text-white border-b border-dashed" href="#">User List</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed" href="/user/register">Register</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed" href="/user/list">User List</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed" href="#">Permission</a>
                             </div>
                         </li>
@@ -181,7 +181,7 @@
         methods: {
             Logout() {
                 this.$store.dispatch('auth/logout')
-                window.location.reload()
+                this.$router.push('/login')
             }
         }
     }

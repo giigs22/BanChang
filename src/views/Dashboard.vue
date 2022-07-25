@@ -227,7 +227,7 @@
                 })
             },
             getUserData(){
-                this.$store.dispatch('user/getdata')
+                
             }
             
 

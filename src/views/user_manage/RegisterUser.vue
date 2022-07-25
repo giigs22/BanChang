@@ -22,6 +22,15 @@
                                             </Field>
                                             <ErrorMessage name="idcard" class="text-xs text-red-300" />
                                         </div>
+                                         <div class="my-3">
+                                            <Field name="name" v-slot="{field}">
+                                                <label class="text-white">Name</label>
+                                                <input v-bind="field" v-model="name"
+                                                    class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
+                                                    placeholder="Name" :disabled="loading">
+                                            </Field>
+                                            <ErrorMessage name="idcard" class="text-xs text-red-300" />
+                                        </div>
                                         <div class="my-3">
                                             <Field name="username" v-slot="{field}">
                                                 <label class="text-white">Username</label>
@@ -168,6 +177,7 @@
         data() {
             const schema = yup.object().shape({
                 idcard: yup.string().required(),
+                name: yup.string().required(),
                 username: yup.string().required(),
                 password: yup.string().required(),
                 con_password: yup.string().required().oneOf([yup.ref('password'), null], 'Password not match'),
@@ -180,6 +190,7 @@
             return {
                 schema,
                 idcard: null,
+                name:null,
                 username: null,
                 password: null,
                 con_password: null,
@@ -187,7 +198,7 @@
                 location: null,
                 email: null,
                 phone: null,
-                status: 1,
+                status: '1',
                 role: '',
                 loading: false,
                 alert: {
@@ -199,7 +210,7 @@
                 file:null,
             }
         },
-        create() {
+        created() {
             this.getRole()
         },
         mounted() {
@@ -209,6 +220,7 @@
             register() {
                 var data = {
                     idcard: this.idcard,
+                    name:this.name,
                     username: this.username,
                     password: this.password,
                     position: this.position,

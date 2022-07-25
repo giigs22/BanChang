@@ -24,8 +24,16 @@ export const user = {
           return Promise.reject(err)
         })     
       },
-      getdata(){
-        
+      getUserData({rootState},data){
+        return axios.post(api_backend+'alluser',data,{
+          headers:{
+            Authorization:"Bearer "+rootState.auth.token
+          }
+        }).then((res)=>{
+          return Promise.resolve(res)
+        }).catch((err)=>{
+          return Promise.reject(err)
+        })
       }
     },
     mutations: {
