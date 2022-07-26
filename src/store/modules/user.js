@@ -34,6 +34,17 @@ export const user = {
         }).catch((err)=>{
           return Promise.reject(err)
         })
+      },
+      getUserProfile({rootState},data){
+        return axios.get(api_backend+'user_profile/'+data,{
+          headers:{
+            Authorization:"Bearer "+rootState.auth.token
+          }
+        }).then((res)=>{
+          return Promise.resolve(res)
+        }).catch((err)=>{
+          return Promise.reject(err)
+        }) 
       }
     },
     mutations: {

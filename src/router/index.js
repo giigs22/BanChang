@@ -8,6 +8,7 @@ import SmartLightMap from '../views/smart_light/Map.vue'
 import SmartPole from '../views/smart_pole/Map.vue'
 import UserRegister from '../views/user_manage/RegisterUser.vue'
 import UserList from '../views/user_manage/ListUser.vue'
+import EditProfile from '../views/user_manage/EditProfile.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,10 @@ const router = createRouter({
     {
       path:'/user/list',
       component:UserList
+    },
+    {
+      path:'/user/edit/:id',
+      component:EditProfile
     },
   
     {

@@ -68,7 +68,7 @@
                                             <div class="text-green-500" v-if="item.status ==='1'">Active</div>
                                             <div class="text-red-500" v-else>Inactive</div>
                                         </td>
-                                        <td class="text-center"><span class="text-cyan-300">Edit</span> | <span
+                                        <td class="text-center"><a class="text-cyan-300" :href="'/user/edit/'+item.id">Edit</a> <span class="text-white">|</span> <span
                                                 class="text-red-500">Delete</span></td>
                                     </tr>
                                 </tbody>
@@ -118,14 +118,14 @@
         data() {
             return {
                 list_user: [],
-                itemperpage: 3,
+                itemperpage: 10,
                 start: 0,
-                end: 3,
+                end: 10,
                 countuser: 0,
                 pagination: {
                     range: 5,
                     currentPage: 1,
-                    itemPerPage: 3,
+                    itemPerPage: 10,
                     items: [],
                     filtered: null
                 },
