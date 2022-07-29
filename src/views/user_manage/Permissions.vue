@@ -7,34 +7,20 @@
             <div class="inner-content mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl text-white ml-10">User List</h1>
+                        <h1 class="text-xl text-white ml-10">Permissions</h1>
                         <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg text-white">Search</h3>
+                            <h3 class="text-lg text-white">Permissions</h3>
                             <div class="grid grid-cols-12  form-search">
-                                <div class="col-span-2 gap-5 flex flex-col items-end">
+                                <div class="col-span-2 gap-5 flex flex-col">
                                     <div>
-                                        <select class="rounded-md h-12">
-                                            <option value="">Condition Type</option>
-                                            <option value="regis_date">Register Date</option>
+                                        <select class="rounded-md h-12 w-full">
+                                            <option value="">Role</option>
                                         </select>
-                                    </div>
-                                    <div class="flex items-end">
-                                        <label for="" class="text-white mr-1">From</label>
-                                        <input type="text" placeholder="DD/MM/YYYY" class="form-input">
-                                    </div>
-                                </div>
-                                <div class="col-span-2 flex flex-col items-end gap-5">
-                                    <div>
-                                        <input type="text" placeholder="ID.Name" class="form-input">
-                                    </div>
-                                    <div class="flex items-end">
-                                        <label for="" class="text-white mr-1">To</label>
-                                        <input type="text" placeholder="DD/MM/YYYY" class="form-input">
                                     </div>
                                 </div>
                                 <div class="col-span-2">
                                     <div class="ml-2">
-                                        <button class="btn-purple rounded">Search</button>
+                                        <button class="btn-purple rounded h-12">Search</button>
                                     </div>
                                 </div>
                             </div>
@@ -45,36 +31,36 @@
                                 <thead class="text-white bg-head-table rounded-md text-lg">
                                     <tr>
                                         <th class="p-5 rounded-tl-md">ID</th>
-                                        <th>Register Date</th>
-                                        <th>Name</th>
-                                        <th>Username</th>
-                                        <th>Role</th>
+                                        <th>Role Name</th>
+                                        <th>Permissions</th>
                                         <th>Status</th>
                                         <th class="rounded-tr-md">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-white bg-body-table">
-                                    <tr v-for="(item,index) in list_user" :key="index"
-                                        :class="[item.status ==='0'?'text-red-500':'']">
-                                        <td class="text-center p-3">{{item.id}}</td>
-                                        <td class="w-52">
-                                            {{$dayjs(item.register_date).format('dddd,')}}<br>
-                                            {{$dayjs(item.register_date).format('DD MMMM YYYY')}}
+                                    <tr>
+                                        <td class="text-center p-3">1</td>
+                                        <td class="text-center">Administrator</td>
+                                        <td class="">
+                                            <p>Dashboard (View)</p>
+                                            <p>Air Quality (View, Add, Edit, Delete)</p>
+                                            <p>Smart Lighting (View, Add, Edit, Delete)</p>
+                                            <p>Smart Lighting (View, Add, Edit, Delete)</p>
+                                            <p>Free Internet (View, Add, Edit, Delete)</p>
+                                            <p>CCTV (View, Add, Edit, Delete)</p>
+                                            <p>Digital Signage (View, Add, Edit, Delete)</p>
+                                            <p>Complaint (View, Reply, Edit, Delete)</p>
                                         </td>
-                                        <td class="text-center">{{item.name}}</td>
-                                        <td class="text-center">{{item.username}}</td>
-                                        <td class="text-center">{{item.role}}</td>
                                         <td class="text-center">
-                                            <div class="text-green-500" v-if="item.status ==='1'">Active</div>
-                                            <div class="text-red-500" v-else>Inactive</div>
+                                            <div class="text-green-500">Active</div>
+                                            <!-- <div class="text-red-500">Inactive</div> -->
                                         </td>
-                                        <td class="text-center"><a class="text-cyan-300"
-                                                :href="'/user/edit/'+item.id">Edit</a> <span class="text-white"> | </span>
-                                            <a @click="delUser(item.id)" class="text-red-500 cursor-pointer">Delete</a></td>
+                                        <td class="text-center"><a class="text-cyan-300">Edit</a>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="my-5 paginate flex justify-center">
+                            <!-- <div class="my-5 paginate flex justify-center">
                                 <button class="btn-prev"
                                     :disabled="{'disabled': pagination.currentPage==pagination.items[0] || pagination.items.length==0}"
                                     :class="{'disabled:opacity-70': pagination.currentPage==pagination.items[0] || pagination.items.length==0}"
@@ -96,7 +82,7 @@
                                     :disabled="{'disabled': pagination.currentPage==pagination.items[pagination.items.length-1] || pagination.items.length==0}"
                                     :class="{'disabled:opacity-70': pagination.currentPage==pagination.items[pagination.items.length-1] || pagination.items.length==0}"
                                     @click="selectPage(pagination.items[pagination.items.length-1])"> {{'>>'}} </button>
-                            </div>
+                            </div> -->
 
 
                         </div>
@@ -107,13 +93,12 @@
     </main>
     <AlertDialogConfirm v-if="confirm.active" :type="confirm.type" :msg="confirm.msg" @submit="confirmDel"
         @close="closeConfirm" />
-    <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"/>
+    <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg" />
     <FooterPage />
 </template>
 <script>
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
-    import * as dayjs from 'dayjs'
     import AlertDialogConfirm from '../../components/utility/AlertDialogConfirm.vue'
     import AlertDialog from '../../components/utility/AlertDialog.vue'
     export default {
@@ -141,9 +126,9 @@
                 confirm: {
                     active: false,
                     type: null,
-                    msg:null
+                    msg: null
                 },
-                 alert: {
+                alert: {
                     active: false,
                     type: null,
                     msg: null
@@ -152,10 +137,10 @@
             }
         },
         created() {
-            this.getUserData().then((res) => {
-                this.buildPagination()
-                this.selectPage(1)
-            })
+            // this.getUserData().then((res) => {
+            //     this.buildPagination()
+            //     this.selectPage(1)
+            // })
         },
         watch: {
             'pagination.currentPage': function (n, o) {
@@ -255,28 +240,28 @@
                 this.confirm.msg = 'Are you sure to Delete this Record?'
             },
             confirmDel() {
-                this.$store.dispatch('user/destroy',this.del_id).then((res)=>{
-                     var data = res.data
+                this.$store.dispatch('user/destroy', this.del_id).then((res) => {
+                    var data = res.data
                     if (data.success) {
                         this.alert.active = true
                         this.alert.type = "del_success"
                         this.alert.msg = data.message
                         this.loading = false
-                    setTimeout(() => {
-                        this.alert.active = false
-                        this.confirm.active = false
-                        window.location.reload()
-                    }, 2000);
-                    }else{
+                        setTimeout(() => {
+                            this.alert.active = false
+                            this.confirm.active = false
+                            window.location.reload()
+                        }, 2000);
+                    } else {
                         this.alert.active = true
                         this.alert.type = "error"
                         this.alert.msg = data.message
-                         setTimeout(() => {
-                        this.closeAlert()
-                        this.clodeConfirm()
-                        this.loading=false
-                       
-                    }, 2000);
+                        setTimeout(() => {
+                            this.closeAlert()
+                            this.clodeConfirm()
+                            this.loading = false
+
+                        }, 2000);
                     }
                 })
             },
@@ -286,7 +271,7 @@
                 this.confirm.type = null
                 this.comfirm.msg = null
             },
-             closeAlert() {
+            closeAlert() {
                 this.alert.active = false
                 this.alert.type = null
                 this.alert.msg = null

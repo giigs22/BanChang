@@ -84,6 +84,10 @@
         created() {
             if (this.loggedIn) {
                 this.$router.push("/");
+            }else{
+                  localStorage.setItem('token',JSON.stringify({value:null,expire:null}))
+                  localStorage.setItem('token_planet',null)
+                  localStorage.setItem('api_sensor',false)
             }
         },
         methods: {

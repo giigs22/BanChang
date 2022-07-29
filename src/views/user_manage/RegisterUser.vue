@@ -70,7 +70,7 @@
                                         </div>
                                         <div class="my-3">
                                              <label class="text-white">Role</label>
-                                            <Field name="role" as="select" v-model="role" class="form-select w-full" :disable="loading">
+                                            <Field name="role" as="select" v-model="role" class="form-select w-full" :disabled="loading">
                                                         <option value="">Select Role User</option>
                                                         <option :value="item.id" v-for="item in list_role"
                                                             :key="item.id">{{item.name}}</option>

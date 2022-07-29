@@ -195,9 +195,10 @@
                 this.alert.active = true
                 return this.$store.dispatch('auth/login_planet').then((res) => {
                     this.$store.dispatch('server/setStatus', true)
+                    this.alert.active = false
                 }).catch((err) => {
+                    console.log('bbb');
                     if (err.code === "ECONNABORTED") {
-                        
                             this.$store.dispatch('server/sendLog',{type:'error',msg:'Error Connect Login time out.'}).then((res) => {
                             var data = res.data
                             if (data.success) {
@@ -207,8 +208,6 @@
                                 this.confirm.msg = 'Unable to Connect Sensor!'
                             }
                             })
-
-                       
                     }
                 })
             },

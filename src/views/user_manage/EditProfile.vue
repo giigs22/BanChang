@@ -10,31 +10,31 @@
                         <loading v-model:active="loading" />
                         <h1 class="text-xl text-white ml-10">Register</h1>
                         <div class="form-register mt-5 mb-5">
-                            <Form @submit="register" :validation-schema="schema">
+                            <Form @submit="update" :validation-schema="schema">
                                 <div class="grid grid-cols-9 text-sm gap-40">
                                     <div class="col-span-3">
                                         <div class="my-3">
-                                            <Field name="idcard" v-slot="{field}">
+                                            <Field name="idcard" v-slot="{field}" v-model="idcard">
                                                 <label class="text-white">Employee ID or ID Card</label>
-                                                <input v-bind="field" v-model="idcard"
+                                                <input v-bind="field"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="ID/ID Card" :disabled="loading">
                                             </Field>
                                             <ErrorMessage name="idcard" class="text-xs text-red-300" />
                                         </div>
                                          <div class="my-3">
-                                            <Field name="name" v-slot="{field}">
+                                            <Field name="name" v-slot="{field}" v-model="name">
                                                 <label class="text-white">Name</label>
-                                                <input v-bind="field" v-model="name"
+                                                <input v-bind="field"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Name" :disabled="loading">
                                             </Field>
                                             <ErrorMessage name="idcard" class="text-xs text-red-300" />
                                         </div>
                                         <div class="my-3">
-                                            <Field name="username" v-slot="{field}">
+                                            <Field name="username" v-slot="{field}"  v-model="username">
                                                 <label class="text-white">Username</label>
-                                                <input v-bind="field" v-model="username"
+                                                <input v-bind="field"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Username" :disabled="loading">
                                             </Field>
@@ -42,10 +42,10 @@
                                         </div>
                                         <div class="my-3">
                                             <div class="flex gap-3">
-                                                <Field name="password" v-slot="{field}">
+                                                <Field name="password" v-slot="{field}" v-model="password">
                                                     <div class="flex flex-col">
                                                         <label class="text-white">Password</label>
-                                                        <input v-bind="field" v-model="password" type="password"
+                                                        <input v-bind="field" type="password"
                                                             class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                             placeholder="Password" :disabled="loading">
                                                         <ErrorMessage name="password" class="text-xs text-red-300" />
@@ -53,10 +53,10 @@
                                                     </div>
 
                                                 </Field>
-                                                <Field name="con_password" v-slot="{field}">
+                                                <Field name="con_password" v-slot="{field}" v-model="con_password">
                                                     <div class="flex flex-col">
                                                         <label class="text-white">Confirm Password</label>
-                                                        <input v-bind="field" type="password" v-model="con_password"
+                                                        <input v-bind="field" type="password"
                                                             class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                             placeholder="Confirm Password" :disabled="loading">
                                                         <ErrorMessage name="con_password"
@@ -70,7 +70,7 @@
                                         </div>
                                         <div class="my-3">
                                              <label class="text-white">Role</label>
-                                            <Field name="role" as="select" v-model="role" class="form-select w-full" :disable="loading">
+                                            <Field name="role" as="select" v-model="role" class="form-select w-full" :disabled="loading">
                                                         <option value="">Select Role User</option>
                                                         <option :value="item.id" v-for="item in list_role"
                                                             :key="item.id">{{item.name}}</option>
@@ -80,36 +80,36 @@
                                     </div>
                                     <div class="col-span-3">
                                         <div class="my-3">
-                                            <Field name="position" v-slot="{field}">
+                                            <Field name="position" v-slot="{field}" v-model="position">
                                                 <label class="text-white">Position</label>
-                                                <input v-bind="field" v-model="position"
+                                                <input v-bind="field"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Position" :disabled="loading">
                                             </Field>
                                             <ErrorMessage name="position" class="text-xs text-red-300" />
                                         </div>
                                         <div class="my-3">
-                                            <Field name="location" v-slot="{field}">
+                                            <Field name="location" v-slot="{field}" v-model="location">
                                                 <label class="text-white">Location</label>
-                                                <input v-bind="field" v-model="location"
+                                                <input v-bind="field"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Location" :disabled="loading">
                                             </Field>
                                             <ErrorMessage name="location" class="text-xs text-red-300" />
                                         </div>
                                         <div class="my-3">
-                                            <Field name="email" v-slot="{field}">
+                                            <Field name="email" v-slot="{field}" v-model="email">
                                                 <label class="text-white">Email</label>
-                                                <input v-bind="field" v-model="email"
+                                                <input v-bind="field"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Email" :disabled="loading">
                                             </Field>
                                             <ErrorMessage name="email" class="text-xs text-red-300" />
                                         </div>
                                         <div class="my-3">
-                                            <Field name="phone" v-slot="{field}">
+                                            <Field name="phone" v-slot="{field}" v-model="phone">
                                                 <label class="text-white">Phone</label>
-                                                <input v-bind="field" v-model="phone"
+                                                <input v-bind="field"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="phone" :disabled="loading">
                                             </Field>
@@ -141,7 +141,7 @@
                                 </div>
                                 <div class="flex gap-3 justify-end mt-10">
                                     <button type="submit"
-                                        class="px-5 py-2 rounded-md text-white btn-blue-gradient">Register</button>
+                                        class="px-5 py-2 rounded-md text-white btn-blue-gradient">Update</button>
                                     <button type="reset"
                                         class="px-5 py-2 rounded-md text-white btn-red-gradient">Reset</button>
                                 </div>
@@ -179,8 +179,8 @@
                 idcard: yup.string().required(),
                 name: yup.string().required(),
                 username: yup.string().required(),
-                password: yup.string().required(),
-                con_password: yup.string().required().oneOf([yup.ref('password'), null], 'Password not match'),
+                password: yup.string().nullable(),
+                con_password: yup.string().oneOf([yup.ref('password'), null], 'Password not match').nullable(),
                 position: yup.string().required(),
                 location: yup.string().required(),
                 email: yup.string().email().required(),
@@ -218,14 +218,8 @@
             getProfile(){
                this.$store.dispatch('user/getUserProfile',this.$route.params.id).then((res)=>{
                     console.log(res)
-                     var data = res.data.data
-                   this.setdata(data)
-                   
-               })
-            },
-            setdata(data){
- setTimeout(() => {
-                        
+                    var data = res.data.data
+                    
                     this.idcard = data.idcard
                     this.name = data.name
                     this.username = data.username
@@ -236,10 +230,12 @@
                     this.status = data.status
                     this.role = data.roles[0].id
                     document.getElementById('preview').src = res.data.img_profile
-                    }, 1000);
+                   
+               })
             },
             update() {
                 var data = {
+                    id:this.$route.params.id,
                     idcard: this.idcard,
                     name:this.name,
                     username: this.username,
@@ -253,7 +249,7 @@
                     profile:this.file
                 }
                 this.loading = true
-                this.$store.dispatch('user/register', data).then((res) => {
+                this.$store.dispatch('user/update', data).then((res) => {
                     var data = res.data
                     if (data.success) {
                         this.alert.active = true

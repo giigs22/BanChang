@@ -7,33 +7,21 @@
             <div class="inner-content mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl text-white ml-10">Air Quality</h1>
+                        <h1 class="text-xl text-white ml-10">Maintenance</h1>
                         <div class="searchbox mt-5 mb-5">
                             <h3 class="text-lg text-white">Search</h3>
-                            <div class="grid grid-cols-12">
-                                <div class="col-span-2 flex flex-col items-end gap-5">
+                            <div class="grid grid-cols-12 form-search">
+                                <div class="col-span-6 flex gap-3">
                                     <div>
-                                        <select name="" id="" class="form-select rounded text-sm">
+                                        <select name="" id="" class="h-12 rounded text-sm w-full">
                                             <option value="">Condition Type</option>
                                         </select>
                                     </div>
-                                    <div class="flex items-end">
-                                        <label for="" class="text-white mr-1">From</label>
-                                        <input type="text" placeholder="DD/MM/YYYY" class="form-input">
-                                    </div>
-                                </div>
-                                <div class="col-span-2 flex flex-col items-end gap-5">
                                     <div>
                                         <input type="text" placeholder="ID.Name" class="form-input">
                                     </div>
-                                    <div class="flex items-end">
-                                        <label for="" class="text-white mr-1">To</label>
-                                        <input type="text" placeholder="DD/MM/YYYY" class="form-input">
-                                    </div>
-                                </div>
-                                <div class="col-span-2">
-                                    <div class="ml-2">
-                                        <button class="btn-purple rounded">Search</button>
+                                    <div class="">
+                                        <button class="h-12 btn-purple rounded">Search</button>
                                     </div>
                                 </div>
                             </div>
@@ -52,10 +40,11 @@
                                             </tr>
                                         </thead>
                                         <tbody class="text-sm">
-                                            <tr class="border-b border-gray-700">
+                                            <tr class="border-b border-gray-700" 
+                                                >
                                                 <td class=""><span class="mr-5">00</span> test
                                                 </td>
-                                                <td class="text-center">ON</td>
+                                                <td class="text-center">test</td>
                                             </tr>
 
                                         </tbody>
@@ -63,9 +52,8 @@
                                 </div>
                             </div>
                             <div class="col-span-6">
-                                <div class="flex gap-5 my-4 justify-end">
-                                    <button class="btn-purple">Map</button>
-                                    <button class="btn-gray">Heatmap</button>
+                                <div class="flex gap-5 my-2 justify-end">
+                                    
                                 </div>
                                 <img src="@/assets/map.png" alt="" class="w-full">
                             </div>
@@ -82,21 +70,21 @@
                                         </div>
                                         <div class="col-span-1">
                                             <div class="bg-yellow-400 text-white flex flex-col items-center rounded-lg">
-                                                <h1 class="text-4xl">ON</h1>
+                                                <h1 class="text-4xl">NG</h1>
                                                 <h1 class="text-7xl">0</h1>
                                                 <h1 class="text-sm mt-2">0% Abnormal</h1>
                                             </div>
                                         </div>
                                         <div class="col-span-1">
                                             <div class="bg-red-600 text-white flex flex-col items-center rounded-lg">
-                                                <h1 class="text-4xl">ON</h1>
+                                                <h1 class="text-4xl">OFF</h1>
                                                 <h1 class="text-7xl">0</h1>
                                                 <h1 class="text-sm mt-2">0% Offline</h1>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
+                                
                             </div>
                         </div>
                     </div>
@@ -107,11 +95,9 @@
     <FooterPage />
 </template>
 <script>
-    import axios from 'axios'
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
-    import AuthService from '../../services/auth.services'
-    import authHeader from '../../services/auth.header'
+
 
     export default {
         components: {
@@ -120,14 +106,8 @@
         },
         data() {
             return {
-               
+             
             }
         },
-        async created() {
-         
-        },
-        methods: {
-          
-        }
     }
 </script>

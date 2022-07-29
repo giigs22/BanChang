@@ -4,7 +4,8 @@
         <div
             class="transition duration-200 delay-700 ease-in-out flex items-center justify-between max-w-md p-4 bg-gray-500 rounded-md">
             <div class="flex gap-5 items-center">
-                <img src="@/assets/icon_info_circle.png" alt="" class="w-20">
+                <img src="@/assets/icon_remove.png" alt="" class="w-20" v-if="type==='del_success'">
+                <img src="@/assets/icon_info_circle.png" alt="" class="w-20" v-else>
                 <h1 class="text-2xl text-white">{{msg}}</h1>
             </div>
           

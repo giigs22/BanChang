@@ -201,3 +201,9 @@ background: -webkit-radial-gradient(circle, hsla(228, 45%, 32%, 1) 0%, hsla(229,
 .form-search .form-select,.form-search .form-input{
     @apply h-12 rounded-md
 }
+.bg-white-op6{
+    background:rgb(255, 255, 255,0.06);
+}
+.bg-black-op8{
+    background:rgb(0, 0, 0,0.08);
+}

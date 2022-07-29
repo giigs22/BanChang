@@ -13,6 +13,28 @@ export const user = {
             return Promise.reject(error)
         })
       },
+      update({rootState},data){
+        return axios.patch(api_backend+'user_profile/update/'+data.id,data,{
+          headers:{
+            Authorization:"Bearer "+rootState.auth.token
+          }
+        }).then((res)=>{
+          return Promise.resolve(res)
+        }).catch((error)=>{
+          return Promise.reject(error)
+        })
+      },
+      destroy({rootState},data){
+        return axios.delete(api_backend+'user_profile/destroy/'+data,{
+          headers:{
+            Authorization:"Bearer "+rootState.auth.token
+          }
+        }).then((res)=>{
+          return Promise.resolve(res)
+        }).catch((error)=>{
+          return Promise.reject(error)
+        })
+      },
       getRole({rootState}){
         return axios.get(api_backend+'role',{
           headers:{
