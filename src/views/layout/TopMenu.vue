@@ -34,7 +34,7 @@
                                 <a class="px-5 py-2 text-white border-b border-dashed" href="/view/aqi_map">Air Quality</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed" href="/view/smart_light">Lighting</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed" href="/view/smart_pole">Smart Pole</a>
-                                <a class="px-5 py-2 text-white border-b border-dashed" href="#">CCTV Camera</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed" href="/view/cctv">CCTV Camera</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed" href="#">Free Wifi</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed" href="#">Digital Signage</a>
 

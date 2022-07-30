@@ -207,3 +207,6 @@ background: -webkit-radial-gradient(circle, hsla(228, 45%, 32%, 1) 0%, hsla(229,
 .bg-black-op8{
     background:rgb(0, 0, 0,0.08);
 }
+.list-event li{
+    @apply flex justify-between;
+}

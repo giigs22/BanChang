@@ -10,10 +10,10 @@
                         <h1 class="text-xl text-white ml-10">Air Quality</h1>
                         <div class="searchbox mt-5 mb-5">
                             <h3 class="text-lg text-white">Search</h3>
-                            <div class="grid grid-cols-12">
+                            <div class="grid grid-cols-12 form-search">
                                 <div class="col-span-2 flex flex-col items-end gap-5">
                                     <div>
-                                        <select name="" id="" class="form-select rounded text-sm">
+                                        <select name="" id="" class="h-12 rounded text-sm">
                                             <option value="">Condition Type</option>
                                         </select>
                                     </div>
