@@ -3,12 +3,10 @@ const local_token = JSON.parse(localStorage.getItem('token'))
 if(local_token === null){
   localStorage.setItem('token',JSON.stringify({value:null,expire:null}))
 }
-
 const local_token_planet = localStorage.getItem('token_planet')
-if(local_token === null){
-  localStorage.setItem('token',JSON.stringify({value:null,expire:null}))
+if(local_token_planet === null){
+  localStorage.setItem('token_planet',null)
 }
-//const initialState = (local_token !== "null")? { status: { loggedIn: true }, token:local_token }: { status: { loggedIn: false }, token: null };
 export const auth = {
   namespaced: true,
   state: {
@@ -17,6 +15,11 @@ export const auth = {
     },
     token:(local_token.value !== null)?local_token.value:null,
     token_planet:local_token_planet
+  },
+  getters:{
+    isAuthenticate(state){
+      return state.status.loggedIn
+    }
   },
   actions: {
     login({ commit }, user) {

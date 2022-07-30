@@ -179,15 +179,11 @@
             if (!this.loggedIn) {
                 this.$store.dispatch('auth/logout');
                 this.$router.push('/login')
-            }
-            await this.loginPlanet()
-            await this.checkExpire()
-            this.getUserData()
-        },
-        async mounted() {
-            if (!this.statusServer) {
+            }else{
+                if (!this.statusServer) {
                 await this.loginPlanet()
                 await this.checkExpire()
+                }
             }
         },
         methods: {

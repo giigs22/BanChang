@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '../store'
 import AQIMap from '../views/aqi/Map.vue'
 import AQIHealthy from '../views/aqi/Healthy.vue'
 import Dashboard from '../views/Dashboard.vue'
@@ -17,81 +18,85 @@ import ManageTemplate from '../views/manage_widget/Template.vue'
 import CreateDashboard from '../views/manage_widget/CreateDashboard.vue'
 import CCTV from '../views/cctv/Map.vue'
 
+const routes= [
+  {
+    path: '/',
+    component: Dashboard,
+    meta:{
+      requireAuth:true
+    }
+  },
+  {
+    path:'/login',
+    component:Login,
+  },
+  {
+    path:'/register',
+    component:Register,
+  },
+  
+  {
+    path:'/user/register',
+    component:UserRegister
+  },
+  {
+    path:'/user/list',
+    component:UserList
+  },
+  {
+    path:'/user/edit/:id',
+    component:EditProfile
+  },
+  {
+    path:'/user/permission',
+    component:Permission
+  },
+  {
+    path:'/view/aqi_map',
+    component:AQIMap
+  },
+  {
+    path:'/view/aqi_healthy',
+    component:AQIHealthy
+  },
+  {
+    path:'/view/smart_light',
+    component:SmartLightMap
+  },
+  {
+    path:'/view/smart_pole',
+    component:SmartPole
+  },
+  {
+    path:'/view/cctv',
+    component:CCTV
+  },
+  {
+    path:'/view/sos',
+    component:SOS
+  },
+  {
+    path:'/view/maintenance',
+    component:Maintenance
+  },
+  {
+    path:'/view/complaint',
+    component:Complaint
+  },
+  {
+    path:'/view/manage_widget',
+    component:ManageTemplate
+  },
+  {
+    path:'/view/create_dashboard',
+    component:CreateDashboard
+  },
+];
+
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'dashboard',
-      component: Dashboard
-    },
-    {
-      path:'/login',
-      component:Login
-    },
-    {
-      path:'/register',
-      component:Register
-    },
-    
-    {
-      path:'/user/register',
-      component:UserRegister
-    },
-    {
-      path:'/user/list',
-      component:UserList
-    },
-    {
-      path:'/user/edit/:id',
-      component:EditProfile
-    },
-    {
-      path:'/user/permission',
-      component:Permission
-    },
-    {
-      path:'/view/aqi_map',
-      component:AQIMap
-    },
-    {
-      path:'/view/aqi_healthy',
-      component:AQIHealthy
-    },
-    {
-      path:'/view/smart_light',
-      component:SmartLightMap
-    },
-    {
-      path:'/view/smart_pole',
-      component:SmartPole
-    },
-    {
-      path:'/view/cctv',
-      component:CCTV
-    },
-    {
-      path:'/view/sos',
-      component:SOS
-    },
-    {
-      path:'/view/maintenance',
-      component:Maintenance
-    },
-    {
-      path:'/view/complaint',
-      component:Complaint
-    },
-    {
-      path:'/view/manage_widget',
-      component:ManageTemplate
-    },
-    {
-      path:'/view/create_dashboard',
-      component:CreateDashboard
-    },
-  ]
+  history: createWebHistory(),
+  routes
 })
- 
+
 
 export default router
