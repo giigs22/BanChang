@@ -25,7 +25,7 @@ class AuthService{
         })
     }
     login_planet(){
-        return axios.post(api_baseURL+'/api/auth/login',{username:api.username,password:api.password},{timeout:5000}).then((res)=>{
+        return axios.post(api_baseURL+'api/auth/login',{username:api.username,password:api.password},{timeout:5000}).then((res)=>{
             if(res.data.token){
                 localStorage.setItem('token_planet',res.data.token)
             }
@@ -42,16 +42,16 @@ class AuthService{
             return false;
         }
     }
-    checkExpireToken(){
-        var token = localStorage.getItem('token')
-        var item = JSON.parse(token)
-        var now = new Date()
-        if(now.getTime() > item.expire){
-            localStorage.setItem('token',JSON.stringify({value:null,expire:null}))
-            return true;
-        }else{
-            return false;
-        }
-    }
+    // checkExpireToken(){
+    //     var token = localStorage.getItem('token')
+    //     var item = JSON.parse(token)
+    //     var now = new Date()
+    //     if(now.getTime() > item.expire){
+    //         localStorage.setItem('token',JSON.stringify({value:null,expire:null}))
+    //         return true;
+    //     }else{
+    //         return false;
+    //     }
+    // }
 }
 export default new AuthService();

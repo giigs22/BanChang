@@ -10,27 +10,15 @@
                         <h1 class="text-xl text-white ml-10">Manage Widgets</h1>
                         <div class="searchbox mt-5 mb-5">
                             <h3 class="text-lg text-white">All Widgets</h3>
-                            <div class="grid grid-cols-12 form-search">
-                                <div class="col-span-2 flex flex-col gap-5">
+                            <div class="grid grid-cols-12 form-search my-10">
+                                <div class="col-span-6 flex items-end gap-5">
                                     <div>
-                                        <label for="" class="text-white m-3">Username</label>
-                                        <select name="" id="" class="rounded text-sm">
-                                            <option value="">Name</option>
-                                        </select>
-                                    </div>
-
-                                </div>
-                                <div class="col-span-3 flex flex-col gap-5">
-                                    <div>
-                                        <label for="" class="text-white m-3">Template</label>
+                                        <label for="" class="text-white m-3">Template Name</label>
                                         <input type="text" name="" id="" class="form-input">
                                     </div>
-
-                                </div>
-                                <div class="col-span-2">
                                     <div class="ml-2">
-                                        <a class="btn-purple rounded btn-blue-gradient"
-                                            href="/view/create_dashboard">Save Template</a>
+                                        <button class="btn-purple rounded btn-blue-gradient h-12"
+                                            href="/view/create_dashboard">Save Template</button>
                                     </div>
                                 </div>
                             </div>

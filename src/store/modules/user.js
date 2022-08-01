@@ -4,7 +4,9 @@ const api_backend = import.meta.env.VITE_API_SERVER;
 
 export const user = {
     namespaced: true,
-    state: {},
+    state: {
+      user:null
+    },
     actions: {
       register({commit},data){
         return UserService.register(data).then((res)=>{
@@ -67,9 +69,24 @@ export const user = {
         }).catch((err)=>{
           return Promise.reject(err)
         }) 
+      },
+      userData({commit,rootState}){
+        return axios.get(api_backend+'user',{
+          headers:{
+            Authorization:"Bearer "+rootState.auth.token
+          }
+        }).then((res)=>{
+          localStorage.setItem('user_data',JSON.stringify(res.data))
+          commit('setUserData')
+          return Promise.resolve(res)
+        }).catch((err)=>{
+          return Promise.reject(err)
+        })
       }
     },
     mutations: {
-    
+       setUserData(state){
+        state.user = JSON.parse(localStorage.getItem('user_data'))
+       }
     }
   };

@@ -49,14 +49,14 @@ export const auth = {
       AuthService.logout()
       commit('logout');
     },
-    checkExpire({commit}){
-      var check = AuthService.checkExpireToken()
-      if(check){
-        commit('logout')
-      }
-      return check
+    // checkExpire({commit}){
+    //   var check = AuthService.checkExpireToken()
+    //   if(check){
+    //     commit('logout')
+    //   }
+    //   return check
 
-    }
+    // }
     
   },
   mutations: {

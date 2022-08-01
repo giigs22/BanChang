@@ -161,7 +161,7 @@
 
                 return axios.get(this.$api_baseURL + api_last, options).then((res) => {
                     if (AuthService.Expire(res.data)) {
-                        this.$store.dispatch('auth/logout')
+                        this.$store.dispatch('auth/login_planet')
                     } else {
 
                         var data = res.data
@@ -197,7 +197,7 @@
                     var api_last = 'api/plugins/telemetry/DEVICE/' + el + '/values/timeseries'
                     promises.push(axios.get(this.$api_baseURL + api_last, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
-                            this.$store.dispatch('auth/logout')
+                            this.$store.dispatch('auth/login_planet')
                         } else {
                             var data = res.data
                             this.co2.push({

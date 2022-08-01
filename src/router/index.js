@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import store from '../store'
+import auth from '../middleware/auth'
 import AQIMap from '../views/aqi/Map.vue'
 import AQIHealthy from '../views/aqi/Healthy.vue'
 import Dashboard from '../views/Dashboard.vue'
@@ -25,7 +25,7 @@ const routes= [
     path: '/',
     component: Dashboard,
     meta:{
-      requireAuth:true
+      middleware:auth
     }
   },
   {
@@ -39,67 +39,115 @@ const routes= [
   
   {
     path:'/user/register',
-    component:UserRegister
+    component:UserRegister,
+    meta:{
+      middleware:auth
+    }
   },
   {
     path:'/user/list',
-    component:UserList
+    component:UserList,
+    meta:{
+      middleware:auth
+    }
   },
   {
     path:'/user/edit/:id',
-    component:EditProfile
+    component:EditProfile,
+    meta:{
+      middleware:auth
+    }
   },
   {
     path:'/user/permission',
-    component:Permission
+    component:Permission,
+    meta:{
+      middleware:auth
+    }
   },
   {
     path:'/view/aqi_map',
-    component:AQIMap
+    component:AQIMap,
+    meta:{
+      middleware:auth
+    }
   },
   {
     path:'/view/aqi_healthy',
-    component:AQIHealthy
+    component:AQIHealthy,
+    meta:{
+      middleware:auth
+    }
   },
   {
     path:'/view/smart_light',
-    component:SmartLightMap
+    component:SmartLightMap,
+    meta:{
+      middleware:auth
+    }
   },
   {
     path:'/view/smart_pole',
-    component:SmartPole
+    component:SmartPole,
+    meta:{
+      middleware:auth
+    }
   },
   {
     path:'/view/cctv',
-    component:CCTV
+    component:CCTV,
+    meta:{
+      middleware:auth
+    }
   },
   {
     path:'/view/sos',
-    component:SOS
+    component:SOS,
+    meta:{
+      middleware:auth
+    }
   },
   {
     path:'/view/maintenance',
-    component:Maintenance
+    component:Maintenance,
+    meta:{
+      middleware:auth
+    }
   },
   {
     path:'/view/complaint',
-    component:Complaint
+    component:Complaint,
+    meta:{
+      middleware:auth
+    }
   },
   {
     path:'/view/manage_widget',
-    component:ManageTemplate
+    component:ManageTemplate,
+    meta:{
+      middleware:auth
+    }
   },
   {
     path:'/view/create_dashboard',
-    component:CreateDashboard
+    component:CreateDashboard,
+    meta:{
+      middleware:auth
+    }
   },
   {
     path:'/view/freewifi',
-    component:FreeWiFi
+    component:FreeWiFi,
+    meta:{
+      middleware:auth
+    }
   },
   {
     path:'/view/digital_signage',
-    component:DigitalSignage
+    component:DigitalSignage,
+    meta:{
+      middleware:auth
+    }
   },
 ];
 
@@ -108,5 +156,37 @@ const router = createRouter({
   routes
 })
 
+function nextFactory(context, middleware, index) {
+    const subsequentMiddleware = middleware[index];
+   
+    if (!subsequentMiddleware) return context.next;
+  
+    return (...parameters) => {
+   
+      context.next(...parameters);
+   
+      const nextMiddleware = nextFactory(context, middleware, index + 1);
+      subsequentMiddleware({ ...context, next: nextMiddleware });
+    };
+}
+router.beforeEach((to,from,next)=>{
+  if (to.meta.middleware) {
+        const middleware = Array.isArray(to.meta.middleware)
+          ? to.meta.middleware
+          : [to.meta.middleware];
+    
+        const context = {
+          from,
+          next,
+          router,
+          to,
+        };
+        const nextMiddleware = nextFactory(context, middleware, 1);
+    
+        return middleware[0]({ ...context, next: nextMiddleware });
+      }
+    
+      return next();
+})
 
 export default router

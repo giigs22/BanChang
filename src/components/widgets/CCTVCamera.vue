@@ -231,7 +231,7 @@
                     }
                     axios.get(this.$api_baseURL + api_attr, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
-                            this.$store.dispatch('auth/logout')
+                        this.$store.dispatch('auth/login_planet')
                         } else {
                             var data = res.data
                             data.forEach(el => {

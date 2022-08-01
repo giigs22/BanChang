@@ -176,7 +176,6 @@
             }
         },
         async created() {
-            console.log('555');
             if (!this.loggedIn) {
                 this.$store.dispatch('auth/logout');
                 this.$router.push('/login')
@@ -184,7 +183,8 @@
                 if (!this.statusServer) {
                     await this.loginPlanet()     
                 }
-                await this.checkExpire()
+                this.getUserData()
+                //await this.checkExpire()
             }
         },
         methods: {
@@ -194,7 +194,6 @@
                     this.$store.dispatch('server/setStatus', true)
                     this.alert.active = false
                     location.reload()
-                   
                 }).catch((err) => {
                     if (err.code === "ECONNABORTED") {
                             this.$store.dispatch('server/sendLog',{type:'error',msg:'Error Connect Login time out.'}).then((res) => {
@@ -224,7 +223,9 @@
                 })
             },
             getUserData(){
-                
+                return this.$store.dispatch('user/userData').then((res)=>{
+                    console.log(res);
+                })
             }
             
 
