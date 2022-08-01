@@ -89,14 +89,12 @@
         },
         async created() {
             if(this.statusAPI){
-            await this.getPowerData()
-            await this.getPowerStatus()
-            this.calEnergy()
-            this.calAvgEnergy()
-            }
-        },
-        async mounted() {
-            if(this.statusAPI){
+                   this.clearData()
+                await this.getPowerData()
+                await this.getPowerStatus()
+                this.calEnergy()
+                this.calAvgEnergy()
+                
             setInterval(async () => {
                 this.clearData()
                 await this.getPowerData()
@@ -105,7 +103,6 @@
                 this.calAvgEnergy()
             }, this.$interval_time);
             }
-
         },
         methods: {
             getPowerData() {

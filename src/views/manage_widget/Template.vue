@@ -22,7 +22,7 @@
                                 </div>
                                 <div class="col-span-2">
                                     <div class="ml-2">
-                                        <a class="btn-purple rounded btn-blue-gradient" href="#">Create Dashboard</a>
+                                        <a class="btn-purple rounded btn-blue-gradient" href="/view/create_dashboard">Create Dashboard</a>
                                     </div>
                                 </div>
                             </div>

@@ -58,10 +58,6 @@
         created() {
             if(this.statusAPI){
                 this.getEnvirontData()
-            }
-        },
-        mounted() {
-            if(this.statusAPI){
             setInterval(() => {
                 this.getEnvirontData()
             }, this.$interval_time);

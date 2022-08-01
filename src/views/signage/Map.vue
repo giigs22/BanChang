@@ -1,0 +1,116 @@
+<template>
+    <TopMenu />
+    <main class="mx-10 mt-20">
+        <!-- Content -->
+        <section class="">
+            <!-- Main Section -->
+            <div class="inner-content mx-10">
+                <div class="main-content">
+                    <div class="block-content mb-5">
+                        <h1 class="text-xl text-white ml-10">Digital Signage</h1>
+                        <div class="searchbox mt-5 mb-5">
+                            <h3 class="text-lg text-white">Search</h3>
+                            <div class="grid grid-cols-12">
+                                <div class="col-span-2 flex flex-col items-end gap-5">
+                                    <div>
+                                        <select name="" id="" class="form-select rounded text-sm">
+                                            <option value="">Condition Type</option>
+                                        </select>
+                                    </div>
+                                   
+                                </div>
+                                <div class="col-span-2 flex flex-col items-end gap-5">
+                                    <div>
+                                        <input type="text" placeholder="ID.Name" class="form-input">
+                                    </div>
+                                  
+                                </div>
+                                <div class="col-span-2">
+                                    <div class="ml-2">
+                                        <button class="btn-purple rounded">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-12 gap-4 mb-5">
+                            <div class="col-span-3">
+                                <div class="block-layer data-layer py-2 px-3 mt-4">
+                                    <table class="text-white w-full">
+                                        <thead>
+                                            <tr>
+                                                <th
+                                                    class="font-normal text-lg text-center border-r border-gray-700 w-1/2">
+                                                    Location</th>
+                                                <th class="font-normal text-lg text-center">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-sm">
+                                            <tr class="border-b border-gray-700">
+                                                <td class=""><span class="mr-5">001</span> test
+                                                </td>
+                                                <td class="text-center">ON</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-span-6">
+                               
+                                <img src="@/assets/map.png" alt="" class="w-full">
+                            </div>
+                            <div class="col-span-3">
+                                <div class="block-layer data-layer py-2 px-3 mt-4">
+                                    <h1 class="text-2xl text-white text-center my-3">Device Status</h1>
+                                    <div class="grid grid-cols-3 gap-1 my-5">
+                                        <div class="col-span-1">
+                                            <div class="bg-green-600 text-white flex flex-col items-center rounded-lg">
+                                                <h1 class="text-4xl">ON</h1>
+                                                <h1 class="text-7xl">0</h1>
+                                                <h1 class="text-sm mt-2">0% Online</h1>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-1">
+                                            <div class="bg-yellow-400 text-white flex flex-col items-center rounded-lg">
+                                                <h1 class="text-4xl">ON</h1>
+                                                <h1 class="text-7xl">0</h1>
+                                                <h1 class="text-sm mt-2">0% Abnormal</h1>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-1">
+                                            <div class="bg-red-600 text-white flex flex-col items-center rounded-lg">
+                                                <h1 class="text-4xl">ON</h1>
+                                                <h1 class="text-7xl">0</h1>
+                                                <h1 class="text-sm mt-2">0% Offline</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <FooterPage />
+</template>
+<script>
+    import TopMenu from '../layout/TopMenu.vue'
+    import FooterPage from '../layout/FooterPage.vue'
+   
+
+    export default {
+        components: {
+            TopMenu,
+            FooterPage
+        },
+        data() {
+            return {
+              
+            }
+        }
+    }
+</script>

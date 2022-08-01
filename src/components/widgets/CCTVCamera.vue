@@ -89,14 +89,12 @@
         },
         created() {
             if(this.statusAPI){
-            this.getCamActive()
-            this.allcam = this.cam_set_p01.length + this.cam_set_p02.length + this.cam_set_p03.length + this
-                .cam_set_p04
-                .length + this.cam_set_p05.length + this.cam_set_dc.length   
-            }
-        },
-        mounted() {
-            if(this.statusAPI){
+                this.clearData()
+                this.getCamActive()
+                this.allcam = this.cam_set_p01.length + this.cam_set_p02.length + this.cam_set_p03.length + this
+                    .cam_set_p04
+                    .length + this.cam_set_p05.length + this.cam_set_dc.length
+
             setInterval(() => {
                 this.clearData()
                 this.getCamActive()

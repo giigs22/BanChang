@@ -60,11 +60,8 @@
         },
         created() {
             if(this.statusAPI){
-            this.getAPData()
-            }
-        },
-        mounted() {
-            if(this.statusAPI){
+                 this.clearData()
+                this.getAPData()
             setInterval(() => {
                 this.clearData()
                 this.getAPData()

@@ -17,6 +17,8 @@ import Complaint  from '../views/Complaint.vue'
 import ManageTemplate from '../views/manage_widget/Template.vue'
 import CreateDashboard from '../views/manage_widget/CreateDashboard.vue'
 import CCTV from '../views/cctv/Map.vue'
+import FreeWiFi from '../views/wifi/Map.vue'
+import DigitalSignage from '../views/signage/Map.vue'
 
 const routes= [
   {
@@ -90,6 +92,14 @@ const routes= [
   {
     path:'/view/create_dashboard',
     component:CreateDashboard
+  },
+  {
+    path:'/view/freewifi',
+    component:FreeWiFi
+  },
+  {
+    path:'/view/digital_signage',
+    component:DigitalSignage
   },
 ];
 

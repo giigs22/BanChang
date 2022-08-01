@@ -176,14 +176,15 @@
             }
         },
         async created() {
+            console.log('555');
             if (!this.loggedIn) {
                 this.$store.dispatch('auth/logout');
                 this.$router.push('/login')
             }else{
                 if (!this.statusServer) {
-                await this.loginPlanet()
-                await this.checkExpire()
+                    await this.loginPlanet()     
                 }
+                await this.checkExpire()
             }
         },
         methods: {
@@ -192,8 +193,9 @@
                 return this.$store.dispatch('auth/login_planet').then((res) => {
                     this.$store.dispatch('server/setStatus', true)
                     this.alert.active = false
+                    location.reload()
+                   
                 }).catch((err) => {
-                    console.log('bbb');
                     if (err.code === "ECONNABORTED") {
                             this.$store.dispatch('server/sendLog',{type:'error',msg:'Error Connect Login time out.'}).then((res) => {
                             var data = res.data

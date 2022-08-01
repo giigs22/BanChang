@@ -59,11 +59,8 @@
         },
         created() {
             if(this.statusAPI){
-            this.getStatusLamp()
-            }
-        },
-        mounted() {
-            if(this.statusAPI){
+                 this.clearData()
+                this.getStatusLamp()
             setInterval(() => {
                 this.clearData()
                 this.getStatusLamp()

@@ -141,13 +141,10 @@
         },
         async created() {
             if(this.statusAPI){
-            await this.getEnvSensor()
-            await this.getLNRSensor()
-            this.calAvg()
-            }
-        },
-        async mounted() {
-            if(this.statusAPI){
+                await this.getEnvSensor()
+                await this.getLNRSensor()
+                this.calAvg()
+
             setInterval(async () => {
                 await this.getEnvSensor()
                 await this.getLNRSensor()
