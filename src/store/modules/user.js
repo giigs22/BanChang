@@ -5,7 +5,7 @@ const api_backend = import.meta.env.VITE_API_SERVER;
 export const user = {
     namespaced: true,
     state: {
-      user:null
+      user_data:null,
     },
     actions: {
       register({commit},data){
@@ -76,7 +76,7 @@ export const user = {
             Authorization:"Bearer "+rootState.auth.token
           }
         }).then((res)=>{
-          localStorage.setItem('user_data',JSON.stringify(res.data))
+          localStorage.setItem('user_data',JSON.stringify({data:res.data.data,img_profile:res.data.img_profile}))
           commit('setUserData')
           return Promise.resolve(res)
         }).catch((err)=>{
@@ -86,7 +86,7 @@ export const user = {
     },
     mutations: {
        setUserData(state){
-        state.user = JSON.parse(localStorage.getItem('user_data'))
+        state.user_data = JSON.parse(localStorage.getItem('user_data'))
        }
     }
   };

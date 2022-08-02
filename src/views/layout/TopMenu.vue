@@ -146,13 +146,19 @@
                                     fill="#e9e7ff" />
                             </svg>
                         </div>
-                        <div class="flex items-center">
-                            <img src="@/assets/icon_user_profile.png" alt="">
+                        <div class="flex items-center mb-2">
+                            <div class="relative w-12 mx-2">
+                            <img src="@/assets/icon_user_profile.png" alt="" v-if="img_profile === null">
+                            <img :src="img_profile" alt="" class="object-fill w-12 h-12 rounded-full" v-else>
+                            <div class="absolute top-0 right-0 h-3 w-3 my-1 border-2 border-white rounded-full bg-green-400 z-2"></div>
+                            </div>
+
                             <div class="flex flex-col text-white">
                                 <div>
+                                   {{user.name}}
                                 </div>
                                 <div class="flex gap-2">
-                                    <span class="text-yellow-400">Edit Profile</span> | <span @click="Logout"
+                                    <a :href="'/user/edit/'+user.id" class="text-yellow-400">Edit Profile</a> | <span @click="Logout"
                                         class="text-yellow-400 cursor-pointer">Logout</span>
                                 </div>
                             </div>
@@ -185,8 +191,15 @@
         },
         data() {
             return {
-                user:this.$store.state.user.user
+                user:null,
+                img_profile:null
             }
+        },
+        created(){
+            var user  = JSON.parse(localStorage.getItem('user_data'))
+            console.log(user);
+            this.user= user.data
+            this.img_profile = user.img_profile
         },
         methods: {
             Logout() {

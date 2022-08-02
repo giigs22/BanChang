@@ -254,7 +254,7 @@
 
                 this.avg_data.uv = (isNaN(avg_uv)) ? 0 : avg_uv.toFixed(2)
                 this.avg_data.voc = (isNaN(avg_voc)) ? 0 : avg_voc.toFixed(2)
-                this.avg_data.co2 = (isNaN(avg_co2)) ? 0 : avg_co2
+                this.avg_data.co2 = (isNaN(avg_co2)) ? 0 : avg_co2.toFixed(2)
 
                 // Level
                 this._co2 = aqical.LevelCo2(this.avg_data.co2)

@@ -7,7 +7,7 @@
             <div class="inner-content mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl text-white ml-10">Manage Widgets</h1>
+                        <h1 class="text-xl text-white ml-10">Create Dashboard</h1>
                         <div class="searchbox mt-5 mb-5">
                             <h3 class="text-lg text-white">All Widgets</h3>
                             <div class="grid grid-cols-12 form-search my-10">
@@ -27,7 +27,7 @@
                         <div class="mt-10 mb-5 block-content">
                             <h1 class="text-xl text-white">Select Widget</h1>
                             <div class="grid grid-cols-12 gap-1 my-5">
-                                <div class="block-widgets col-span-4">
+                                <div class="block-widgets col-span-4" @click="selectWidget(1)">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -38,7 +38,7 @@
                                     </div>
                                     <img src="@/assets/icon_widget_aqi.png" alt="" class="mx-auto w-1/3 my-5">
                                 </div>
-                                <div class="block-widgets col-span-4">
+                                <div class="block-widgets col-span-4" @click="selectWidget(2)">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -50,7 +50,7 @@
                                     <img src="@/assets/icon_widget_smartlight.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4">
+                                <div class="block-widgets col-span-4" @click="selectWidget(3)">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -62,7 +62,7 @@
                                     <img src="@/assets/icon_widget_smartpole.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4">
+                                <div class="block-widgets col-span-4" @click="selectWidget(4)">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -74,7 +74,7 @@
                                     <img src="@/assets/icon_widget_cctv.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4">
+                                <div class="block-widgets col-span-4" @click="selectWidget(5)">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -86,7 +86,7 @@
                                     <img src="@/assets/icon_widget_cctvsur.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4">
+                                <div class="block-widgets col-span-4" @click="selectWidget(6)">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -98,7 +98,7 @@
                                     <img src="@/assets/icon_widget_parking.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4">
+                                <div class="block-widgets col-span-4" @click="selectWidget(7)">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -110,7 +110,7 @@
                                     <img src="@/assets/icon_widget_checklicense.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4">
+                                <div class="block-widgets col-span-4" @click="selectWidget(8)">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -122,7 +122,7 @@
                                     <img src="@/assets/icon_widget_licenseplate.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4">
+                                <div class="block-widgets col-span-4" @click="selectWidget(9)">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -134,7 +134,7 @@
                                     <img src="@/assets/icon_widget_freewifi.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4">
+                                <div class="block-widgets col-span-4" @click="selectWidget(10)">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -146,7 +146,7 @@
                                     <img src="@/assets/icon_widget_digital.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4">
+                                <div class="block-widgets col-span-4" @click="selectWidget(11)">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -158,7 +158,7 @@
                                     <img src="@/assets/icon_widget_complaint.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4">
+                                <div class="block-widgets col-span-4" @click="selectWidget(12)">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -247,14 +247,16 @@
         },
         data() {
             return {
-
+                selected:[]
             }
         },
         async created() {
 
         },
         methods: {
-
+            selectWidget(id){
+                
+            }
         }
     }
 </script>
