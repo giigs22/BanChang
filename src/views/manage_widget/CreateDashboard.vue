@@ -14,11 +14,10 @@
                                 <div class="col-span-6 flex items-end gap-5">
                                     <div>
                                         <label for="" class="text-white m-3">Template Name</label>
-                                        <input type="text" name="" id="" class="form-input">
+                                        <input type="text" class="form-input" v-model="name_template">
                                     </div>
                                     <div class="ml-2">
-                                        <button class="btn-purple rounded btn-blue-gradient h-12"
-                                            href="/view/create_dashboard">Save Template</button>
+                                        <button class="btn-purple rounded btn-blue-gradient h-12" @click="saveTemplate">Save Template</button>
                                     </div>
                                 </div>
                             </div>
@@ -27,7 +26,8 @@
                         <div class="mt-10 mb-5 block-content">
                             <h1 class="text-xl text-white">Select Widget</h1>
                             <div class="grid grid-cols-12 gap-1 my-5">
-                                <div class="block-widgets col-span-4" @click="selectWidget(1)">
+                                <div class="block-widgets col-span-4 hover:opacity-60 h-full max-h-full"
+                                    @click="selectWidget(1)" id="wg-1">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -38,7 +38,8 @@
                                     </div>
                                     <img src="@/assets/icon_widget_aqi.png" alt="" class="mx-auto w-1/3 my-5">
                                 </div>
-                                <div class="block-widgets col-span-4" @click="selectWidget(2)">
+                                <div class="block-widgets col-span-4 hover:opacity-60 h-full max-h-full"
+                                    @click="selectWidget(2)" id="wg-2">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -50,7 +51,8 @@
                                     <img src="@/assets/icon_widget_smartlight.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4" @click="selectWidget(3)">
+                                <div class="block-widgets col-span-4 hover:opacity-60 h-full max-h-full"
+                                    @click="selectWidget(3)" id="wg-3">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -62,7 +64,8 @@
                                     <img src="@/assets/icon_widget_smartpole.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4" @click="selectWidget(4)">
+                                <div class="block-widgets col-span-4 hover:opacity-60 h-full max-h-full"
+                                    @click="selectWidget(4)" id="wg-4">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -74,7 +77,8 @@
                                     <img src="@/assets/icon_widget_cctv.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4" @click="selectWidget(5)">
+                                <div class="block-widgets col-span-4 hover:opacity-60 h-full max-h-full"
+                                    @click="selectWidget(5)" id="wg-5">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -86,7 +90,8 @@
                                     <img src="@/assets/icon_widget_cctvsur.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4" @click="selectWidget(6)">
+                                <div class="block-widgets col-span-4 hover:opacity-60 h-full max-h-full"
+                                    @click="selectWidget(6)" id="wg-6">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -98,7 +103,8 @@
                                     <img src="@/assets/icon_widget_parking.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4" @click="selectWidget(7)">
+                                <div class="block-widgets col-span-4 hover:opacity-60 h-full max-h-full"
+                                    @click="selectWidget(7)" id="wg-7">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -110,7 +116,8 @@
                                     <img src="@/assets/icon_widget_checklicense.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4" @click="selectWidget(8)">
+                                <div class="block-widgets col-span-4 hover:opacity-60 h-full max-h-full"
+                                    @click="selectWidget(8)" id="wg-8">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -122,7 +129,8 @@
                                     <img src="@/assets/icon_widget_licenseplate.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4" @click="selectWidget(9)">
+                                <div class="block-widgets col-span-4 hover:opacity-60 h-full max-h-full"
+                                    @click="selectWidget(9)" id="wg-9">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -134,7 +142,8 @@
                                     <img src="@/assets/icon_widget_freewifi.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4" @click="selectWidget(10)">
+                                <div class="block-widgets col-span-4 hover:opacity-60 h-full max-h-full"
+                                    @click="selectWidget(10)" id="wg-10">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -146,7 +155,8 @@
                                     <img src="@/assets/icon_widget_digital.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4" @click="selectWidget(11)">
+                                <div class="block-widgets col-span-4 hover:opacity-60 h-full max-h-full"
+                                    @click="selectWidget(11)" id="wg-11">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -158,7 +168,8 @@
                                     <img src="@/assets/icon_widget_complaint.png" alt="" class="mx-auto w-1/3 my-5">
 
                                 </div>
-                                <div class="block-widgets col-span-4" @click="selectWidget(12)">
+                                <div class="block-widgets col-span-4 hover:opacity-60 h-full max-h-full"
+                                    @click="selectWidget(12)" id="wg-12">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
@@ -176,56 +187,25 @@
                     </div>
                     <div class="my-5">
                         <h1 class="text-xl text-white mb-5">Dashboard Layout</h1>
-                        <div class="grid grid-cols-12 gap-1">
-                            <div class="block-widgets col-span-4">
-                                <img src="@/assets/icon_plus.png" alt="" class="mx-auto w-1/4 my-5">
 
-                            </div>
-                            <div class="block-widgets col-span-4">
-                                <img src="@/assets/icon_plus.png" alt="" class="mx-auto w-1/4 my-5">
+                        <draggable v-model="template" group="widget"
+                            @start="drag=true" @end="drag=false" item-key="id" class="grid grid-cols-12 gap-1" @change="updatemove">
+                            <template #item="{element,index}">
+                                <div class="block-widgets col-span-4">
+                                    <div class="status">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
+                                            viewBox="0 0 9.361 9.361">
+                                            <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681"
+                                                fill="#08ff00" />
+                                        </svg>
+                                        <span class="text-sm uppercase">{{element.name}}</span>
+                                    </div>
+                                    <img :src="element.img" alt="" class="mx-auto w-1/3 my-5">
+                                    <button class="text-white p-1 bg-red-500 text-sm rounded" @click="removeWidget(index,element.id)">Remove</button>
+                                </div>
+                            </template>
+                        </draggable>
 
-                            </div>
-                            <div class="block-widgets col-span-4">
-                                <img src="@/assets/icon_plus.png" alt="" class="mx-auto w-1/4 my-5">
-
-                            </div>
-                            <div class="block-widgets col-span-4">
-                                <img src="@/assets/icon_plus.png" alt="" class="mx-auto w-1/4 my-5">
-
-                            </div>
-                            <div class="block-widgets col-span-4">
-                                <img src="@/assets/icon_plus.png" alt="" class="mx-auto w-1/4 my-5">
-
-                            </div>
-                            <div class="block-widgets col-span-4">
-                                <img src="@/assets/icon_plus.png" alt="" class="mx-auto w-1/4 my-5">
-
-                            </div>
-                            <div class="block-widgets col-span-4">
-                                <img src="@/assets/icon_plus.png" alt="" class="mx-auto w-1/4 my-5">
-
-                            </div>
-                            <div class="block-widgets col-span-4">
-                                <img src="@/assets/icon_plus.png" alt="" class="mx-auto w-1/4 my-5">
-
-                            </div>
-                            <div class="block-widgets col-span-4">
-                                <img src="@/assets/icon_plus.png" alt="" class="mx-auto w-1/4 my-5">
-
-                            </div>
-                            <div class="block-widgets col-span-4">
-                                <img src="@/assets/icon_plus.png" alt="" class="mx-auto w-1/4 my-5">
-
-                            </div>
-                            <div class="block-widgets col-span-4">
-                                <img src="@/assets/icon_plus.png" alt="" class="mx-auto w-1/4 my-5">
-
-                            </div>
-                            <div class="block-widgets col-span-4">
-                                <img src="@/assets/icon_plus.png" alt="" class="mx-auto w-1/4 my-5">
-
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -234,27 +214,121 @@
     <FooterPage />
 </template>
 <script>
-    import axios from 'axios'
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
-    import AuthService from '../../services/auth.services'
-    import authHeader from '../../services/auth.header'
-
+    import draggable from 'vuedraggable'
     export default {
         components: {
             TopMenu,
-            FooterPage
+            FooterPage,
+            draggable
         },
         data() {
+            const list_widget = [
+                {
+                    id: 1,
+                    name:'Air Quality',
+                    img: '/src/assets/icon_widget_aqi.png'
+                },
+                 {
+                    id: 2,
+                    name:'Smart Lighting',
+                    img: '/src/assets/icon_widget_smartlight.png'
+                },
+                 {
+                    id: 3,
+                    name:'Smart Pole Energy',
+                    img: '/src/assets/icon_widget_smartpole.png'
+                },
+                 {
+                    id: 4,
+                    name:'CCTV Camera',
+                    img: '/src/assets/icon_widget_cctv.png'
+                },
+                 {
+                    id: 5,
+                    name:'CCTV Survielance',
+                    img: '/src/assets/icon_widget_cctvsur.png'
+                },
+                 {
+                    id: 6,
+                    name:'Parking',
+                    img: '/src/assets/icon_widget_parking.png'
+                },
+                 {
+                    id: 7,
+                    name:'Check License Plate',
+                    img: '/src/assets/icon_widget_checklicense.png'
+                },
+                 {
+                    id: 8,
+                    name:'License Plate',
+                    img: '/src/assets/icon_widget_licenseplate.png'
+                },
+                 {
+                    id: 9,
+                    name:'Free Wifi',
+                    img: '/src/assets/icon_widget_freewifi.png'
+                },
+                 {
+                    id: 10,
+                    name:'Digital Signage',
+                    img: '/src/assets/icon_widget_digital.png'
+                },
+                 {
+                    id: 11,
+                    name:'Complaint',
+                    img: '/src/assets/icon_widget_complaint.png'
+                },
+                 {
+                    id: 12,
+                    name:'SOS',
+                    img: '/src/assets/icon_widget_sos.png'
+                },
+            ]
             return {
-                selected:[]
+                selected: [],
+                drag: false,
+                template: [],
+                list_widget,
+                name_template:null
             }
         },
         async created() {
 
         },
         methods: {
-            selectWidget(id){
+            selectWidget(id) {
+                if (!this.selected.includes(id)) {
+                    this.selected.push(id)
+                }
+                var set_data = this.list_widget.filter(object1 => {
+                    return this.selected.some(object2 => {
+                    return object1.id === object2;
+                    });
+                });
+                this.template= set_data
+                //this.setElement()
+            },
+            setElement() {
+                this.template = []
+                var set_data = this.list_widget.filter(object1 => {
+                    return this.selected.some(object2 => {
+                    return object1.id === object2;
+                    });
+                });
+                this.template= set_data
+            },
+            removeWidget(index){
+                this.template.splice(index,1)
+            },
+            updatemove(){
+                this.selected = []
+                this.template.forEach(element => {
+                    this.selected.push(element.id)
+                });
+            },
+            saveTemplate(){
                 
             }
         }
