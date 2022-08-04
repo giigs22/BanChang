@@ -9,10 +9,10 @@
                     <div class="block-content mb-5">
                         <h1 class="text-xl text-white ml-10">Manage Dashboard Template</h1>
                         <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg text-white">All Dashboard</h3>
+                            <h3 class="text-lg text-white">All Dashboard Template</h3>
                             <div class="flex justify-between form-search">
                                 <div class="col-span-2 my-5">
-                                <a class="btn-purple rounded btn-blue-gradient" href="/view/create_dashboard">Create Dashbord</a>
+                                <a class="btn-purple rounded btn-blue-gradient" href="/view/create_dashboard">Create Template</a>
                                 </div>
                                 <div class="col-span-2">
                                     <input type="text" placeholder="ID,Name" class="form-input">

@@ -191,21 +191,25 @@
         },
         data() {
             return {
-                user:null,
+                user:{
+                    id:null,
+                    name:null
+                },
                 img_profile:null
             }
         },
         created(){
+            setTimeout(() => {
             var user  = JSON.parse(localStorage.getItem('user_data'))
-            console.log(user);
             this.user= user.data
             this.img_profile = user.img_profile
+            }, 2000);
         },
         methods: {
             Logout() {
                 this.$store.dispatch('auth/logout')
                 this.$router.push('/login')
-            }
+            },
         }
     }
 </script>

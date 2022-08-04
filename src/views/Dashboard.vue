@@ -176,6 +176,7 @@
             }
         },
         async created() {
+            console.log(this.loggedIn);
             if (!this.loggedIn) {
                 this.$store.dispatch('auth/logout');
                 this.$router.push('/login')
@@ -183,7 +184,7 @@
                 if (!this.statusServer) {
                     await this.loginPlanet()     
                 }
-                this.getUserData()
+                await this.getUserData()
                 //await this.checkExpire()
             }
         },
@@ -224,7 +225,7 @@
             },
             getUserData(){
                 return this.$store.dispatch('user/userData').then((res)=>{
-                    console.log(res);
+                    
                 })
             }
             

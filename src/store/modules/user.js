@@ -73,7 +73,7 @@ export const user = {
       userData({commit,rootState}){
         return axios.get(api_backend+'user',{
           headers:{
-            Authorization:"Bearer "+rootState.auth.token
+            Authorization:"Bearer "+rootState.auth.token.value
           }
         }).then((res)=>{
           localStorage.setItem('user_data',JSON.stringify({data:res.data.data,img_profile:res.data.img_profile}))

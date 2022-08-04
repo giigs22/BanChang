@@ -13,7 +13,7 @@ export const auth = {
   namespaced: true,
   state: {
     status:{
-      loggedIn:false,
+      loggedIn:local_token === null ? false:true,
     },
     token:local_token,
     token_planet:local_token_planet

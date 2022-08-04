@@ -321,6 +321,7 @@
             },
             removeWidget(index){
                 this.template.splice(index,1)
+                this.selected.splice(index,1)
             },
             updatemove(){
                 this.selected = []
