@@ -191,8 +191,9 @@
                         <draggable v-model="template" group="widget"
                             @start="drag=true" @end="drag=false" item-key="id" class="grid grid-cols-12 gap-1" @change="updatemove">
                             <template #item="{element,index}">
-                                <div class="block-widgets col-span-4">
-                                    <div class="status">
+                                <div class="block-widgets col-span-4 h-full max-h-full">
+                                    <div class="flex justify-between">
+                                         <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
                                             viewBox="0 0 9.361 9.361">
                                             <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681"
@@ -200,8 +201,11 @@
                                         </svg>
                                         <span class="text-sm uppercase">{{element.name}}</span>
                                     </div>
-                                    <img :src="element.img" alt="" class="mx-auto w-1/3 my-5">
                                     <button class="text-white p-1 bg-red-500 text-sm rounded" @click="removeWidget(index,element.id)">Remove</button>
+
+                                    </div>
+                                   
+                                    <img :src="element.img" alt="" class="mx-auto w-1/3 my-5">
                                 </div>
                             </template>
                         </draggable>
@@ -212,16 +216,21 @@
         </section>
     </main>
     <FooterPage />
+        <AlertDialogConfirm v-if="confirm.active" :msg="confirm.msg" :type="'error'" @close="closeAlert" />
+
 </template>
 <script>
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
     import draggable from 'vuedraggable'
+    import AlertDialogConfirm from '../../components/utility/AlertDialogConfirm.vue'
+    
     export default {
         components: {
             TopMenu,
             FooterPage,
-            draggable
+            draggable,
+            AlertDialogConfirm
         },
         data() {
             const list_widget = [
@@ -291,7 +300,11 @@
                 drag: false,
                 template: [],
                 list_widget,
-                name_template:null
+                name_template:null,
+               confirm:{
+                active:false,
+                msg:null
+               }
             }
         },
         async created() {
@@ -330,7 +343,23 @@
                 });
             },
             saveTemplate(){
-                
+                if(this.name_template == ''){
+                   this.confirm.active = true
+                   this.confirm.msg = 'Please Insert Name'
+                }else if(this.selected.length == 0){
+                    this.confirm.active = true
+                    this.confirm.msg = 'Please Select Widget'
+                }else{
+                    var data = {
+                        name:this.name,
+                        widget:this.selected
+                    }
+                    this.$store.dispacth('widget/saveDashboard')
+                }
+            },
+            closeAlert(){
+                this.confirm.active = false
+                this.confirm.msg = null
             }
         }
     }

@@ -149,7 +149,7 @@
                         <div class="flex items-center mb-2">
                             <div class="relative w-12 mx-2">
                             <img src="@/assets/icon_user_profile.png" alt="" v-if="img_profile === null">
-                            <img :src="img_profile" alt="" class="object-fill w-12 h-12 rounded-full" v-else>
+                            <img :src="img_profile" alt="" class="object-cover w-12 h-12 rounded-full" v-else>
                             <div class="absolute top-0 right-0 h-3 w-3 my-1 border-2 border-white rounded-full bg-green-400 z-2"></div>
                             </div>
 
