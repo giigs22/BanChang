@@ -16,7 +16,7 @@ export const server = {
         sendLog({commit,rootState},data){
             return axios.post(api_backend+'logger',{type:data.type,msg:data.msg},{
                 headers:{
-                  Authorization:"Bearer "+rootState.auth.token
+                  Authorization:"Bearer "+rootState.auth.token.value
                 }
               }).then((res)=>{
                 return Promise.resolve(res)

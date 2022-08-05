@@ -126,7 +126,7 @@ const routes = [{
     }
   },
   {
-    path: '/view/manage_widget',
+    path: '/view/template',
     component: ManageTemplate,
     meta: {
       middleware: auth

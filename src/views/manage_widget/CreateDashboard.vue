@@ -216,7 +216,8 @@
         </section>
     </main>
     <FooterPage />
-        <AlertDialogConfirm v-if="confirm.active" :msg="confirm.msg" :type="'error'" @close="closeAlert" />
+        <AlertDialogConfirm v-if="confirm.active" :msg="confirm.msg" :type="'error'" @close="closeConfirm" />
+    <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"/>
 
 </template>
 <script>
@@ -224,13 +225,15 @@
     import FooterPage from '../layout/FooterPage.vue'
     import draggable from 'vuedraggable'
     import AlertDialogConfirm from '../../components/utility/AlertDialogConfirm.vue'
-    
+        import AlertDialog from '../../components/utility/AlertDialog.vue'
+
     export default {
         components: {
             TopMenu,
             FooterPage,
             draggable,
-            AlertDialogConfirm
+            AlertDialogConfirm,
+            AlertDialog
         },
         data() {
             const list_widget = [
@@ -304,7 +307,12 @@
                confirm:{
                 active:false,
                 msg:null
-               }
+               },
+                alert: {
+                    active: false,
+                    type: null,
+                    msg: null
+                },
             }
         },
         async created() {
@@ -351,16 +359,35 @@
                     this.confirm.msg = 'Please Select Widget'
                 }else{
                     var data = {
-                        name:this.name,
+                        name:this.name_template,
                         widget:this.selected
                     }
-                    this.$store.dispacth('widget/saveDashboard')
+                    this.$store.dispatch('widget/saveDashboard',data).then((res)=>{
+                        var data = res.data
+                        if(data.success){
+                            this.alert.active = true
+                            this.alert.type = "success"
+                            this.alert.msg = data.message
+                            setTimeout(() => {
+                                this.$router.go(-1)
+                            }, 2000);
+                        }else{
+                            this.confirm.active = true
+                            this.confirm.msg = data.message
+                        }
+                    })
                 }
             },
-            closeAlert(){
+            closeConfirm(){
                 this.confirm.active = false
                 this.confirm.msg = null
-            }
+            },
+             closeAlert() {
+                this.alert.active = false
+                this.alert.type = null
+                this.alert.msg = null
+            },
+        
         }
     }
 </script>

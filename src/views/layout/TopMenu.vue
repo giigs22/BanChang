@@ -96,7 +96,7 @@
                             <div class="hidden peer-hover:flex hover:flex
          w-[150px]
          flex-col bg-blue-400 drop-shadow-lg absolute z-50">
-                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500" href="/view/manage_widget">Template</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500" href="/view/template">Template</a>
                             </div>
                         </li>
                         <li>
@@ -198,18 +198,29 @@
                 img_profile:null
             }
         },
-        created(){
-            setTimeout(() => {
+        async created(){
             var user  = JSON.parse(localStorage.getItem('user_data'))
-            this.user= user.data
-            this.img_profile = user.img_profile
-            }, 2000);
+            if(user === null){
+                await this.getUserData()
+                this.user= user.data
+                this.img_profile = user.img_profile
+            }else{
+                setTimeout(() => {
+                this.user= user.data
+                this.img_profile = user.img_profile
+                }, 2000);
+            }
         },
         methods: {
             Logout() {
                 this.$store.dispatch('auth/logout')
                 this.$router.push('/login')
             },
+            getUserData(){
+                return this.$store.dispatch('user/userData').then((res)=>{
+                    
+                })
+            }
         }
     }
 </script>

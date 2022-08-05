@@ -18,7 +18,7 @@ export const user = {
       update({rootState},data){
         return axios.patch(api_backend+'user_profile/update/'+data.id,data,{
           headers:{
-            Authorization:"Bearer "+rootState.auth.token
+            Authorization:"Bearer "+rootState.auth.token.value
           }
         }).then((res)=>{
           return Promise.resolve(res)
@@ -29,7 +29,7 @@ export const user = {
       destroy({rootState},data){
         return axios.delete(api_backend+'user_profile/destroy/'+data,{
           headers:{
-            Authorization:"Bearer "+rootState.auth.token
+            Authorization:"Bearer "+rootState.auth.token.value
           }
         }).then((res)=>{
           return Promise.resolve(res)
@@ -40,7 +40,7 @@ export const user = {
       getRole({rootState}){
         return axios.get(api_backend+'role',{
           headers:{
-            Authorization:"Bearer "+rootState.auth.token
+            Authorization:"Bearer "+rootState.auth.token.value
           }
         }).then((res)=>{
           return Promise.resolve(res)
@@ -51,7 +51,7 @@ export const user = {
       getUserData({rootState},data){
         return axios.post(api_backend+'alluser',data,{
           headers:{
-            Authorization:"Bearer "+rootState.auth.token
+            Authorization:"Bearer "+rootState.auth.token.value
           }
         }).then((res)=>{
           return Promise.resolve(res)
@@ -62,7 +62,7 @@ export const user = {
       getUserProfile({rootState},data){
         return axios.get(api_backend+'user_profile/'+data,{
           headers:{
-            Authorization:"Bearer "+rootState.auth.token
+            Authorization:"Bearer "+rootState.auth.token.value
           }
         }).then((res)=>{
           return Promise.resolve(res)
