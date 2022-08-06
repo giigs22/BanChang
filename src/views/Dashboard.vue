@@ -176,7 +176,6 @@
             }
         },
         async created() {
-            console.log(this.loggedIn);
             if (!this.loggedIn) {
                 this.$store.dispatch('auth/logout');
                 this.$router.push('/login')

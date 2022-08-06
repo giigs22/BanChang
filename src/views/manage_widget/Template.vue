@@ -31,9 +31,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="border-b border-gray-600">
-                                    <td class="text-center border-r border-gray-600 p-3">1</td>
-                                    <td class="text-center border-r border-gray-600 p-3">Template 1</td>
+                                <tr class="border-b border-gray-600" v-for="item in list_temp" :key="item.id">
+                                    <td class="text-center border-r border-gray-600 p-3">{{item.id}}</td>
+                                    <td class="text-center border-r border-gray-600 p-3">{{item.name}}</td>
                                     <td class="text-center"><span class="text-cyan-300">Edit</span> | <span class="text-red-500">Delete</span></td>
                                 </tr>
                                 
@@ -46,14 +46,11 @@
             </div>
         </section>
     </main>
-    <FooterPage class="2xl:fixed inset-x-0 bottom-0"/>
+    <FooterPage/>
 </template>
 <script>
-    import axios from 'axios'
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
-    import AuthService from '../../services/auth.services'
-    import authHeader from '../../services/auth.header'
 
     export default {
         components: {
@@ -62,14 +59,19 @@
         },
         data() {
             return {
-               
+               list_temp:[]
             }
         },
         async created() {
-         
+            await this.getListTemplate()
         },
         methods: {
-          
+          getListTemplate(){
+            return this.$store.dispatch('widget/ListTemplate').then((res)=>{
+                console.log(res)
+                this.list_temp = res.data
+            })
+          }
         }
     }
 </script>

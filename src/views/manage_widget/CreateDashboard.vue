@@ -369,7 +369,7 @@
                             this.alert.type = "success"
                             this.alert.msg = data.message
                             setTimeout(() => {
-                                this.$router.go(-1)
+                                this.$router.push('/view/template')
                             }, 2000);
                         }else{
                             this.confirm.active = true

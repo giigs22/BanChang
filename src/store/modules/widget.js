@@ -17,6 +17,17 @@ export const widget = {
           }).catch((err)=>{
             return Promise.reject(err)
           })
+       },
+       ListTemplate({rootState}){
+        return axios.get(api_backend+'dashboard/list',{
+          headers:{
+            Authorization:"Bearer "+rootState.auth.token.value
+          }
+        }).then((res)=>{
+          return Promise.resolve(res)
+        }).catch((err)=>{
+          return Promise.reject(err)
+        })
        }
     },
     mutations: {

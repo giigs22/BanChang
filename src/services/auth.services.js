@@ -25,7 +25,11 @@ class AuthService{
         })
     }
     login_planet(){
-        return axios.post(api_baseURL+'api/auth/login',{username:api.username,password:api.password},{timeout:5000}).then((res)=>{
+        return axios.post(api_baseURL+'api/auth/login',{username:api.username,password:api.password},{
+            "timeout":5000,
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }).then((res)=>{
             if(res.data.token){
                 localStorage.setItem('token_planet',res.data.token)
             }
