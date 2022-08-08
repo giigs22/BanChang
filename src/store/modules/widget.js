@@ -18,8 +18,8 @@ export const widget = {
             return Promise.reject(err)
           })
        },
-       ListTemplate({rootState}){
-        return axios.get(api_backend+'dashboard/list',{
+       ListTemplate({rootState},data){
+        return axios.post(api_backend+'dashboard/list',data,{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }

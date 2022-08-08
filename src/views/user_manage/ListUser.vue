@@ -190,7 +190,6 @@
                     filter: this.filteredusers
                 }
                 return this.$store.dispatch('user/getUserData', data).then((res) => {
-                    console.log(res);
                     this.list_user = res.data.list_user
                     this.countuser = res.data.count_all
                 })

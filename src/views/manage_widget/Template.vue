@@ -39,7 +39,7 @@
                                 
                             </tbody>
                            </table>
-                          
+                          <Pagination :count="count" :itemperpage="itemperpage" @changePage="updateData"/>
                         </div>
                     </div>
                 </div>
@@ -51,26 +51,40 @@
 <script>
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
+    import Pagination from '../../components/utility/Pagination.vue'
 
     export default {
         components: {
             TopMenu,
-            FooterPage
+            FooterPage,
+            Pagination
         },
         data() {
             return {
-               list_temp:[]
+               list_temp:[],
+               filterdata: [],
+               count:0,
+               start:0,
+               itemperpage:10
             }
         },
-        async created() {
-            await this.getListTemplate()
+        created() {
+            this.getListTemplate()
         },
         methods: {
           getListTemplate(){
-            return this.$store.dispatch('widget/ListTemplate').then((res)=>{
-                console.log(res)
-                this.list_temp = res.data
+             var data = {
+                    itemperpage:this.itemperpage,
+                    start:this.start
+                }
+            return this.$store.dispatch('widget/ListTemplate',data).then((res)=>{
+                this.list_temp = res.data.list
+                 this.count = res.data.count_all
             })
+          },
+          updateData(start){
+                this.start= start
+                this.getListTemplate()
           }
         }
     }

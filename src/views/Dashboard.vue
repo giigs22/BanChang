@@ -163,7 +163,7 @@
                 },
                 confirm: {
                     active: false,
-                    msg:null
+                    msg: null
                 }
             }
         },
@@ -179,9 +179,9 @@
             if (!this.loggedIn) {
                 this.$store.dispatch('auth/logout');
                 this.$router.push('/login')
-            }else{
+            } else {
                 if (!this.statusServer) {
-                    await this.loginPlanet()     
+                    await this.loginPlanet()
                 }
                 await this.getUserData()
                 //await this.checkExpire()
@@ -195,8 +195,12 @@
                     this.alert.active = false
                     location.reload()
                 }).catch((err) => {
+                    console.log(err);
                     if (err.code === "ECONNABORTED") {
-                            this.$store.dispatch('server/sendLog',{type:'error',msg:'Error Connect Login time out.'}).then((res) => {
+                        this.$store.dispatch('server/sendLog', {
+                            type: 'error',
+                            msg: 'Error Connect Login time out.'
+                        }).then((res) => {
                             var data = res.data
                             if (data.success) {
                                 this.$store.dispatch('server/setStatus', false)
@@ -204,7 +208,21 @@
                                 this.confirm.active = true
                                 this.confirm.msg = 'Unable to Connect Sensor!'
                             }
-                            })
+                        })
+                    }
+                    if (err.code === "ERR_NETWORK") {
+                        this.$store.dispatch('server/sendLog', {
+                            type: 'error',
+                            msg: 'Error Network.'
+                        }).then((res) => {
+                            var data = res.data
+                            if (data.success) {
+                                this.$store.dispatch('server/setStatus', false)
+                                this.alert.active = false
+                                this.confirm.active = true
+                                this.confirm.msg = 'Error Network!'
+                            }
+                        })
                     }
                 })
             },
@@ -212,9 +230,9 @@
                 this.confirm.active = false
                 this.confirm.msg = null
             },
-            checkExpire(){
-                return this.$store.dispatch('auth/checkExpire').then((res)=>{
-                    if(res){
+            checkExpire() {
+                return this.$store.dispatch('auth/checkExpire').then((res) => {
+                    if (res) {
                         this.confirm.active = true
                         this.confirm.msg = 'Token is Expire!'
                         this.$store.dispatch('auth/logout')
@@ -222,12 +240,12 @@
                     }
                 })
             },
-            getUserData(){
-                return this.$store.dispatch('user/userData').then((res)=>{
-                    
+            getUserData() {
+                return this.$store.dispatch('user/userData').then((res) => {
+
                 })
             }
-            
+
 
         }
 
