@@ -31,12 +31,18 @@
                             <div class="hidden peer-hover:flex hover:flex
          w-[150px]
          flex-col bg-blue-400 drop-shadow-lg absolute z-50">
-                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500" href="/view/aqi_map">Air Quality</a>
-                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500" href="/view/smart_light">Lighting</a>
-                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500" href="/view/smart_pole">Smart Pole</a>
-                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500" href="/view/cctv">CCTV Camera</a>
-                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500" href="/view/freewifi">Free Wifi</a>
-                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500" href="/view/digital_signage">Digital Signage</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
+                                    href="/view/aqi_map">Air Quality</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
+                                    href="/view/smart_light">Lighting</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
+                                    href="/view/smart_pole">Smart Pole</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
+                                    href="/view/cctv">CCTV Camera</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
+                                    href="/view/freewifi">Free Wifi</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
+                                    href="/view/digital_signage">Digital Signage</a>
 
                             </div>
                         </li>
@@ -50,8 +56,8 @@
                                 SOS</a>
                         </li>
                         <li>
-                            <a href="/view/complaint" class="nav-menu"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
-                                    viewBox="0 0 27.167 24.342">
+                            <a href="/view/complaint" class="nav-menu"><svg xmlns="http://www.w3.org/2000/svg"
+                                    class="w-5 h-5" viewBox="0 0 27.167 24.342">
                                     <path id="Path_1659" data-name="Path 1659"
                                         d="M107.761,278.276h20.4a3.386,3.386,0,0,1,3.386,3.386v11.979a3.386,3.386,0,0,1-3.386,3.386h-10.2v5.592l-7.516-5.592h-2.681a3.386,3.386,0,0,1-3.386-3.386V281.662A3.386,3.386,0,0,1,107.761,278.276Z"
                                         transform="translate(-104.375 -278.276)" fill="#fff" />
@@ -59,8 +65,8 @@
                                 Complaint</a>
                         </li>
                         <li>
-                            <a href="/view/maintenance" class="nav-menu"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
-                                    viewBox="0 0 25.854 27.378">
+                            <a href="/view/maintenance" class="nav-menu"><svg xmlns="http://www.w3.org/2000/svg"
+                                    class="w-5 h-5" viewBox="0 0 25.854 27.378">
                                     <path id="Path_1853" data-name="Path 1853"
                                         d="M127.527,358.74a10.816,10.816,0,0,0-.272-2.389l1.611-.929a1.473,1.473,0,0,0,.538-2.012l-1.748-3.027a1.471,1.471,0,0,0-2.012-.54l-1.615.933a10.851,10.851,0,0,0-4.132-2.4v-1.85a1.474,1.474,0,0,0-1.474-1.474h-3.5a1.474,1.474,0,0,0-1.474,1.474v1.85a10.843,10.843,0,0,0-4.13,2.4l-1.617-.933a1.472,1.472,0,0,0-2.012.54l-1.748,3.027a1.471,1.471,0,0,0,.54,2.012l1.609.929a10.615,10.615,0,0,0,0,4.777l-1.609.929a1.474,1.474,0,0,0-.54,2.014l1.748,3.027a1.473,1.473,0,0,0,2.012.538l1.617-.931a10.844,10.844,0,0,0,4.13,2.4v1.85a1.474,1.474,0,0,0,1.474,1.472h3.5a1.474,1.474,0,0,0,1.474-1.472v-1.85a10.852,10.852,0,0,0,4.132-2.4l1.615.931a1.472,1.472,0,0,0,2.012-.538l1.748-3.027a1.475,1.475,0,0,0-.538-2.014l-1.611-.929A10.8,10.8,0,0,0,127.527,358.74Zm-9.913,5.874a5.948,5.948,0,1,1,4.935-4.935A5.951,5.951,0,0,1,117.615,364.614Z"
                                         transform="translate(-103.748 -345.051)" fill="#fff" />
@@ -75,13 +81,16 @@
                                         fill="#fff" />
                                 </svg>
                                 User Management</a>
-                                <!-- the menu here -->
+                            <!-- the menu here -->
                             <div class="hidden peer-hover:flex hover:flex
          w-[150px]
          flex-col bg-blue-400 drop-shadow-lg absolute z-50">
-                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500" href="/user/register">Register</a>
-                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500" href="/user/list">User List</a>
-                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500" href="/user/permission">Permissions</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
+                                    href="/user/register">Register</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
+                                    href="/user/list">User List</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
+                                    href="/user/permission">Permissions</a>
                             </div>
                         </li>
                         <li>
@@ -92,11 +101,12 @@
                                         transform="translate(-4.5 -2.535)" fill="#fff" />
                                 </svg>
                                 Manage Widgets</a>
-                                  <!-- the menu here -->
+                            <!-- the menu here -->
                             <div class="hidden peer-hover:flex hover:flex
          w-[150px]
          flex-col bg-blue-400 drop-shadow-lg absolute z-50">
-                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500" href="/view/template">Template</a>
+                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
+                                    href="/view/template">Template</a>
                             </div>
                         </li>
                         <li>
@@ -148,18 +158,20 @@
                         </div>
                         <div class="flex items-center mb-2">
                             <div class="relative w-12 mx-2">
-                            <img src="@/assets/icon_user_profile.png" alt="" v-if="img_profile === null">
-                            <img :src="img_profile" alt="" class="object-cover w-12 h-12 rounded-full" v-else>
-                            <div class="absolute top-0 right-0 h-3 w-3 my-1 border-2 border-white rounded-full bg-green-400 z-2"></div>
+                                <img src="@/assets/icon_user_profile.png" alt="" v-if="img_profile === null">
+                                <img :src="img_profile" alt="" class="object-cover w-12 h-12 rounded-full" v-else>
+                                <div
+                                    class="absolute top-0 right-0 h-3 w-3 my-1 border-2 border-white rounded-full bg-green-400 z-2">
+                                </div>
                             </div>
 
                             <div class="flex flex-col text-white">
                                 <div>
-                                   {{user.name}}
+                                    {{user.name}}
                                 </div>
                                 <div class="flex gap-2">
-                                    <a :href="'/user/edit/'+user.id" class="text-yellow-400">Edit Profile</a> | <span @click="Logout"
-                                        class="text-yellow-400 cursor-pointer">Logout</span>
+                                    <a :href="'/user/edit/'+user.id" class="text-yellow-400">Edit Profile</a> | <span
+                                        @click="Logout" class="text-yellow-400 cursor-pointer">Logout</span>
                                 </div>
                             </div>
                         </div>
@@ -191,36 +203,25 @@
         },
         data() {
             return {
-                user:{
-                    id:null,
-                    name:null
+                user: {
+                    id: null,
+                    name: null
                 },
-                img_profile:null
+                img_profile: null
             }
         },
-        async created(){
-            var user  = JSON.parse(localStorage.getItem('user_data'))
-            if(user === null){
-                await this.getUserData()
-                this.user= user.data
+        created() {
+            setTimeout(() => {
+                var user = JSON.parse(localStorage.getItem('user_data'))
+                this.user = user.data
                 this.img_profile = user.img_profile
-            }else{
-                setTimeout(() => {
-                this.user= user.data
-                this.img_profile = user.img_profile
-                }, 2000);
-            }
+            }, 2000);
         },
         methods: {
             Logout() {
                 this.$store.dispatch('auth/logout')
                 this.$router.push('/login')
             },
-            getUserData(){
-                return this.$store.dispatch('user/userData').then((res)=>{
-                    
-                })
-            }
         }
     }
 </script>

@@ -50,8 +50,8 @@
             },
         },
         created() {
-                this.end = this.itemPerPage
-                this.pagination.itemPerPage = this.itemPerPage
+                this.end = this.itemperpage
+                this.pagination.itemPerPage = this.itemperpage
 
                 this.buildPagination()
                 this.selectPage(1)

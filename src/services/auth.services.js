@@ -37,8 +37,9 @@ class AuthService{
         })
     }
     logout(){
-        localStorage.setItem('token',JSON.stringify({value:null,expire:null}))
-        localStorage.setItem('user_data',null)
+        // localStorage.setItem('token',JSON.stringify({value:null,expire:null}))
+        // localStorage.setItem('user_data',null)
+        localStorage.clear()
     }
     Expire(data){
         if(data.errorCode === 10 || data.errorCode === 11 || local_token_planet === 'null'){

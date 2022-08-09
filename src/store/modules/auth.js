@@ -54,7 +54,8 @@ export const auth = {
     },
     logout({ commit }) {
       AuthService.logout()
-      commit('logout');
+      commit('logout')
+      window.location.reload()
     },
     // checkExpire({commit}){
     //   var check = AuthService.checkExpireToken()

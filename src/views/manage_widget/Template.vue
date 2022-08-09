@@ -65,7 +65,7 @@
                filterdata: [],
                count:0,
                start:0,
-               itemperpage:10
+               itemperpage:3
             }
         },
         created() {
