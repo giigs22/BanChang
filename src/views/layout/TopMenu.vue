@@ -89,6 +89,8 @@
                                     href="/user/register">Register</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
                                     href="/user/list">User List</a>
+                                     <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
+                                    href="/user/list">Group User</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
                                     href="/user/permission">Permissions</a>
                             </div>
@@ -107,6 +109,10 @@
          flex-col bg-blue-400 drop-shadow-lg absolute z-50">
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
                                     href="/view/template">Template</a>
+                                    <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
+                                    href="/view/template">Group Template</a>
+                                    <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
+                                    href="/view/template">User Template</a>
                             </div>
                         </li>
                         <li>

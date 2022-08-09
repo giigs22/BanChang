@@ -1,10 +1,10 @@
 <template>
     <div class="my-5 paginate flex justify-center">
         <button class="btn-prev"
-            :disabled="{'disabled': pagination.currentPage==pagination.items[0] || pagination.items.length==0}"
+            :disabled="pagination.currentPage==pagination.items[0] || pagination.items.length==0"
             :class="{'disabled:opacity-70': pagination.currentPage==pagination.items[0] || pagination.items.length==0}"
             @click="selectPage(pagination.items[0])"> {{'<<'}} </button>
-        <button class="btn-prev" :disabled="{'disabled': pagination.currentPage==1}"
+        <button class="btn-prev" :disabled="pagination.currentPage==1"
             :class="{'disabled:opacity-70': pagination.currentPage==1}" @click="selectPage(pagination.currentPage-1)">
             {{'<'}}
         </button>
@@ -12,12 +12,12 @@
             :class="[{'border border-yellow-600 shadow-sm shadow-orange-100': item == pagination.currentPage},{'':item !== pagination.currentPage}]"
             v-for="item in pagination.filtered" :key="item" @click="selectPage(item)"> {{item}}
         </button>
-        <button class="btn-next" :disabled="{'disabled': pagination.currentPage==pagination.items.length}"
+        <button class="btn-next" :disabled="pagination.currentPage==pagination.items.length"
             :class="{'disabled:opacity-70': pagination.currentPage==pagination.items.length}"
             @click="selectPage(pagination.currentPage+1)"> {{'>'}}
         </button>
         <button class="btn-next"
-            :disabled="{'disabled': pagination.currentPage==pagination.items[pagination.items.length-1] || pagination.items.length==0}"
+            :disabled="pagination.currentPage==pagination.items[pagination.items.length-1] || pagination.items.length==0"
             :class="{'disabled:opacity-70': pagination.currentPage==pagination.items[pagination.items.length-1] || pagination.items.length==0}"
             @click="selectPage(pagination.items[pagination.items.length-1])"> {{'>>'}} </button>
     </div>
@@ -50,9 +50,7 @@
             },
         },
         created() {
-                this.end = this.itemperpage
                 this.pagination.itemPerPage = this.itemperpage
-
                 this.buildPagination()
                 this.selectPage(1)
         },

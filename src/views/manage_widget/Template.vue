@@ -12,7 +12,7 @@
                             <h3 class="text-lg text-white">All Dashboard Template</h3>
                             <div class="flex justify-between form-search">
                                 <div class="col-span-2 my-5">
-                                <a class="btn-purple rounded btn-blue-gradient" href="/view/create_dashboard">Create Template</a>
+                                <a class="btn-purple rounded btn-blue-gradient" href="/view/template/create">Create Template</a>
                                 </div>
                                 <div class="col-span-2">
                                     <input type="text" placeholder="ID,Name" class="form-input">
@@ -34,7 +34,7 @@
                                 <tr class="border-b border-gray-600" v-for="item in list_temp" :key="item.id">
                                     <td class="text-center border-r border-gray-600 p-3">{{item.id}}</td>
                                     <td class="text-center border-r border-gray-600 p-3">{{item.name}}</td>
-                                    <td class="text-center"><span class="text-cyan-300">Edit</span> | <span class="text-red-500">Delete</span></td>
+                                    <td class="text-center"><a class="text-cyan-300" :href="'/view/template/edit/'+item.id">Edit</a> | <span class="text-red-500">Delete</span></td>
                                 </tr>
                                 
                             </tbody>
@@ -65,7 +65,7 @@
                filterdata: [],
                count:0,
                start:0,
-               itemperpage:3
+               itemperpage:10
             }
         },
         created() {

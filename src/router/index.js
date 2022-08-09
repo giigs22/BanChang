@@ -22,6 +22,7 @@ import CreateDashboard from '../views/manage_widget/CreateDashboard.vue'
 import CCTV from '../views/cctv/Map.vue'
 import FreeWiFi from '../views/wifi/Map.vue'
 import DigitalSignage from '../views/signage/Map.vue'
+import EditDashboard from '../views/manage_widget/EditDashboard.vue'
 
 const routes = [{
     path: '/',
@@ -130,11 +131,18 @@ const routes = [{
     component: ManageTemplate,
     meta: {
       middleware: auth
+    },
+  },
+  {
+    path: '/view/template/create',
+    component: CreateDashboard,
+    meta: {
+      middleware: auth
     }
   },
   {
-    path: '/view/create_dashboard',
-    component: CreateDashboard,
+    path: '/view/template/edit/:id',
+    component: EditDashboard,
     meta: {
       middleware: auth
     }

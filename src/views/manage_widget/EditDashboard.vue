@@ -26,7 +26,7 @@
                         <div class="mt-10 mb-5 block-content">
                             <h1 class="text-xl text-white">Select Widget</h1>
                             <div class="grid grid-cols-12 gap-1 my-5">
-                                 <div class="block-widgets col-span-4 hover:opacity-60 h-full max-h-full"
+                                <div class="block-widgets col-span-4 hover:opacity-60 h-full max-h-full"
                                     @click="selectWidget(item.id)" id="wg-1" v-for="item in list_widget" :key="item.id">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
@@ -113,9 +113,13 @@
             }
         },
         async created() {
-
+            var id = this.$route.params.id
+            this.getListWidget(id)
         },
         methods: {
+            getListWidget(id){
+                console.log(id);
+            },
             selectWidget(id) {
                 if (!this.selected.includes(id)) {
                     this.selected.push(id)

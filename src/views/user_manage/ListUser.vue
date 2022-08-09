@@ -74,30 +74,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="my-5 paginate flex justify-center">
-                                <button class="btn-prev"
-                                    :disabled="{'disabled': pagination.currentPage==pagination.items[0] || pagination.items.length==0}"
-                                    :class="{'disabled:opacity-70': pagination.currentPage==pagination.items[0] || pagination.items.length==0}"
-                                    @click="selectPage(pagination.items[0])"> {{'<<'}} </button>
-                                <button class="btn-prev" :disabled="{'disabled': pagination.currentPage==1}"
-                                    :class="{'disabled:opacity-70': pagination.currentPage==1}"
-                                    @click="selectPage(pagination.currentPage-1)"> {{'<'}}
-                                </button>
-                                <button class="btn-page"
-                                    :class="[{'border border-yellow-600 shadow-sm shadow-orange-100': item == pagination.currentPage},{'':item !== pagination.currentPage}]"
-                                    v-for="item in pagination.filtered" :key="item" @click="selectPage(item)"> {{item}}
-                                </button>
-                                <button class="btn-next"
-                                    :disabled="{'disabled': pagination.currentPage==pagination.items.length}"
-                                    :class="{'disabled:opacity-70': pagination.currentPage==pagination.items.length}"
-                                    @click="selectPage(pagination.currentPage+1)"> {{'>'}}
-                                </button>
-                                <button class="btn-next"
-                                    :disabled="{'disabled': pagination.currentPage==pagination.items[pagination.items.length-1] || pagination.items.length==0}"
-                                    :class="{'disabled:opacity-70': pagination.currentPage==pagination.items[pagination.items.length-1] || pagination.items.length==0}"
-                                    @click="selectPage(pagination.items[pagination.items.length-1])"> {{'>>'}} </button>
-                            </div>
-
+                            <Pagination :count="countuser" :itemperpage="itemperpage" @changePage="updateData"/>
 
                         </div>
                     </div>
@@ -116,28 +93,22 @@
     import * as dayjs from 'dayjs'
     import AlertDialogConfirm from '../../components/utility/AlertDialogConfirm.vue'
     import AlertDialog from '../../components/utility/AlertDialog.vue'
+    import Pagination from '../../components/utility/Pagination.vue'
+
     export default {
         components: {
             TopMenu,
             FooterPage,
             AlertDialogConfirm,
-            AlertDialog
+            AlertDialog,
+            Pagination
         },
         data() {
             return {
                 list_user: [],
-                itemperpage: 10,
-                start: 0,
-                end: 10,
-                countuser: 0,
-                pagination: {
-                    range: 5,
-                    currentPage: 1,
-                    itemPerPage: 10,
-                    items: [],
-                    filtered: null
-                },
                 filterdata: [],
+                itemperpage: 10,
+                countuser: 0,
                 confirm: {
                     active: false,
                     type: null,
@@ -152,35 +123,7 @@
             }
         },
         created() {
-            this.getUserData().then((res) => {
-                this.buildPagination()
-                this.selectPage(1)
-            })
-        },
-        watch: {
-            'pagination.currentPage': function (n, o) {
-                if (n !== o) {
-                    this.getUserData().then((res) => {
-
-                    })
-                }
-            },
-            'pagination.itemPerPage': function (n, o) {
-                if (n !== o) {
-                    this.getUserData().then((res) => {
-                        this.buildPagination();
-                        this.selectPage(1)
-                    })
-                }
-            },
-            filterdata(n, o) {
-                if (n !== 0) {
-                    this.getUserData().then((res) => {
-                        this.buildPagination();
-                        this.selectPage(1)
-                    })
-                }
-            }
+            this.getUserData()
         },
         methods: {
             getUserData() {
@@ -194,56 +137,10 @@
                     this.countuser = res.data.count_all
                 })
             },
-            buildPagination() {
-                let numberOfPage = Math.ceil(this.countuser / this.pagination.itemPerPage)
-                this.pagination.items = []
-                for (var i = 0; i < numberOfPage; i++) {
-                    this.pagination.items.push(i + 1)
-                }
-            },
-            selectPage(item) {
-                this.pagination.currentPage = item
-
-                let start = 0
-                let end = 0
-                if (this.pagination.currentPage < this.pagination.range - 2) {
-                    start = 1
-                    end = start + this.pagination.range - 1
-                } else if (this.pagination.currentPage <= this.pagination.items.length && this.pagination.currentPage >
-                    this.pagination.items.length - this.pagination.range + 2) {
-                    start = this.pagination.items.length - this.pagination.range + 1
-                    end = this.pagination.items.length
-                } else {
-                    start = this.pagination.currentPage - 2
-                    end = this.pagination.currentPage + 2
-                }
-                if (start < 1) {
-                    start = 1
-                }
-                if (end > this.pagination.items.length) {
-                    end = this.pagination.items.length
-                }
-
-                this.pagination.filtered = []
-                for (var i = start; i <= end; i++) {
-                    this.pagination.filtered.push(i);
-                }
-
-                var sindex = (item - 1) * this.pagination.itemPerPage
-                if (item < this.pagination.items.length) {
-                    var eindex = sindex + (this.pagination.itemPerPage - 1)
-                } else if (item == this.pagination.items.length) {
-                    var eindex = sindex + (this.pagination.itemPerPage - 1)
-                    if (eindex > this.countuser) {
-                        eindex = this.countuser
-                    } else {
-                        eindex = eindex
-                    }
-                }
-                this.start = sindex
-                this.end = eindex
-
-            },
+          updateData(start){
+                this.start= start
+                this.getUserData()
+          },
             filterData(data) {
                 this.filterdata = data
             },
