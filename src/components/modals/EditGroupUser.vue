@@ -16,13 +16,13 @@
                         </svg> <span class="ml-3 text-xl">Confirm</span>
                     </div>
                     <div class="bg-white px-4 pt-5 pb-4 text-center">
-                        <h2 class="text-lg">Insert Name Group </h2>
+                        <h2 class="text-lg">Edit Name Group </h2>
                        <input type="text" class="form-input w-full my-5" v-model="name">
                     </div>
                     <div class="px-4 py-3 justify-end sm:px-6 sm:flex sm:flex-row">
                         <button @click="submit()" type="button"
                             class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-600 text-white font-medium hover:bg-blue-600 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                            Add
+                            Update
                         </button>
                         <button @click="close()" type="button"
                             class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-gray-700 font-medium focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
@@ -42,14 +42,22 @@
                 name: null
             }
         },
+        created() {
+           this.getRole()
+        },
         methods:{
-            submit(){
-                this.$store.dispatch('user/addRole',this.name).then((res)=>{
-                    var success = res.data.success
-                    if(success){
-                        this.close()
-                    }
+            getRole(){
+                this.$store.dispatch('user/getRoleId',this.id).then((res)=>{
+                    this.name = res.data.name
                 })
+            },
+            submit(){
+               this.$store.dispatch('user/updateRole',{id:this.id,name:this.name}).then((res)=>{
+                var success = res.data.success
+                if(success){
+                    this.close()
+                }
+               })
             },
             close(){
                 this.$emit('close')

@@ -8,7 +8,7 @@
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <loading v-model:active="loading" />
-                        <h1 class="text-xl text-white ml-10">Register</h1>
+                        <h1 class="text-xl text-white ml-10">Edit Profile</h1>
                         <div class="form-register mt-5 mb-5">
                             <Form @submit="update" :validation-schema="schema">
                                 <div class="grid grid-cols-9 text-sm gap-40">

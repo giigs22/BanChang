@@ -110,7 +110,7 @@
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
                                     href="/view/template">Template</a>
                                     <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
-                                    href="/view/template">Group Template</a>
+                                    href="/view/template/group">Group Template</a>
                                     <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
                                     href="/view/template">User Template</a>
                             </div>

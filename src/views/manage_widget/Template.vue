@@ -46,8 +46,8 @@
             </div>
         </section>
     </main>
-    <AlertDelTemplate v-if="confirm.active" @close="confirm.active=false" @confirm="confirmDel" :id="del_id"></AlertDelTemplate>
-        <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"/>
+    <AlertDelTemplate v-if="confirm.active" @close="confirm.active=false" @confirm="confirmDel" :id="del_id"/>
+    <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"/>
 
     <FooterPage/>
 </template>
@@ -92,7 +92,7 @@ import AlertDialog from '../../components/utility/AlertDialog.vue'
                     itemperpage:this.itemperpage,
                     start:this.start
                 }
-            return this.$store.dispatch('widget/ListTemplate',data).then((res)=>{
+            return this.$store.dispatch('template/ListTemplate',data).then((res)=>{
                 this.list_temp = res.data.list
                  this.count = res.data.count_all
             })
@@ -110,7 +110,7 @@ import AlertDialog from '../../components/utility/AlertDialog.vue'
                 id:this.del_id,
                 data:val
             }
-            this.$store.dispatch('widget/destroyDashboard',data).then((res)=>{
+            this.$store.dispatch('template/destroyDashboard',data).then((res)=>{
                 console.log(res);
             })
           }

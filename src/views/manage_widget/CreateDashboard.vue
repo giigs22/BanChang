@@ -159,7 +159,7 @@
                         name:this.name_template,
                         widget:this.selected
                     }
-                    this.$store.dispatch('widget/saveDashboard',data).then((res)=>{
+                    this.$store.dispatch('template/saveDashboard',data).then((res)=>{
                         var data = res.data
                         if(data.success){
                             this.alert.active = true

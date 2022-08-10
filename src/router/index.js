@@ -24,6 +24,7 @@ import FreeWiFi from '../views/wifi/Map.vue'
 import DigitalSignage from '../views/signage/Map.vue'
 import EditDashboard from '../views/manage_widget/EditDashboard.vue'
 import GroupUser from '../views/user_manage/GroupUser.vue'
+import GroupTemplate from '../views/manage_widget/GroupTemplate.vue'
 
 const routes = [{
     path: '/',
@@ -154,6 +155,13 @@ const routes = [{
     meta: {
       middleware: auth
     }
+  },
+  {
+    path: '/view/template/group',
+    component: GroupTemplate,
+    meta: {
+      middleware: auth
+    },
   },
   {
     path: '/view/freewifi',

@@ -11,35 +11,30 @@
                         <div class="searchbox mt-5 mb-5">
                             <h3 class="text-lg text-white">Search</h3>
                             <div class="grid grid-cols-12  form-search">
-                                <div class="col-span-2 gap-5 flex flex-col items-end">
-                                    <div>
-                                        <select class="rounded-md h-12">
-                                            <option value="">Condition Type</option>
-                                            <option value="regis_date">Register Date</option>
-                                        </select>
-                                    </div>
-                                    <div class="flex items-end">
-                                        <label for="" class="text-white mr-1">From</label>
-                                        <input type="text" placeholder="DD/MM/YYYY" class="form-input">
-                                    </div>
-                                </div>
+
                                 <div class="col-span-2 flex flex-col items-end gap-5">
                                     <div>
                                         <input type="text" placeholder="ID.Name" class="form-input">
                                     </div>
-                                    <div class="flex items-end">
-                                        <label for="" class="text-white mr-1">To</label>
-                                        <input type="text" placeholder="DD/MM/YYYY" class="form-input">
-                                    </div>
                                 </div>
                                 <div class="col-span-2">
                                     <div class="ml-2">
-                                        <button class="btn-purple rounded">Search</button>
+                                        <button class="btn-purple rounded h-12 flex gap-2 items-center"><svg
+                                                class="h-6 w-6 text-white" width="24" height="24" viewBox="0 0 24 24"
+                                                stroke-width="2" stroke="currentColor" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" />
+                                                <circle cx="10" cy="10" r="7" />
+                                                <line x1="21" y1="21" x2="15" y2="15" /></svg>Search</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="my-5">
-                                <button class="btn-purple rounded btn-blue-gradient" @click="addGroup">Add
+                                <button class="btn-purple rounded btn-blue-gradient flex gap-2" @click="add=true"><svg
+                                        class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19" />
+                                        <line x1="5" y1="12" x2="19" y2="12" /></svg> Add
                                     Group</button>
                             </div>
                         </div>
@@ -59,8 +54,8 @@
                                     <tr v-for="(item,index) in list" :key="index">
                                         <td class="text-center p-3">{{item.id}}</td>
                                         <td class="text-center">{{item.name}}</td>
-                                        <td class="text-center"><a class="text-cyan-300"
-                                                :href="'/user/edit/'+item.id">Edit</a> <span class="text-white"> |
+                                        <td class="text-center"><button class="text-cyan-300"
+                                                @click="editUser(item.id)">Edit</button> <span class="text-white"> |
                                             </span>
                                             <a @click="delUser(item.id)" class="text-red-500 cursor-pointer">Delete</a>
                                         </td>
@@ -75,20 +70,22 @@
             </div>
         </section>
     </main>
-    <AlertDialogConfirm v-if="confirm.active" :type="confirm.type" :msg="confirm.msg" @submit="confirmDel"
-        @close="closeConfirm" />
+    <AlertDelGroupUser v-if="confirm.active" @close="confirm.active=false" @confirm="confirmDel" :id="del_id"/>
     <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg" />
-    <AddGroup v-if="add"/>
+    <AddGroup v-if="add" @close="updateGroup('add')" />
+    <EditGroup v-if="edit" :id="edit_id" @close="updateGroup('edit')" />
     <FooterPage />
 </template>
 <script>
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
-    import * as dayjs from 'dayjs'
     import AlertDialogConfirm from '../../components/utility/AlertDialogConfirm.vue'
     import AlertDialog from '../../components/utility/AlertDialog.vue'
     import Pagination from '../../components/utility/Pagination.vue'
     import AddGroup from '../../components/modals/AddGroupUser.vue'
+    import EditGroup from '../../components/modals/EditGroupUser.vue'
+    import AlertDelGroupUser from '../../components/utility/AlertDelGroupUser.vue'
+
     export default {
         components: {
             TopMenu,
@@ -96,7 +93,9 @@
             AlertDialogConfirm,
             AlertDialog,
             Pagination,
-            AddGroup
+            AddGroup,
+            EditGroup,
+            AlertDelGroupUser
         },
         data() {
             return {
@@ -106,16 +105,16 @@
                 count: 0,
                 confirm: {
                     active: false,
-                    type: null,
-                    msg: null
                 },
                 alert: {
                     active: false,
                     type: null,
                     msg: null
                 },
+                edit_id: null,
                 del_id: null,
-                add:false
+                add: false,
+                edit: false
             }
         },
         created() {
@@ -129,61 +128,54 @@
                     filter: this.filteredusers
                 }
                 return this.$store.dispatch('user/getListRole', data).then((res) => {
-                    console.log(res);
                     this.list = res.data.list
                     this.count = res.data.count_all
                 })
             },
-            updateData(start) {
-                this.start = start
-                this.getUserData()
+            confirmDel(val) {
+               var data ={
+                id:this.del_id,
+                data:val
+               }
+                this.$store.dispatch('user/destroyRole',data).then((res)=>{
+                console.log(res);
+                var data = res.data
+                var success = res.data.success
+                if(success){
+                    this.confirm.active =false
+                    this.alert.active = true
+                    this.alert.type = 'success'
+                    this.alert.msg = data.message
+                    setTimeout(() => {
+                        this.clearAlert()
+                        this.getUserGroup()
+                    }, 2000);
+                    this.getUserGroup()
+                }
+            })
+            
             },
-            filterData(data) {
-                this.filterdata = data
+            updateGroup(type) {
+                if (type == 'add') {
+                    this.add = !this.add
+                } else {
+                    this.edit = !this.edit
+                }
+                this.getUserGroup()
+            },
+            editUser(id) {
+                this.edit = true
+                this.edit_id = id
             },
             delUser(id) {
+              this.confirm.active = true
                 this.del_id = id
-                this.confirm.active = true
-                this.confirm.type = 'confirmdel'
-                this.confirm.msg = 'Are you sure to Delete this Record?'
             },
-            confirmDel() {
-                this.$store.dispatch('user/destroy', this.del_id).then((res) => {
-                    var data = res.data
-                    if (data.success) {
-                        this.alert.active = true
-                        this.alert.type = "del_success"
-                        this.alert.msg = data.message
-                        this.loading = false
-                        setTimeout(() => {
-                            this.alert.active = false
-                            this.confirm.active = false
-                            window.location.reload()
-                        }, 2000);
-                    } else {
-                        this.alert.active = true
-                        this.alert.type = "error"
-                        this.alert.msg = data.message
-                        setTimeout(() => {
-                            this.closeAlert()
-                            this.clodeConfirm()
-                            this.loading = false
-
-                        }, 2000);
-                    }
-                })
-            },
-            closeConfirm() {
-                this.del_id = null
-                this.confirm.active = false
-                this.confirm.type = null
-                this.comfirm.msg = null
-            },
-            closeAlert() {
-                this.alert.active = false
-                this.alert.type = null
-                this.alert.msg = null
-            },
+            clearAlert(){
+                  this.alert.active = false
+                    this.alert.type = null
+                    this.alert.msg = null
+            }
         }
     }
 </script>

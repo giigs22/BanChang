@@ -1,7 +1,7 @@
 import axios from "axios";
 const api_backend = import.meta.env.VITE_API_SERVER;
 
-export const widget = {
+export const template = {
     namespaced: true,
     state: {
       list_template:[]
@@ -63,6 +63,28 @@ export const widget = {
           return Promise.reject(err)
         })
        },
+       groupUserTemp({rootState}){
+        return axios.get(api_backend+'dashboard/group_user_temp',{
+          headers:{
+            Authorization:"Bearer "+rootState.auth.token.value
+          }
+        }).then((res)=>{
+          return Promise.resolve(res)
+        }).catch((err)=>{
+          return Promise.reject(err)
+        })
+       },
+       updateGroup({rootState},data){
+        return axios.post(api_backend+'dashboard/update_group',data,{
+          headers:{
+            Authorization:"Bearer "+rootState.auth.token.value
+          }
+        }).then((res)=>{
+          return Promise.resolve(res)
+        }).catch((err)=>{
+          return Promise.reject(err)
+        })
+       }
        
     },
     mutations: {

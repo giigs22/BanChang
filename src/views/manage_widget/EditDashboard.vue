@@ -73,7 +73,7 @@
         </section>
     </main>
     <FooterPage />
-        <AlertDialogConfirm v-if="confirm.active" :msg="confirm.msg" :type="'error'" @close="closeConfirm" />
+    <AlertDialogConfirm v-if="confirm.active" :msg="confirm.msg" :type="'error'" @close="closeConfirm" />
     <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"/>
 
 </template>
@@ -118,7 +118,7 @@
         },
         methods: {
             getListWidget(id){
-                this.$store.dispatch('widget/getTemplate',id).then((res)=>{
+                this.$store.dispatch('template/getTemplate',id).then((res)=>{
                     var list_wg = []
                     res.data.widgets.forEach(el => {
                         list_wg.push(el.id)
@@ -173,7 +173,7 @@
                         name:this.name_template,
                         widget:this.selected
                     }
-                    this.$store.dispatch('widget/updateDashboard',data).then((res)=>{
+                    this.$store.dispatch('template/updateDashboard',data).then((res)=>{
                         var data = res.data
                         if(data.success){
                             this.alert.active = true
