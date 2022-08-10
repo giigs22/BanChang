@@ -34,7 +34,7 @@
                                             <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681"
                                                 fill="#08ff00" />
                                         </svg>
-                                        <span class="uppercase">Air Quality</span>
+                                        <span class="uppercase">{{item.name}}</span>
                                     </div>
                                     <img :src="item.img" alt="" class="mx-auto w-1/3 my-5">
                                 </div>

@@ -23,6 +23,7 @@ import CCTV from '../views/cctv/Map.vue'
 import FreeWiFi from '../views/wifi/Map.vue'
 import DigitalSignage from '../views/signage/Map.vue'
 import EditDashboard from '../views/manage_widget/EditDashboard.vue'
+import GroupUser from '../views/user_manage/GroupUser.vue'
 
 const routes = [{
     path: '/',
@@ -59,6 +60,13 @@ const routes = [{
   {
     path: '/user/edit/:id',
     component: EditProfile,
+    meta: {
+      middleware: auth
+    }
+  },
+  {
+    path: '/user/group',
+    component: GroupUser,
     meta: {
       middleware: auth
     }

@@ -17,7 +17,7 @@
                                         <input type="text" class="form-input" v-model="name_template">
                                     </div>
                                     <div class="ml-2">
-                                        <button class="btn-purple rounded btn-blue-gradient h-12" @click="saveTemplate">Save Template</button>
+                                        <button class="btn-purple rounded btn-blue-gradient h-12" @click="updateTemplate">Update Template</button>
                                     </div>
                                 </div>
                             </div>
@@ -34,7 +34,7 @@
                                             <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681"
                                                 fill="#08ff00" />
                                         </svg>
-                                        <span class="uppercase">Air Quality</span>
+                                        <span class="uppercase">{{item.name}}</span>
                                     </div>
                                     <img :src="item.img" alt="" class="mx-auto w-1/3 my-5">
                                 </div>
@@ -118,7 +118,16 @@
         },
         methods: {
             getListWidget(id){
-                console.log(id);
+                this.$store.dispatch('widget/getTemplate',id).then((res)=>{
+                    var list_wg = []
+                    res.data.widgets.forEach(el => {
+                        list_wg.push(el.id)
+                    });
+                    this.selected = list_wg
+                    this.name_template = res.data.name
+                    this.setElement()
+
+                });
             },
             selectWidget(id) {
                 if (!this.selected.includes(id)) {
@@ -151,7 +160,7 @@
                     this.selected.push(element.id)
                 });
             },
-            saveTemplate(){
+            updateTemplate(){
                 if(this.name_template == ''){
                    this.confirm.active = true
                    this.confirm.msg = 'Please Insert Name'
@@ -160,10 +169,11 @@
                     this.confirm.msg = 'Please Select Widget'
                 }else{
                     var data = {
+                        id:this.$route.params.id,
                         name:this.name_template,
                         widget:this.selected
                     }
-                    this.$store.dispatch('widget/saveDashboard',data).then((res)=>{
+                    this.$store.dispatch('widget/updateDashboard',data).then((res)=>{
                         var data = res.data
                         if(data.success){
                             this.alert.active = true

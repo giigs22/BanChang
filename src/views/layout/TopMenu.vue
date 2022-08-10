@@ -90,7 +90,7 @@
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
                                     href="/user/list">User List</a>
                                      <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
-                                    href="/user/list">Group User</a>
+                                    href="/user/group">Group User</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
                                     href="/user/permission">Permissions</a>
                             </div>

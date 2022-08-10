@@ -70,6 +70,17 @@ export const user = {
           return Promise.reject(err)
         }) 
       },
+       getListRole({rootState},data){
+        return axios.post(api_backend+'allrole',data,{
+          headers:{
+            Authorization:"Bearer "+rootState.auth.token.value
+          }
+        }).then((res)=>{
+          return Promise.resolve(res)
+        }).catch((err)=>{
+          return Promise.reject(err)
+        })
+      },
       userData({commit,rootState}){
         return axios.get(api_backend+'user',{
           headers:{

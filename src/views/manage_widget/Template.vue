@@ -34,7 +34,7 @@
                                 <tr class="border-b border-gray-600" v-for="item in list_temp" :key="item.id">
                                     <td class="text-center border-r border-gray-600 p-3">{{item.id}}</td>
                                     <td class="text-center border-r border-gray-600 p-3">{{item.name}}</td>
-                                    <td class="text-center"><a class="text-cyan-300" :href="'/view/template/edit/'+item.id">Edit</a> | <span class="text-red-500">Delete</span></td>
+                                    <td class="text-center"><a class="text-cyan-300" :href="'/view/template/edit/'+item.id">Edit</a> | <a class="text-red-500" @click="delTemplate(item.id)">Delete</a></td>
                                 </tr>
                                 
                             </tbody>
@@ -46,18 +46,24 @@
             </div>
         </section>
     </main>
+    <AlertDelTemplate v-if="confirm.active" @close="confirm.active=false" @confirm="confirmDel" :id="del_id"></AlertDelTemplate>
+        <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"/>
+
     <FooterPage/>
 </template>
 <script>
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
     import Pagination from '../../components/utility/Pagination.vue'
-
+    import AlertDelTemplate from '../../components/utility/AlertDelTemplate.vue'
+import AlertDialog from '../../components/utility/AlertDialog.vue'
     export default {
         components: {
             TopMenu,
             FooterPage,
-            Pagination
+            Pagination,
+            AlertDelTemplate,
+            AlertDialog
         },
         data() {
             return {
@@ -65,7 +71,16 @@
                filterdata: [],
                count:0,
                start:0,
-               itemperpage:10
+               itemperpage:10,
+               del_id:null,
+               confirm:{
+                active:false,
+               },
+                alert: {
+                    active: false,
+                    type: null,
+                    msg: null
+                },
             }
         },
         created() {
@@ -85,6 +100,19 @@
           updateData(start){
                 this.start= start
                 this.getListTemplate()
+          },
+          delTemplate(id){
+                this.del_id = id
+                this.confirm.active = true
+          },
+          confirmDel(val){
+            var data ={
+                id:this.del_id,
+                data:val
+            }
+            this.$store.dispatch('widget/destroyDashboard',data).then((res)=>{
+                console.log(res);
+            })
           }
         }
     }
