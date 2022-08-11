@@ -74,8 +74,30 @@ export const template = {
           return Promise.reject(err)
         })
        },
+       UserTemp({rootState}){
+        return axios.get(api_backend+'dashboard/user_temp',{
+          headers:{
+            Authorization:"Bearer "+rootState.auth.token.value
+          }
+        }).then((res)=>{
+          return Promise.resolve(res)
+        }).catch((err)=>{
+          return Promise.reject(err)
+        })
+       },
        updateGroup({rootState},data){
         return axios.post(api_backend+'dashboard/update_group',data,{
+          headers:{
+            Authorization:"Bearer "+rootState.auth.token.value
+          }
+        }).then((res)=>{
+          return Promise.resolve(res)
+        }).catch((err)=>{
+          return Promise.reject(err)
+        })
+       },
+       updateUser({rootState},data){
+        return axios.post(api_backend+'dashboard/update_user',data,{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }

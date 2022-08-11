@@ -25,6 +25,7 @@ import DigitalSignage from '../views/signage/Map.vue'
 import EditDashboard from '../views/manage_widget/EditDashboard.vue'
 import GroupUser from '../views/user_manage/GroupUser.vue'
 import GroupTemplate from '../views/manage_widget/GroupTemplate.vue'
+import UserTemplate from '../views/manage_widget/UserTemplate.vue'
 
 const routes = [{
     path: '/',
@@ -159,6 +160,13 @@ const routes = [{
   {
     path: '/view/template/group',
     component: GroupTemplate,
+    meta: {
+      middleware: auth
+    },
+  },
+  {
+    path: '/view/template/user',
+    component: UserTemplate,
     meta: {
       middleware: auth
     },

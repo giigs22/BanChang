@@ -71,7 +71,7 @@
                                         <div class="my-3">
                                              <label class="text-white">Role</label>
                                             <Field name="role" as="select" v-model="role" class="form-select w-full" :disabled="loading">
-                                                        <option value="">Select Role User</option>
+                                                        <option value="">Select Group User</option>
                                                         <option :value="item.id" v-for="item in list_role"
                                                             :key="item.id">{{item.name}}</option>
                                             </Field>
@@ -229,7 +229,12 @@
                     this.phone = data.phone
                     this.status = data.status
                     this.role = data.roles[0].id
-                    document.getElementById('preview').src = res.data.img_profile
+                    if(res.data.img_profile !== null){
+                        document.getElementById('preview').src = res.data.img_profile
+                    }else{
+                        document.getElementById('preview').src = '/src/assets/icon_picture.png'
+                    }
+
                    
                })
             },
