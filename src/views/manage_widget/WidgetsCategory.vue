@@ -1,0 +1,117 @@
+<template>
+    <TopMenu />
+    <main class="mx-10 mt-20">
+        <!-- Content -->
+        <section class="">
+            <!-- Main Section -->
+            <div class="inner-content mx-10">
+                <div class="main-content">
+                    <div class="block-content mb-5">
+                        <h1 class="text-xl text-white ml-10">Category Widgets</h1>
+                        <div class="searchbox mt-5 mb-5">
+                            <h3 class="text-lg text-white"></h3>
+                            <div class="flex justify-between form-search">
+                                <div class="col-span-2 my-5">
+                                    <button class="btn-purple rounded btn-blue-gradient" @click="addCate">Add
+                                        Category</button>
+                                </div>
+                                <div class="col-span-2">
+                                    <input type="text" placeholder="ID,Name" class="form-input">
+                                    <button class="btn-purple rounded ml-3 h-12">Search</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <table class="table  border-collapse text-white w-full bg-black-op8 rounded">
+                                <thead class="text-lg  bg-head-table">
+                                    <tr class="border-b border-gray-600">
+                                        <th class="p-5 border-r border-gray-600">ID</th>
+                                        <th class="border-r border-gray-600">Name</th>
+                                        <th class="border-r border-gray-600">Icon</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in list" :key="item.id">
+                                        <td class="p-5 text-center border-r border-b border-gray-600">{{item.id}}</td>
+                                        <td class="text-center border-r border-b border-gray-600">{{item.name}}</td>
+                                        <td class="text-center border-r border-b border-gray-600"><img :src="item.icon"
+                                                alt="" class="w-12 mx-auto"></td>
+                                        <td class="text-center border-r border-b border-gray-600"
+                                           ><button @click="editCate(item.id,item.name)" class="text-cyan-300">Edit</button> |
+                                            <button class="text-red-500">Delete</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <Pagination :count="count" :itemperpage="itemperpage" @changePage="updateData" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <AddCateWidget v-if="add" @close="updateData" />
+    <EditCateWidget v-if="edit.active" :id="edit.id" :namecate="edit.name" />
+    <FooterPage />
+</template>
+<script>
+    import TopMenu from '../layout/TopMenu.vue';
+    import FooterPage from '../layout/FooterPage.vue';
+    import Pagination from '../../components/utility/Pagination.vue'
+    import AddCateWidget from '../../components/modals/AddCateWidget.vue'
+    import EditCateWidget from '../../components/modals/EditCateWidget.vue'
+
+    export default {
+        components: {
+            TopMenu,
+            FooterPage,
+            Pagination,
+            AddCateWidget,
+            EditCateWidget,
+        },
+        data() {
+            return {
+                itemperpage: 10,
+                start: 0,
+                count: 0,
+                list: [],
+                add: false,
+                edit: {
+                    active: false,
+                    id: null,
+                    name: null
+                },
+
+            }
+        },
+        created() {
+            this.getwidgetCate()
+        },
+        methods: {
+            getwidgetCate() {
+                var data = {
+                    itemperpage: this.itemperpage,
+                    start: this.start
+                }
+                this.$store.dispatch('widget/getListCate', data).then((res) => {
+                    this.list = res.data.list
+                    this.count = res.data.count_all
+                })
+            },
+            updateData(start) {
+                this.add = false
+                this.start = start
+                this.getwidgetCate()
+            },
+            addCate() {
+                this.add = true
+            },
+            editCate(id, name) {
+                this.edit.active = true
+                this.edit.id = id
+                this.edit.name = name
+            }
+        }
+    }
+</script>

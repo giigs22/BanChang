@@ -26,6 +26,7 @@ import EditDashboard from '../views/manage_widget/EditDashboard.vue'
 import GroupUser from '../views/user_manage/GroupUser.vue'
 import GroupTemplate from '../views/manage_widget/GroupTemplate.vue'
 import UserTemplate from '../views/manage_widget/UserTemplate.vue'
+import WidgetsCategory from '../views/manage_widget/WidgetsCategory.vue'
 
 const routes = [{
     path: '/',
@@ -116,56 +117,56 @@ const routes = [{
     }
   },
   {
-    path: '/view/sos',
+    path: '/sos',
     component: SOS,
     meta: {
       middleware: auth
     }
   },
   {
-    path: '/view/maintenance',
+    path: '/maintenance',
     component: Maintenance,
     meta: {
       middleware: auth
     }
   },
   {
-    path: '/view/complaint',
+    path: '/complaint',
     component: Complaint,
     meta: {
       middleware: auth
     }
   },
   {
-    path: '/view/template',
+    path: '/template',
     component: ManageTemplate,
     meta: {
       middleware: auth
     },
   },
   {
-    path: '/view/template/create',
+    path: '/template/create',
     component: CreateDashboard,
     meta: {
       middleware: auth
     }
   },
   {
-    path: '/view/template/edit/:id',
+    path: '/template/edit/:id',
     component: EditDashboard,
     meta: {
       middleware: auth
     }
   },
   {
-    path: '/view/template/group',
+    path: '/template/group',
     component: GroupTemplate,
     meta: {
       middleware: auth
     },
   },
   {
-    path: '/view/template/user',
+    path: '/template/user',
     component: UserTemplate,
     meta: {
       middleware: auth
@@ -181,6 +182,13 @@ const routes = [{
   {
     path: '/view/digital_signage',
     component: DigitalSignage,
+    meta: {
+      middleware: auth
+    }
+  },
+  {
+    path: '/widgets/cate',
+    component: WidgetsCategory,
     meta: {
       middleware: auth
     }

@@ -12,7 +12,7 @@
                             <h3 class="text-lg text-white">All Dashboard Template</h3>
                             <div class="flex justify-between form-search">
                                 <div class="col-span-2 my-5">
-                                <a class="btn-purple rounded btn-blue-gradient" href="/view/template/create">Create Template</a>
+                                <a class="btn-purple rounded btn-blue-gradient" href="/template/create">Create Template</a>
                                 </div>
                                 <div class="col-span-2">
                                     <input type="text" placeholder="ID,Name" class="form-input">
