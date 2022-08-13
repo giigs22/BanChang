@@ -169,7 +169,7 @@
                         this.alert.msg = data.message
                          setTimeout(() => {
                         this.closeAlert()
-                        this.clodeConfirm()
+                        this.closeConfirm()
                         this.loading=false
                        
                     }, 2000);

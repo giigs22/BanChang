@@ -49,7 +49,7 @@ export default{
     data() {
         return {
             name:null,
-            file:null,
+            file:'',
             error:{
                 name:{
                     active:false,
@@ -77,6 +77,7 @@ export default{
                 this.error.name.msg = null
 
             let formData = new FormData();
+            formData.append('id',this.id)
             formData.append('name',this.name)
             formData.append('file',this.file)
 
