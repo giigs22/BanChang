@@ -64,6 +64,13 @@ export default (app) => {
             api_pass : app.config.globalProperties.$api_pass
           }
           commit('setting',data_set);
+        },
+        backupData({rootState},data){
+          axios.post(api_backend+'device/backup',data,{
+            headers:{
+              Authorization:"Bearer "+rootState.auth.token.value
+            }
+          })
         }
     },
     mutations: {

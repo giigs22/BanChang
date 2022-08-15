@@ -42,44 +42,13 @@
                 online: 0,
                 offline: 0,
                 allcam: 0,
-                cam_set_p01: [
-                    'b8a7cc20-4854-11ec-9f75-bdae041d8bb7',
-                    'bf52a540-4854-11ec-9f75-bdae041d8bb7',
-                    'c5f31e20-4854-11ec-9f75-bdae041d8bb7',
-                    'cf118f50-4854-11ec-9f75-bdae041d8bb7',
-                ],
-                cam_set_p02: [
-                    '73bdbcf0-4854-11ec-9f75-bdae041d8bb7',
-                    '32976c80-4854-11ec-9f75-bdae041d8bb7',
-                    '3f07c7d0-4854-11ec-9f75-bdae041d8bb7',
-                    '48490340-4854-11ec-9f75-bdae041d8bb7',
-                ],
-                cam_set_p03: [
-                    '97f2fea0-4854-11ec-9f75-bdae041d8bb7',
-                    '9f80e4c0-4854-11ec-9f75-bdae041d8bb7',
-                    'a7004bf0-4854-11ec-9f75-bdae041d8bb7',
-                    'b14d03f0-4854-11ec-9f75-bdae041d8bb7',
-                ],
-                cam_set_p04: [
-                    '52ba3330-4854-11ec-9f75-bdae041d8bb7',
-                    '5ca60680-4854-11ec-9f75-bdae041d8bb7',
-                    '64f14930-4854-11ec-9f75-bdae041d8bb7',
-                    '6c171eb0-4854-11ec-9f75-bdae041d8bb7',
-                    '12d73830-4854-11ec-9f75-bdae041d8bb7',
-                    '1cd33820-4854-11ec-9f75-bdae041d8bb7',
-                    '24be0b51-4854-11ec-9f75-bdae041d8bb7',
-                    '2c0dd700-4854-11ec-9f75-bdae041d8bb7',
-                ],
-                cam_set_p05: [
-                    'd8139450-4853-11ec-9f75-bdae041d8bb7',
-                    'f06e2b00-4853-11ec-9f75-bdae041d8bb7',
-                    'fb2bcd40-4853-11ec-9f75-bdae041d8bb7',
-                    '0632ad80-4854-11ec-9f75-bdae041d8bb7',
-                ],
-                cam_set_dc: [
-                    '7ce1fa80-4854-11ec-9f75-bdae041d8bb7',
-                    '8473b130-4854-11ec-9f75-bdae041d8bb7',
-                ]
+                list_device:[],
+                cam_set_p01: [],
+                cam_set_p02: [],
+                cam_set_p03: [],
+                cam_set_p04: [],
+                cam_set_p05: [],
+                cam_set_dc: []
             }
         },
          computed:{
@@ -88,6 +57,7 @@
             }
         },
         created() {
+            this.getListDeviceCam();
             if(this.statusAPI){
                 this.clearData()
                 this.getCamActive()
@@ -105,8 +75,16 @@
             }
         },
         methods: {
+            getListDeviceCam(){
+                return this.$store.dispatch('widget/getListDeviceID', 4).then((res) => {
+                    this.list_device = res.data
+                    this.setGroupCam()
+                })
+            },
+            setGroupCam(){
+                    
+            },  
             getCamActive() {
-
                 //Pole01
                 this.cam_set_p01.forEach(el => {
                     var api_attr = 'api/plugins/telemetry/DEVICE/' + el + '/values/attributes'

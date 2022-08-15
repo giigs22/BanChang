@@ -16,7 +16,9 @@
                                         <th class="p-2 border-r border-gray-600">ID</th>
                                         <th class="border-r border-gray-600">Device Name</th>
                                         <th class="border-r border-gray-600">Device ID</th>
-                                        <th class="border-r border-gray-600">Sensor</th>
+                                        <th class="border-r border-gray-600" v-if="cate_id == 1">Sensor</th>
+                                        <th class="border-r border-gray-600" v-if="cate_id == 4">Group Pole</th>
+                                        <th class="border-r border-gray-600" v-else>Name</th>
                                         <th class="border-r border-gray-600">Location Name</th>
                                     </tr>
                                 </thead>
@@ -25,7 +27,8 @@
                                         <td>{{item.id}}</td>
                                         <td>{{item.device_name}}</td>
                                         <td>{{item.device_id}}</td>
-                                        <td>{{item.type}}</td>
+                                        <td v-if="item.widget_id == 1 || item.widget_id == 4">{{item.type}}</td>
+                                        <td v-else>{{item.name}}</td>
                                         <td>{{(item.location_name==null)?'-':item.location_name}}</td>
                                     </tr>
                                 </tbody>
@@ -36,7 +39,7 @@
             </div>
         </section>
     </main>
-    <FooterPage class="2xl:fixed inset-x-0 bottom-0" />
+    <FooterPage/>
 </template>
 <script>
     import TopMenu from '../layout/TopMenu.vue'
@@ -55,7 +58,7 @@
         },
         created() {
             this.cate_id = this.$route.params.id
-           this.getListDevice(cate)
+           this.getListDevice(this.cate_id)
         },
         methods: {
           getListDevice(cate){

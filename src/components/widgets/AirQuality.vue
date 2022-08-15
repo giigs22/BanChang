@@ -18,8 +18,8 @@
                 <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" alt="">
             </div>
             <div class="flex flex-col text-center text-white">
-                <h1 class="text-6xl">{{pm25.value}}</h1>
-                <h3 class="text-xl">{{(pm25.level == null)?'':pm25.level.label}}</h3>
+                <h1 class="text-6xl">{{avg_data.pm25}}</h1>
+                <h3 class="text-xl">{{_pm25.label}}</h3>
                 <h1 class="text-2xl">AQI {{aqi.value}}</h1>
             </div>
         </div>
@@ -33,13 +33,9 @@
     export default {
         data() {
             return {
-                pm25: {
-                    value: 0,
-                    level: {
-                        label: null,
-                        color: null
-                    }
-                },
+                pm25: [],
+                list_device:[],
+                env_sensor:[],
                 aqi: {
                     value: 0,
                     level: {
@@ -48,43 +44,102 @@
                         color: null
                     }
                 },
+                _pm25: {
+                    label: null,
+                    color: null
+                },
+                avg_data:{
+                    pm25:0
+                }
             }
         },
          computed:{
             statusAPI(){
                 return this.$store.state.server.api_sensor.connect;
+            },
+            api_baseURL() {
+                return localStorage.getItem('api_baseURL');
+            },
+            dataSensorAPI() {
+                return this.$store.getters['auth/dataPlanet']
             }
         },
-        created() {
+        async created() {
+            await this.getListDeviceAQI()
             if(this.statusAPI){
-                this.getEnvirontData()
-            setInterval(() => {
-                this.getEnvirontData()
-            }, this.$interval_time);
+                await this.getEnvirontData()
+                this.calAvg()
+                setInterval(() => {
+                    this.getEnvirontData()
+                    this.calAvg()
+                }, this.$interval_time);
             }
         },
         methods: {
+            getListDeviceAQI() {
+                return this.$store.dispatch('widget/getListDeviceID', 1).then((res) => {
+                    this.list_device = res.data
+                })
+            },
             getEnvirontData() {
-                var api_last = 'api/plugins/telemetry/DEVICE/849e2830-318d-11ec-9f75-bdae041d8bb7/values/timeseries'
+                this.env_sensor = this.list_device.filter(d => {
+                    return d.type == 'ENV'
+                })
                 var options = {
                     headers: authHeader()
                 }
+                var promises = []
 
-                axios.get(this.$api_baseURL + api_last, options).then((res) => {
-                    if (AuthService.Expire(res.data)) {
-                        //this.$store.dispatch('auth/login_planet')
-                    } else {
-                        var data = res.data
-                        var pm25 = data.pm25[0].value
+                this.env_sensor.forEach(el=>{
+                    var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
+                    promises.push(
+                        axios.get(this.api_baseURL + api_last, options).then((res) => {
+                            if (AuthService.Expire(res.data)) {
+                                this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
+                                    res) => {
+                                    var success = res.data.success
+                                    if (success) {
+                                        this.$forceUpdate()
+                                    }
+                                })
+                            } else {
 
-                        this.pm25.value = pm25
-                        this.pm25.level = aqical.LevelPM25(pm25)
-                        this.aqi.value = Math.ceil(aqical.CalAQI(pm25))
-                        this.aqi.level = aqical.LevelAQI(this.aqi.value)
+                                this.$store.dispatch('server/backupData', {
+                                    device: el.id,
+                                    data: res.data
+                                });
+
+                                var data = res.data
 
 
+                                this.pm25.push({
+                                    id: el.device_id,
+                                    data: data.pm25[0]
+                                })
+                            }
+                        }).catch((err) => console.error(err)))
+                })
+                 return Promise.all(promises).then(() => {})
+               
+            },
+            calAvg(){
+                 var count_pm25 = 0
+                 var sum_pm25 = 0
+
+                this.pm25.forEach(el => {
+                    if (parseFloat(el.data.value) > 0) {
+                        count_pm25 += 1
                     }
-                }).catch((err) => console.error(err))
+                    sum_pm25 += parseFloat(el.data.value)
+                })
+                var avg_pm25 = sum_pm25 / count_pm25
+                this.avg_data.pm25 = (isNaN(avg_pm25)) ? 0 : Math.round(avg_pm25)
+                
+                this.aqi.value = Math.ceil(aqical.CalAQI(avg_pm25))
+                this.aqi.level = aqical.LevelAQI(avg_pm25)
+
+                this._pm25 = aqical.LevelPM25(this.avg_data.pm25)
+
             },
             fullview(){
                 this.$router.push('/view/aqi_map')

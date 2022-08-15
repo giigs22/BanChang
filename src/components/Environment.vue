@@ -13,7 +13,7 @@
                 </h3>
                 <img src="@/assets/icon_clound.png" alt="">
                 <div class="flex justify-between">
-                    <span class="text-sky-300 text-sm">{{temp}}c°</span>
+                    <span class="text-sky-300 text-sm">{{avg_data.temp}}c°</span>
                     <!-- <span class="text-yellow-300 text-sm">25c°</span> -->
                 </div>
 
@@ -38,11 +38,11 @@
             </div>
             <div class="pm25 block-env">
                 <h3>PM2.5</h3>
-                <span class="text-xs my-1">{{pm25.value}}</span>
+                <span class="text-xs my-1">{{avg_data.pm25}}</span>
                 <div class="icon-env">
                     <img src="@/assets/icon_pm25.png" />
                 </div>
-                <span class="text-xs my-1">{{pm25.level.label}}</span>
+                <span class="text-xs my-1">{{_pm25.label}}</span>
             </div>
             <div class="pm10 block-env">
                 <h3>PM10</h3>
@@ -54,7 +54,7 @@
             </div>
             <div class="hum block-env">
                 <h3>Humidity</h3>
-                <span class="text-xs my-1">{{hum}}</span>
+                <span class="text-xs my-1">{{avg_data.hum}}</span>
                 <div class="icon-env">
                     <img src="@/assets/icon_hum.png" />
                 </div>
@@ -88,13 +88,7 @@
     export default {
         data() {
             return {
-                pm25: {
-                    value: 0,
-                    level: {
-                        label: null,
-                        color: null
-                    }
-                },
+                today: new Date(),
                 aqi: {
                     value: 0,
                     level: {
@@ -103,105 +97,148 @@
                         color: null
                     }
                 },
+                _pm25: {
+                    label: null,
+                    color: null
+                },
                 _co2: {
-                    level: {
-                        label: null,
-                        color: null
-                    }
+                    label: null,
+                    color: null
                 },
                 _uv: {
-                    level: {
-                        label: null,
-                        color: null
-                    }
+                    label: null,
+                    color: null
                 },
                 _voc: {
-                    level: {
-                        label: null,
-                        color: null
-                    }
+                    label: null,
+                    color: null
                 },
-                hum: 0,
-                temp: 0,
-                today: new Date(),
+                pm25: [],
+                hum: [],
+                temp: [],
                 co2: [],
                 uv: [],
                 voc: [],
                 avg_data: {
                     co2: 0,
                     uv: 0,
-                    voc: 0
-                }
+                    voc: 0,
+                    pm25: 0,
+                    hum: 0,
+                    temp: 0
+                },
+                list_device: [],
+                env_sensor: [],
+                lnr_sensor: []
             }
         },
-        computed:{
-            statusAPI(){
+        computed: {
+            statusAPI() {
                 return this.$store.state.server.api_sensor.connect;
             },
-            api_baseURL(){
+            api_baseURL() {
                 return localStorage.getItem('api_baseURL');
+            },
+            dataSensorAPI() {
+                return this.$store.getters['auth/dataPlanet']
             }
         },
         async created() {
-            if(this.statusAPI){
+            await this.getListDeviceAQI()
+            if (this.statusAPI) {
+                this.clearData()
                 await this.getEnvSensor()
                 await this.getLNRSensor()
                 this.calAvg()
 
-            setInterval(async () => {
-                await this.getEnvSensor()
-                await this.getLNRSensor()
-                this.calAvg()
-            }, this.$interval_time);
+                setInterval(async () => {
+                    this.clearData()
+                    await this.getEnvSensor()
+                    await this.getLNRSensor()
+                    this.calAvg()
+                }, this.$interval_time);
             }
         },
         methods: {
-            getEnvSensor() {
-                var api_last = 'api/plugins/telemetry/DEVICE/849e2830-318d-11ec-9f75-bdae041d8bb7/values/timeseries'
-                var options = {
-                    headers: authHeader()
-                }
-                
-                return axios.get(this.api_baseURL + api_last, options).then((res) => {
-                    if (AuthService.Expire(res.data)) {
-                        //this.$store.dispatch('auth/login_planet')
-                    } else {
-
-                        var data = res.data
-                        var pm25 = data.pm25[0].value
-                        var hum = data.humid[0].value
-                        var temp = data.temp[0].value
-
-                        this.pm25.value = pm25
-                        this.pm25.level = aqical.LevelPM25(pm25)
-                        this.aqi.value = Math.ceil(aqical.CalAQI(pm25))
-                        this.aqi.level = aqical.LevelAQI(this.aqi.value)
-
-                        this.temp = Math.ceil(temp)
-                        this.hum = Math.ceil(hum)
-                    }
-                }).catch((err) => console.error(err))
-
+            getListDeviceAQI() {
+                return this.$store.dispatch('widget/getListDeviceID', 1).then((res) => {
+                    this.list_device = res.data
+                })
             },
-            getLNRSensor() {
-                var list_lnr_id = [
-                    '468000f0-3188-11ec-9f75-bdae041d8bb7',
-                    '3da2b770-3188-11ec-9f75-bdae041d8bb7',
-                    '2a05cfe0-3188-11ec-9f75-bdae041d8bb7',
-                    '038dfbc0-3189-11ec-9f75-bdae041d8bb7',
-                    '2def3f10-3188-11ec-9f75-bdae041d8bb7',
-                ]
+            getEnvSensor() {
+                this.env_sensor = this.list_device.filter(d => {
+                    return d.type == 'ENV'
+                })
                 var options = {
                     headers: authHeader()
                 }
                 var promises = []
 
-                list_lnr_id.forEach(el => {
-                    var api_last = 'api/plugins/telemetry/DEVICE/' + el + '/values/timeseries'
+                this.env_sensor.forEach(el => {
+                    var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
+                    promises.push(
+                        axios.get(this.api_baseURL + api_last, options).then((res) => {
+                            if (AuthService.Expire(res.data)) {
+                                this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
+                                    res) => {
+                                    var success = res.data.success
+                                    if (success) {
+                                        this.$forceUpdate()
+                                    }
+                                })
+                            } else {
+
+                                this.$store.dispatch('server/backupData', {
+                                    device: el.id,
+                                    data: res.data
+                                });
+
+                                var data = res.data
+
+
+                                this.pm25.push({
+                                    id: el.device_id,
+                                    data: data.pm25[0]
+                                })
+                                this.temp.push({
+                                    id: el.device_id,
+                                    data: data.temp[0]
+                                })
+                                this.hum.push({
+                                    id: el.device_id,
+                                    data: data.humid[0]
+                                })
+                            }
+                        }).catch((err) => console.error(err)))
+                });
+                return Promise.all(promises).then(() => {})
+            },
+            getLNRSensor() {
+                this.lnr_sensor = this.list_device.filter(d => {
+                    return d.type == 'LNR'
+                })
+                var options = {
+                    headers: authHeader()
+                }
+                var promises = []
+
+                this.lnr_sensor.forEach(el => {
+                    var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
                     promises.push(axios.get(this.api_baseURL + api_last, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
-                            //this.$store.dispatch('auth/login_planet')
+                            this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
+                                res) => {
+                                var success = res.data.success
+                                if (success) {
+                                    this.$forceUpdate()
+                                }
+                            })
                         } else {
+                             this.$store.dispatch('server/backupData', {
+                                    device: el.id,
+                                    data: res.data
+                             });
+
                             var data = res.data
                             this.co2.push({
                                 id: el,
@@ -228,6 +265,31 @@
                 var sum_voc = 0
                 var count_co2 = 0
                 var sum_co2 = 0
+                var count_pm25 = 0
+                var sum_pm25 = 0
+                var count_temp = 0
+                var sum_temp = 0
+                var count_hum = 0
+                var sum_hum = 0
+
+                this.pm25.forEach(el => {
+                    if (parseFloat(el.data.value) > 0) {
+                        count_pm25 += 1
+                    }
+                    sum_pm25 += parseFloat(el.data.value)
+                })
+                this.temp.forEach(el => {
+                    if (parseFloat(el.data.value) > 0) {
+                        count_temp += 1
+                    }
+                    sum_temp += parseFloat(el.data.value)
+                })
+                this.hum.forEach(el => {
+                    if (parseFloat(el.data.value) > 0) {
+                        count_hum += 1
+                    }
+                    sum_hum += parseFloat(el.data.value)
+                })
 
                 this.uv.forEach(el => {
                     if (parseFloat(el.data.value) > 0) {
@@ -251,17 +313,36 @@
                     sum_co2 += parseFloat(el.data.value)
                 })
 
+                var avg_pm25 = sum_pm25 / count_pm25
+                var avg_temp = sum_temp / count_temp
+                var avg_hum = sum_hum / count_hum
                 var avg_uv = sum_uv / count_uv
                 var avg_voc = sum_voc / count_voc
                 var avg_co2 = sum_co2 / count_co2
 
+                this.avg_data.pm25 = (isNaN(avg_pm25)) ? 0 : Math.round(avg_pm25)
+                this.avg_data.temp = (isNaN(avg_temp)) ? 0 : Math.round(avg_temp)
+                this.avg_data.hum = (isNaN(avg_hum)) ? 0 : Math.round(avg_hum)
                 this.avg_data.uv = (isNaN(avg_uv)) ? 0 : avg_uv.toFixed(2)
                 this.avg_data.voc = (isNaN(avg_voc)) ? 0 : avg_voc.toFixed(2)
                 this.avg_data.co2 = (isNaN(avg_co2)) ? 0 : avg_co2.toFixed(2)
 
+                this.aqi.value = Math.ceil(aqical.CalAQI(avg_pm25))
+                this.aqi.level = aqical.LevelAQI(avg_pm25)
+
                 // Level
                 this._co2 = aqical.LevelCo2(this.avg_data.co2)
                 this._uv = aqical.LevelUV(this.avg_data.uv)
+                this._pm25 = aqical.LevelPM25(this.avg_data.pm25)
+
+            },
+            clearData(){
+                this.pm25 = []
+                this.hum = []
+                this.temp = []
+                this.co2 = []
+                this.uv = []
+                this.voc = []
             }
 
 

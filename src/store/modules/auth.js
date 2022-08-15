@@ -30,7 +30,7 @@ return {
       return {
         api_login:app.config.globalProperties.$api_login,
         username:app.config.globalProperties.$api_user,
-        passwrod:app.config.globalProperties.$api_pass
+        password:app.config.globalProperties.$api_pass
       }
     }
   },
@@ -62,6 +62,7 @@ return {
     })
     },
     login_planet({},data) {
+      console.log(data);
       return axios.post(data.api_login,{username:data.username,password:data.password},{
         "timeout":5000,
         "Content-Type": "application/json",

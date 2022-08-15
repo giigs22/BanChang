@@ -64,13 +64,7 @@
                 offline: 0,
                 no_good: 0,
                 cost_energy: 0,
-                list_lnr_id: [
-                    '468000f0-3188-11ec-9f75-bdae041d8bb7',
-                    '3da2b770-3188-11ec-9f75-bdae041d8bb7',
-                    '2a05cfe0-3188-11ec-9f75-bdae041d8bb7',
-                    '038dfbc0-3189-11ec-9f75-bdae041d8bb7',
-                    '2def3f10-3188-11ec-9f75-bdae041d8bb7',
-                ],
+                list_device:[],
                 data_lnr: [],
                 month_energy: 0,
                 avg_data: {
@@ -85,11 +79,18 @@
          computed:{
             statusAPI(){
                 return this.$store.state.server.api_sensor.connect;
+            },
+            api_baseURL() {
+                return localStorage.getItem('api_baseURL');
+            },
+            dataSensorAPI() {
+                return this.$store.getters['auth/dataPlanet']
             }
         },
         async created() {
+            await this.getListDeviceSMP()
             if(this.statusAPI){
-                   this.clearData()
+                this.clearData()
                 await this.getPowerData()
                 await this.getPowerStatus()
                 this.calEnergy()
@@ -105,17 +106,28 @@
             }
         },
         methods: {
+            getListDeviceSMP() {
+                return this.$store.dispatch('widget/getListDeviceID', 3).then((res) => {
+                    this.list_device = res.data
+                })
+            },
             getPowerData() {
                 var options = {
                     headers: authHeader()
                 }
                 var promises = []
 
-                this.list_lnr_id.forEach(el => {
-                    var api_last = 'api/plugins/telemetry/DEVICE/' + el + '/values/timeseries'
-                    promises.push(axios.get(this.$api_baseURL + api_last, options).then((res) => {
+                this.list_device.forEach(el => {
+                    var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
+                    promises.push(axios.get(this.api_baseURL + api_last, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
-                        //this.$store.dispatch('auth/login_planet')
+                        this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
+                                res) => {
+                                var success = res.data.success
+                                if (success) {
+                                    this.$forceUpdate()
+                                }
+                            })
                         } else {
                             var data = res.data
                             this.data_lnr.push(data)
@@ -131,14 +143,20 @@
                 }
                 var promises = []
 
-                this.list_lnr_id.forEach(el => {
-                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el + '/values/attributes'
+                this.list_device.forEach(el => {
+                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
                     var options = {
                         headers: authHeader()
                     }
-                    promises.push(axios.get(this.$api_baseURL + api_attr, options).then((res) => {
+                    promises.push(axios.get(this.api_baseURL + api_attr, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
-                            //this.$store.dispatch('auth/logout')
+                             this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
+                                res) => {
+                                var success = res.data.success
+                                if (success) {
+                                    this.$forceUpdate()
+                                }
+                            })
                         } else {
                             var data = res.data
                             data.forEach(el => {
