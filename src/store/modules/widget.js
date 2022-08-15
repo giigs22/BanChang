@@ -120,6 +120,17 @@ export const widget = {
               }).catch((error)=>{
                 return Promise.reject(error)
               })
+        },
+        getListDeviceID({rootState},data){
+            return axios.get(api_backend+'device/list/'+data,{
+                headers:{
+                    Authorization:"Bearer "+rootState.auth.token.value
+                }
+            }).then((res)=>{
+                return Promise.resolve(res)
+            }).catch((err)=>{
+                return Promise.reject(err)
+            })
         }
     },
     mutations: {

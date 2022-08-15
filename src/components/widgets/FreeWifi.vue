@@ -77,7 +77,7 @@
                     }
                     axios.get(this.$api_baseURL + api_last, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
-                        this.$store.dispatch('auth/login_planet')
+                        //this.$store.dispatch('auth/login_planet')
                         } else {
                             var data = res.data
                             this.client.push(data.client[0].value)

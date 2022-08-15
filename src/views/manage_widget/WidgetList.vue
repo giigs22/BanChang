@@ -116,6 +116,10 @@
                 this.confirm.type = 'confirmdel'
                 this.confirm.msg = 'Are you sure to Delete this Record?'
             },
+            updateData(start){
+                this.start= start
+                this.getListDevice()
+            },
             confirmDel(){
                  this.$store.dispatch('widget/destroyDevice',this.del_id).then((res)=>{
                      var data = res.data

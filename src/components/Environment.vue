@@ -137,6 +137,9 @@
         computed:{
             statusAPI(){
                 return this.$store.state.server.api_sensor.connect;
+            },
+            api_baseURL(){
+                return localStorage.getItem('api_baseURL');
             }
         },
         async created() {
@@ -158,10 +161,10 @@
                 var options = {
                     headers: authHeader()
                 }
-
-                return axios.get(this.$api_baseURL + api_last, options).then((res) => {
+                
+                return axios.get(this.api_baseURL + api_last, options).then((res) => {
                     if (AuthService.Expire(res.data)) {
-                        this.$store.dispatch('auth/login_planet')
+                        //this.$store.dispatch('auth/login_planet')
                     } else {
 
                         var data = res.data
@@ -195,9 +198,9 @@
 
                 list_lnr_id.forEach(el => {
                     var api_last = 'api/plugins/telemetry/DEVICE/' + el + '/values/timeseries'
-                    promises.push(axios.get(this.$api_baseURL + api_last, options).then((res) => {
+                    promises.push(axios.get(this.api_baseURL + api_last, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
-                            this.$store.dispatch('auth/login_planet')
+                            //this.$store.dispatch('auth/login_planet')
                         } else {
                             var data = res.data
                             this.co2.push({

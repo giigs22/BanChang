@@ -59,6 +59,15 @@
                                             </Field>
                                             <ErrorMessage name="type" class="text-xs text-red-300" />
                                         </div>
+                                        <div class="my-3" v-if="cate == 4">
+                                             <label class="text-white">Type Camera</label>
+                                            <Field name="type_cam" as="select" v-model="type_cam" class="form-select w-full" :disabled="loading">
+                                                        <option value="">Select Type Camera</option>
+                                                        <option :value="item" v-for="item in group_camera">{{item}}</option>
+
+                                            </Field>
+                                            <ErrorMessage name="type_cam" class="text-xs text-red-300" />
+                                        </div>
                                     </div>
                                     <div class="col-span-3">
                                          <div class="my-3">
@@ -131,6 +140,7 @@
                 type:null,
                 name:null,
                 location:null,
+                type_cam:null,
                 alert: {
                     active: false,
                     type: null,
@@ -139,6 +149,7 @@
                 listcate:[],
                 type_aqi:['LNR','ENV'],
                 group_pole:['1','2','3','4','5','dc'],
+                group_camera:['IPC','PTZ','OFCh'],
                 loading:false,
            
             }
@@ -159,7 +170,8 @@
                 device_id:this.device_id,
                 type:this.type,
                 name:this.name,
-                location:this.location
+                location:this.location,
+                type_cam:this.type_cam
             }
             this.loading = true
             this.$store.dispatch('widget/addDevice',data).then((res)=>{

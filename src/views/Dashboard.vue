@@ -173,6 +173,9 @@
             },
             statusServer() {
                 return this.$store.state.server.api_sensor.connect;
+            },
+            dataSensorAPI(){
+               return this.$store.getters['auth/dataPlanet']
             }
         },
         async created() {
@@ -190,7 +193,7 @@
         methods: {
             loginPlanet() {
                 this.alert.active = true
-                return this.$store.dispatch('auth/login_planet').then((res) => {
+                return this.$store.dispatch('auth/login_planet',this.dataSensorAPI).then((res) => {
                     this.$store.dispatch('server/setStatus', true)
                     this.alert.active = false
                     location.reload()

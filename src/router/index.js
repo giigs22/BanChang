@@ -31,6 +31,7 @@ import WidgetList from '../views/manage_widget/WidgetList.vue'
 import WidgetCreate from '../views/manage_widget/CreateWidget.vue'
 import WidgetEdit from '../views/manage_widget/EditWidget.vue'
 import APIList from '../views/api/APIList.vue'
+import WidgetDetail from '../views/manage_widget/WidgetDetail.vue'
 
 const routes = [{
     path: '/',
@@ -214,6 +215,13 @@ const routes = [{
   {
     path: '/widgets/edit/:id',
     component: WidgetEdit,
+    meta: {
+      middleware: auth
+    }
+  },
+  {
+    path: '/widgets/cate/:id',
+    component: WidgetDetail,
     meta: {
       middleware: auth
     }

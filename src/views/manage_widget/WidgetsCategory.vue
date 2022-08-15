@@ -38,8 +38,10 @@
                                         <td class="text-center border-r border-b border-gray-600">{{item.name}}</td>
                                         <td class="text-center border-r border-b border-gray-600"><img :src="item.icon"
                                                 alt="" class="w-12 mx-auto"></td>
-                                        <td class="text-center border-r border-b border-gray-600"
-                                           ><button @click="editCate(item.id,item.name)" class="text-cyan-300">Edit</button> |
+                                        <td class="text-center border-r border-b border-gray-600">
+                                            <a :href="'/widgets/cate/'+item.id" class="text-green-400">View</a> |
+                                            <button @click="editCate(item.id,item.name)"
+                                                class="text-cyan-300">Edit</button> |
                                             <button @click="delCate(item.id)" class="text-red-500">Delete</button></td>
                                     </tr>
                                 </tbody>
@@ -52,10 +54,10 @@
         </section>
     </main>
     <AddCateWidget v-if="add" @close="updateData" />
-    <EditCateWidget v-if="edit.active" :id="edit.id" :namecate="edit.name" @close="updateData"/>
+    <EditCateWidget v-if="edit.active" :id="edit.id" :namecate="edit.name" @close="updateData" />
     <AlertDialogConfirm v-if="confirm.active" :type="confirm.type" :msg="confirm.msg" @submit="confirmDel"
         @close="closeConfirm" />
-    <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"/>
+    <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg" />
     <FooterPage />
 </template>
 <script>
@@ -89,17 +91,17 @@
                     id: null,
                     name: null
                 },
-                confirm:{
-                    active:false,
-                    type:null,
-                    msg:null
+                confirm: {
+                    active: false,
+                    type: null,
+                    msg: null
                 },
-                alert:{
-                    active:false,
-                    type:null,
-                    msg:null
+                alert: {
+                    active: false,
+                    type: null,
+                    msg: null
                 },
-                del_id:null
+                del_id: null
 
             }
         },
@@ -131,33 +133,33 @@
                 this.edit.id = id
                 this.edit.name = name
             },
-            delCate(id){
+            delCate(id) {
                 this.del_id = id
                 this.confirm.active = true
                 this.confirm.type = 'confirmdel'
                 this.confirm.msg = 'Are you sure to Delete this Record?'
             },
-            confirmDel(){
-                this.$store.dispatch('widget/delCate',this.del_id).then((res)=>{
-                     var data = res.data
+            confirmDel() {
+                this.$store.dispatch('widget/delCate', this.del_id).then((res) => {
+                    var data = res.data
                     if (data.success) {
                         this.alert.active = true
                         this.alert.type = "del_success"
                         this.alert.msg = data.message
                         this.loading = false
-                    setTimeout(() => {
-                        this.alert.active = false
-                        this.confirm.active = false
-                        window.location.reload()
-                    }, 2000);
-                    }else{
+                        setTimeout(() => {
+                            this.alert.active = false
+                            this.confirm.active = false
+                            window.location.reload()
+                        }, 2000);
+                    } else {
                         this.alert.active = true
                         this.alert.type = "error"
                         this.alert.msg = data.message
-                         setTimeout(() => {
-                        this.closeAlert()
-                        this.closeConfirm()
-                    }, 2000);
+                        setTimeout(() => {
+                            this.closeAlert()
+                            this.closeConfirm()
+                        }, 2000);
                     }
                 })
             },
@@ -167,7 +169,7 @@
                 this.confirm.type = null
                 this.confirm.msg = null
             },
-             closeAlert() {
+            closeAlert() {
                 this.alert.active = false
                 this.alert.type = null
                 this.alert.msg = null

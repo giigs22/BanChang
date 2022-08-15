@@ -28,13 +28,7 @@
                                     <input type="text" class="form-input disabled:bg-gray-300" v-model="sensor.pass" :disabled="disable">
                                 </div>
                             </div>
-                            <div class="col-span-1">
-                              <h2 class="font-bold text-white mb-5">Web Application Setting</h2>
-                                <div class="grid">
-                                    <label for="" class="text-white">API</label>
-                                    <input type="text" class="form-input disabled:bg-gray-300" v-model="web.api" :disabled="disable">
-                                </div>
-                            </div>
+                          
                         </div>
 
 
@@ -73,10 +67,7 @@
                     user:null,
                     pass:null
                 },
-                web:{
-                    api:null
-                },
-                  alert: {
+                alert: {
                     active: false,
                     type: null,
                     msg: null
@@ -95,7 +86,6 @@
                     this.sensor.login_token = data.sensor_api_token
                     this.sensor.user = data.sensor_api_user
                     this.sensor.pass = data.sensor_api_pass
-                    this.web.api = data.web_api
                 })
             },  
             updateAPI() {
@@ -104,7 +94,6 @@
                     sensor_api_token:this.sensor.login_token,
                     sensor_api_user:this.sensor.user,
                     sensor_api_pass:this.sensor.pass,
-                    web_api:this.web.api
                 }
                 this.$store.dispatch('server/apiUpdate',data).then((res)=>{
                       var data = res.data
