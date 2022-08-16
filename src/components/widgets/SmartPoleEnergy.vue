@@ -129,6 +129,11 @@
                                 }
                             })
                         } else {
+                              this.$store.dispatch('server/backupData', {
+                                device: el.id,
+                                data: res.data,
+                                type:'last_data'
+                            });
                             var data = res.data
                             this.data_lnr.push(data)
                         }
@@ -158,6 +163,7 @@
                                 }
                             })
                         } else {
+                             
                             var data = res.data
                             data.forEach(el => {
                                 if (el.key === 'active') {

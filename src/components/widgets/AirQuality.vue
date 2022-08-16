@@ -106,7 +106,8 @@
 
                                 this.$store.dispatch('server/backupData', {
                                     device: el.id,
-                                    data: res.data
+                                    data: res.data,
+                                    type:'last_data'
                                 });
 
                                 var data = res.data
@@ -135,8 +136,8 @@
                 var avg_pm25 = sum_pm25 / count_pm25
                 this.avg_data.pm25 = (isNaN(avg_pm25)) ? 0 : Math.round(avg_pm25)
                 
-                this.aqi.value = Math.ceil(aqical.CalAQI(avg_pm25))
-                this.aqi.level = aqical.LevelAQI(avg_pm25)
+                this.aqi.value = Math.ceil(aqical.CalAQI(this.avg_data.pm25))
+                this.aqi.level = aqical.LevelAQI(this.avg_data.pm25)
 
                 this._pm25 = aqical.LevelPM25(this.avg_data.pm25)
 

@@ -18,7 +18,7 @@
                 <img src="@/assets/icon_cctv.png" alt="" class="w-32">
             </div>
             <div class="flex flex-col text-center text-white">
-                <h1 class="text-6xl">{{online}} <span class="text-lg">/{{allcam}}</span></h1>
+                <h1 class="text-6xl">{{online}} <span class="text-lg">/{{list_device.length}}</span></h1>
                 <div class="flex items-baseline gap-3">
                     <h3 class="text-xl">{{online}} <p class="text-cyan-300 text-xs">Online</p>
                     </h3>
@@ -33,6 +33,7 @@
 </template>
 <script>
     import axios from 'axios'
+    import _ from 'lodash'
     import AuthService from '../../services/auth.services'
     import authHeader from '../../services/auth.header'
 
@@ -41,36 +42,39 @@
             return {
                 online: 0,
                 offline: 0,
-                allcam: 0,
                 list_device:[],
-                cam_set_p01: [],
-                cam_set_p02: [],
-                cam_set_p03: [],
-                cam_set_p04: [],
-                cam_set_p05: [],
-                cam_set_dc: []
+                group_cam:[],
+                raw_data:{
+                    on:null,
+                    off:null
+                }
             }
         },
          computed:{
             statusAPI(){
                 return this.$store.state.server.api_sensor.connect;
+            },
+            api_baseURL() {
+                return localStorage.getItem('api_baseURL');
+            },
+            dataSensorAPI() {
+                return this.$store.getters['auth/dataPlanet']
             }
         },
-        created() {
-            this.getListDeviceCam();
+        async created() {
+            await this.getListDeviceCam()
+            this.setGroupCam()
+
             if(this.statusAPI){
                 this.clearData()
-                this.getCamActive()
-                this.allcam = this.cam_set_p01.length + this.cam_set_p02.length + this.cam_set_p03.length + this
-                    .cam_set_p04
-                    .length + this.cam_set_p05.length + this.cam_set_dc.length
-
-            setInterval(() => {
+                await this.getCamActive()
+                this.setData()
+            
+            setInterval(async() => {
                 this.clearData()
-                this.getCamActive()
-                this.allcam = this.cam_set_p01.length + this.cam_set_p02.length + this.cam_set_p03.length + this
-                    .cam_set_p04
-                    .length + this.cam_set_p05.length + this.cam_set_dc.length
+                await this.getCamActive()
+                this.setData()
+              
             }, this.$interval_time);
             }
         },
@@ -78,157 +82,74 @@
             getListDeviceCam(){
                 return this.$store.dispatch('widget/getListDeviceID', 4).then((res) => {
                     this.list_device = res.data
-                    this.setGroupCam()
                 })
             },
             setGroupCam(){
-                    
-            },  
+                var grouped = _.groupBy(this.list_device, d => d.type);
+                this.group_cam = grouped
+            },
+            setData(){
+                var o = JSON.parse(JSON.stringify(this.raw_data.on))
+                var f = JSON.parse(JSON.stringify(this.raw_data.off))
+                this.online = o.length
+                this.offline = f.length
+            }, 
             getCamActive() {
-                //Pole01
-                this.cam_set_p01.forEach(el => {
-                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el + '/values/attributes'
-                    var options = {
+                var g = this.group_cam
+                var options = {
                         headers: authHeader()
-                    }
-                    axios.get(this.$api_baseURL + api_attr, options).then((res) => {
-                        if (AuthService.Expire(res.data)) {
-                            //this.$store.dispatch('auth/logout')
-                        } else {
-                            var data = res.data
-                            data.forEach(el => {
-                                if (el.key === 'active') {
-                                    if (el.value === true) {
-                                        this.online += 1
-                                    } else {
-                                        this.offline += 1
-                                    }
-                                }
-                            });
-                        }
-                    })
-                });
+                }
+                var api_baseURL = this.api_baseURL
+                var dataSensorAPI = this.dataSensorAPI
+                var store = this.$store
+                var online = []
+                var offline = []
+                var promises = []
 
-                //Pole02
-                this.cam_set_p02.forEach(el => {
-                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el + '/values/attributes'
-                    var options = {
-                        headers: authHeader()
-                    }
-                    axios.get(this.$api_baseURL + api_attr, options).then((res) => {
+                Object.keys(g).forEach(function (key){
+                    var child = g[key]
+                    child.forEach(el => {
+                         var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
+                   
+                    promises.push(axios.get(api_baseURL + api_attr, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
-                            //this.$store.dispatch('auth/logout')
+                              store.dispatch('auth/login_planet', dataSensorAPI).then((
+                                    res) => {
+                                    var success = res.data.success
+                                    if (success) {
+                                        this.$forceUpdate()
+                                    }
+                                })
                         } else {
+                            
                             var data = res.data
                             data.forEach(el => {
                                 if (el.key === 'active') {
                                     if (el.value === true) {
-                                        this.online += 1
+                                        online.push(el.value)
                                     } else {
-                                        this.offline += 1
+                                        offline.push(el.value)
                                     }
                                 }
                             });
                         }
-                    })
+                       
+                    }))
+                    });
                 });
-                //Pole03
-                this.cam_set_p03.forEach(el => {
-                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el + '/values/attributes'
-                    var options = {
-                        headers: authHeader()
-                    }
-                    axios.get(this.$api_baseURL + api_attr, options).then((res) => {
-                        if (AuthService.Expire(res.data)) {
-                            //this.$store.dispatch('auth/logout')
-                        } else {
-                            var data = res.data
-                            data.forEach(el => {
-                                if (el.key === 'active') {
-                                    if (el.value === true) {
-                                        this.online += 1
-                                    } else {
-                                        this.offline += 1
-                                    }
-                                }
-                            });
-                        }
-                    })
-                });
-                //Pole04
-                this.cam_set_p04.forEach(el => {
-                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el + '/values/attributes'
-                    var options = {
-                        headers: authHeader()
-                    }
-                    axios.get(this.$api_baseURL + api_attr, options).then((res) => {
-                        if (AuthService.Expire(res.data)) {
-                            //this.$store.dispatch('auth/logout')
-                        } else {
-                            var data = res.data
-                            data.forEach(el => {
-                                if (el.key === 'active') {
-                                    if (el.value === true) {
-                                        this.online += 1
-                                    } else {
-                                        this.offline += 1
-                                    }
-                                }
-                            });
-                        }
-                    })
-                });
-                //Pole05
-                this.cam_set_p05.forEach(el => {
-                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el + '/values/attributes'
-                    var options = {
-                        headers: authHeader()
-                    }
-                    axios.get(this.$api_baseURL + api_attr, options).then((res) => {
-                        if (AuthService.Expire(res.data)) {
-                            //this.$store.dispatch('auth/logout')
-                        } else {
-                            var data = res.data
-                            data.forEach(el => {
-                                if (el.key === 'active') {
-                                    if (el.value === true) {
-                                        this.online += 1
-                                    } else {
-                                        this.offline += 1
-                                    }
-                                }
-                            });
-                        }
-                    })
-                });
-                //DC
-                this.cam_set_dc.forEach(el => {
-                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el + '/values/attributes'
-                    var options = {
-                        headers: authHeader()
-                    }
-                    axios.get(this.$api_baseURL + api_attr, options).then((res) => {
-                        if (AuthService.Expire(res.data)) {
-                            //this.$store.dispatch('auth/login_planet')
-                        } else {
-                            var data = res.data
-                            data.forEach(el => {
-                                if (el.key === 'active') {
-                                    if (el.value === true) {
-                                        this.online += 1
-                                    } else {
-                                        this.offline += 1
-                                    }
-                                }
-                            });
-                        }
-                    })
-                });
+                
+               this.raw_data ={
+                on:online,
+                off:offline
+               }
+
+               return Promise.all(promises).then(()=>{})
+                
             },
             clearData() {
                 this.online = 0
                 this.offline = 0
-                this.allcam = 0
+               
             }
         }
     }

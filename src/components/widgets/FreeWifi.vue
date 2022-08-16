@@ -18,7 +18,7 @@
                 <img src="@/assets/icon_wifi.png" alt="" class="w-32">
             </div>
             <div class="flex flex-col justify-center content-center items-center text-white">
-                <h1 class="text-6xl">{{online}} <span class="text-lg">/{{ap_id.length}}</span></h1>
+                <h1 class="text-6xl">{{online}} <span class="text-lg">/{{list_device.length}}</span></h1>
                 <div class="flex items-baseline gap-3">
                     <h3 class="text-xl">{{online}} <p class="text-cyan-300 text-xs">Online</p>
                     </h3>
@@ -41,10 +41,7 @@
     export default {
         data() {
             return {
-                ap_id: [
-                    'c8b894b0-3174-11ec-a1c8-bbaa91a83038',
-                    'c7535f60-3174-11ec-a1c8-bbaa91a83038',
-                ],
+                list_device:[],
                 client: [],
                 status: [],
                 online: 0,
@@ -56,9 +53,16 @@
          computed:{
             statusAPI(){
                 return this.$store.state.server.api_sensor.connect;
+            },
+             api_baseURL() {
+                return localStorage.getItem('api_baseURL');
+            },
+            dataSensorAPI() {
+                return this.$store.getters['auth/dataPlanet']
             }
         },
         created() {
+            this.getListDeviceAP()
             if(this.statusAPI){
                  this.clearData()
                 this.getAPData()
@@ -69,16 +73,33 @@
             }
         },
         methods: {
+            getListDeviceAP(){
+                return this.$store.dispatch('widget/getListDeviceID', 9).then((res) => {
+                    this.list_device = res.data
+                })
+            },
             getAPData() {
-                this.ap_id.forEach(el => {
-                    var api_last = 'api/plugins/telemetry/DEVICE/' + el + '/values/timeseries'
-                    var options = {
+                var options = {
                         headers: authHeader()
-                    }
-                    axios.get(this.$api_baseURL + api_last, options).then((res) => {
+                }
+                this.list_device.forEach(el => {
+                    var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
+                    
+                    axios.get(this.api_baseURL + api_last, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
-                        //this.$store.dispatch('auth/login_planet')
+                         this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
+                                    res) => {
+                                    var success = res.data.success
+                                    if (success) {
+                                        this.$forceUpdate()
+                                    }
+                                })
                         } else {
+                             this.$store.dispatch('server/backupData', {
+                                device: el.id,
+                                data: res.data,
+                                type:'last_data'
+                            });
                             var data = res.data
                             this.client.push(data.client[0].value)
                             this.status.push({

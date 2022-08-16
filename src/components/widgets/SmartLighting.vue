@@ -95,7 +95,8 @@
                         } else {
                             this.$store.dispatch('server/backupData', {
                                 device: el.id,
-                                data: res.data
+                                data: res.data,
+                                type:'last_data'
                             });
                             var data = res.data.lamp[0]
                             this.lamp_status.push({
