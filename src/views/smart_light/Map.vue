@@ -52,9 +52,9 @@
                                             </tr>
                                         </thead>
                                         <tbody class="text-sm">
-                                            <tr class="border-b border-gray-700" v-for="(item,index) in list_device"
+                                            <tr class="border-b border-gray-700" v-for="(item,index) in list_data"
                                                 :key="index" :class="[item.status?'text-green-600':'text-red-600']">
-                                                <td class=""><span class="mr-5">00{{index+1}}</span> {{item.name}}
+                                                <td class=""><span class="mr-5">{{item.id}}</span> {{item.name}}
                                                 </td>
                                                 <td class="text-center">{{(item.status)?'ON':'OFF'}}</td>
                                             </tr>
@@ -83,14 +83,14 @@
                                         </div>
                                         <div class="col-span-1">
                                             <div class="bg-yellow-400 text-white flex flex-col items-center rounded-lg">
-                                                <h1 class="text-4xl">ON</h1>
+                                                <h1 class="text-4xl">NG</h1>
                                                 <h1 class="text-7xl">{{abnormal}}</h1>
                                                 <h1 class="text-sm mt-2">{{percent.abnormal}}% Abnormal</h1>
                                             </div>
                                         </div>
                                         <div class="col-span-1">
                                             <div class="bg-red-600 text-white flex flex-col items-center rounded-lg">
-                                                <h1 class="text-4xl">ON</h1>
+                                                <h1 class="text-4xl">OFF</h1>
                                                 <h1 class="text-7xl">{{offline}}</h1>
                                                 <h1 class="text-sm mt-2">{{percent.offline}}% Offline</h1>
                                             </div>
@@ -121,24 +121,8 @@
         },
         data() {
             return {
-                light_id: [{
-                        name: 'BC-P01-LT01',
-                        id: '84972350-318d-11ec-9f75-bdae041d8bb7'
-                    },
-                    {
-                        name: 'BC-P02-LT02',
-                        id: '2c69d790-3188-11ec-9f75-bdae041d8bb7'
-                    },
-                    {
-                        name: 'BC-P03-LT03',
-                        id: '3e9de050-3188-11ec-9f75-bdae041d8bb7'
-                    },
-                    {
-                        name: 'BC-P05-LT05',
-                        id: '2e1e1740-3188-11ec-9f75-bdae041d8bb7'
-                    },
-                ],
                 list_device: [],
+                list_data:[],
                 online: 0,
                 offline: 0,
                 abnormal: 0,
@@ -150,31 +134,64 @@
             }
         },
         async created() {
+            this.clearData()
+            await this.getListDeviceLT()
             await this.getLightAttr()
             this.calPercent()
+
+            setInterval(async() => {
+                this.clearData()
+                await this.getListDeviceLT()
+                await this.getLightAttr()
+                this.calPercent()
+            }, this.$interval_time);
+        },
+        computed:{
+            api_baseURL() {
+                return localStorage.getItem('api_baseURL');
+            },
+            dataSensorAPI() {
+                return this.$store.getters['auth/dataPlanet']
+            }
         },
         methods: {
+            getListDeviceLT() {
+                return this.$store.dispatch('widget/getListDeviceID', 2).then((res) => {
+                    this.list_device = res.data
+                })
+            },
             getLightAttr() {
                 var options = {
                     headers: authHeader()
                 }
                 var promises = []
-                this.light_id.forEach(el => {
-                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el.id + '/values/attributes'
-                    promises.push(axios.get(this.$api_baseURL + api_attr, options).then((res) => {
+                this.list_device.forEach(el => {
+                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
+                    promises.push(axios.get(this.api_baseURL + api_attr, options).then((res) => {
+                         if (AuthService.Expire(res.data)) {
+                             this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
+                                res) => {
+                                var success = res.data.success
+                                if (success) {
+                                    this.$forceUpdate()
+                                }
+                            })
+                        } else {
                         var data = res.data
                         var a = data.find((a) => {
                             return a.key == 'active'
                         })
 
-                        this.list_device.push({
-                            name: el.name,
+                        this.list_data.push({
+                            id:el.id,
+                            name: el.device_name,
                             status: a.value
                         })
                         if (a.value) {
                             this.online += 1
                         } else {
                             this.offline += 1
+                        }
                         }
                     }).catch((err) => console.error(err)))
 
@@ -192,6 +209,13 @@
                 this.percent.online = Math.round(per_online)
                 this.percent.offline = Math.round(per_offline)
                 this.percent.abnormal = Math.round(per_abnormal)
+            },
+            clearData(){
+                this.list_device= []
+                this.list_data=[]
+                this.online = 0
+                this.offline = 0
+                this.abnormal = 0
             }
 
         }

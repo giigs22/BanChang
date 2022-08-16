@@ -68,6 +68,9 @@
                     this.clearData()
                     this.getStatusLamp()
                 }, this.$interval_time);
+            }else{
+                this.clearData()
+                this.getDataformBackup()
             }
 
         },
@@ -76,6 +79,20 @@
                 return this.$store.dispatch('widget/getListDeviceID', 2).then((res) => {
                     this.list_device = res.data
                 })
+            },
+            getDataformBackup() {
+            
+                this.list_device.forEach(el => {
+                  this.$store.dispatch('server/getDataBackup', el.id).then((res) => {
+                        var data = JSON.parse(res.data.data_value)
+                         this.lamp_status.push({
+                                id: el,
+                                lamp: data
+                            })
+                        this.setStatus()
+                    })
+                })
+                return Promise.all(promises).then(() => {})
             },
             getStatusLamp() {
                 this.list_device.forEach(el => {

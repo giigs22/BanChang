@@ -52,7 +52,8 @@
         },
          computed:{
             statusAPI(){
-                return this.$store.state.server.api_sensor.connect;
+                return false;
+                //return this.$store.state.server.api_sensor.connect;
             },
              api_baseURL() {
                 return localStorage.getItem('api_baseURL');
@@ -61,8 +62,8 @@
                 return this.$store.getters['auth/dataPlanet']
             }
         },
-        created() {
-            this.getListDeviceAP()
+        async created() {
+            await this.getListDeviceAP()
             if(this.statusAPI){
                  this.clearData()
                 this.getAPData()
@@ -70,6 +71,10 @@
                 this.clearData()
                 this.getAPData()
             }, this.$interval_time);
+            }else{
+                this.list_device.forEach(()=>{
+                    this.offline += 1
+                })
             }
         },
         methods: {

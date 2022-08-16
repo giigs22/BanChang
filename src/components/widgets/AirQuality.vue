@@ -7,7 +7,8 @@
             <span class="text-sm uppercase">Air Quality</span>
         </div>
         <div class="open-full absolute right-2 top-3">
-            <svg @click="fullview" class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="43.026" height="43.026" viewBox="0 0 43.026 43.026">
+            <svg @click="fullview" class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="43.026"
+                height="43.026" viewBox="0 0 43.026 43.026">
                 <path id="Icon_awesome-arrow-circle-down" data-name="Icon awesome-arrow-circle-down"
                     d="M30.424,15.212A15.212,15.212,0,1,1,15.212,0,15.209,15.209,0,0,1,30.424,15.212Zm-8.808-1.773-4.441,4.631V6.87A1.469,1.469,0,0,0,15.7,5.4h-.981A1.469,1.469,0,0,0,13.249,6.87v11.2L8.808,13.439a1.474,1.474,0,0,0-2.1-.025l-.669.675a1.466,1.466,0,0,0,0,2.079l8.134,8.14a1.466,1.466,0,0,0,2.079,0l8.14-8.14a1.466,1.466,0,0,0,0-2.079l-.669-.675a1.474,1.474,0,0,0-2.1.025Z"
                     transform="translate(21.513 43.026) rotate(-135)" fill="#7a7afe" />
@@ -34,8 +35,8 @@
         data() {
             return {
                 pm25: [],
-                list_device:[],
-                env_sensor:[],
+                list_device: [],
+                //env_sensor:[],
                 aqi: {
                     value: 0,
                     level: {
@@ -48,13 +49,13 @@
                     label: null,
                     color: null
                 },
-                avg_data:{
-                    pm25:0
+                avg_data: {
+                    pm25: 0
                 }
             }
         },
-         computed:{
-            statusAPI(){
+        computed: {
+            statusAPI() {
                 return this.$store.state.server.api_sensor.connect;
             },
             api_baseURL() {
@@ -62,17 +63,25 @@
             },
             dataSensorAPI() {
                 return this.$store.getters['auth/dataPlanet']
-            }
+            },
+            env_sensor() {
+                return this.list_device.filter(d => {
+                    return d.type == 'ENV'
+                })
+            },
         },
         async created() {
             await this.getListDeviceAQI()
-            if(this.statusAPI){
+            if (this.statusAPI) {
                 await this.getEnvirontData()
                 this.calAvg()
                 setInterval(() => {
                     this.getEnvirontData()
                     this.calAvg()
                 }, this.$interval_time);
+            } else {
+                await this.getDataformBackup();
+                this.calAvg()
             }
         },
         methods: {
@@ -81,16 +90,27 @@
                     this.list_device = res.data
                 })
             },
-            getEnvirontData() {
-                this.env_sensor = this.list_device.filter(d => {
-                    return d.type == 'ENV'
+            getDataformBackup() {
+                var promises = []
+
+                this.env_sensor.forEach(el => {
+                    promises.push(this.$store.dispatch('server/getDataBackup', el.id).then((res) => {
+                        var data = JSON.parse(res.data.data_value)
+                        data['id'] = el.id
+                        this.setDataCal(data)
+
+                    }))
                 })
+                return Promise.all(promises).then(() => {})
+            },
+            getEnvirontData() {
+
                 var options = {
                     headers: authHeader()
                 }
                 var promises = []
 
-                this.env_sensor.forEach(el=>{
+                this.env_sensor.forEach(el => {
                     var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
                     promises.push(
                         axios.get(this.api_baseURL + api_last, options).then((res) => {
@@ -107,25 +127,28 @@
                                 this.$store.dispatch('server/backupData', {
                                     device: el.id,
                                     data: res.data,
-                                    type:'last_data'
+                                    type: 'last_data'
                                 });
 
                                 var data = res.data
-
-
-                                this.pm25.push({
-                                    id: el.device_id,
-                                    data: data.pm25[0]
-                                })
+                                data['id'] = el.id
+                                this.setDataCal(data)
+                                
                             }
                         }).catch((err) => console.error(err)))
                 })
-                 return Promise.all(promises).then(() => {})
-               
+                return Promise.all(promises).then(() => {})
+
             },
-            calAvg(){
-                 var count_pm25 = 0
-                 var sum_pm25 = 0
+            setDataCal(data) {
+                this.pm25.push({
+                    id: data.id,
+                    data: data.pm25[0]
+                })
+            },
+            calAvg() {
+                var count_pm25 = 0
+                var sum_pm25 = 0
 
                 this.pm25.forEach(el => {
                     if (parseFloat(el.data.value) > 0) {
@@ -135,14 +158,14 @@
                 })
                 var avg_pm25 = sum_pm25 / count_pm25
                 this.avg_data.pm25 = (isNaN(avg_pm25)) ? 0 : Math.round(avg_pm25)
-                
+
                 this.aqi.value = Math.ceil(aqical.CalAQI(this.avg_data.pm25))
                 this.aqi.level = aqical.LevelAQI(this.avg_data.pm25)
 
                 this._pm25 = aqical.LevelPM25(this.avg_data.pm25)
 
             },
-            fullview(){
+            fullview() {
                 this.$router.push('/view/aqi_map')
             }
         }

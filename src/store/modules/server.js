@@ -71,6 +71,17 @@ export default (app) => {
               Authorization:"Bearer "+rootState.auth.token.value
             }
           })
+        },
+        getDataBackup({rootState},data){
+          return axios.get(api_backend+'device/backup/get/'+data,{
+            headers:{
+              Authorization:"Bearer "+rootState.auth.token.value
+            }
+          }).then((res)=>{
+            return Promise.resolve(res)
+          }).catch((err)=>{
+            return Promise.reject(err)
+          })
         }
     },
     mutations: {

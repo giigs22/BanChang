@@ -1,14 +1,14 @@
 <template>
     <h2 class="text-lg text-white mb-2">{{$t('environment')}}</h2>
     <div class="top-bar">
-        <div class="wether flex w-1/4 py-3 px-7">
+        <div class="wether flex flex-wrap w-1/4 py-3 px-7">
             <div class="flex flex-col text-center cursor-pointer" @click="$router.push('/view/aqi_healthy')">
                 <div class="icon-env-main" :style="{background:aqi.level.color}">
                     <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" alt="">
                 </div>
                 <h3 class="text-lg text-white">{{(aqi.level.label == null?'':aqi.level.label)}}</h3>
             </div>
-            <div class="flex flex-col text-center ml-32">
+            <div class="flex flex-col text-center ml-auto">
                 <h3 class="text-lg text-white">{{today.toLocaleDateString('en-US',{ weekday: 'long' }).split(' ')[0]}}
                 </h3>
                 <img src="@/assets/icon_clound.png" alt="">
@@ -16,7 +16,6 @@
                     <span class="text-sky-300 text-sm">{{avg_data.temp}}c°</span>
                     <!-- <span class="text-yellow-300 text-sm">25c°</span> -->
                 </div>
-
             </div>
         </div>
         <div class="flex gap-1">
@@ -85,6 +84,7 @@
     import AuthService from '../services/auth.services'
     import authHeader from '../services/auth.header'
     import aqical from '../services/env.aqi'
+
     export default {
         data() {
             return {
@@ -128,8 +128,8 @@
                     temp: 0
                 },
                 list_device: [],
-                env_sensor: [],
-                lnr_sensor: []
+                backup_data:[],
+               
             }
         },
         computed: {
@@ -141,7 +141,17 @@
             },
             dataSensorAPI() {
                 return this.$store.getters['auth/dataPlanet']
-            }
+            },
+            env_sensor() {
+                return this.list_device.filter(d => {
+                    return d.type == 'ENV'
+                })
+            },
+            lnr_sensor() {
+                return this.list_device.filter(d => {
+                    return d.type == 'LNR'
+                })
+            },
         },
         async created() {
             await this.getListDeviceAQI()
@@ -157,6 +167,10 @@
                     await this.getLNRSensor()
                     this.calAvg()
                 }, this.$interval_time);
+            } else {
+                this.clearData()
+                await this.getDataformBackup();
+                this.calAvg()                
             }
         },
         methods: {
@@ -165,10 +179,30 @@
                     this.list_device = res.data
                 })
             },
-            getEnvSensor() {
-                this.env_sensor = this.list_device.filter(d => {
-                    return d.type == 'ENV'
+            getDataformBackup() {
+                var promises= []
+                
+                this.env_sensor.forEach(el => {
+                    promises.push(this.$store.dispatch('server/getDataBackup', el.id).then((res) => {
+                        var data = JSON.parse(res.data.data_value)
+                        data['id']  = el.id
+                        this.setDataCal('ENV', data)
+                        
+                        
+                    }))
                 })
+                 this.lnr_sensor.forEach(el => {
+                    promises.push(this.$store.dispatch('server/getDataBackup', el.id).then((res) => {
+                        var data = JSON.parse(res.data.data_value)
+                        data['id'] = el.id
+                        this.setDataCal('LNR', data)
+                        
+                       
+                    }))
+                })
+                return Promise.all(promises).then(()=>{})
+            },
+            getEnvSensor() {
                 var options = {
                     headers: authHeader()
                 }
@@ -191,33 +225,20 @@
                                 this.$store.dispatch('server/backupData', {
                                     device: el.id,
                                     data: res.data,
-                                    type:'last_data'
+                                    type: 'last_data'
                                 });
 
                                 var data = res.data
+                                data['id'] = el.id
+                                this.setDataCal('ENV', data)
 
 
-                                this.pm25.push({
-                                    id: el.device_id,
-                                    data: data.pm25[0]
-                                })
-                                this.temp.push({
-                                    id: el.device_id,
-                                    data: data.temp[0]
-                                })
-                                this.hum.push({
-                                    id: el.device_id,
-                                    data: data.humid[0]
-                                })
                             }
                         }).catch((err) => console.error(err)))
                 });
                 return Promise.all(promises).then(() => {})
             },
             getLNRSensor() {
-                this.lnr_sensor = this.list_device.filter(d => {
-                    return d.type == 'LNR'
-                })
                 var options = {
                     headers: authHeader()
                 }
@@ -235,31 +256,51 @@
                                 }
                             })
                         } else {
-                             this.$store.dispatch('server/backupData', {
-                                    device: el.id,
-                                    data: res.data,
-                                    type:'last_data'
-                             });
+                            this.$store.dispatch('server/backupData', {
+                                device: el.id,
+                                data: res.data,
+                                type: 'last_data'
+                            });
 
                             var data = res.data
-                            this.co2.push({
-                                id: el,
-                                data: data.co2[0]
-                            })
-                            this.uv.push({
-                                id: el,
-                                data: data.uv[0]
-                            })
-                            this.voc.push({
-                                id: el,
-                                data: data.voc[0]
-                            })
+                            data['id'] = el.id
+                            this.setDataCal('LNR', data)
+
                         }
                     }).catch((err) => console.error(err)))
                 });
 
                 return Promise.all(promises).then(() => {})
             },
+            setDataCal(type, data) {
+                if (type == 'ENV') {
+                    this.pm25.push({
+                        id: data.id,
+                        data: data.pm25[0]
+                    })
+                    this.temp.push({
+                        id: data.id,
+                        data: data.temp[0]
+                    })
+                    this.hum.push({
+                        id: data.id,
+                        data: data.humid[0]
+                    })
+                } else {
+                    this.co2.push({
+                        id: data.id,
+                        data: data.co2[0]
+                    })
+                    this.uv.push({
+                        id: data.id,
+                        data: data.uv[0]
+                    })
+                    this.voc.push({
+                        id: data.id,
+                        data: data.voc[0]
+                    })
+                }
+            }, 
             calAvg() {
                 var count_uv = 0
                 var sum_uv = 0
@@ -338,7 +379,7 @@
                 this._pm25 = aqical.LevelPM25(this.avg_data.pm25)
 
             },
-            clearData(){
+            clearData() {
                 this.pm25 = []
                 this.hum = []
                 this.temp = []

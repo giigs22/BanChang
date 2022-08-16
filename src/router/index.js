@@ -3,7 +3,7 @@ import {
   createWebHistory
 } from 'vue-router'
 import auth from '../middleware/auth'
-import AQIMap from '../views/aqi/Map.vue'
+import AQIFull from '../views/aqi/Full.vue'
 import AQIHealthy from '../views/aqi/Healthy.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Login from '../views/Login.vue'
@@ -87,8 +87,8 @@ const routes = [{
     }
   },
   {
-    path: '/view/aqi_map',
-    component: AQIMap,
+    path: '/view/aqifull',
+    component: AQIFull,
     meta: {
       middleware: auth
     }
@@ -227,7 +227,7 @@ const routes = [{
     }
   },
   {
-    path: '/api/list',
+    path: '/apis/list',
     component: APIList,
     meta: {
       middleware: auth

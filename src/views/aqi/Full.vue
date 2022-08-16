@@ -10,10 +10,10 @@
                         <h1 class="text-xl text-white ml-10">Air Quality</h1>
                         <div class="searchbox mt-5 mb-5">
                             <h3 class="text-lg text-white">Search</h3>
-                            <div class="grid grid-cols-12">
+                            <div class="grid grid-cols-12 form-search">
                                 <div class="col-span-2 flex flex-col items-end gap-5">
                                     <div>
-                                        <select name="" id="" class="form-select rounded text-sm">
+                                        <select name="" id="" class="h-12 rounded text-sm">
                                             <option value="">Condition Type</option>
                                         </select>
                                     </div>
@@ -52,7 +52,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="text-sm">
-                                             <tr class="border-b border-gray-700" v-for="(item,index) in list_data"
+                                            <tr class="border-b border-gray-700" v-for="(item,index) in list_data"
                                                 :key="index" :class="[item.status?'text-green-600':'text-red-600']">
                                                 <td class=""><span class="mr-5">{{item.id}}</span> {{item.name}}
                                                 </td>
@@ -97,7 +97,31 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="block-layer data-layer py-2 px-3 mt-4">
+                                    <h5 class="text-white text-center my-3">Air Quality Summary</h5>
+                                    <table class="w-full my-3">
+                                        <tr style="color:#00F9CF">
+                                            <td>Excellent</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr style="color:#4CBF08">
+                                            <td>Satisfactory</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr style="color:#FFEB50">
+                                            <td>Moderate</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr style="color:#FFB14C">
+                                            <td>Unhealthy</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr style="color:#BF4957">
+                                            <td>Very Unhealthy</td>
+                                            <td>0</td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -121,25 +145,37 @@
         },
         data() {
             return {
-               list_device:[],
-               list_data:[],
-               online:0,
-               offline:0,
-               abnormal:0,
-               percent: {
+                list_device: [],
+                list_data: [],
+                online: 0,
+                abnormal: 0,
+                offline: 0,
+                percent: {
                     online: 0,
-                    offline: 0,
                     abnormal: 0,
-                }
+                    offline: 0
+                },
+                env_sensor: [],
+                lnr_sensor: []
+
             }
         },
         async created() {
             this.clearData()
-            await this.getListDeviceSMP()
-            await this.getPowerStatus()
+            await this.getListDeviceAQI()
+            await this.getEnvAttr()
+            await this.getLNRAttr()
+            this.calPercent()
+            setInterval(async () => {
+                this.clearData()
+                await this.getListDeviceAQI()
+                await this.getEnvAttr()
+                await this.getLNRAttr()
+                this.calPercent()
+            }, this.$interval_time);
         },
-        computed:{
-             api_baseURL() {
+        computed: {
+            api_baseURL() {
                 return localStorage.getItem('api_baseURL');
             },
             dataSensorAPI() {
@@ -147,23 +183,25 @@
             }
         },
         methods: {
-           getListDeviceSMP() {
-                return this.$store.dispatch('widget/getListDeviceID', 3).then((res) => {
+            getListDeviceAQI() {
+                return this.$store.dispatch('widget/getListDeviceID', 1).then((res) => {
                     this.list_device = res.data
                 })
             },
-            getPowerStatus() {
+            getEnvAttr() {
+                this.env_sensor = this.list_device.filter(d => {
+                    return d.type == 'ENV'
+                })
                 var options = {
                     headers: authHeader()
                 }
                 var promises = []
 
-                this.list_device.forEach(el => {
+                this.env_sensor.forEach(el => {
                     var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
-                  
                     promises.push(axios.get(this.api_baseURL + api_attr, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
-                             this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
+                            this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
                                 res) => {
                                 var success = res.data.success
                                 if (success) {
@@ -171,14 +209,13 @@
                                 }
                             })
                         } else {
-                             
                             var data = res.data
                             var a = data.find((a) => {
                                 return a.key == 'active'
                             })
-                            
+
                             this.list_data.push({
-                                id:el.id,
+                                id: el.id,
                                 name: el.device_name,
                                 status: a.value
                             })
@@ -189,8 +226,45 @@
                             }
                         }
                     }))
+
+                })
+                return Promise.all(promises).then(() => {});
+
+            },
+            getLNRAttr() {
+                this.lnr_sensor = this.list_device.filter(d => {
+                    return d.type == 'LNR'
+                })
+                var options = {
+                    headers: authHeader()
+                }
+                var promises = []
+
+                this.lnr_sensor.forEach(el => {
+                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
+                    promises.push(axios.get(this.api_baseURL + api_attr, options).then((res) => {
+                        var data = res.data
+                        var a = data.find((a) => {
+                            return a.key == 'active'
+                        })
+
+                        this.list_data.push({
+                            id: el.id,
+                            name: el.device_name,
+                            status: a.value
+                        })
+                        if (a.value) {
+                            this.online += 1
+                        } else {
+                            this.offline += 1
+                        }
+
+                    }).catch((err) => console.error(err)))
+
                 });
                 return Promise.all(promises).then(() => {})
+
+
             },
             calPercent() {
                 var all = this.list_device.length
@@ -201,13 +275,16 @@
                 this.percent.offline = Math.round(per_offline)
                 this.percent.abnormal = Math.round(per_abnormal)
             },
-            clearData(){
-               this.list_device = []
-               this.list_data = []
-               this.online = 0
-               this.offline = 0
-               this.abnormal = 0
+            clearData() {
+                this.list_device = []
+                this.list_data = []
+                this.env_sensor = []
+                this.lnr_sensor = []
+                this.online = 0
+                this.abnormal = 0
+                this.offline = 0
             }
+
         }
     }
 </script>

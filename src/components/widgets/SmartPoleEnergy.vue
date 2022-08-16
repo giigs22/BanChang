@@ -103,6 +103,11 @@
                 this.calEnergy()
                 this.calAvgEnergy()
             }, this.$interval_time);
+            }else{
+                this.clearData()
+                await this.getDataformBackup()
+                this.calEnergy()
+                this.calAvgEnergy()
             }
         },
         methods: {
@@ -111,6 +116,19 @@
                     this.list_device = res.data
                 })
             },
+             getDataformBackup() {
+                var promises= []
+                
+                this.list_device.forEach(el => {
+                    promises.push(this.$store.dispatch('server/getDataBackup', el.id).then((res) => {
+                        var data = JSON.parse(res.data.data_value)
+                        this.data_lnr.push(data)
+                        this.no_good += 1
+                    }))
+                })
+
+                return Promise.all(promises).then(()=>{})
+             },
             getPowerData() {
                 var options = {
                     headers: authHeader()
@@ -150,9 +168,7 @@
 
                 this.list_device.forEach(el => {
                     var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
-                    var options = {
-                        headers: authHeader()
-                    }
+                   
                     promises.push(axios.get(this.api_baseURL + api_attr, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
                              this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((

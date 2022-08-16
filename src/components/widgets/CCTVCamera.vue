@@ -76,6 +76,10 @@
                 this.setData()
               
             }, this.$interval_time);
+            }else{
+                this.list_device.forEach(()=>{
+                    this.offline += 1
+                })
             }
         },
         methods: {
