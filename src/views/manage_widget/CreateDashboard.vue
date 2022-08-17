@@ -166,7 +166,7 @@
                             this.alert.type = "success"
                             this.alert.msg = data.message
                             setTimeout(() => {
-                                this.$router.push('/view/template')
+                                this.$router.push('/template')
                             }, 2000);
                         }else{
                             this.confirm.active = true

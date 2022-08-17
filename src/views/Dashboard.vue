@@ -53,30 +53,30 @@
 
                         <h1 class="text-xl text-white">Widgets</h1>
                         <div class="grid grid-cols-12 gap-1">
-                            <!-- Air Quality -->
-                            <AirQuality></AirQuality>
-                            <!-- Smart Lighting -->
+                           
+                            <!-- <AirQuality></AirQuality>
+                          
                             <SmartLighting></SmartLighting>
-                            <!-- Smart Pole Energy -->
+                           
                             <SmartPoleEnergy></SmartPoleEnergy>
-                            <!-- CCTV Camera -->
+                            
                             <CCTVCamera></CCTVCamera>
-                            <!-- CCTV Surviellance -->
+                        
                             <CCTVSurviellance></CCTVSurviellance>
-                            <!-- Parking -->
+                           
                             <Parking></Parking>
-                            <!-- Check license Plate -->
+                            
                             <CheckLicensePlate></CheckLicensePlate>
-                            <!-- License Plate -->
+                           
                             <LicensePlate></LicensePlate>
-                            <!-- Free WiFi -->
+                           
                             <FreeWifi></FreeWifi>
-                            <!-- Digital Signage -->
+                            
                             <DigitalSignage></DigitalSignage>
-                            <!-- Complaint -->
+                            
                             <Complaint></Complaint>
-                            <!-- SOS -->
-                            <Sos></Sos>
+                           
+                            <Sos></Sos> -->
                         </div>
                         <div class="py-5 clear-both"></div>
 
@@ -106,29 +106,31 @@
     <AlertDialogConfirm v-if="confirm.active" :msg="confirm.msg" :type="'error'" @close="closeAlert" />
 </template>
 <script>
-    import Environment from '../components/Environment.vue';
-    import DataLayer from '../components/DataLayer.vue';
-    import MapLocation from '../components/MapLocation.vue';
-    import Devices from '../components/Devices.vue';
-    import Covid19 from '../components/Covid19.vue';
-    import SOS from '../components/SOS.vue';
-    import AirQuality from '../components/widgets/AirQuality.vue';
-    import CCTVCamera from '../components/widgets/CCTVCamera.vue';
-    import CCTVSurviellance from '../components/widgets/CCTVSurviellance.vue';
-    import Parking from '../components/widgets/Parking.vue';
-    import CheckLicensePlate from '../components/widgets/CheckLicensePlate.vue';
-    import LicensePlate from '../components/widgets/LicensePlate.vue';
-    import FreeWifi from '../components/widgets/FreeWifi.vue';
-    import DigitalSignage from '../components/widgets/DigitalSignage.vue';
-    import Complaint from '../components/widgets/Complaint.vue';
-    import Sos from '../components/widgets/Sos.vue';
-    import RecentComplaint from '../components/RecentComplaint.vue';
-    import SmartLighting from '../components/widgets/SmartLighting.vue';
-    import SmartPoleEnergy from '../components/widgets/SmartPoleEnergy.vue';
-    import TopMenu from './layout/TopMenu.vue';
-    import FooterPage from './layout/FooterPage.vue';
-    import AlertConnectAPI from '../components/utility/AlertConnectAPI.vue'
-    import AlertDialogConfirm from '../components/utility/AlertDialogConfirm.vue'
+    import { defineAsyncComponent,defineComponent } from 'vue';
+    import Environment from '@/components/Environment.vue';
+    import DataLayer from '@/components/DataLayer.vue';
+    import MapLocation from '@/components/MapLocation.vue';
+    import Devices from '@/components/Devices.vue';
+    import Covid19 from '@/components/Covid19.vue';
+    import SOS from '@/components/SOS.vue';
+    import RecentComplaint from '@/components/RecentComplaint.vue';
+    import TopMenu from '@/views/layout/TopMenu.vue';
+    import FooterPage from '@/views/layout/FooterPage.vue';
+    import AlertConnectAPI from '@/components/utility/AlertConnectAPI.vue'
+    import AlertDialogConfirm from '@/components/utility/AlertDialogConfirm.vue'
+    //import AirQuality from '../components/widgets/AirQuality.vue';
+    //import SmartLighting from '../components/widgets/SmartLighting.vue';
+    //import SmartPoleEnergy from '../components/widgets/SmartPoleEnergy.vue';
+    //import CCTVCamera from '../components/widgets/CCTVCamera.vue';
+    //import CCTVSurviellance from '../components/widgets/CCTVSurviellance.vue';
+    //import Parking from '../components/widgets/Parking.vue';
+    //import CheckLicensePlate from '../components/widgets/CheckLicensePlate.vue';
+    //import LicensePlate from '../components/widgets/LicensePlate.vue';
+    //import FreeWifi from '../components/widgets/FreeWifi.vue';
+    //import DigitalSignage from '../components/widgets/DigitalSignage.vue';
+    //import Complaint from '../components/widgets/Complaint.vue';
+    //import Sos from '../components/widgets/Sos.vue';
+    
 
     export default {
         components: {
@@ -138,19 +140,19 @@
             Devices,
             Covid19,
             SOS,
-            AirQuality,
-            CCTVCamera,
-            CCTVSurviellance,
-            Parking,
-            CheckLicensePlate,
-            LicensePlate,
-            FreeWifi,
-            DigitalSignage,
-            Complaint,
-            Sos,
+            //AirQuality,
+            //SmartLighting,
+            //SmartPoleEnergy,
+            //CCTVCamera,
+            //CCTVSurviellance,
+            //Parking,
+            //CheckLicensePlate,
+            //LicensePlate,
+            //FreeWifi,
+            //DigitalSignage,
+            //Complaint,
+            //Sos,
             RecentComplaint,
-            SmartLighting,
-            SmartPoleEnergy,
             TopMenu,
             FooterPage,
             AlertConnectAPI,
@@ -176,9 +178,13 @@
             },
             dataSensorAPI(){
                return this.$store.getters['auth/dataPlanet']
+            },
+            userWidget(){
+                return this.$store.state.user.user_widget
             }
         },
         async created() {
+            await this.getUserData()
             if (!this.loggedIn) {
                 this.$store.dispatch('auth/logout');
                 this.$router.push('/login')
@@ -186,11 +192,15 @@
                 if (!this.statusServer) {
                     await this.loginPlanet()
                 }
-                await this.getUserData()
+                this.loadWidgets()
+                //await this.getUserData()
                 //await this.checkExpire()
             }
         },
         methods: {
+            loadWidgets(){
+                
+            },
             loginPlanet() {
                 this.alert.active = true
                 return this.$store.dispatch('auth/login_planet',this.dataSensorAPI).then((res) => {
@@ -244,9 +254,7 @@
                 })
             },
             getUserData() {
-                return this.$store.dispatch('user/userData').then((res) => {
-
-                })
+                return this.$store.dispatch('user/userData').then(() => {})
             }
 
 

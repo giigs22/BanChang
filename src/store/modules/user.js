@@ -6,7 +6,8 @@ export const user = {
     namespaced: true,
     state: {
       user_data:null,
-      roles:[]
+      roles:[],
+      user_widget:null
     },
     actions: {
       register({commit},data){
@@ -50,12 +51,13 @@ export const user = {
           return Promise.reject(err)
         })     
       },
-      getUserData({rootState},data){
+      getUserData({rootState,commit},data){
         return axios.post(api_backend+'users/alluser',data,{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }
         }).then((res)=>{
+          commit('userdata',res.data)
           return Promise.resolve(res)
         }).catch((err)=>{
           return Promise.reject(err)
@@ -91,8 +93,8 @@ export const user = {
             Authorization:"Bearer "+rootState.auth.token.value
           }
         }).then((res)=>{
-          localStorage.setItem('user_data',JSON.stringify({data:res.data.data,img_profile:res.data.img_profile}))
-          commit('setUserData')
+          commit('setUserData',res)
+          commit('setUserWidget',res.data.widgets)
           return Promise.resolve(res)
         }).catch((err)=>{
           return Promise.reject(err)
@@ -144,11 +146,15 @@ export const user = {
       }
     },
     mutations: {
-       setUserData(state){
-        state.user_data = JSON.parse(localStorage.getItem('user_data'))
+       setUserData(state,data){
+        localStorage.setItem('user_data',JSON.stringify({data:data.data.data,img_profile:data.data.img_profile}))
+        state.user_data = {data:data.data.data,img_profile:data.data.img_profile}
        },
        setRoleData(state,data){
         state.roles = data
+       },
+       setUserWidget(state,data){
+        state.user_widget = data
        }
     }
   };
