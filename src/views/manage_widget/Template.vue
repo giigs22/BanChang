@@ -34,7 +34,7 @@
                                 <tr class="border-b border-gray-600" v-for="item in list_temp" :key="item.id">
                                     <td class="text-center border-r border-gray-600 p-3">{{item.id}}</td>
                                     <td class="text-center border-r border-gray-600 p-3">{{item.name}}</td>
-                                    <td class="text-center"><a class="text-cyan-300" :href="'/view/template/edit/'+item.id">Edit</a> | <button class="text-red-500" @click="delTemplate(item.id)">Delete</button></td>
+                                    <td class="text-center"><a class="text-cyan-300" :href="'/template/edit/'+item.id">Edit</a> | <button class="text-red-500" @click="delTemplate(item.id)">Delete</button></td>
                                 </tr>
                                 
                             </tbody>

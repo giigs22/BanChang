@@ -54,9 +54,9 @@
                         <h1 class="text-xl text-white">Widgets</h1>
                         <div class="grid grid-cols-12 gap-1">
                            
-                            <!-- <AirQuality></AirQuality>
+                           <!-- <AirQuality></AirQuality> -->
                           
-                            <SmartLighting></SmartLighting>
+                             <!-- <SmartLighting></SmartLighting>
                            
                             <SmartPoleEnergy></SmartPoleEnergy>
                             
@@ -106,7 +106,7 @@
     <AlertDialogConfirm v-if="confirm.active" :msg="confirm.msg" :type="'error'" @close="closeAlert" />
 </template>
 <script>
-    import { defineAsyncComponent,defineComponent } from 'vue';
+    import { defineAsyncComponent } from 'vue';
     import Environment from '@/components/Environment.vue';
     import DataLayer from '@/components/DataLayer.vue';
     import MapLocation from '@/components/MapLocation.vue';
@@ -118,6 +118,8 @@
     import FooterPage from '@/views/layout/FooterPage.vue';
     import AlertConnectAPI from '@/components/utility/AlertConnectAPI.vue'
     import AlertDialogConfirm from '@/components/utility/AlertDialogConfirm.vue'
+    import widgetdata from '@/services/widget_data.json'
+    
     //import AirQuality from '../components/widgets/AirQuality.vue';
     //import SmartLighting from '../components/widgets/SmartLighting.vue';
     //import SmartPoleEnergy from '../components/widgets/SmartPoleEnergy.vue';
@@ -130,8 +132,21 @@
     //import DigitalSignage from '../components/widgets/DigitalSignage.vue';
     //import Complaint from '../components/widgets/Complaint.vue';
     //import Sos from '../components/widgets/Sos.vue';
+    const listComponents = {}
+    const listName = []
+    const userWidget = localStorage.getItem('widget')
     
-
+    var result = widgetdata.filter( w => userWidget.includes(w.id));
+    
+    result.forEach(el=>{
+        listName.push(el.name.split(" ").join(""))
+    })
+    listName.forEach((component) => { 
+        listComponents[component] = defineAsyncComponent(() =>
+            import("@/components/widgets/" + component + ".vue")
+        );
+    });
+    
     export default {
         components: {
             Environment,
@@ -156,7 +171,7 @@
             TopMenu,
             FooterPage,
             AlertConnectAPI,
-            AlertDialogConfirm
+            AlertDialogConfirm,
         },
         data() {
             return {
@@ -166,7 +181,7 @@
                 confirm: {
                     active: false,
                     msg: null
-                }
+                },
             }
         },
         computed: {
@@ -179,9 +194,6 @@
             dataSensorAPI(){
                return this.$store.getters['auth/dataPlanet']
             },
-            userWidget(){
-                return this.$store.state.user.user_widget
-            }
         },
         async created() {
             await this.getUserData()
@@ -192,15 +204,11 @@
                 if (!this.statusServer) {
                     await this.loginPlanet()
                 }
-                this.loadWidgets()
                 //await this.getUserData()
                 //await this.checkExpire()
             }
         },
         methods: {
-            loadWidgets(){
-                
-            },
             loginPlanet() {
                 this.alert.active = true
                 return this.$store.dispatch('auth/login_planet',this.dataSensorAPI).then((res) => {

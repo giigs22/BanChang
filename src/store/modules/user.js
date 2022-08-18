@@ -155,6 +155,11 @@ export const user = {
        },
        setUserWidget(state,data){
         state.user_widget = data
+        const widget = []
+        data.forEach(el => {
+          widget.push(el.id)
+        });
+        localStorage.setItem('widget',widget)
        }
     }
   };
