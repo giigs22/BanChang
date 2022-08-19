@@ -88,9 +88,10 @@ export const user = {
         })
       },
       userData({commit,rootState}){
+        const token = JSON.parse(localStorage.getItem('token'))
         return axios.get(api_backend+'users/user',{
           headers:{
-            Authorization:"Bearer "+rootState.auth.token.value
+            Authorization:"Bearer "+token.value
           }
         }).then((res)=>{
           commit('setUserData',res)

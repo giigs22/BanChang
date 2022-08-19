@@ -92,7 +92,6 @@
                         this.setStatus()
                     })
                 })
-                return Promise.all(promises).then(() => {})
             },
             getStatusLamp() {
                 this.list_device.forEach(el => {

@@ -52,8 +52,7 @@
         },
          computed:{
             statusAPI(){
-                return false;
-                //return this.$store.state.server.api_sensor.connect;
+                return this.$store.state.server.api_sensor.connect;
             },
              api_baseURL() {
                 return localStorage.getItem('api_baseURL');

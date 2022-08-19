@@ -53,30 +53,8 @@
 
                         <h1 class="text-xl text-white">Widgets</h1>
                         <div class="grid grid-cols-12 gap-1">
-                           
-                           <!-- <AirQuality></AirQuality> -->
-                          
-                             <!-- <SmartLighting></SmartLighting>
-                           
-                            <SmartPoleEnergy></SmartPoleEnergy>
-                            
-                            <CCTVCamera></CCTVCamera>
-                        
-                            <CCTVSurviellance></CCTVSurviellance>
-                           
-                            <Parking></Parking>
-                            
-                            <CheckLicensePlate></CheckLicensePlate>
-                           
-                            <LicensePlate></LicensePlate>
-                           
-                            <FreeWifi></FreeWifi>
-                            
-                            <DigitalSignage></DigitalSignage>
-                            
-                            <Complaint></Complaint>
-                           
-                            <Sos></Sos> -->
+                                <component v-bind:is="component" v-for="component in components"></component>
+
                         </div>
                         <div class="py-5 clear-both"></div>
 
@@ -106,7 +84,9 @@
     <AlertDialogConfirm v-if="confirm.active" :msg="confirm.msg" :type="'error'" @close="closeAlert" />
 </template>
 <script>
-    import { defineAsyncComponent } from 'vue';
+    import {
+        defineAsyncComponent
+    } from 'vue';
     import Environment from '@/components/Environment.vue';
     import DataLayer from '@/components/DataLayer.vue';
     import MapLocation from '@/components/MapLocation.vue';
@@ -119,60 +99,25 @@
     import AlertConnectAPI from '@/components/utility/AlertConnectAPI.vue'
     import AlertDialogConfirm from '@/components/utility/AlertDialogConfirm.vue'
     import widgetdata from '@/services/widget_data.json'
-    
-    //import AirQuality from '../components/widgets/AirQuality.vue';
-    //import SmartLighting from '../components/widgets/SmartLighting.vue';
-    //import SmartPoleEnergy from '../components/widgets/SmartPoleEnergy.vue';
-    //import CCTVCamera from '../components/widgets/CCTVCamera.vue';
-    //import CCTVSurviellance from '../components/widgets/CCTVSurviellance.vue';
-    //import Parking from '../components/widgets/Parking.vue';
-    //import CheckLicensePlate from '../components/widgets/CheckLicensePlate.vue';
-    //import LicensePlate from '../components/widgets/LicensePlate.vue';
-    //import FreeWifi from '../components/widgets/FreeWifi.vue';
-    //import DigitalSignage from '../components/widgets/DigitalSignage.vue';
-    //import Complaint from '../components/widgets/Complaint.vue';
-    //import Sos from '../components/widgets/Sos.vue';
-    const listComponents = {}
-    const listName = []
-    const userWidget = localStorage.getItem('widget')
-    
-    var result = widgetdata.filter( w => userWidget.includes(w.id));
-    
-    result.forEach(el=>{
-        listName.push(el.name.split(" ").join(""))
-    })
-    listName.forEach((component) => { 
-        listComponents[component] = defineAsyncComponent(() =>
-            import("@/components/widgets/" + component + ".vue")
-        );
-    });
-    
-    export default {
-        components: {
+
+    const staticComp = {
             Environment,
             DataLayer,
             MapLocation,
             Devices,
             Covid19,
             SOS,
-            //AirQuality,
-            //SmartLighting,
-            //SmartPoleEnergy,
-            //CCTVCamera,
-            //CCTVSurviellance,
-            //Parking,
-            //CheckLicensePlate,
-            //LicensePlate,
-            //FreeWifi,
-            //DigitalSignage,
-            //Complaint,
-            //Sos,
             RecentComplaint,
             TopMenu,
             FooterPage,
             AlertConnectAPI,
             AlertDialogConfirm,
-        },
+    }
+    
+    
+
+    export default {
+        components: staticComp,
         data() {
             return {
                 alert: {
@@ -182,6 +127,7 @@
                     active: false,
                     msg: null
                 },
+                components: null
             }
         },
         computed: {
@@ -191,27 +137,29 @@
             statusServer() {
                 return this.$store.state.server.api_sensor.connect;
             },
-            dataSensorAPI(){
-               return this.$store.getters['auth/dataPlanet']
+            dataSensorAPI() {
+                return this.$store.getters['auth/dataPlanet']
             },
+            userWidget(){
+                return localStorage.getItem('widget')
+            }
         },
         async created() {
-            await this.getUserData()
             if (!this.loggedIn) {
                 this.$store.dispatch('auth/logout');
                 this.$router.push('/login')
             } else {
+                await this.getUserData()
                 if (!this.statusServer) {
                     await this.loginPlanet()
                 }
-                //await this.getUserData()
                 //await this.checkExpire()
             }
         },
         methods: {
             loginPlanet() {
                 this.alert.active = true
-                return this.$store.dispatch('auth/login_planet',this.dataSensorAPI).then((res) => {
+                return this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((res) => {
                     this.$store.dispatch('server/setStatus', true)
                     this.alert.active = false
                     location.reload()
@@ -262,7 +210,30 @@
                 })
             },
             getUserData() {
-                return this.$store.dispatch('user/userData').then(() => {})
+                this.alert.active = true
+                this.$store.dispatch('user/userData').then(()=>{
+                    setTimeout(() => {
+                        this.setWidget()
+                        this.alert.active = false
+                    }, 2000);
+                    
+                })
+            },
+            setWidget(){
+                const listName = []
+                if(this.userWidget !== ''){
+                    var result = widgetdata.filter(w => this.userWidget.includes(w.id));
+
+                    result.forEach(el => {
+                        listName.push(el.name.split(" ").join(""))
+                    })
+                    listName.forEach((component) => {
+                        staticComp[component] = defineAsyncComponent(() =>
+                            import("../components/widgets/" + component + ".vue")
+                        );
+                    });
+                    this.components = listName;
+                }
             }
 
 

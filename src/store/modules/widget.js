@@ -99,6 +99,17 @@ export const widget = {
                 return Promise.reject(err)
             })
         },
+        getDeviceAll({rootState}){
+            return axios.get(api_backend+'device/all',{
+                headers:{
+                    Authorization:"Bearer "+rootState.auth.token.value
+                }
+            }).then((res)=>{
+                return Promise.resolve(res)
+            }).catch((err)=>{
+                return Promise.reject(err)
+            })
+        },
         updateDevice({rootState},data){
             return axios.patch(api_backend+'device/update/'+data.id,data,{
                 headers:{
