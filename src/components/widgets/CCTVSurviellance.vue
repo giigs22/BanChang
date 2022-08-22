@@ -13,8 +13,8 @@
                     transform="translate(21.513 43.026) rotate(-135)" fill="#7a7afe" />
             </svg>
         </div>
-        <div class="detail p-8 detail-inner">
-            <img src="@/assets/demo_stat.png" alt="" class="w-40 mx-auto">
+        <div class="detail 4 detail-inner">
+            <ChartCCTV/>
         </div>
     </div>
 </template>
@@ -22,13 +22,18 @@
     import axios from 'axios'
     import AuthService from '../../services/auth.services'
     import authHeader from '../../services/auth.header'
+    import * as dayjs from 'dayjs'
+    import ChartCCTV from '../ChartCCTV.vue'
 
     export default {
         data() {
             return {
-                list_device: []
+                list_device: [],
             }
         },
+        components:{
+            ChartCCTV
+        },  
         computed: {
             statusAPI() {
                 return this.$store.state.server.api_sensor.connect;
@@ -51,17 +56,60 @@
                 })
             },
             getDataCam() {
+                const limit = 10000
+                const start = dayjs().startOf('day').valueOf()
+                const end = dayjs().endOf('day').valueOf()
+                const keys = ['faceReg_alllist','tracking','wrongDirection','prohibitedArea','lpr_allplate']
+
                 var options = {
-                    headers: authHeader()
+                    headers: authHeader(),
+                    params:{
+                        limit:limit,
+                        startTs:start,
+                        endTs:end
+                    }
                 }
+                var face_data = {}
+                var traffic_data = {}
+                var park_data = {}
+                var lprplate_data = {}
+
                 this.list_device.forEach(el => {
 
-                    var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
-
-                    axios.get(this.api_baseURL + api_last, options).then((res) => {
-                        console.log(res);
-                    })
+                    let api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
+                   
+                        keys.forEach(k=>{
+                            options['params']['keys'] = k
+                            
+                            axios.get(this.api_baseURL + api_last, options).then((res) => {
+                                if(Object.keys(res.data).length > 0 && res.data.hasOwnProperty(keys[0])){
+                                    face_data[keys[0]] = res.data[keys[0]]
+                                }
+                                if(Object.keys(res.data).length > 0 && res.data.hasOwnProperty(keys[1])){
+                                    traffic_data[keys[1]] = res.data[keys[1]]
+                                }
+                                if(Object.keys(res.data).length > 0 && res.data.hasOwnProperty(keys[2])){
+                                    traffic_data[keys[2]] = res.data[keys[2]]
+                                }
+                                if(Object.keys(res.data).length > 0 && res.data.hasOwnProperty(keys[3])){
+                                    traffic_data[keys[3]] = res.data[keys[3]]
+                                }
+                                if(Object.keys(res.data).length > 0 && res.data.hasOwnProperty(keys[4])){
+                                    park_data[keys[4]] = res.data[keys[4]]
+                                }
+                                if(Object.keys(res.data).length > 0 && res.data.hasOwnProperty(keys[5])){
+                                    lprplate_data[keys[5]] = res.data[keys[5]]
+                                }
+                            })
+                            
+                         })
+                        
+                
                 });
+                console.log(face_data);
+                console.log(traffic_data);
+                console.log(park_data);
+                console.log(lprplate_data);
             }
         }
     }
