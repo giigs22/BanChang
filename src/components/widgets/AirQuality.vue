@@ -16,7 +16,8 @@
         </div>
         <div class="detail gap-10">
             <div class="icon-env-main" :style="{background:aqi.level.color}">
-                <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" alt="" class="w-32">
+                <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" alt=""
+                    class="w-32">
             </div>
             <div class="flex flex-col text-center text-white">
                 <h1 class="text-6xl">{{avg_data.pm25}}</h1>
@@ -133,9 +134,16 @@
                                 var data = res.data
                                 data['id'] = el.id
                                 this.setDataCal(data)
-                                
+
                             }
-                        }).catch((err) => console.error(err)))
+                        }).catch((err) => {
+                            if (err.code === "ECONNABORTED") {
+                                this.$store.dispatch('server/setStatus', false)
+                            }
+                            if (err.code === "ERR_NETWORK") {
+                                this.$store.dispatch('server/setStatus', false)
+                            }
+                        }))
                 })
                 return Promise.all(promises).then(() => {})
 

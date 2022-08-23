@@ -128,8 +128,8 @@
                     temp: 0
                 },
                 list_device: [],
-                backup_data:[],
-               
+                backup_data: [],
+
             }
         },
         computed: {
@@ -170,7 +170,7 @@
             } else {
                 this.clearData()
                 await this.getDataformBackup();
-                this.calAvg()                
+                this.calAvg()
             }
         },
         methods: {
@@ -180,27 +180,27 @@
                 })
             },
             getDataformBackup() {
-                var promises= []
-                
+                var promises = []
+
                 this.env_sensor.forEach(el => {
                     promises.push(this.$store.dispatch('server/getDataBackup', el.id).then((res) => {
                         var data = JSON.parse(res.data.data_value)
-                        data['id']  = el.id
+                        data['id'] = el.id
                         this.setDataCal('ENV', data)
-                        
-                        
+
+
                     }))
                 })
-                 this.lnr_sensor.forEach(el => {
+                this.lnr_sensor.forEach(el => {
                     promises.push(this.$store.dispatch('server/getDataBackup', el.id).then((res) => {
                         var data = JSON.parse(res.data.data_value)
                         data['id'] = el.id
                         this.setDataCal('LNR', data)
-                        
-                       
+
+
                     }))
                 })
-                return Promise.all(promises).then(()=>{})
+                return Promise.all(promises).then(() => {})
             },
             getEnvSensor() {
                 var options = {
@@ -234,13 +234,20 @@
 
 
                             }
-                        }).catch((err) => console.error(err)))
+                        }).catch((err) => {
+                               if (err.code === "ECONNABORTED") {
+                            this.$store.dispatch('server/setStatus', false)
+                        }
+                        if (err.code === "ERR_NETWORK") {
+                            this.$store.dispatch('server/setStatus', false)
+                        }
+                        }))
                 });
                 return Promise.all(promises).then(() => {})
             },
             getLNRSensor() {
                 var options = {
-                    headers: authHeader()
+                    headers: authHeader(),
                 }
                 var promises = []
 
@@ -267,7 +274,14 @@
                             this.setDataCal('LNR', data)
 
                         }
-                    }).catch((err) => console.error(err)))
+                    }).catch((err) => {
+                        if (err.code === "ECONNABORTED") {
+                            this.$store.dispatch('server/setStatus', false)
+                        }
+                        if (err.code === "ERR_NETWORK") {
+                            this.$store.dispatch('server/setStatus', false)
+                        }
+                    }))
                 });
 
                 return Promise.all(promises).then(() => {})
@@ -300,7 +314,7 @@
                         data: data.voc[0]
                     })
                 }
-            }, 
+            },
             calAvg() {
                 var count_uv = 0
                 var sum_uv = 0

@@ -14,29 +14,30 @@
             </svg>
 
         </div>
-        <div class="flex flex-col items-end w-32 ml-10 mt-5"> <span class="text-green-500 text-2xl">{{online}} Online</span>
+        <div class="flex flex-col items-end w-32 ml-10 mt-5"> <span class="text-green-500 text-2xl">{{online}}
+                Online</span>
             <span class="text-red-500 text-2xl">{{offline}} Offine</span> </div>
     </div>
 </template>
 <script>
-import axios from 'axios'
-import AuthService from '@/services/auth.services'
-import authHeader from '@/services/auth.header'
+    import axios from 'axios'
+    import AuthService from '@/services/auth.services'
+    import authHeader from '@/services/auth.header'
 
-export default {
-    data() {
-        return {
-            list_device:[],
-            online:0,
-            offline:0
-        }
-    },
-    async created(){
-        await this.getDevice()
-        this.getStatus()
-    },
-    computed:{
-         statusAPI(){
+    export default {
+        data() {
+            return {
+                list_device: [],
+                online: 0,
+                offline: 0
+            }
+        },
+        async created() {
+            await this.getDevice()
+            this.getStatus()
+        },
+        computed: {
+            statusAPI() {
                 return this.$store.state.server.api_sensor.connect;
             },
             api_baseURL() {
@@ -45,23 +46,23 @@ export default {
             dataSensorAPI() {
                 return this.$store.getters['auth/dataPlanet']
             }
-    },
-    methods:{
-        getDevice(){
-            return this.$store.dispatch('widget/getDeviceAll').then((res)=>{
-                var data = res.data
-                this.list_device = data
-            })
         },
-        getStatus(){
-            var options = {
+        methods: {
+            getDevice() {
+                return this.$store.dispatch('widget/getDeviceAll').then((res) => {
+                    var data = res.data
+                    this.list_device = data
+                })
+            },
+            getStatus() {
+                var options = {
                     headers: authHeader()
                 }
-            this.list_device.forEach(el=>{
-                var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
-                axios.get(this.api_baseURL + api_attr, options).then((res) => {
+                this.list_device.forEach(el => {
+                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
+                    axios.get(this.api_baseURL + api_attr, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
-                             this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
+                            this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
                                 res) => {
                                 var success = res.data.success
                                 if (success) {
@@ -69,7 +70,7 @@ export default {
                                 }
                             })
                         } else {
-                             
+
                             var data = res.data
                             data.forEach(el => {
                                 if (el.key === 'active') {
@@ -81,9 +82,16 @@ export default {
                                 }
                             });
                         }
+                    }).catch((err) => {
+                        if (err.code === "ECONNABORTED") {
+                            this.$store.dispatch('server/setStatus', false)
+                        }
+                        if (err.code === "ERR_NETWORK") {
+                            this.$store.dispatch('server/setStatus', false)
+                        }
                     })
-            })
+                })
+            }
         }
     }
-}
 </script>

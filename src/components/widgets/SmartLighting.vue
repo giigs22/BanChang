@@ -68,7 +68,7 @@
                     this.clearData()
                     this.getStatusLamp()
                 }, this.$interval_time);
-            }else{
+            } else {
                 this.clearData()
                 this.getDataformBackup()
             }
@@ -81,14 +81,14 @@
                 })
             },
             getDataformBackup() {
-            
+
                 this.list_device.forEach(el => {
-                  this.$store.dispatch('server/getDataBackup', el.id).then((res) => {
+                    this.$store.dispatch('server/getDataBackup', el.id).then((res) => {
                         var data = JSON.parse(res.data.data_value)
-                         this.lamp_status.push({
-                                id: el,
-                                lamp: data
-                            })
+                        this.lamp_status.push({
+                            id: el,
+                            lamp: data
+                        })
                         this.setStatus()
                     })
                 })
@@ -112,7 +112,7 @@
                             this.$store.dispatch('server/backupData', {
                                 device: el.id,
                                 data: res.data,
-                                type:'last_data'
+                                type: 'last_data'
                             });
                             var data = res.data.lamp[0]
                             this.lamp_status.push({
@@ -120,6 +120,13 @@
                                 lamp: data.value
                             })
                             this.setStatus()
+                        }
+                    }).catch((err) => {
+                        if (err.code === "ECONNABORTED") {
+                            this.$store.dispatch('server/setStatus', false)
+                        }
+                        if (err.code === "ERR_NETWORK") {
+                            this.$store.dispatch('server/setStatus', false)
                         }
                     })
                 });

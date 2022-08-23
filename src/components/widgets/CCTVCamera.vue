@@ -42,16 +42,16 @@
             return {
                 online: 0,
                 offline: 0,
-                list_device:[],
-                group_cam:[],
-                raw_data:{
-                    on:null,
-                    off:null
+                list_device: [],
+                group_cam: [],
+                raw_data: {
+                    on: null,
+                    off: null
                 }
             }
         },
-         computed:{
-            statusAPI(){
+        computed: {
+            statusAPI() {
                 return this.$store.state.server.api_sensor.connect;
             },
             api_baseURL() {
@@ -65,43 +65,43 @@
             await this.getListDeviceCam()
             this.setGroupCam()
 
-            if(this.statusAPI){
+            if (this.statusAPI) {
                 this.clearData()
                 await this.getCamActive()
                 this.setData()
-            
-            setInterval(async() => {
-                this.clearData()
-                await this.getCamActive()
-                this.setData()
-              
-            }, this.$interval_time);
-            }else{
-                this.list_device.forEach(()=>{
+
+                setInterval(async () => {
+                    this.clearData()
+                    await this.getCamActive()
+                    this.setData()
+
+                }, this.$interval_time);
+            } else {
+                this.list_device.forEach(() => {
                     this.offline += 1
                 })
             }
         },
         methods: {
-            getListDeviceCam(){
+            getListDeviceCam() {
                 return this.$store.dispatch('widget/getListDeviceID', 4).then((res) => {
                     this.list_device = res.data
                 })
             },
-            setGroupCam(){
+            setGroupCam() {
                 var grouped = _.groupBy(this.list_device, d => d.type);
                 this.group_cam = grouped
             },
-            setData(){
+            setData() {
                 var o = JSON.parse(JSON.stringify(this.raw_data.on))
                 var f = JSON.parse(JSON.stringify(this.raw_data.off))
                 this.online = o.length
                 this.offline = f.length
-            }, 
+            },
             getCamActive() {
                 var g = this.group_cam
                 var options = {
-                        headers: authHeader()
+                    headers: authHeader()
                 }
                 var api_baseURL = this.api_baseURL
                 var dataSensorAPI = this.dataSensorAPI
@@ -110,50 +110,58 @@
                 var offline = []
                 var promises = []
 
-                Object.keys(g).forEach(function (key){
+                Object.keys(g).forEach(function (key) {
                     var child = g[key]
                     child.forEach(el => {
-                         var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
-                   
-                    promises.push(axios.get(api_baseURL + api_attr, options).then((res) => {
-                        if (AuthService.Expire(res.data)) {
-                              store.dispatch('auth/login_planet', dataSensorAPI).then((
+                        var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id +
+                            '/values/attributes'
+
+                        promises.push(axios.get(api_baseURL + api_attr, options).then((res) => {
+                            if (AuthService.Expire(res.data)) {
+                                store.dispatch('auth/login_planet', dataSensorAPI).then((
                                     res) => {
                                     var success = res.data.success
                                     if (success) {
                                         this.$forceUpdate()
                                     }
                                 })
-                        } else {
-                            
-                            var data = res.data
-                            data.forEach(el => {
-                                if (el.key === 'active') {
-                                    if (el.value === true) {
-                                        online.push(el.value)
-                                    } else {
-                                        offline.push(el.value)
+                            } else {
+
+                                var data = res.data
+                                data.forEach(el => {
+                                    if (el.key === 'active') {
+                                        if (el.value === true) {
+                                            online.push(el.value)
+                                        } else {
+                                            offline.push(el.value)
+                                        }
                                     }
-                                }
-                            });
-                        }
-                       
-                    }))
+                                });
+                            }
+
+                        }).catch((err) => {
+                            if (err.code === "ECONNABORTED") {
+                                this.$store.dispatch('server/setStatus', false)
+                            }
+                            if (err.code === "ERR_NETWORK") {
+                                this.$store.dispatch('server/setStatus', false)
+                            }
+                        }))
                     });
                 });
-                
-               this.raw_data ={
-                on:online,
-                off:offline
-               }
 
-               return Promise.all(promises).then(()=>{})
-                
+                this.raw_data = {
+                    on: online,
+                    off: offline
+                }
+
+                return Promise.all(promises).then(() => {})
+
             },
             clearData() {
                 this.online = 0
                 this.offline = 0
-               
+
             }
         }
     }

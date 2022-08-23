@@ -41,7 +41,7 @@
     export default {
         data() {
             return {
-                list_device:[],
+                list_device: [],
                 client: [],
                 status: [],
                 online: 0,
@@ -50,11 +50,11 @@
                 avg_users: 0,
             }
         },
-         computed:{
-            statusAPI(){
+        computed: {
+            statusAPI() {
                 return this.$store.state.server.api_sensor.connect;
             },
-             api_baseURL() {
+            api_baseURL() {
                 return localStorage.getItem('api_baseURL');
             },
             dataSensorAPI() {
@@ -63,46 +63,46 @@
         },
         async created() {
             await this.getListDeviceAP()
-            if(this.statusAPI){
-                 this.clearData()
-                this.getAPData()
-            setInterval(() => {
+            if (this.statusAPI) {
                 this.clearData()
                 this.getAPData()
-            }, this.$interval_time);
-            }else{
-                this.list_device.forEach(()=>{
+                setInterval(() => {
+                    this.clearData()
+                    this.getAPData()
+                }, this.$interval_time);
+            } else {
+                this.list_device.forEach(() => {
                     this.offline += 1
                 })
             }
         },
         methods: {
-            getListDeviceAP(){
+            getListDeviceAP() {
                 return this.$store.dispatch('widget/getListDeviceID', 9).then((res) => {
                     this.list_device = res.data
                 })
             },
             getAPData() {
                 var options = {
-                        headers: authHeader()
+                    headers: authHeader()
                 }
                 this.list_device.forEach(el => {
                     var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
-                    
+
                     axios.get(this.api_baseURL + api_last, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
-                         this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
-                                    res) => {
-                                    var success = res.data.success
-                                    if (success) {
-                                        this.$forceUpdate()
-                                    }
-                                })
+                            this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
+                                res) => {
+                                var success = res.data.success
+                                if (success) {
+                                    this.$forceUpdate()
+                                }
+                            })
                         } else {
-                             this.$store.dispatch('server/backupData', {
+                            this.$store.dispatch('server/backupData', {
                                 device: el.id,
                                 data: res.data,
-                                type:'last_data'
+                                type: 'last_data'
                             });
                             var data = res.data
                             this.client.push(data.client[0].value)
@@ -111,6 +111,13 @@
                                 status: data.status[0].value
                             })
                             this.setData()
+                        }
+                    }).catch((err) => {
+                        if (err.code === "ECONNABORTED") {
+                            this.$store.dispatch('server/setStatus', false)
+                        }
+                        if (err.code === "ERR_NETWORK") {
+                            this.$store.dispatch('server/setStatus', false)
                         }
                     })
                 });

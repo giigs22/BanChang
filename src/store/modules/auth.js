@@ -63,7 +63,7 @@ return {
     },
     login_planet({},data) {
       return axios.post(data.api_login,{username:data.username,password:data.password},{
-        "timeout":5000,
+        "timeout":10000,
         "Content-Type": "application/json",
         "Accept": "application/json"
     }).then((res)=>{

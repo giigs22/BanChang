@@ -164,7 +164,6 @@
                     this.alert.active = false
                     location.reload()
                 }).catch((err) => {
-                    console.log(err);
                     if (err.code === "ECONNABORTED") {
                         this.$store.dispatch('server/sendLog', {
                             type: 'error',
