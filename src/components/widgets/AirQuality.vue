@@ -59,25 +59,17 @@
             statusAPI() {
                 return this.$store.state.server.api_sensor.connect;
             },
-            api_baseURL() {
-                return localStorage.getItem('api_baseURL');
-            },
-            dataSensorAPI() {
-                return this.$store.getters['auth/dataPlanet']
-            },
-            env_sensor() {
-                return this.list_device.filter(d => {
-                    return d.type == 'ENV'
-                })
-            },
+            datapm25() {
+                return this.$store.state.widget.pm25
+            }
         },
         async created() {
-            await this.getListDeviceAQI()
+
             if (this.statusAPI) {
-                await this.getEnvirontData()
+                this.avg_data.pm25 = this.datapm25
                 this.calAvg()
                 setInterval(() => {
-                    this.getEnvirontData()
+                    this.avg_data.pm25 = this.datapm25
                     this.calAvg()
                 }, this.$interval_time);
             } else {
@@ -86,11 +78,6 @@
             }
         },
         methods: {
-            getListDeviceAQI() {
-                return this.$store.dispatch('widget/getListDeviceID', 1).then((res) => {
-                    this.list_device = res.data
-                })
-            },
             getDataformBackup() {
                 var promises = []
 
@@ -104,50 +91,6 @@
                 })
                 return Promise.all(promises).then(() => {})
             },
-            getEnvirontData() {
-
-                var options = {
-                    headers: authHeader()
-                }
-                var promises = []
-
-                this.env_sensor.forEach(el => {
-                    var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
-                    promises.push(
-                        axios.get(this.api_baseURL + api_last, options).then((res) => {
-                            if (AuthService.Expire(res.data)) {
-                                this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
-                                    res) => {
-                                    var success = res.data.success
-                                    if (success) {
-                                        this.$forceUpdate()
-                                    }
-                                })
-                            } else {
-
-                                this.$store.dispatch('server/backupData', {
-                                    device: el.id,
-                                    data: res.data,
-                                    type: 'last_data'
-                                });
-
-                                var data = res.data
-                                data['id'] = el.id
-                                this.setDataCal(data)
-
-                            }
-                        }).catch((err) => {
-                            if (err.code === "ECONNABORTED") {
-                                this.$store.dispatch('server/setStatus', false)
-                            }
-                            if (err.code === "ERR_NETWORK") {
-                                this.$store.dispatch('server/setStatus', false)
-                            }
-                        }))
-                })
-                return Promise.all(promises).then(() => {})
-
-            },
             setDataCal(data) {
                 this.pm25.push({
                     id: data.id,
@@ -155,22 +98,30 @@
                 })
             },
             calAvg() {
-                var count_pm25 = 0
-                var sum_pm25 = 0
+                if (this.statusAPI) {
+                    this.aqi.value = Math.ceil(aqical.CalAQI(this.avg_data.pm25))
+                    this.aqi.level = aqical.LevelAQI(this.avg_data.pm25)
 
-                this.pm25.forEach(el => {
-                    if (parseFloat(el.data.value) > 0) {
-                        count_pm25 += 1
-                    }
-                    sum_pm25 += parseFloat(el.data.value)
-                })
-                var avg_pm25 = sum_pm25 / count_pm25
-                this.avg_data.pm25 = (isNaN(avg_pm25)) ? 0 : Math.round(avg_pm25)
+                    this._pm25 = aqical.LevelPM25(this.avg_data.pm25)
+                } else {
+                    var count_pm25 = 0
+                    var sum_pm25 = 0
 
-                this.aqi.value = Math.ceil(aqical.CalAQI(this.avg_data.pm25))
-                this.aqi.level = aqical.LevelAQI(this.avg_data.pm25)
+                    this.pm25.forEach(el => {
+                        if (parseFloat(el.data.value) > 0) {
+                            count_pm25 += 1
+                        }
+                        sum_pm25 += parseFloat(el.data.value)
+                    })
+                    var avg_pm25 = sum_pm25 / count_pm25
+                    this.avg_data.pm25 = (isNaN(avg_pm25)) ? 0 : Math.round(avg_pm25)
 
-                this._pm25 = aqical.LevelPM25(this.avg_data.pm25)
+                    this.aqi.value = Math.ceil(aqical.CalAQI(this.avg_data.pm25))
+                    this.aqi.level = aqical.LevelAQI(this.avg_data.pm25)
+
+                    this._pm25 = aqical.LevelPM25(this.avg_data.pm25)
+                }
+
 
             },
             fullview() {

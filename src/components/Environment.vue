@@ -129,6 +129,10 @@
                 },
                 list_device: [],
                 backup_data: [],
+                status_device:{
+                    online:0,
+                    offline:0
+                }
 
             }
         },
@@ -160,17 +164,19 @@
                 await this.getEnvSensor()
                 await this.getLNRSensor()
                 this.calAvg()
-
+                this.setStatusDevice()
                 setInterval(async () => {
                     this.clearData()
                     await this.getEnvSensor()
                     await this.getLNRSensor()
                     this.calAvg()
+                    this.setStatusDevice()
                 }, this.$interval_time);
             } else {
                 this.clearData()
                 await this.getDataformBackup();
                 this.calAvg()
+                this.setStatusDevice()
             }
         },
         methods: {
@@ -178,6 +184,9 @@
                 return this.$store.dispatch('widget/getListDeviceID', 1).then((res) => {
                     this.list_device = res.data
                 })
+            },
+            setStatusDevice(){
+                this.$store.dispatch('widget/setStatusDevice',{type:'aqi',data:this.status_device})
             },
             getDataformBackup() {
                 var promises = []
@@ -210,6 +219,9 @@
 
                 this.env_sensor.forEach(el => {
                     var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
+                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
+
+                    //Last Data From Sensor
                     promises.push(
                         axios.get(this.api_baseURL + api_last, options).then((res) => {
                             if (AuthService.Expire(res.data)) {
@@ -235,12 +247,43 @@
 
                             }
                         }).catch((err) => {
-                               if (err.code === "ECONNABORTED") {
-                            this.$store.dispatch('server/setStatus', false)
-                        }
-                        if (err.code === "ERR_NETWORK") {
-                            this.$store.dispatch('server/setStatus', false)
-                        }
+                            if (err.code === "ECONNABORTED") {
+                                this.$store.dispatch('server/setStatus', false)
+                            }
+                            if (err.code === "ERR_NETWORK") {
+                                this.$store.dispatch('server/setStatus', false)
+                            }
+                        }))
+                        //Attribute Active Status
+                        promises.push(
+                        axios.get(this.api_baseURL + api_attr, options).then((res) => {
+                            if (AuthService.Expire(res.data)) {
+                                this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
+                                    res) => {
+                                    var success = res.data.success
+                                    if (success) {
+                                        this.$forceUpdate()
+                                    }
+                                })
+                            } else {
+                                var data = res.data
+                                data.forEach(el => {
+                                    if (el.key === 'active') {
+                                        if (el.value === true) {
+                                            this.status_device.online += 1
+                                        } else {
+                                            this.status_device.offline += 1
+                                        }
+                                    }
+                                });
+                            }
+                        }).catch((err) => {
+                            if (err.code === "ECONNABORTED") {
+                                this.$store.dispatch('server/setStatus', false)
+                            }
+                            if (err.code === "ERR_NETWORK") {
+                                this.$store.dispatch('server/setStatus', false)
+                            }
                         }))
                 });
                 return Promise.all(promises).then(() => {})
@@ -253,6 +296,9 @@
 
                 this.lnr_sensor.forEach(el => {
                     var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
+                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
+
+                    //Last Data From Sensor
                     promises.push(axios.get(this.api_baseURL + api_last, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
                             this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
@@ -282,6 +328,38 @@
                             this.$store.dispatch('server/setStatus', false)
                         }
                     }))
+
+                    //Attribute Active Status
+                        promises.push(
+                        axios.get(this.api_baseURL + api_attr, options).then((res) => {
+                            if (AuthService.Expire(res.data)) {
+                                this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
+                                    res) => {
+                                    var success = res.data.success
+                                    if (success) {
+                                        this.$forceUpdate()
+                                    }
+                                })
+                            } else {
+                                var data = res.data
+                                data.forEach(el => {
+                                    if (el.key === 'active') {
+                                        if (el.value === true) {
+                                            this.status_device.online += 1
+                                        } else {
+                                            this.status_device.offline += 1
+                                        }
+                                    }
+                                });
+                            }
+                        }).catch((err) => {
+                            if (err.code === "ECONNABORTED") {
+                                this.$store.dispatch('server/setStatus', false)
+                            }
+                            if (err.code === "ERR_NETWORK") {
+                                this.$store.dispatch('server/setStatus', false)
+                            }
+                        }))
                 });
 
                 return Promise.all(promises).then(() => {})
@@ -392,6 +470,8 @@
                 this._uv = aqical.LevelUV(this.avg_data.uv)
                 this._pm25 = aqical.LevelPM25(this.avg_data.pm25)
 
+                this.$store.dispatch('widget/setPM25',this.avg_data.pm25)
+
             },
             clearData() {
                 this.pm25 = []
@@ -400,6 +480,7 @@
                 this.co2 = []
                 this.uv = []
                 this.voc = []
+                this.status_device={online:0,offline:0}
             }
 
 

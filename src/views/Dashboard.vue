@@ -30,8 +30,7 @@
                                 <DataLayer></DataLayer>
                             </div>
                             <div class="col-span-6">
-                                <MapLocation></MapLocation>
-
+                                <!-- <MapLocation></MapLocation> -->
                             </div>
                             <div class="col-span-3">
                                 <Devices></Devices>
@@ -153,7 +152,6 @@
                 if (!this.statusServer) {
                     await this.loginPlanet()
                 }
-                //await this.checkExpire()
             }
         },
         methods: {
@@ -164,6 +162,7 @@
                     this.alert.active = false
                     location.reload()
                 }).catch((err) => {
+                    
                     if (err.code === "ECONNABORTED") {
                         this.$store.dispatch('server/sendLog', {
                             type: 'error',

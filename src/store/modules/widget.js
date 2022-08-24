@@ -4,7 +4,26 @@ const api_backend = import.meta.env.VITE_API_SERVER;
 export const widget = {
     namespaced: true,
     state: {
-      listwidget:[]
+      listwidget:[],
+      status_device:{
+        aqi:{
+            online:0,
+            offline:0
+        },
+        light:{
+            online:0,
+            offline:0
+        },
+        smartpole:{
+            online:0,
+            offline:0
+        },
+        cctv:{
+            online:0,
+            offline:0
+        }
+      },
+      pm25:null
     },
     actions: {
         getListCate({rootState,commit},data){
@@ -142,11 +161,48 @@ export const widget = {
             }).catch((err)=>{
                 return Promise.reject(err)
             })
+        },
+        setStatusDevice({commit},data){
+            commit('statusDevice',data)
+        },
+        setPM25({commit},data){
+            commit('Pm25',data)
         }
     },
     mutations: {
         listwidget(state,data){
             state.listwidget = data
+        },
+        statusDevice(state,data){
+           
+            if(data.type == 'aqi'){
+                state.status_device.aqi.online = 0
+                state.status_device.aqi.offline = 0
+                state.status_device.aqi.online += data.data.online
+                state.status_device.aqi.offline += data.data.offline
+            }
+            if(data.type =='light'){
+                state.status_device.light.online = 0
+                state.status_device.light.offline = 0
+                state.status_device.light.online += data.data.online
+                state.status_device.light.offline += data.data.offline
+            }
+            if(data.type =='smartpole'){
+                state.status_device.smartpole.online = 0
+                state.status_device.smartpole.offline = 0
+                state.status_device.smartpole.online += data.data.online
+                state.status_device.smartpole.offline += data.data.offline
+            }
+            if(data.type =='cctv'){
+                state.status_device.cctv.online = 0
+                state.status_device.cctv.offline = 0
+                state.status_device.cctv.online += data.data.online
+                state.status_device.cctv.offline += data.data.offline
+            }
+            
+        },
+        Pm25(state,data){
+            state.pm25 = data
         }
     }
   };

@@ -74,6 +74,10 @@
                     power: 0,
                     freq: 0,
                     pf: 0
+                },
+                status_device:{
+                    online:0,
+                    offline:0
                 }
             }
         },
@@ -94,6 +98,7 @@
                 this.clearData()
                 await this.getPowerData()
                 await this.getPowerStatus()
+                this.setStatusDevice()
                 this.calEnergy()
                 this.calAvgEnergy()
 
@@ -101,6 +106,7 @@
                     this.clearData()
                     await this.getPowerData()
                     await this.getPowerStatus()
+                    this.setStatusDevice()
                     this.calEnergy()
                     this.calAvgEnergy()
                 }, this.$interval_time);
@@ -115,6 +121,12 @@
             getListDeviceSMP() {
                 return this.$store.dispatch('widget/getListDeviceID', 3).then((res) => {
                     this.list_device = res.data
+                })
+            },
+            setStatusDevice() {
+                this.$store.dispatch('widget/setStatusDevice', {
+                    type: 'smartpole',
+                    data: this.status_device
                 })
             },
             getDataformBackup() {
@@ -193,8 +205,10 @@
                                 if (el.key === 'active') {
                                     if (el.value === true) {
                                         this.online += 1
+                                        this.status_device.online += 1
                                     } else {
                                         this.offline += 1
+                                        this.status_device.offline += 1
                                     }
                                 }
                             });
@@ -247,6 +261,7 @@
                 this.online = 0
                 this.offline = 0
                 this.no_good = 0
+                this.status_device = {online:0,offline:0}
             },
             fullview() {
                 this.$router.push('/view/smart_pole')

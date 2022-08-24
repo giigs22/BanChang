@@ -19,13 +19,13 @@
                 <img src="@/assets/icon_lighting.png" alt="" class="w-32">
             </div>
             <div class="flex flex-col text-center text-white">
-                <h1 class="text-6xl">{{(online == null?0:online.length)}} <span
-                        class="text-lg">/{{list_device.length}}</span></h1>
+                <h1 class="text-6xl">{{(status_device.online)}} <span class="text-lg">/{{list_device.length}}</span>
+                </h1>
                 <div class="flex items-baseline gap-3">
-                    <h3 class="text-xl">{{(online == null?0:online.length)}} <p class="text-cyan-300 text-xs">Online</p>
+                    <h3 class="text-xl">{{(status_device.online)}} <p class="text-cyan-300 text-xs">Online</p>
                     </h3>
                     <div class="border border-slate-500 h-6 my-auto"></div>
-                    <h3 class="text-2xl">{{(offline == null?0:offline.length)}} <p class="text-red-400 text-xs">Offline
+                    <h3 class="text-2xl">{{(status_device.offline)}} <p class="text-red-400 text-xs">Offline
                         </p>
                     </h3>
                 </div>
@@ -43,9 +43,10 @@
         data() {
             return {
                 list_device: [],
-                lamp_status: [],
-                online: null,
-                offline: null
+                status_device: {
+                    online: 0,
+                    offline: 0
+                }
             }
         },
         computed: {
@@ -63,14 +64,15 @@
             await this.getListDeviceLT()
             if (this.statusAPI) {
                 this.clearData()
-                this.getStatusLamp()
-                setInterval(() => {
+                await this.getStatusLamp()
+                this.setStatusDevice()
+                setInterval(async () => {
                     this.clearData()
-                    this.getStatusLamp()
+                    await this.getStatusLamp()
+                    this.setStatusDevice()
                 }, this.$interval_time);
             } else {
-                this.clearData()
-                this.getDataformBackup()
+                this.setStatusDevice()
             }
 
         },
@@ -80,26 +82,23 @@
                     this.list_device = res.data
                 })
             },
-            getDataformBackup() {
-
-                this.list_device.forEach(el => {
-                    this.$store.dispatch('server/getDataBackup', el.id).then((res) => {
-                        var data = JSON.parse(res.data.data_value)
-                        this.lamp_status.push({
-                            id: el,
-                            lamp: data
-                        })
-                        this.setStatus()
-                    })
+            setStatusDevice() {
+                this.$store.dispatch('widget/setStatusDevice', {
+                    type: 'light',
+                    data: this.status_device
                 })
             },
             getStatusLamp() {
+                var options = {
+                    headers: authHeader()
+                }
+                var promises = []
+
                 this.list_device.forEach(el => {
-                    var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
-                    var options = {
-                        headers: authHeader()
-                    }
-                    axios.get(this.api_baseURL + api_last, options).then((res) => {
+                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
+
+                    //Attribute Active Status
+                    promises.push(axios.get(this.api_baseURL + api_attr, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
                             this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
                                 res) => {
@@ -109,17 +108,16 @@
                                 }
                             })
                         } else {
-                            this.$store.dispatch('server/backupData', {
-                                device: el.id,
-                                data: res.data,
-                                type: 'last_data'
+                            var data = res.data
+                            data.forEach(el => {
+                                if (el.key === 'active') {
+                                    if (el.value === true) {
+                                        this.status_device.online += 1
+                                    } else {
+                                        this.status_device.offline += 1
+                                    }
+                                }
                             });
-                            var data = res.data.lamp[0]
-                            this.lamp_status.push({
-                                id: el,
-                                lamp: data.value
-                            })
-                            this.setStatus()
                         }
                     }).catch((err) => {
                         if (err.code === "ECONNABORTED") {
@@ -128,18 +126,17 @@
                         if (err.code === "ERR_NETWORK") {
                             this.$store.dispatch('server/setStatus', false)
                         }
-                    })
+                    }))
                 });
-            },
-            setStatus() {
-                this.online = this.lamp_status.filter(s => s.lamp === 'on')
-                this.offline = this.lamp_status.filter(s => s.lamp === 'off')
-            },
-            clearData() {
-                this.lamp_status = []
-                this.online = null
-                this.offline = null
+                return Promise.all(promises).then(() => {})
 
+            },
+
+            clearData() {
+                this.status_device = {
+                    online: 0,
+                    offline: 0
+                }
             },
             fullview() {
                 this.$router.push('/view/smart_light')

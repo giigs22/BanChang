@@ -20,78 +20,43 @@
     </div>
 </template>
 <script>
-    import axios from 'axios'
-    import AuthService from '@/services/auth.services'
-    import authHeader from '@/services/auth.header'
-
+import _ from 'lodash'
     export default {
         data() {
             return {
-                list_device: [],
                 online: 0,
                 offline: 0
             }
         },
-        async created() {
-            await this.getDevice()
-            this.getStatus()
-        },
         computed: {
-            statusAPI() {
-                return this.$store.state.server.api_sensor.connect;
-            },
-            api_baseURL() {
-                return localStorage.getItem('api_baseURL');
-            },
-            dataSensorAPI() {
-                return this.$store.getters['auth/dataPlanet']
+           device_status(){
+            return this.$store.state.widget.status_device
+           }
+        },
+        watch:{
+            device_status:{
+                deep:true,
+                handler(){
+                    this.showStatusDevice()
+                }
             }
         },
         methods: {
-            getDevice() {
-                return this.$store.dispatch('widget/getDeviceAll').then((res) => {
-                    var data = res.data
-                    this.list_device = data
-                })
-            },
-            getStatus() {
-                var options = {
-                    headers: authHeader()
-                }
-                this.list_device.forEach(el => {
-                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
-                    axios.get(this.api_baseURL + api_attr, options).then((res) => {
-                        if (AuthService.Expire(res.data)) {
-                            this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
-                                res) => {
-                                var success = res.data.success
-                                if (success) {
-                                    this.$forceUpdate()
-                                }
-                            })
-                        } else {
-
-                            var data = res.data
-                            data.forEach(el => {
-                                if (el.key === 'active') {
-                                    if (el.value === true) {
-                                        this.online += 1
-                                    } else {
-                                        this.offline += 1
-                                    }
-                                }
-                            });
-                        }
-                    }).catch((err) => {
-                        if (err.code === "ECONNABORTED") {
-                            this.$store.dispatch('server/setStatus', false)
-                        }
-                        if (err.code === "ERR_NETWORK") {
-                            this.$store.dispatch('server/setStatus', false)
-                        }
-                    })
-                })
-            }
+           showStatusDevice(){
+            var data = this.device_status
+            var keys = _.keys(data)
+            var on = 0
+            var off = 0
+            keys.forEach(el=>{
+                on +=  _.get(data,el+'.online')
+                
+            })
+            keys.forEach(el=>{
+                off += _.get(data,el+'.offline')
+            })
+            this.online = on
+            this.offline = off
+           }
         }
     }
 </script>

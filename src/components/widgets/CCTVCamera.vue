@@ -47,6 +47,10 @@
                 raw_data: {
                     on: null,
                     off: null
+                },
+                status_device:{
+                  online:0,
+                  offline:0  
                 }
             }
         },
@@ -69,17 +73,20 @@
                 this.clearData()
                 await this.getCamActive()
                 this.setData()
-
+                this.setStatusDevice()
                 setInterval(async () => {
                     this.clearData()
                     await this.getCamActive()
                     this.setData()
+                    this.setStatusDevice()
 
                 }, this.$interval_time);
             } else {
                 this.list_device.forEach(() => {
                     this.offline += 1
+                    this.status_device.offline += 1
                 })
+                this.setStatusDevice()
             }
         },
         methods: {
@@ -95,8 +102,15 @@
             setData() {
                 var o = JSON.parse(JSON.stringify(this.raw_data.on))
                 var f = JSON.parse(JSON.stringify(this.raw_data.off))
-                this.online = o.length
-                this.offline = f.length
+                this.online = this.status_device.online = o.length
+                this.offline = this.status_device.offline = f.length
+                
+            },
+            setStatusDevice() {
+                this.$store.dispatch('widget/setStatusDevice', {
+                    type: 'cctv',
+                    data: this.status_device
+                })
             },
             getCamActive() {
                 var g = this.group_cam

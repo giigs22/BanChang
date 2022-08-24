@@ -16,7 +16,7 @@ export default (app) => {
         setStatus({commit},data){
             commit('connectAPI',data)
         },
-        sendLog({commit,rootState},data){
+        sendLog({rootState},data){
             return axios.post(api_backend+'logger',{type:data.type,msg:data.msg},{
                 headers:{
                   Authorization:"Bearer "+rootState.auth.token.value
