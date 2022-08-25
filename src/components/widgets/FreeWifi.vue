@@ -48,6 +48,10 @@
                 offline: 0,
                 users: 0,
                 avg_users: 0,
+                status_device:{
+                    online:0,
+                    offline:0
+                }
             }
         },
         computed: {
@@ -65,15 +69,20 @@
             await this.getListDeviceAP()
             if (this.statusAPI) {
                 this.clearData()
-                this.getAPData()
-                setInterval(() => {
+                await this.getAPData()
+                this.setStatusDevice()
+                setInterval(async() => {
                     this.clearData()
-                    this.getAPData()
+                    await this.getAPData()
+                    this.setStatusDevice()
                 }, this.$interval_time);
             } else {
                 this.list_device.forEach(() => {
                     this.offline += 1
+                    this.status_device.offline += 1
                 })
+                this.setStatusDevice()
+
             }
         },
         methods: {
@@ -82,14 +91,20 @@
                     this.list_device = res.data
                 })
             },
+            setStatusDevice(){
+                this.$store.dispatch('widget/setStatusDevice',{type:'wifi',data:this.status_device})
+            },
             getAPData() {
                 var options = {
                     headers: authHeader()
                 }
+                var promises = []
+
                 this.list_device.forEach(el => {
                     var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
+                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
 
-                    axios.get(this.api_baseURL + api_last, options).then((res) => {
+                    promises.push(axios.get(this.api_baseURL + api_last, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
                             this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
                                 res) => {
@@ -119,8 +134,41 @@
                         if (err.code === "ERR_NETWORK") {
                             this.$store.dispatch('server/setStatus', false)
                         }
-                    })
+                    }))
+
+                    //Attribute Active Status
+                        promises.push(
+                        axios.get(this.api_baseURL + api_attr, options).then((res) => {
+                            if (AuthService.Expire(res.data)) {
+                                this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
+                                    res) => {
+                                    var success = res.data.success
+                                    if (success) {
+                                        this.$forceUpdate()
+                                    }
+                                })
+                            } else {
+                                var data = res.data
+                                data.forEach(el => {
+                                    if (el.key === 'active') {
+                                        if (el.value === true) {
+                                            this.status_device.online += 1
+                                        } else {
+                                            this.status_device.offline += 1
+                                        }
+                                    }
+                                });
+                            }
+                        }).catch((err) => {
+                            if (err.code === "ECONNABORTED") {
+                                this.$store.dispatch('server/setStatus', false)
+                            }
+                            if (err.code === "ERR_NETWORK") {
+                                this.$store.dispatch('server/setStatus', false)
+                            }
+                        }))
                 });
+                return Promise.all(promises).then(()=>{})
             },
             setData() {
                 var sum_client = 0;
@@ -135,10 +183,10 @@
                     sum_client += parseInt(el)
                 });
 
-                offline = this.status.filter(e => e.status === 'offline').length
-                online = this.status.filter(e => e.status !== 'offline').length
-                this.offline = offline
-                this.online = online
+                 offline = this.status.filter(e => e.status === 'offline').length
+                 online = this.status.filter(e => e.status !== 'offline').length
+                 this.offline = offline
+                 this.online = online
                 this.users = sum_client
                 var avg_users = sum_client / count_avg;
                 this.avg_users = isNaN(avg_users.toFixed(2)) ? 0 : avg_users.toFixed(2)
@@ -150,6 +198,7 @@
                 this.offline = 0
                 this.users = 0
                 this.avg_users = 0
+                this.status_device = {online:0,offline:0}
             }
         }
     }

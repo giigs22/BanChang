@@ -21,9 +21,18 @@ export const widget = {
         cctv:{
             online:0,
             offline:0
+        },
+        wifi:{
+            online:0,
+            offline:0
         }
       },
       pm25:null
+    },
+    getters:{
+        cctvOffline(state){
+            return state.status_device.cctv.offline
+        }
     },
     actions: {
         getListCate({rootState,commit},data){
@@ -198,6 +207,12 @@ export const widget = {
                 state.status_device.cctv.offline = 0
                 state.status_device.cctv.online += data.data.online
                 state.status_device.cctv.offline += data.data.offline
+            }
+            if(data.type =='wifi'){
+                state.status_device.wifi.online = 0
+                state.status_device.wifi.offline = 0
+                state.status_device.wifi.online += data.data.online
+                state.status_device.wifi.offline += data.data.offline
             }
             
         },

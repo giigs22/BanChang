@@ -21,6 +21,10 @@
             Doughnut
         },
         props: {
+            data_set:{
+                type:Array,
+                default:()=>[]
+            },
             chartId: {
                 type: String,
                 default: 'doughnut-chart'
@@ -56,7 +60,7 @@
                     labels: ['Normal', 'Suspect'],
                     datasets: [{
                         backgroundColor: ['#FF5774', '#7A7AFE'],
-                        data: [100, 10],
+                        data: this.data_set,
                         borderWidth:0
                     }]
                 },
@@ -81,7 +85,7 @@
                     labels: ['Normal', 'Suspect'],
                     datasets: [{
                         backgroundColor: ['#7A7AFE','#FF5774'],
-                        data: [100, 10],
+                        data: this.data_set,
                         borderWidth:0,
                     }]
                 }

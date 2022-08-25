@@ -8,7 +8,7 @@
         Bar
     } from 'vue-chartjs'
     import ChartDataLabels from 'chartjs-plugin-datalabels';
-
+    import _ from 'lodash'
     import {
         Chart as ChartJS,
         Title,
@@ -69,10 +69,6 @@
                 type: Object,
                 default: () => {}
             },
-            max_value:{
-                type:Number,
-                default:0
-            }
         },
         data() {
             return {
@@ -81,7 +77,7 @@
                         'Traffic Violation', 'Parking Violation'
                     ],
                     datasets: [{
-                        data: [1, 2, 3, 4, 5, 6],
+                        data: this.data_set,
                         barPercentage: 0.8,
                         axis: 'y',
                         datalabels: {
@@ -109,7 +105,15 @@
                     scales: {
                         x: {
                             display: false,
-                            max:7,
+                            max:()=>{
+                                var m = _.max(this.data_set)
+                                if(m > 99){
+                                    m = m+30
+                                }else{
+                                    m = m+5
+                                }
+                                return m
+                            },
                         },
                         y:{
                             ticks:{
@@ -133,7 +137,7 @@
                         'Traffic Violation', 'Parking Violation'
                     ],
                     datasets: [{
-                        data: [1, 2, 3, 4, 5, 6],
+                        data: this.data_set,
                         barPercentage: 0.8,
                         axis: 'y',
                         datalabels: {

@@ -37,7 +37,7 @@
             return {
                 pm25: [],
                 list_device: [],
-                //env_sensor:[],
+                env_sensor:[],
                 aqi: {
                     value: 0,
                     level: {
@@ -61,10 +61,15 @@
             },
             datapm25() {
                 return this.$store.state.widget.pm25
+            },
+            env_sensor() {
+                return this.list_device.filter(d => {
+                    return d.type == 'ENV'
+                })
             }
         },
         async created() {
-
+            await this.getListDeviceAQI()
             if (this.statusAPI) {
                 this.avg_data.pm25 = this.datapm25
                 this.calAvg()
@@ -78,6 +83,11 @@
             }
         },
         methods: {
+            getListDeviceAQI() {
+                return this.$store.dispatch('widget/getListDeviceID', 1).then((res) => {
+                    this.list_device = res.data
+                })
+            },
             getDataformBackup() {
                 var promises = []
 

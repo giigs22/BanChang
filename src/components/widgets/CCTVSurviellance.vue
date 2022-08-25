@@ -14,7 +14,7 @@
             </svg>
         </div>
         <div class="detail 4 detail-inner">
-            <ChartCCTV/>
+            <ChartCCTV :data_set="chart_data" />
         </div>
     </div>
 </template>
@@ -24,16 +24,22 @@
     import authHeader from '../../services/auth.header'
     import * as dayjs from 'dayjs'
     import ChartCCTV from '../ChartCCTV.vue'
+    import _ from 'lodash'
 
     export default {
         data() {
             return {
                 list_device: [],
+                facereg: {},
+                traffic: {},
+                park: {},
+                lprplate: {},
+                chart_data: null
             }
         },
-        components:{
+        components: {
             ChartCCTV
-        },  
+        },
         computed: {
             statusAPI() {
                 return this.$store.state.server.api_sensor.connect;
@@ -43,11 +49,22 @@
             },
             dataSensorAPI() {
                 return this.$store.getters['auth/dataPlanet']
+            },
+            cctv_offline() {
+                return this.$store.getters['widget/cctvOffline']
             }
         },
         async created() {
             await this.getListDeviceCam()
-            await this.getDataCam()
+            if (this.statusAPI) {
+                await this.getDataCam()
+                this.setData()
+                setInterval(async () => {
+                    await this.getDataCam()
+                    this.setData()
+                }, this.$interval_time);
+            }
+
         },
         methods: {
             getListDeviceCam() {
@@ -59,14 +76,14 @@
                 const limit = 10000
                 const start = dayjs().startOf('day').valueOf()
                 const end = dayjs().endOf('day').valueOf()
-                const keys = ['faceReg_alllist','tracking','wrongDirection','prohibitedArea','lpr_allplate']
+                const keys = ['faceReg_alllist', 'tracking', 'wrongDirection', 'prohibitedArea', 'lpr_allplate']
 
                 var options = {
                     headers: authHeader(),
-                    params:{
-                        limit:limit,
-                        startTs:start,
-                        endTs:end
+                    params: {
+                        limit: limit,
+                        startTs: start,
+                        endTs: end
                     }
                 }
                 var face_data = {}
@@ -74,42 +91,81 @@
                 var park_data = {}
                 var lprplate_data = {}
 
+                var promises = []
+
                 this.list_device.forEach(el => {
 
                     let api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
-                   
-                        keys.forEach(k=>{
-                            options['params']['keys'] = k
-                            
-                            axios.get(this.api_baseURL + api_last, options).then((res) => {
-                                if(Object.keys(res.data).length > 0 && res.data.hasOwnProperty(keys[0])){
-                                    face_data[keys[0]] = res.data[keys[0]]
-                                }
-                                if(Object.keys(res.data).length > 0 && res.data.hasOwnProperty(keys[1])){
-                                    traffic_data[keys[1]] = res.data[keys[1]]
-                                }
-                                if(Object.keys(res.data).length > 0 && res.data.hasOwnProperty(keys[2])){
-                                    traffic_data[keys[2]] = res.data[keys[2]]
-                                }
-                                if(Object.keys(res.data).length > 0 && res.data.hasOwnProperty(keys[3])){
-                                    traffic_data[keys[3]] = res.data[keys[3]]
-                                }
-                                if(Object.keys(res.data).length > 0 && res.data.hasOwnProperty(keys[4])){
-                                    park_data[keys[4]] = res.data[keys[4]]
-                                }
-                                if(Object.keys(res.data).length > 0 && res.data.hasOwnProperty(keys[5])){
-                                    lprplate_data[keys[5]] = res.data[keys[5]]
-                                }
-                            })
-                            
-                         })
-                        
-                
+
+                    keys.forEach(k => {
+                        options['params']['keys'] = k
+
+                        promises.push(axios.get(this.api_baseURL + api_last, options).then((res) => {
+                            if (Object.keys(res.data).length > 0 && res.data.hasOwnProperty(
+                                    keys[0])) {
+                                face_data[keys[0]] = res.data[keys[0]]
+                            }
+                            if (Object.keys(res.data).length > 0 && res.data.hasOwnProperty(
+                                    keys[1])) {
+                                traffic_data[keys[1]] = res.data[keys[1]]
+                            }
+                            if (Object.keys(res.data).length > 0 && res.data.hasOwnProperty(
+                                    keys[2])) {
+                                traffic_data[keys[2]] = res.data[keys[2]]
+                            }
+                            if (Object.keys(res.data).length > 0 && res.data.hasOwnProperty(
+                                    keys[3])) {
+                                traffic_data[keys[3]] = res.data[keys[3]]
+                            }
+                            if (Object.keys(res.data).length > 0 && res.data.hasOwnProperty(
+                                    keys[4])) {
+                                park_data[keys[4]] = res.data[keys[4]]
+                            }
+                            if (Object.keys(res.data).length > 0 && res.data.hasOwnProperty(
+                                    keys[5])) {
+                                lprplate_data[keys[5]] = res.data[keys[5]]
+                            }
+                        }))
+
+                    })
                 });
-                console.log(face_data);
-                console.log(traffic_data);
-                console.log(park_data);
-                console.log(lprplate_data);
+
+                this.facereg = face_data
+                this.traffic = traffic_data
+                this.park = park_data
+                this.lprplate = lprplate_data
+
+                return Promise.all(promises).then(() => {})
+
+            },
+            setData() {
+                var face = _.keys(this.facereg)
+                var traffic = _.keys(this.traffic)
+                var park = _.keys(this.park)
+
+                var camera_malfunction = 0
+                var trespasser = 0
+                var suspected_face_detection = 0
+                var group_cluster_detection = 0
+                var traffic_violation = 0
+                var parking_violation = 0
+
+                face.forEach(el => {
+                    trespasser += this.facereg[el].length
+                })
+
+                traffic.forEach(el => {
+                    traffic_violation += this.traffic[el].length
+                })
+                park.forEach(el => {
+                    parking_violation += this.park[el].length
+                })
+
+                
+                var chart_data = [this.cctv_offline, trespasser, suspected_face_detection, group_cluster_detection,
+                    traffic_violation, parking_violation
+                ]
+                this.chart_data = chart_data
             }
         }
     }
