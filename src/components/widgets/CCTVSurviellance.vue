@@ -34,7 +34,8 @@
                 traffic: {},
                 park: {},
                 lprplate: {},
-                chart_data: null
+                chart_data: null,
+                cctv_offline:0
             }
         },
         components: {
@@ -50,10 +51,16 @@
             dataSensorAPI() {
                 return this.$store.getters['auth/dataPlanet']
             },
-            cctv_offline() {
-                return this.$store.getters['widget/cctvOffline']
-            }
         },
+        watch:{
+            '$store.state.widget.status_device.cctv.offline':{
+                deep:true,
+                handler(n){
+                    this.cctv_offline = n
+                    this.setData()
+                }
+            }
+        },  
         async created() {
             await this.getListDeviceCam()
             if (this.statusAPI) {
@@ -143,7 +150,7 @@
                 var traffic = _.keys(this.traffic)
                 var park = _.keys(this.park)
 
-                var camera_malfunction = 0
+                var camera_malfunction = this.cctv_offline
                 var trespasser = 0
                 var suspected_face_detection = 0
                 var group_cluster_detection = 0
@@ -162,7 +169,7 @@
                 })
 
                 
-                var chart_data = [this.cctv_offline, trespasser, suspected_face_detection, group_cluster_detection,
+                var chart_data = [camera_malfunction, trespasser, suspected_face_detection, group_cluster_detection,
                     traffic_violation, parking_violation
                 ]
                 this.chart_data = chart_data
