@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const status_sensor = localStorage.getItem('api_sensor')
+const status_data = localStorage.getItem('api_data')
 const api_backend = import.meta.env.VITE_API_SERVER;
 
 export default (app) => {
@@ -10,12 +11,21 @@ export default (app) => {
         api_sensor:{
             connect:(status_sensor === 'true')?true:false
         },
+        api_data:{
+            connect:(status_data === 'true')?true:false
+        },
         data_api:null
     },
     actions: {
         setStatus({commit},data){
+          if(data.type === 'server_sensor'){
             commit('connectAPI',data)
+          }else{
+            commit('connectDB',data)
+          }
+            
         },
+
         sendLog({rootState},data){
             return axios.post(api_backend+'logger',{type:data.type,msg:data.msg},{
                 headers:{
@@ -66,7 +76,7 @@ export default (app) => {
           commit('setting',data_set);
         },
         backupData({rootState},data){
-          axios.post(api_backend+'device/backup',data,{
+          axios.post(api_backend+'device/backup',{data:data},{
             headers:{
               Authorization:"Bearer "+rootState.auth.token.value
             }
@@ -82,13 +92,24 @@ export default (app) => {
           }).catch((err)=>{
             return Promise.reject(err)
           })
+        },
+        backupLocation({rootState},data){
+          axios.post(api_backend+'device/backup/location',{data:data},{
+            headers:{
+              Authorization:"Bearer "+rootState.auth.token.value
+            }
+          })
         }
     },
     mutations: {
         connectAPI(state,data){
-            state.api_sensor.connect = data
-            localStorage.setItem('api_sensor',data)
+            state.api_sensor.connect = data.value
+            localStorage.setItem('api_sensor',data.value)
         },
+        connectDB(state,data){
+          state.api_data.connect = data.value
+          localStorage.setItem('api_data',data.value)
+      },
         setting(state,data){
             localStorage.setItem('api_baseURL',data.api_baseURL)
             state.data_api = data

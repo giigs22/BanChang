@@ -5,6 +5,7 @@ import {createStore} from './store'
 import './assets/style.css'
 import { i18n } from './i18n'
 import dayjs from 'dayjs'
+import AlertDialog from './components/utility/AlertDialog.vue'
 
 const app = createApp({
     extends:App,
@@ -15,10 +16,18 @@ const app = createApp({
             app.config.globalProperties.$api_user = res.data.sensor_api_user
             app.config.globalProperties.$api_pass = res.data.sensor_api_pass
             this.$store.dispatch('server/setting');
+            this.$store.dispatch('server/setStatus',{type:'server_data',value:true})
+
+        }).catch((err)=>{
+            if(err.code === 'ERR_NETWORK'){
+                this.$store.dispatch('server/setStatus',{type:'server_data',value:false})
+            }
         })
 
     }
 })
+app.component('AlertDialog',AlertDialog);
+
 const store = createStore(app)
 app.config.globalProperties.$api_backend = import.meta.env.VITE_API_SERVER
 app.config.globalProperties.$interval_time = import.meta.env.VITE_INTERVAL_TIME

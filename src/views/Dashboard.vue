@@ -158,7 +158,7 @@
             loginPlanet() {
                 this.alert.active = true
                 return this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((res) => {
-                    this.$store.dispatch('server/setStatus', true)
+                    this.$store.dispatch('server/setStatus', {type:'server_sensor',value:true})
                     this.alert.active = false
                     location.reload()
                 }).catch((err) => {
@@ -170,7 +170,7 @@
                         }).then((res) => {
                             var data = res.data
                             if (data.success) {
-                                this.$store.dispatch('server/setStatus', false)
+                                this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
                                 this.alert.active = false
                                 this.confirm.active = true
                                 this.confirm.msg = 'Unable to Connect Sensor!'
@@ -184,7 +184,7 @@
                         }).then((res) => {
                             var data = res.data
                             if (data.success) {
-                                this.$store.dispatch('server/setStatus', false)
+                                this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
                                 this.alert.active = false
                                 this.confirm.active = true
                                 this.confirm.msg = 'Error Network!'
