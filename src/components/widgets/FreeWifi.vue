@@ -37,6 +37,7 @@
     import axios from 'axios'
     import AuthService from '../../services/auth.services'
     import authHeader from '../../services/auth.header'
+    import _ from 'lodash'
 
     export default {
         data() {
@@ -51,7 +52,9 @@
                 status_device:{
                     online:0,
                     offline:0
-                }
+                },
+                backup_data:[],
+                location_data:[]
             }
         },
         computed: {
@@ -71,10 +74,14 @@
                 this.clearData()
                 await this.getAPData()
                 this.setStatusDevice()
+                this.backupData()
+                this.backupLocation()
                 setInterval(async() => {
                     this.clearData()
                     await this.getAPData()
                     this.setStatusDevice()
+                    this.backupData()
+                    this.backupLocation()
                 }, this.$interval_time);
             } else {
                 this.list_device.forEach(() => {
@@ -114,11 +121,9 @@
                                 }
                             })
                         } else {
-                            this.$store.dispatch('server/backupData', {
-                                device: el.id,
-                                data: res.data,
-                                type: 'last_data'
-                            });
+                            //Backup data
+                            this.backup_data.push({device:el.id,data:res.data,type:'last_data'})
+
                             var data = res.data
                             this.client.push(data.client[0].value)
                             this.status.push({
@@ -149,9 +154,20 @@
                                 })
                             } else {
                                 var data = res.data
-                                data.forEach(el => {
-                                    if (el.key === 'active') {
-                                        if (el.value === true) {
+                                var lat_key = _.findKey(data, function (k) {
+                                    return k.key == 'lat' || k.key == 'latitude'
+                                })
+                                var long_key = _.findKey(data, function (k) {
+                                    return k.key == 'long' || k.key == 'longitude'
+                                })
+                                
+                                //Backup Location
+                                this.location_data.push({device:el.id,data:{lat:data[lat_key].value,long: data[long_key].value}})
+                               
+                                
+                                data.forEach(el2 => {
+                                    if (el2.key === 'active') {
+                                        if (el2.value === true) {
                                             this.status_device.online += 1
                                         } else {
                                             this.status_device.offline += 1
@@ -199,7 +215,16 @@
                 this.users = 0
                 this.avg_users = 0
                 this.status_device = {online:0,offline:0}
+                this.backup_data= []
+                this.location_data = []
+            },
+            backupData(){
+                 this.$store.dispatch('server/backupData', this.backup_data);
+            },
+            backupLocation(){
+                this.$store.dispatch('server/backupLocation',this.location_data);
             }
+
         }
     }
 </script>

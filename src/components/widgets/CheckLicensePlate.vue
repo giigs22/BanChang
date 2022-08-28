@@ -15,7 +15,7 @@
         </div>
         <div class="detail">
             <div class="flex items-center justify-center relative w-40 h-40">
-                <ChartCheckLisense/>
+                <ChartCheckLisense :data_set="data_set"/>
                 <div class="text-4xl text-white absolute">0</div>
             </div>
             <div class="text-white">
@@ -30,7 +30,7 @@ import ChartCheckLisense from '../ChartCheckLicensePlate.vue'
 export default{
     data() {
         return {
-            
+            data_set:[3,1]
         }
     },
     components:{

@@ -33,10 +33,7 @@
                 })
                 .catch(error => {
                     console.log(error)
-                }).then(() => {
-
-                })
-            console.log(map);
+                }).then(() => {})
         },
         methods: {
 

@@ -57,6 +57,7 @@
     import axios from 'axios'
     import AuthService from '../../services/auth.services'
     import authHeader from '../../services/auth.header'
+    import _ from 'lodash'
 
     export default {
         data() {
@@ -75,10 +76,12 @@
                     freq: 0,
                     pf: 0
                 },
-                status_device:{
-                    online:0,
-                    offline:0
-                }
+                status_device: {
+                    online: 0,
+                    offline: 0
+                },
+                backup_data:[],
+                location_data:[]
             }
         },
         computed: {
@@ -101,6 +104,8 @@
                 this.setStatusDevice()
                 this.calEnergy()
                 this.calAvgEnergy()
+                this.backupData()
+                this.backupLocation()
 
                 setInterval(async () => {
                     this.clearData()
@@ -109,6 +114,8 @@
                     this.setStatusDevice()
                     this.calEnergy()
                     this.calAvgEnergy()
+                     this.backupData()
+                this.backupLocation()
                 }, this.$interval_time);
             } else {
                 this.clearData()
@@ -134,8 +141,10 @@
 
                 this.list_device.forEach(el => {
                     promises.push(this.$store.dispatch('server/getDataBackup', el.id).then((res) => {
+                        if(res.data.length > 0){
                         var data = JSON.parse(res.data.data_value)
                         this.data_lnr.push(data)
+                        }
                         this.no_good += 1
                     }))
                 })
@@ -160,11 +169,10 @@
                                 }
                             })
                         } else {
-                            this.$store.dispatch('server/backupData', {
-                                device: el.id,
-                                data: res.data,
-                                type: 'last_data'
-                            });
+                            
+                            //Backup data
+                            this.backup_data.push({device:el.id,data:res.data,type:'last_data'})
+
                             var data = res.data
                             this.data_lnr.push(data)
                         }
@@ -201,9 +209,21 @@
                         } else {
 
                             var data = res.data
-                            data.forEach(el => {
-                                if (el.key === 'active') {
-                                    if (el.value === true) {
+                            var lat_key = _.findKey(data, function (k) {
+                                return k.key == 'lat' || k.key == 'latitude'
+                            })
+                            var long_key = _.findKey(data, function (k) {
+                                return k.key == 'long' || k.key == 'longitude'
+                            })
+
+                             //Backup Location
+                            this.location_data.push({device:el.id,data:{lat:data[lat_key].value,long:data[long_key].value}})
+
+
+
+                            data.forEach(el2 => {
+                                if (el2.key === 'active') {
+                                    if (el2.value === true) {
                                         this.online += 1
                                         this.status_device.online += 1
                                     } else {
@@ -261,10 +281,19 @@
                 this.online = 0
                 this.offline = 0
                 this.no_good = 0
-                this.status_device = {online:0,offline:0}
+                this.status_device = {
+                    online: 0,
+                    offline: 0
+                }
             },
             fullview() {
                 this.$router.push('/view/smart_pole')
+            },
+             backupData(){
+                 this.$store.dispatch('server/backupData', this.backup_data);
+            },
+            backupLocation(){
+                this.$store.dispatch('server/backupLocation',this.location_data);
             }
         },
     }

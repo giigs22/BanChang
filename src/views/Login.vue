@@ -80,11 +80,17 @@
             loggedIn() {
                 return this.$store.state.auth.status.loggedIn;
             },
+            serverDB(){
+                return this.$store.state.server.api_data.connect
+            }
         },
         created() {
-            if (this.loggedIn) {
+            if(!this.serverDB){
+                 this.message = 'Not Connect to Server.'
+            }else if(this.loggedIn) {
                 this.$router.push("/");
-            }else{
+            }
+            else{
                   localStorage.setItem('token',JSON.stringify({value:null,expire:null}))
                   localStorage.setItem('token_planet',null)
                   localStorage.setItem('api_sensor',false)
@@ -104,6 +110,10 @@
                         this.loading = false
                     } else {
                         this.$router.push("/")
+                    }
+                }).catch((err)=>{
+                    if(err.code === 'ERR_NETWORK'){
+                        window.location.reload()
                     }
                 })
 

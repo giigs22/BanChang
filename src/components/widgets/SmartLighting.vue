@@ -38,6 +38,7 @@
     import axios from 'axios'
     import AuthService from '../../services/auth.services'
     import authHeader from '../../services/auth.header'
+    import _ from 'lodash'
 
     export default {
         data() {
@@ -46,7 +47,8 @@
                 status_device: {
                     online: 0,
                     offline: 0
-                }
+                },
+                location_data: []
             }
         },
         computed: {
@@ -66,10 +68,12 @@
                 this.clearData()
                 await this.getStatusLamp()
                 this.setStatusDevice()
+                this.backupLocation()
                 setInterval(async () => {
                     this.clearData()
                     await this.getStatusLamp()
                     this.setStatusDevice()
+                    this.backupLocation()
                 }, this.$interval_time);
             } else {
                 this.setStatusDevice()
@@ -109,9 +113,27 @@
                             })
                         } else {
                             var data = res.data
-                            data.forEach(el => {
-                                if (el.key === 'active') {
-                                    if (el.value === true) {
+
+                            var lat_key = _.findKey(data, function (k) {
+                                return k.key == 'lat' || k.key == 'latitude'
+                            })
+                            var long_key = _.findKey(data, function (k) {
+                                return k.key == 'long' || k.key == 'longitude'
+                            })
+
+                            //Backup Location
+                            this.location_data.push({
+                                device: el.id,
+                                data: {
+                                    lat: data[lat_key].value,
+                                    long: data[long_key].value
+                                }
+                            })
+
+
+                            data.forEach(el2 => {
+                                if (el2.key === 'active') {
+                                    if (el2.value === true) {
                                         this.status_device.online += 1
                                     } else {
                                         this.status_device.offline += 1
@@ -137,9 +159,13 @@
                     online: 0,
                     offline: 0
                 }
+                this.location_data = []
             },
             fullview() {
                 this.$router.push('/view/smart_light')
+            },
+            backupLocation() {
+                this.$store.dispatch('server/backupLocation', this.location_data);
             }
         }
     }
