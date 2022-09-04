@@ -217,7 +217,6 @@
         methods: {
             getProfile(){
                this.$store.dispatch('user/getUserProfile',this.$route.params.id).then((res)=>{
-                    console.log(res)
                     var data = res.data.data
                     
                     this.idcard = data.idcard

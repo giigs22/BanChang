@@ -162,7 +162,6 @@
                 var id = this.$route.params.id
                 this.$store.dispatch('widget/getWidgetID',id).then((res)=>{
                     var data = res.data
-                    console.log(data)
                     this.id = data.id
                     this.device_id = data.device_id
                     this.device_name = data.device_name

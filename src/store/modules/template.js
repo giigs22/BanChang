@@ -86,7 +86,7 @@ export const template = {
         })
        },
        updateGroup({rootState},data){
-        return axios.post(api_backend+'dashboard/update_group',data,{
+        return this.axios.post(api_backend+'dashboard/update_group',data,{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }
@@ -97,7 +97,7 @@ export const template = {
         })
        },
        updateUser({rootState},data){
-        return axios.post(api_backend+'dashboard/update_user',data,{
+        return this.axios.post(api_backend+'dashboard/update_user',data,{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }

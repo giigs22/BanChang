@@ -81,7 +81,8 @@
                     offline: 0
                 },
                 backup_data:[],
-                location_data:[]
+                location_data:[],
+                map_data:[]
             }
         },
         computed: {
@@ -106,7 +107,7 @@
                 this.calAvgEnergy()
                 this.backupData()
                 this.backupLocation()
-
+                this.setMapData()
                 setInterval(async () => {
                     this.clearData()
                     await this.getPowerData()
@@ -114,7 +115,8 @@
                     this.setStatusDevice()
                     this.calEnergy()
                     this.calAvgEnergy()
-                     this.backupData()
+                    this.backupData()
+                    this.setMapData()
                 this.backupLocation()
                 }, this.$interval_time);
             } else {
@@ -172,17 +174,16 @@
                             
                             //Backup data
                             this.backup_data.push({device:el.id,data:res.data,type:'last_data'})
+                            this.map_data.push({device:el.id,data:res.data})
+
 
                             var data = res.data
                             this.data_lnr.push(data)
                         }
                     }).catch((err) => {
-                        if (err.code === "ECONNABORTED") {
-                            this.$store.dispatch('server/setStatus', false)
-                        }
-                        if (err.code === "ERR_NETWORK") {
-                            this.$store.dispatch('server/setStatus', false)
-                        }
+                        if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {
+                                this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
+                            }
                     }))
                 });
 
@@ -218,7 +219,7 @@
 
                              //Backup Location
                             this.location_data.push({device:el.id,data:{lat:data[lat_key].value,long:data[long_key].value}})
-
+                            this.map_data.push({device:el.id,location:{lat:data[lat_key].value,long:data[long_key].value}})
 
 
                             data.forEach(el2 => {
@@ -226,9 +227,13 @@
                                     if (el2.value === true) {
                                         this.online += 1
                                         this.status_device.online += 1
+                                        this.map_data.push({device:el.id,status:true})
+
                                     } else {
                                         this.offline += 1
                                         this.status_device.offline += 1
+                                        this.map_data.push({device:el.id,status:false})
+
                                     }
                                 }
                             });
@@ -285,6 +290,7 @@
                     online: 0,
                     offline: 0
                 }
+                this.map_data = []
             },
             fullview() {
                 this.$router.push('/view/smart_pole')
@@ -294,6 +300,11 @@
             },
             backupLocation(){
                 this.$store.dispatch('server/backupLocation',this.location_data);
+            },
+            setMapData(){
+                var group_data = _.groupBy(this.map_data, m=>m.device)
+                this.$store.dispatch('map/setData',{type:'smpole',group_data:group_data})
+                
             }
         },
     }

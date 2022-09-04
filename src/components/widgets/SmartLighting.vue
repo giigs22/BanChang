@@ -48,7 +48,8 @@
                     online: 0,
                     offline: 0
                 },
-                location_data: []
+                location_data: [],
+                map_data:[]
             }
         },
         computed: {
@@ -69,11 +70,13 @@
                 await this.getStatusLamp()
                 this.setStatusDevice()
                 this.backupLocation()
+                this.setMapData()
                 setInterval(async () => {
                     this.clearData()
                     await this.getStatusLamp()
                     this.setStatusDevice()
                     this.backupLocation()
+                    this.setMapData()
                 }, this.$interval_time);
             } else {
                 this.setStatusDevice()
@@ -100,6 +103,7 @@
 
                 this.list_device.forEach(el => {
                     var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
+                    var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
 
                     //Attribute Active Status
                     promises.push(axios.get(this.api_baseURL + api_attr, options).then((res) => {
@@ -129,26 +133,42 @@
                                     long: data[long_key].value
                                 }
                             })
+                                this.map_data.push({device:el.id,location:{
+                                    lat: data[lat_key].value,
+                                    long: data[long_key].value
+                                }})
 
 
                             data.forEach(el2 => {
                                 if (el2.key === 'active') {
                                     if (el2.value === true) {
                                         this.status_device.online += 1
+                                        this.map_data.push({device:el.id,status:true})
                                     } else {
                                         this.status_device.offline += 1
+                                        this.map_data.push({device:el.id,status:false})
                                     }
                                 }
                             });
                         }
                     }).catch((err) => {
-                        if (err.code === "ECONNABORTED") {
-                            this.$store.dispatch('server/setStatus', false)
-                        }
-                        if (err.code === "ERR_NETWORK") {
-                            this.$store.dispatch('server/setStatus', false)
-                        }
-                    }))
+                       if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {
+                                this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
+                            }
+                    })
+                    )
+
+                    //Last Data
+                    promises.push(
+                        axios.get(this.api_baseURL + api_last, options).then((res) => {
+                            this.map_data.push({device:el.id,data:res.data})
+                            
+                    }).catch((err)=>{
+                         if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {
+                                this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
+                            }
+                    })
+                    )
                 });
                 return Promise.all(promises).then(() => {})
 
@@ -160,12 +180,18 @@
                     offline: 0
                 }
                 this.location_data = []
+                this.map_data = []
             },
             fullview() {
                 this.$router.push('/view/smart_light')
             },
             backupLocation() {
                 this.$store.dispatch('server/backupLocation', this.location_data);
+            },
+            setMapData(){
+                var group_data = _.groupBy(this.map_data, m=>m.device)
+                this.$store.dispatch('map/setData',{type:'smlight',group_data:group_data})
+                
             }
         }
     }

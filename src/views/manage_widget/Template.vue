@@ -102,7 +102,6 @@ import AlertDialog from '../../components/utility/AlertDialog.vue'
                 this.getListTemplate()
           },
           delTemplate(id){
-            console.log(id);
                 this.del_id = id
                 this.confirm.active = true
           },

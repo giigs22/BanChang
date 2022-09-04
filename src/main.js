@@ -6,7 +6,10 @@ import './assets/style.css'
 import { i18n } from './i18n'
 import dayjs from 'dayjs'
 import AlertDialog from './components/utility/AlertDialog.vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
+const axiosInstance = axios.create()
 const app = createApp({
     extends:App,
     beforeCreate(){
@@ -26,12 +29,16 @@ const app = createApp({
 
     }
 })
+app.use(VueAxios, axios)
+
 app.component('AlertDialog',AlertDialog);
 
 const store = createStore(app)
 app.config.globalProperties.$api_backend = import.meta.env.VITE_API_SERVER
 app.config.globalProperties.$interval_time = import.meta.env.VITE_INTERVAL_TIME
 app.config.globalProperties.$dayjs = dayjs
+app.config.globalProperties.axios =  axiosInstance
+store.axios = axiosInstance
 
 app.use(router)
 app.use(store)

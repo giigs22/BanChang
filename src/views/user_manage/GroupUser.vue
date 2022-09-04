@@ -138,7 +138,6 @@
                 data:val
                }
                 this.$store.dispatch('user/destroyRole',data).then((res)=>{
-                console.log(res);
                 var data = res.data
                 var success = res.data.success
                 if(success){

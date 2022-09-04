@@ -1,7 +1,5 @@
-import axios from "axios"
 const api_backend = import.meta.env.VITE_API_SERVER
 const api_baseURL = localStorage.getItem('api_baseURL')
-
 const local_token = JSON.parse(localStorage.getItem('token'))
 if(local_token === null){
   localStorage.setItem('token',JSON.stringify({value:null,expire:null}))
@@ -36,7 +34,7 @@ return {
   },
   actions: {
     login({ commit }, user) {
-      return axios.post(api_backend+'login',{username:user.username,password:user.password}).then((res)=>{
+      return this.axios.post(api_backend+'login',{username:user.username,password:user.password}).then((res)=>{
         if(res.data.token){
             var now = new Date();
             var item = {
@@ -61,14 +59,16 @@ return {
         return Promise.reject(err)
     })
     },
-    login_planet({},data) {
-      return axios.post(data.api_login,{username:data.username,password:data.password},{
-        "timeout":10000,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
+    login_planet({commit},data) {
+      return this.axios.post(data.api_login,{username:data.username,password:data.password},{
+        timeout:5000,
+        headers:{
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
     }).then((res)=>{
         if(res.data.token){
-            localStorage.setItem('token_planet',res.data.token)
+            commit('loginPlanetSuccess',res.data.token)
         }
         return Promise.resolve(res)
     }).catch((err)=>{
@@ -85,10 +85,11 @@ return {
   mutations: {
     loginSuccess(state) {
       state.status.loggedIn = true;
-      state.token = JSON.parse(localStorage.getItem('token')).value
+      state.token = JSON.parse(localStorage.getItem('token'))
     },
-    loginPlanetSuccess(state) {
+    loginPlanetSuccess(state,data) {
         state.token_planet = localStorage.getItem('token_planet')
+        localStorage.setItem('token_planet',data)
     },
     loginFailure(state) {
       state.status.loggedIn = false;

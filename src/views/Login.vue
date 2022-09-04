@@ -84,10 +84,17 @@
                 return this.$store.state.server.api_data.connect
             }
         },
-        created() {
-            if(!this.serverDB){
-                 this.message = 'Not Connect to Server.'
-            }else if(this.loggedIn) {
+        watch:{
+            serverDB(n,o){
+                if(n){
+                    this.message = ''
+                }else{
+                     this.message = 'Not Connect to Server.'
+                }
+            }
+        },  
+        created() { 
+            if(this.loggedIn) {
                 this.$router.push("/");
             }
             else{

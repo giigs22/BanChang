@@ -107,8 +107,8 @@
                             display: false,
                             max:()=>{
                                 var m = _.max(this.data_set)
-                                if(m > 99){
-                                    m = m+30
+                                if(m > 50){
+                                    m = m+10
                                 }else{
                                     m = m+5
                                 }

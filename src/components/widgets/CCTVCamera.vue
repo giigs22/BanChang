@@ -52,7 +52,8 @@
                   online:0,
                   offline:0  
                 },
-                location_data:[]
+                location_data:[],
+                map_data:[]
             }
         },
         computed: {
@@ -76,12 +77,14 @@
                 this.setData()
                 this.setStatusDevice()
                 this.backupLocation()
+                this.setMapData()
                 setInterval(async () => {
                     this.clearData()
                     await this.getCamActive()
                     this.setData()
                     this.setStatusDevice()
                     this.backupLocation()
+                    this.setMapData()
                 }, this.$interval_time);
             } else {
                 this.list_device.forEach(() => {
@@ -126,11 +129,13 @@
                 var offline = []
                 var promises = []
                 var location_data = this.location_data
+                var map_data = this.map_data
 
                 Object.keys(g).forEach(function (key) {
                     var child = g[key]
                     child.forEach(el => {
                         var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id +'/values/attributes'
+                        var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
 
                         promises.push(axios.get(api_baseURL + api_attr, options).then((res) => {
                             if (AuthService.Expire(res.data)) {
@@ -154,27 +159,43 @@
                                 
                                 //Backup Location
                                 location_data.push({device:el.id,data:{lat:data[lat_key].value,long: data[long_key].value}})
-                             
+                                map_data.push({device:el.id,location:{lat:data[lat_key].value,long:data[long_key].value}})
+
                                 
                                 data.forEach(el2 => {
                                     if (el2.key === 'active') {
                                         if (el2.value === true) {
                                             online.push(el2.value)
+                                            map_data.push({device:el.id,status:true})
+
                                         } else {
                                             offline.push(el2.value)
+                                            map_data.push({device:el.id,status:false})
                                         }
                                     }
                                 });
                             }
 
                         }).catch((err) => {
-                            if (err.code === "ECONNABORTED") {
-                                this.$store.dispatch('server/setStatus', false)
-                            }
-                            if (err.code === "ERR_NETWORK") {
-                                this.$store.dispatch('server/setStatus', false)
+                            if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {
+                                store.dispatch('server/setStatus', {type:'server_sensor',value:false})
                             }
                         }))
+
+                        //Last Data
+                    promises.push(
+                        axios.get(api_baseURL + api_last, options).then((res) => {
+                            map_data.push({device:el.id,data:res.data})
+                            
+                    }).catch((err)=>{
+                         if (err.code === "ECONNABORTED") {
+                                store.dispatch('server/setStatus', false)
+                            }
+                            if (err.code === "ERR_NETWORK") {
+                                store.dispatch('server/setStatus', false)
+                            }
+                    })
+                    )
                     });
                 });
 
@@ -190,9 +211,15 @@
                 this.online = 0
                 this.offline = 0
                 this.location_data = []
+                this.map_data = []
             },
             backupLocation(){
                 this.$store.dispatch('server/backupLocation',this.location_data);
+            },
+            setMapData(){
+                var group_data = _.groupBy(this.map_data, m=>m.device)
+                this.$store.dispatch('map/setData',{type:'cctv',group_data:group_data})
+                
             }
         }
     }

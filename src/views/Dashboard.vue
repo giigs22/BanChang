@@ -27,10 +27,10 @@
                         <Environment></Environment>
                         <div class="grid grid-cols-12 gap-4">
                             <div class="col-span-3">
-                                <DataLayer></DataLayer>
+                                <DataLayer @showmap="showMapData" @clearmap="clearMapData"></DataLayer>
                             </div>
                             <div class="col-span-6">
-                                <!-- <MapLocation></MapLocation> -->
+                                <MapLocation ref="maplocation" :data="datalayer"></MapLocation>
                             </div>
                             <div class="col-span-3">
                                 <Devices></Devices>
@@ -126,7 +126,8 @@
                     active: false,
                     msg: null
                 },
-                components: null
+                components: null,
+                datalayer:[]
             }
         },
         computed: {
@@ -160,9 +161,7 @@
                 return this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((res) => {
                     this.$store.dispatch('server/setStatus', {type:'server_sensor',value:true})
                     this.alert.active = false
-                    location.reload()
                 }).catch((err) => {
-                    
                     if (err.code === "ECONNABORTED") {
                         this.$store.dispatch('server/sendLog', {
                             type: 'error',
@@ -232,6 +231,13 @@
                     });
                     this.components = listName;
                 }
+            },
+            showMapData(val){
+                this.datalayer = val
+                this.$refs.maplocation.setDataLayer()
+            },
+            clearMapData(){
+                this.datalayer = []
             }
 
 

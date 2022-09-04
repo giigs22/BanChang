@@ -54,7 +54,8 @@
                     offline:0
                 },
                 backup_data:[],
-                location_data:[]
+                location_data:[],
+                map_data:[]
             }
         },
         computed: {
@@ -76,12 +77,14 @@
                 this.setStatusDevice()
                 this.backupData()
                 this.backupLocation()
+                this.setMapData()
                 setInterval(async() => {
                     this.clearData()
                     await this.getAPData()
                     this.setStatusDevice()
                     this.backupData()
                     this.backupLocation()
+                    this.setMapData()
                 }, this.$interval_time);
             } else {
                 this.list_device.forEach(() => {
@@ -123,6 +126,8 @@
                         } else {
                             //Backup data
                             this.backup_data.push({device:el.id,data:res.data,type:'last_data'})
+                            this.map_data.push({device:el.id,data:res.data})
+
 
                             var data = res.data
                             this.client.push(data.client[0].value)
@@ -133,11 +138,8 @@
                             this.setData()
                         }
                     }).catch((err) => {
-                        if (err.code === "ECONNABORTED") {
-                            this.$store.dispatch('server/setStatus', false)
-                        }
-                        if (err.code === "ERR_NETWORK") {
-                            this.$store.dispatch('server/setStatus', false)
+                        if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {
+                                this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
                         }
                     }))
 
@@ -163,24 +165,24 @@
                                 
                                 //Backup Location
                                 this.location_data.push({device:el.id,data:{lat:data[lat_key].value,long: data[long_key].value}})
-                               
+                                this.map_data.push({device:el.id,location:{lat:data[lat_key].value,long: data[long_key].value}})
+
                                 
                                 data.forEach(el2 => {
                                     if (el2.key === 'active') {
                                         if (el2.value === true) {
                                             this.status_device.online += 1
+                                            this.map_data.push({device:el.id,status:true})
                                         } else {
                                             this.status_device.offline += 1
+                                            this.map_data.push({device:el.id,status:false})
                                         }
                                     }
                                 });
                             }
                         }).catch((err) => {
-                            if (err.code === "ECONNABORTED") {
-                                this.$store.dispatch('server/setStatus', false)
-                            }
-                            if (err.code === "ERR_NETWORK") {
-                                this.$store.dispatch('server/setStatus', false)
+                            if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {
+                                    this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
                             }
                         }))
                 });
@@ -217,12 +219,18 @@
                 this.status_device = {online:0,offline:0}
                 this.backup_data= []
                 this.location_data = []
+                this.map_data= []
             },
             backupData(){
                  this.$store.dispatch('server/backupData', this.backup_data);
             },
             backupLocation(){
                 this.$store.dispatch('server/backupLocation',this.location_data);
+            },
+            setMapData(){
+                var group_data = _.groupBy(this.map_data, m=>m.device)
+                this.$store.dispatch('map/setData',{type:'wifi',group_data:group_data})
+                
             }
 
         }

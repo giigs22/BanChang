@@ -80,7 +80,6 @@
         methods: {
             getDataSetting(){
                 this.$store.dispatch('server/apiSetting').then((res)=>{
-                    console.log(res);
                     var data = res.data
                     this.sensor.api = data.sensor_api
                     this.sensor.login_token = data.sensor_api_token
