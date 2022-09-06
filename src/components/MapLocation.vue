@@ -18,7 +18,6 @@
     var map
 
     export default {
-        props:['data'],
         data() {
             return {
 
@@ -26,8 +25,7 @@
         },
         computed:{
             statusServer() {
-                //return this.$store.state.server.api_sensor.connect;
-                return false
+                return this.$store.state.server.api_sensor.connect;
             },
         },
         async created() {
@@ -44,7 +42,6 @@
             //         console.log(error)
             //     }).then(() => {})
             //this.setMarker()
-            this.setDataLayer()
         },
         methods: {
             setMarker(){
@@ -69,17 +66,30 @@
                 //     })
                 // })
             },
-            setDataLayer(){
-                var layer = this.data
-                var store_data = []
+            setDataLayer(val){
+                var layer = val
+                var arr_data = []
+                var set_data = []
                 if(this.statusServer){
                     if(layer.length > 0){
                         layer.forEach(el => { 
                         var st_map = this.$store.state.map[el]
-                            var a = _.cloneDeep(st_map)
-                            console.log(a);
+                            var group_data = _.cloneDeep(st_map)
+                            
+                            arr_data = Object.entries(group_data)
                         });
+                        arr_data.forEach(el2 => {
+                            var dt = _.find(el2[1],'data')
+                            var loc = _.find(el2[1],'location')
+                            var st = _.find(el2[1],function(s){
+                                console.log(s.status);
+                            })
+                            //console.log(st);
+                            set_data.push({device_id:el2[0],data:dt,location:loc,status:st})
+                        });
+                        console.log(set_data);
                     }
+                   
                 }else{
                     if(layer.length > 0){
                         this.$store.dispatch('map/getMapData',layer).then((res)=>{

@@ -30,7 +30,7 @@
                                 <DataLayer @showmap="showMapData" @clearmap="clearMapData"></DataLayer>
                             </div>
                             <div class="col-span-6">
-                                <MapLocation ref="maplocation" :data="datalayer"></MapLocation>
+                                <MapLocation ref="maplocation"></MapLocation>
                             </div>
                             <div class="col-span-3">
                                 <Devices></Devices>
@@ -233,8 +233,7 @@
                 }
             },
             showMapData(val){
-                this.datalayer = val
-                this.$refs.maplocation.setDataLayer()
+                this.$refs.maplocation.setDataLayer(val)
             },
             clearMapData(){
                 this.datalayer = []
