@@ -127,7 +127,6 @@
                     msg: null
                 },
                 components: null,
-                datalayer:[]
             }
         },
         computed: {
@@ -236,7 +235,7 @@
                 this.$refs.maplocation.setDataLayer(val)
             },
             clearMapData(){
-                this.datalayer = []
+                this.$refs.maplocation.setDataLayer()
             }
 
 

@@ -245,11 +245,12 @@
 
                                //Backup data
                                 this.backup_data.push({device:el.id,data:res.data,type:'last_data'})
-                                this.map_data.push({device:el.id,data:res.data})
+                                this.map_data.push({device:el.id,data:res.data,name:el.location_name == null?el.device_name:el.location_name})
 
                                 var data = res.data
                                 data['id'] = el.id
                                 this.setDataCal('ENV', data)
+                                
 
 
                             }
@@ -271,7 +272,6 @@
                                 })
                             } else {
                                 var data = res.data
-
                                 var lat_key = _.findKey(data,function(k){
                                     return k.key == 'lat' ||  k.key == 'latitude'
                                 })
@@ -330,7 +330,7 @@
                         } else {
                             //Backup data
                             this.backup_data.push({device:el.id,data:res.data,type:'last_data'})
-                            this.map_data.push({device:el.id,data:res.data})
+                            this.map_data.push({device:el.id,data:res.data,name:el.location_name == null?el.device_name:el.location_name})
 
                             var data = res.data
                             data['id'] = el.id

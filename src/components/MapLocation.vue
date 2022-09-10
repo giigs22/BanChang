@@ -1,108 +1,189 @@
 <template>
     <div class="flex gap-5 my-4 justify-end">
-        <button class="btn-purple">Map</button>
-        <button class="btn-gray">Heatmap</button>
+        <button :class="[map_type=='1'?'btn-purple':'btn-gray']" @click="stdMap">Map</button>
+        <button :class="[map_type=='2'?'btn-purple':'btn-gray']" @click="heatMap">Heatmap</button>
     </div>
-  <div id="map" class="map"></div>
+    <div id="map" class="map"></div>
 </template>
 <script>
-    import {
-        Loader
-    } from "@googlemaps/js-api-loader"
-    import IconMap from '../services/icon.map'
+    import  {Loader } from "@googlemaps/js-api-loader"
+    import { MarkerClusterer } from "@googlemaps/markerclusterer";
+
+    import dataMap from '../services/data.map'
     import _ from 'lodash'
     const loader = new Loader({
         apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
-       
+        libraries:['visualization']
     })
     var map
+    var markers = []
+    var mkcluster
 
     export default {
         data() {
             return {
-
+                list_map: [],
+                map_type:'1'
             }
         },
-        computed:{
+        computed: {
             statusServer() {
                 return this.$store.state.server.api_sensor.connect;
             },
         },
         async created() {
-            // await loader.load().then(() => {
-            //         map = new window.google.maps.Map(document.getElementById('map'), {
-            //             center: {
-            //                 lat: 12.721616995559225,
-            //                 lng: 101.06658441713084,
-            //             },
-            //             zoom: 15
-            //         })
-            //     })
-            //     .catch(error => {
-            //         console.log(error)
-            //     }).then(() => {})
-            //this.setMarker()
+            const spiderfier = document.createElement('script');
+            spiderfier.src = "https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.min.js";
+            document.querySelector('head').appendChild(spiderfier);
+
+            await loader.load().then(() => {
+                   this.stdMap()
+                })
+                .catch(error => {
+                    console.log(error)
+                }).then(() => {})
         },
         methods: {
-            setMarker(){
-                // const makers = new window.google.maps.Marker({
-                //     position:{
-                //         lat: 12.721616995559225,
-                //         lng: 101.06658441713084,
-                //     },
-                //     map,
-                //     title:"Test Marker",
-                //     icon:'http://localhost:3000/src/assets/icon_cctv_yellow.png'
-                // })
-                // const inforwindow = new window.google.maps.InfoWindow({
-                //     content:'<div class="text-red-600">Test Content Hover</div>'
-                // })
+            setMarker() {
+               
+                var oms = new OverlappingMarkerSpiderfier(map, {
+                    markersWontMove: true,
+                    markersWontHide: true,
+                    basicFormatEvents: true,
+                    circleFootSeparation: 60,
+                    keepSpiderfied: true,
+                    legWeight:0.2
+                })
+                this.list_map.forEach(el => {
+                    var icon_sensor = dataMap.setIconMap(el.widget,el.status)
+                    var latlong = {
+                        lat: parseFloat(el.location.lat),
+                        lng: parseFloat(el.location.long),
+                    }
+                    var marker = new window.google.maps.Marker({
+                    position:latlong,
+                    map,
+                    title:el.name,
+                    icon:icon_sensor,
+                    })
+
+                    var content_html = `<h5 class="font-bold my-2">${el.name}</h5>`
+                    content_html += dataMap.setContent(el.widget,el.data,el.status)
+                    content_html += `<h5 class="font-bold my-2">Location:LAT${latlong.lat},LONG${latlong.lng}</h5>`
+                    const inforwindow = new window.google.maps.InfoWindow({
+                        content:content_html,
+                    })
+                    
+                    oms.addMarker(marker);
+                    marker.addListener("click",()=>{
+                    inforwindow.open({
+                        anchor:marker,
+                        map,
+                        shouldFocus:false
+                    })
+                    })
+                    markers.push(marker)
+                })
                 
-                // makers.addListener("mouseover",()=>{
-                //     inforwindow.open({
-                //         anchor:makers,
-                //         map,
-                //         shouldFocus:false
-                //     })
-                // })
+                mkcluster = new MarkerClusterer({map,markers})
+               
             },
-            setDataLayer(val){
+            setDataLayer(val = []) {
+                this.clearMarker()
                 var layer = val
                 var arr_data = []
                 var set_data = []
-                if(this.statusServer){
-                    if(layer.length > 0){
-                        layer.forEach(el => { 
-                        var st_map = this.$store.state.map[el]
+                if (this.statusServer) {
+                    if (layer.length > 0) {
+                        layer.forEach(el => {
+                            var st_map = this.$store.state.map[el]
                             var group_data = _.cloneDeep(st_map)
-                            
-                            arr_data = Object.entries(group_data)
+
+                            var g_arr = Object.entries(group_data)
+                            g_arr.forEach(el2 => {
+                                arr_data.push({
+                                    widget: el,
+                                    value: el2
+                                })
+                            });
+
                         });
+
                         arr_data.forEach(el2 => {
-                            var dt = _.find(el2[1],'data')
-                            var loc = _.find(el2[1],'location')
-                            var st = _.find(el2[1],function(s){
-                                console.log(s.status);
+
+                            var dt = _.find(el2.value[1], 'data')
+                            var loc = _.find(el2.value[1], 'location')
+                            var st = _.find(el2.value[1], 'status')
+                            var n = _.find(el2.value[1], 'name')
+                            set_data.push({
+                                widget: el2.widget,
+                                name: n.name,
+                                device_id: el2.value[0],
+                                data: dt.data,
+                                location: loc.location,
+                                status: st == undefined ? false : st.status
                             })
-                            //console.log(st);
-                            set_data.push({device_id:el2[0],data:dt,location:loc,status:st})
                         });
-                        console.log(set_data);
+                        this.list_map = set_data
+                        this.clearMarker()
+                        this.setMarker()
+                    } else {
+                        this.list_map = []
                     }
-                   
-                }else{
-                    if(layer.length > 0){
-                        this.$store.dispatch('map/getMapData',layer).then((res)=>{
+
+                } else {
+                    if (layer.length > 0) {
+                        this.$store.dispatch('map/getMapData', layer).then((res) => {
                             console.log(res);
                         })
                     }
                 }
+            },
+            stdMap(){
+                this.map_type = '1'
+                map = new window.google.maps.Map(document.getElementById('map'), {
+                            center: {
+                                lat:12.676913467590238, 
+                                lng:101.06454892912522
+                            },
+                            zoom: 15
+                })
+            },
+            heatMap(){
+                this.map_type = '2'
+                    var heatmapData = [
+                    new window.google.maps.LatLng(12.676913467590238, 101.06454892912522),
+                    ];
+
+                    var banchang = new window.google.maps.LatLng(12.676913467590238, 101.06454892912522);
+
+                    map = new window.google.maps.Map(document.getElementById('map'), {
+                    center: banchang,
+                    zoom: 13,
+                    mapTypeId: 'satellite'
+                    });
+
+                    var heatmap = new window.google.maps.visualization.HeatmapLayer({
+                    data: heatmapData
+                    });
+                    heatmap.setMap(map);
+            },
+            clearMarker(){
+                if(markers.length > 0){
+                    
+                    markers.forEach(function(m) {
+                        m.setMap(null);
+                    });
+                    markers = []
+                    mkcluster.clearMarkers()
+                }
+                
             }
         }
     }
 </script>
 <style>
-    .map{
+    .map {
         width: 100%;
         height: 90%;
         position: relative !important;

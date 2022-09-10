@@ -161,7 +161,8 @@
                     //Last Data
                     promises.push(
                         axios.get(this.api_baseURL + api_last, options).then((res) => {
-                            this.map_data.push({device:el.id,data:res.data})
+                            this.map_data.push({device:el.id,data:res.data,name:el.location_name == null?el.device_name:el.location_name})
+
                             
                     }).catch((err)=>{
                          if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {

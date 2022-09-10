@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.14.3",
+    "@googlemaps/markerclusterer": "^2.0.10",
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
     "chartjs-plugin-datalabels": "^2.1.0",

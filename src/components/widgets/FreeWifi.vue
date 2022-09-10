@@ -126,7 +126,7 @@
                         } else {
                             //Backup data
                             this.backup_data.push({device:el.id,data:res.data,type:'last_data'})
-                            this.map_data.push({device:el.id,data:res.data})
+                            this.map_data.push({device:el.id,data:res.data,name:el.location_name == null?el.device_name:el.location_name})
 
 
                             var data = res.data
