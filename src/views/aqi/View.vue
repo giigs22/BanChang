@@ -64,11 +64,7 @@
                                 </div>
                             </div>
                             <div class="col-span-6">
-                                <div class="flex gap-5 my-4 justify-end">
-                                    <button class="btn-purple">Map</button>
-                                    <button class="btn-gray">Heatmap</button>
-                                </div>
-                                <img src="@/assets/map.png" alt="" class="w-full">
+                                <MapView :datamap="group_map_data"/>
                             </div>
                             <div class="col-span-3">
                                 <div class="block-layer data-layer py-2 px-3 mt-4">
@@ -137,11 +133,14 @@
     import FooterPage from '../layout/FooterPage.vue'
     import AuthService from '../../services/auth.services'
     import authHeader from '../../services/auth.header'
+    import MapView from '../../components/MapView.vue'
+    import _ from 'lodash'
 
     export default {
         components: {
             TopMenu,
-            FooterPage
+            FooterPage,
+            MapView
         },
         data() {
             return {
@@ -156,8 +155,9 @@
                     offline: 0
                 },
                 env_sensor: [],
-                lnr_sensor: []
-
+                lnr_sensor: [],
+                map_data:[],
+                group_map_data:[]
             }
         },
         async created() {
@@ -166,12 +166,14 @@
             await this.getEnvAttr()
             await this.getLNRAttr()
             this.calPercent()
+            this.setMapData()
             setInterval(async () => {
                 this.clearData()
                 await this.getListDeviceAQI()
                 await this.getEnvAttr()
                 await this.getLNRAttr()
                 this.calPercent()
+                this.setMapData()
             }, this.$interval_time);
         },
         computed: {
@@ -199,7 +201,10 @@
 
                 this.env_sensor.forEach(el => {
                     var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
-                    promises.push(axios.get(this.api_baseURL + api_attr, options).then((res) => {
+                    var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
+
+                    promises.push(
+                        axios.get(this.api_baseURL + api_attr, options).then((res) => {
                         if (AuthService.Expire(res.data)) {
                             this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
                                 res) => {
@@ -213,6 +218,14 @@
                             var a = data.find((a) => {
                                 return a.key == 'active'
                             })
+                            var lat_key = _.findKey(data,function(k){
+                                    return k.key == 'lat' ||  k.key == 'latitude'
+                                })
+                            var long_key = _.findKey(data,function(k){
+                                    return k.key == 'long' ||  k.key == 'longitude'
+                                })
+
+                            this.map_data.push({id:el.id,location:{lat:data[lat_key].value,long:data[long_key].value}})
 
                             this.list_data.push({
                                 id: el.id,
@@ -221,11 +234,38 @@
                             })
                             if (a.value) {
                                 this.online += 1
+                                this.map_data.push({id:el.id,status:true})
                             } else {
                                 this.offline += 1
+                                this.map_data.push({id:el.id,status:false})
                             }
                         }
-                    }))
+                    }).catch((err) => {
+                            if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {
+                                this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
+                            }
+                    })
+                    )
+
+                    promises.push(
+                        axios.get(this.api_baseURL+api_last,options).then((res)=>{
+                        if (AuthService.Expire(res.data)) {
+                            this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
+                                res) => {
+                                var success = res.data.success
+                                if (success) {
+                                    this.$forceUpdate()
+                                }
+                            })
+                        } else {
+                            this.map_data.push({id:el.id,data:res.data,name:el.location_name == null?el.device_name:el.location_name})
+                        }
+                    }).catch((err) => {
+                            if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {
+                                this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
+                            }
+                    })
+                    )
 
                 })
                 return Promise.all(promises).then(() => {});
@@ -242,11 +282,22 @@
 
                 this.lnr_sensor.forEach(el => {
                     var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
-                    promises.push(axios.get(this.api_baseURL + api_attr, options).then((res) => {
+                    var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
+
+                    promises.push(
+                        axios.get(this.api_baseURL + api_attr, options).then((res) => {
                         var data = res.data
                         var a = data.find((a) => {
                             return a.key == 'active'
                         })
+                        var lat_key = _.findKey(data,function(k){
+                            return k.key == 'lat' ||  k.key == 'latitude'
+                        })
+                        var long_key = _.findKey(data,function(k){
+                            return k.key == 'long' ||  k.key == 'longitude'
+                        })
+
+                        this.map_data.push({id:el.id,location:{lat:data[lat_key].value,long:data[long_key].value}})
 
                         this.list_data.push({
                             id: el.id,
@@ -255,11 +306,38 @@
                         })
                         if (a.value) {
                             this.online += 1
+                            this.map_data.push({id:el.id,status:true})
                         } else {
                             this.offline += 1
+                            this.map_data.push({id:el.id,status:false})
                         }
 
-                    }).catch((err) => console.error(err)))
+                    }).catch((err) => {
+                            if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {
+                                this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
+                            }
+                    })
+                    )
+
+                    promises.push(
+                        axios.get(this.api_baseURL+api_last,options).then((res)=>{
+                        if (AuthService.Expire(res.data)) {
+                            this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
+                                res) => {
+                                var success = res.data.success
+                                if (success) {
+                                    this.$forceUpdate()
+                                }
+                            })
+                        } else {
+                            this.map_data.push({id:el.id,data:res.data,name:el.location_name == null?el.device_name:el.location_name})
+                        }
+                    }).catch((err) => {
+                            if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {
+                                this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
+                            }
+                    })
+                    )
 
                 });
                 return Promise.all(promises).then(() => {})
@@ -283,6 +361,11 @@
                 this.online = 0
                 this.abnormal = 0
                 this.offline = 0
+                this.map_data = []
+            },
+            setMapData(){
+                var group_data = _.groupBy(this.map_data, m=>m.id)
+                this.group_map_data = group_data
             }
 
         }

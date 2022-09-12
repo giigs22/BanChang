@@ -6,7 +6,7 @@
     <div id="map" class="map"></div>
 </template>
 <script>
-    import  {Loader } from "@googlemaps/js-api-loader"
+    import { Loader } from "@googlemaps/js-api-loader"
     import { MarkerClusterer } from "@googlemaps/markerclusterer";
 
     import dataMap from '../services/data.map'
@@ -16,8 +16,12 @@
         libraries:['visualization']
     })
     var map
+    var heatmap
     var markers = []
     var mkcluster
+    var heatmapData = []
+    var banchang
+
 
     export default {
         data() {
@@ -37,6 +41,7 @@
             document.querySelector('head').appendChild(spiderfier);
 
             await loader.load().then(() => {
+                banchang = new window.google.maps.LatLng(12.676913467590238, 101.06454892912522);
                    this.stdMap()
                 })
                 .catch(error => {
@@ -86,7 +91,27 @@
                 })
                 
                 mkcluster = new MarkerClusterer({map,markers})
+                if(this.map_type == '2'){
+                    this.setHeatmap()
+                }
                
+            },
+            setHeatmap(){
+                this.list_map.forEach(el => {
+                    var latlongmap = {
+                        location:new window.google.maps.LatLng(parseFloat(el.location.lat),parseFloat(el.location.long)),
+                        weight:3
+                    }
+                    heatmapData.push(latlongmap)
+                })
+                heatmap = new window.google.maps.visualization.HeatmapLayer({
+                    data: heatmapData,
+                    radius:20
+                    });
+                    heatmap.setMap(map);
+                // var heatmapData = [
+                //     new window.google.maps.LatLng(12.676913467590238, 101.06454892912522),
+                //     ];
             },
             setDataLayer(val = []) {
                 this.clearMarker()
@@ -142,41 +167,33 @@
             stdMap(){
                 this.map_type = '1'
                 map = new window.google.maps.Map(document.getElementById('map'), {
-                            center: {
-                                lat:12.676913467590238, 
-                                lng:101.06454892912522
-                            },
+                            center: banchang,
                             zoom: 15
                 })
             },
             heatMap(){
                 this.map_type = '2'
-                    var heatmapData = [
-                    new window.google.maps.LatLng(12.676913467590238, 101.06454892912522),
-                    ];
-
-                    var banchang = new window.google.maps.LatLng(12.676913467590238, 101.06454892912522);
-
-                    map = new window.google.maps.Map(document.getElementById('map'), {
+                    
+                map = new window.google.maps.Map(document.getElementById('map'), {
                     center: banchang,
                     zoom: 13,
                     mapTypeId: 'satellite'
                     });
-
-                    var heatmap = new window.google.maps.visualization.HeatmapLayer({
-                    data: heatmapData
-                    });
-                    heatmap.setMap(map);
             },
             clearMarker(){
                 if(markers.length > 0){
-                    
                     markers.forEach(function(m) {
-                        m.setMap(null);
-                    });
+                        m.setMap(null)
+                    })
                     markers = []
                     mkcluster.clearMarkers()
                 }
+                if(heatmapData.length > 0){
+                    heatmapData = []
+                    heatmap.setMap(null)
+                }
+                
+
                 
             }
         }

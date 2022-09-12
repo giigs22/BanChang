@@ -16,7 +16,6 @@ class dataMap{
     }
     setContent(type,data,status){
         var dt = _.cloneDeep(data)
-        console.log(dt);
         var html
         if(type == 'aqi'){
             //LNR

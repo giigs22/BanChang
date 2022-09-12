@@ -32,7 +32,7 @@
          
          flex-col bg-blue-400 drop-shadow-lg absolute z-50">
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
-                                    href="/view/aqi_map">Air Quality</a>
+                                    href="/view/aqi">Air Quality</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
                                     href="/view/smart_light">Lighting</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"

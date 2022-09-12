@@ -3,7 +3,7 @@ import {
   createWebHistory
 } from 'vue-router'
 import auth from '../middleware/auth'
-import AQIFull from '../views/aqi/Full.vue'
+import AQIView from '../views/aqi/View.vue'
 import AQIHealthy from '../views/aqi/Healthy.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Login from '../views/Login.vue'
@@ -87,8 +87,8 @@ const routes = [{
     }
   },
   {
-    path: '/view/aqifull',
-    component: AQIFull,
+    path: '/view/aqi',
+    component: AQIView,
     meta: {
       middleware: auth
     }
