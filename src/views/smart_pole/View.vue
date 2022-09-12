@@ -52,7 +52,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="text-sm">
-                                            <tr class="border-b border-gray-700" v-for="(item,index) in list_data"
+                                             <tr class="border-b border-gray-700" v-for="(item,index) in sort_list_data"
                                                 :key="index" :class="[item.status?'text-green-600':'text-red-600']">
                                                 <td class=""><span class="mr-5">{{item.id}}</span> {{item.name}}
                                                 </td>
@@ -64,11 +64,7 @@
                                 </div>
                             </div>
                             <div class="col-span-6">
-                                <div class="flex gap-5 my-4 justify-end">
-                                    <button class="btn-purple">Map</button>
-                                    <button class="btn-gray">Heatmap</button>
-                                </div>
-                                <img src="@/assets/map.png" alt="" class="w-full">
+                                <MapView :datamap="group_map_data"/>
                             </div>
                             <div class="col-span-3">
                                 <div class="block-layer data-layer py-2 px-3 mt-4">
@@ -113,62 +109,72 @@
     import FooterPage from '../layout/FooterPage.vue'
     import AuthService from '../../services/auth.services'
     import authHeader from '../../services/auth.header'
+    import _ from 'lodash'
+    import MapView from '../../components/MapView.vue'
 
     export default {
         components: {
-            TopMenu,
-            FooterPage
-        },
+    TopMenu,
+    FooterPage,
+    MapView,
+},
         data() {
             return {
-                list_device: [],
-                list_data:[],
-                online: 0,
-                offline: 0,
-                abnormal: 0,
-                percent: {
+               list_device:[],
+               list_data:[],
+               online:0,
+               offline:0,
+               abnormal:0,
+               percent: {
                     online: 0,
                     offline: 0,
                     abnormal: 0,
-                }
+                },
+                map_data:[],
+                group_map_data:[]
             }
         },
         async created() {
             this.clearData()
-            await this.getListDeviceLT()
-            await this.getLightAttr()
-            this.calPercent()
-
+            await this.getListDeviceSMP()
+            await this.getPowerStatus()
+            this.setMapData()
             setInterval(async() => {
                 this.clearData()
-                await this.getListDeviceLT()
-                await this.getLightAttr()
-                this.calPercent()
+                await this.getListDeviceSMP()
+                await this.getPowerStatus()
+                this.setMapData()
             }, this.$interval_time);
         },
         computed:{
-            api_baseURL() {
+             api_baseURL() {
                 return localStorage.getItem('api_baseURL');
             },
             dataSensorAPI() {
                 return this.$store.getters['auth/dataPlanet']
+            },
+            sort_list_data(){
+                return _.orderBy(this.list_data,'id')
             }
         },
         methods: {
-            getListDeviceLT() {
-                return this.$store.dispatch('widget/getListDeviceID', 2).then((res) => {
+           getListDeviceSMP() {
+                return this.$store.dispatch('widget/getListDeviceID', 3).then((res) => {
                     this.list_device = res.data
                 })
             },
-            getLightAttr() {
+            getPowerStatus() {
                 var options = {
                     headers: authHeader()
                 }
                 var promises = []
+
                 this.list_device.forEach(el => {
                     var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
+                    var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
+
                     promises.push(axios.get(this.api_baseURL + api_attr, options).then((res) => {
-                         if (AuthService.Expire(res.data)) {
+                        if (AuthService.Expire(res.data)) {
                              this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
                                 res) => {
                                 var success = res.data.success
@@ -177,29 +183,61 @@
                                 }
                             })
                         } else {
-                        var data = res.data
-                        var a = data.find((a) => {
-                            return a.key == 'active'
+                             
+                            var data = res.data
+                            var a = data.find((a) => {
+                                return a.key == 'active'
+                            })
+                             var lat_key = _.findKey(data,function(k){
+                            return k.key == 'lat' ||  k.key == 'latitude'
+                        })
+                        var long_key = _.findKey(data,function(k){
+                            return k.key == 'long' ||  k.key == 'longitude'
                         })
 
-                        this.list_data.push({
-                            id:el.id,
-                            name: el.device_name,
-                            status: a.value
-                        })
-                        if (a.value) {
-                            this.online += 1
+                        this.map_data.push({id:el.id,location:{lat:data[lat_key].value,long:data[long_key].value}})
+                            
+                            this.list_data.push({
+                                id:el.id,
+                                name: el.device_name,
+                                status: a.value
+                            })
+                            if (a.value) {
+                                this.online += 1
+                                this.map_data.push({id:el.id,status:true})
+                            } else {
+                                this.offline += 1
+                                this.map_data.push({id:el.id,status:false})
+                            }
+                        }
+                    }).catch((err) => {
+                            if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {
+                                this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
+                            }
+                    })
+                    )
+
+                    promises.push(
+                        axios.get(this.api_baseURL+api_last,options).then((res)=>{
+                        if (AuthService.Expire(res.data)) {
+                            this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
+                                res) => {
+                                var success = res.data.success
+                                if (success) {
+                                    this.$forceUpdate()
+                                }
+                            })
                         } else {
-                            this.offline += 1
+                            this.map_data.push({id:el.id,data:res.data,name:el.location_name == null?el.device_name:el.location_name,type:'smpole'})
                         }
-                        }
-                    }).catch((err) => console.error(err)))
-
+                    }).catch((err) => {
+                            if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {
+                                this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
+                            }
+                    })
+                    )
                 });
                 return Promise.all(promises).then(() => {})
-
-
-
             },
             calPercent() {
                 var all = this.list_device.length
@@ -211,13 +249,18 @@
                 this.percent.abnormal = Math.round(per_abnormal)
             },
             clearData(){
-                this.list_device= []
-                this.list_data=[]
-                this.online = 0
-                this.offline = 0
-                this.abnormal = 0
+               this.list_device = []
+               this.list_data = []
+               this.online = 0
+               this.offline = 0
+               this.abnormal = 0
+               this.map_data = []
+               this.group_map_data = []
+            },
+            setMapData(){
+                var group_data = _.groupBy(this.map_data, m=>m.id)
+                this.group_map_data = group_data
             }
-
         }
     }
 </script>

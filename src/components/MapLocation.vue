@@ -199,11 +199,8 @@
         }
     }
 </script>
-<style>
+<style scoped>
     .map {
-        width: 100%;
         height: 90%;
-        position: relative !important;
-        border-radius: 5px;
     }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="flex gap-5 my-4 justify-end">
-        <button :class="[map_type=='1'?'btn-purple':'btn-gray']" @click="stdMap">Map</button>
-        <button :class="[map_type=='2'?'btn-purple':'btn-gray']" @click="heatMap">Heatmap</button>
+        <button :class="[map_type=='1'?'btn-purple':'btn-gray']" @click="stdMap" v-if="heatmap">Map</button>
+        <button :class="[map_type=='2'?'btn-purple':'btn-gray']" @click="heatMap" v-if="heatmap">Heatmap</button>
     </div>
     <div id="map" class="map"></div>
 </template>
@@ -23,7 +23,7 @@
     var heatmapData = []
     
 export default {
-    props:['datamap'],
+    props:['datamap','heatmap'],
     data() {
         return {
             map_type:'1',
@@ -43,16 +43,27 @@ export default {
                 .catch(error => {
                     console.log(error)
                 })
-            await this.setMapData()
+            
+            this.setMapData()
 
             setInterval(async () => {
-                await this.setMapData()
+                this.setMapData()
                 if(this.map_type == '2'){
                    this.setHeatmap()
                }
             }, this.$interval_time);
           
                
+    },
+    watch:{
+        datamap(n,o){
+           var n_data = _.cloneDeep(n)
+           var g_data = Object.entries(n_data)
+           if(g_data.length > 0){
+            this.setMapData()
+           }
+         }
+        
     },
     methods:{
         stdMap(){
@@ -81,18 +92,18 @@ export default {
             var g_arr = Object.entries(group_data)
                 g_arr.forEach(el => {
                     arr_data.push({
-                        widget:'aqi',
                         value: el
                     })
                 });
             arr_data.forEach(el2 => {
-
             var dt = _.find(el2.value[1], 'data')
             var loc = _.find(el2.value[1], 'location')
             var st = _.find(el2.value[1], 'status')
             var n = _.find(el2.value[1], 'name')
+            var t = _.find(el2.value[1], 'type')
+
             set_data.push({
-                widget: el2.widget,
+                widget: t.type,
                 name: n.name,
                 device_id: el2.value[0],
                 data: dt.data,
@@ -184,11 +195,8 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
     .map {
-        width: 100%;
-        height: 90%;
-        position: relative !important;
-        border-radius: 5px;
+        height: 620px;
     }
 </style>

@@ -8,8 +8,8 @@ import AQIHealthy from '../views/aqi/Healthy.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
-import SmartLightMap from '../views/smart_light/Map.vue'
-import SmartPole from '../views/smart_pole/Map.vue'
+import SmartLight from '../views/smart_light/View.vue'
+import SmartPole from '../views/smart_pole/View.vue'
 import UserRegister from '../views/user_manage/RegisterUser.vue'
 import UserList from '../views/user_manage/ListUser.vue'
 import EditProfile from '../views/user_manage/EditProfile.vue'
@@ -102,7 +102,7 @@ const routes = [{
   },
   {
     path: '/view/smart_light',
-    component: SmartLightMap,
+    component: SmartLight,
     meta: {
       middleware: auth
     }

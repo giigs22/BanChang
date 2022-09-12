@@ -52,7 +52,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="text-sm">
-                                            <tr class="border-b border-gray-700" v-for="(item,index) in list_data"
+                                            <tr class="border-b border-gray-700" v-for="(item,index) in sort_list_data"
                                                 :key="index" :class="[item.status?'text-green-600':'text-red-600']">
                                                 <td class=""><span class="mr-5">{{item.id}}</span> {{item.name}}
                                                 </td>
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                             <div class="col-span-6">
-                                <MapView :datamap="group_map_data"/>
+                                <MapView :datamap="group_map_data" heatmap="true"/>
                             </div>
                             <div class="col-span-3">
                                 <div class="block-layer data-layer py-2 px-3 mt-4">
@@ -134,7 +134,7 @@
     import AuthService from '../../services/auth.services'
     import authHeader from '../../services/auth.header'
     import MapView from '../../components/MapView.vue'
-    import _ from 'lodash'
+    import _, { orderBy } from 'lodash'
 
     export default {
         components: {
@@ -182,6 +182,9 @@
             },
             dataSensorAPI() {
                 return this.$store.getters['auth/dataPlanet']
+            },
+            sort_list_data:function(){
+                return _.orderBy(this.list_data,'id')
             }
         },
         methods: {
@@ -258,7 +261,7 @@
                                 }
                             })
                         } else {
-                            this.map_data.push({id:el.id,data:res.data,name:el.location_name == null?el.device_name:el.location_name})
+                            this.map_data.push({id:el.id,data:res.data,name:el.location_name == null?el.device_name:el.location_name,type:'aqi'})
                         }
                     }).catch((err) => {
                             if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {
@@ -330,7 +333,7 @@
                                 }
                             })
                         } else {
-                            this.map_data.push({id:el.id,data:res.data,name:el.location_name == null?el.device_name:el.location_name})
+                            this.map_data.push({id:el.id,data:res.data,name:el.location_name == null?el.device_name:el.location_name,type:'aqi'})
                         }
                     }).catch((err) => {
                             if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {
