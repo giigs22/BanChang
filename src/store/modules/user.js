@@ -144,6 +144,13 @@ export const user = {
         }).catch((error)=>{
           return Promise.reject(error)
         })
+      },
+      forgotpass({},data){
+          this.axios.post(api_backend+'forgotpass',{email:data}).then((res)=>{
+            return Promise.resolve(res)
+          }).catch((error)=>{
+            return Promise.reject(error)
+          })
       }
     },
     mutations: {

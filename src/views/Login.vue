@@ -42,7 +42,7 @@
             <div class="mt-3 flex items-center gap-5">
                 <a href="/register" class="text-cyan-500">Register</a>
                 <p class="text-cyan-500">|</p>
-                <p class="text-cyan-500">Forget Password?</p>
+                <a href="/forgetpass" class="text-cyan-500">Forget Password?</a>
             </div>
         </div>
     </div>

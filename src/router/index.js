@@ -32,6 +32,7 @@ import WidgetCreate from '../views/manage_widget/CreateWidget.vue'
 import WidgetEdit from '../views/manage_widget/EditWidget.vue'
 import APIList from '../views/api/APIList.vue'
 import WidgetDetail from '../views/manage_widget/WidgetDetail.vue'
+import ForgetPass from '../views/ForgetPassword.vue'
 
 const routes = [{
     path: '/',
@@ -50,7 +51,10 @@ const routes = [{
     path: '/register',
     component: Register,
   },
-
+  {
+    path:'/forgetpass',
+    component:ForgetPass,
+  },
   {
     path: '/user/register',
     component: UserRegister,
