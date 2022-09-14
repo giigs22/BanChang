@@ -20,7 +20,7 @@ import Complaint from '../views/Complaint.vue'
 import ManageTemplate from '../views/manage_widget/Template.vue'
 import CreateDashboard from '../views/manage_widget/CreateDashboard.vue'
 import CCTV from '../views/cctv/Map.vue'
-import FreeWiFi from '../views/wifi/Map.vue'
+import FreeWiFi from '../views/wifi/View.vue'
 import DigitalSignage from '../views/signage/Map.vue'
 import EditDashboard from '../views/manage_widget/EditDashboard.vue'
 import GroupUser from '../views/user_manage/GroupUser.vue'
@@ -33,6 +33,7 @@ import WidgetEdit from '../views/manage_widget/EditWidget.vue'
 import APIList from '../views/api/APIList.vue'
 import WidgetDetail from '../views/manage_widget/WidgetDetail.vue'
 import ForgetPass from '../views/ForgetPassword.vue'
+import ChangePass from '../views/ChangePassword.vue'
 
 const routes = [{
     path: '/',
@@ -54,6 +55,10 @@ const routes = [{
   {
     path:'/forgetpass',
     component:ForgetPass,
+  },
+  {
+    path:'/reset_password',
+    component:ChangePass,
   },
   {
     path: '/user/register',

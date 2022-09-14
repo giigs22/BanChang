@@ -6,29 +6,32 @@
             <div class="main-content">
                 <div class="block-content mb-5">
                     <loading v-model:active="loading" />
-                    <h1 class="text-xl text-white ml-10">Forgot Password</h1>
+                    <h1 class="text-xl text-white ml-10">Change Password</h1>
                     <div class="form-register mt-5 mb-5">
-                        <Form @submit="sendmail" :validation-schema="schema">
+                        <Form @submit="changePass" :validation-schema="schema">
                             <div class="grid grid-cols-9 text-sm lg:gap-20 2xl:gap-40">
                                 <div class="col-span-3">
                                     <div class="my-3">
-                                        <Field name="email" v-slot="{field}" v-model="email">
-                                            <label class="text-white">Email</label>
-                                            <input v-bind="field" class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
-                                                placeholder="Email Address" :disabled="loading">
+                                        <Field name="password" v-slot="{field}" v-model="password">
+                                            <label class="text-white">New Password</label>
+                                            <input  type="password" v-bind="field" class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
+                                                placeholder="New Password" :disabled="loading">
                                         </Field>
                                         <ErrorMessage name="email" class="text-xs text-red-300" />
                                     </div>
                                     <div class="my-3">
-                                            <label class="text-white block">Verify Captcha</label>
-                                            <VueClientRecaptcha class="flex" :value="inputValue" customTextColor="gray" count="6" hideLines="false" @isValid="checkValidCaptcha"/>
-                                            <input type="text" class="form-input placeholder:text-gray-400" v-model="inputValue" placeholder="Verify Code"/>
+                                        <Field name="con_password" v-slot="{field}" v-model="con_password">
+                                            <label class="text-white">Confirm Password Again</label>
+                                            <input type="password" v-bind="field" class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
+                                                placeholder="Confirm Password" :disabled="loading">
+                                        </Field>
+                                        <ErrorMessage name="con_password" class="text-xs text-red-300" />
                                     </div>
                                 </div>
                             </div>
                             <div class="flex gap-3 justify-end mt-10">
                                 <button type="submit"
-                                    class="px-5 py-2 rounded-md text-white btn-blue-gradient disabled:opacity-70" :disabled="btnSubmit">Forgot</button>
+                                    class="px-5 py-2 rounded-md text-white btn-blue-gradient">Change Password</button>
                                 <button type="reset"
                                     class="px-5 py-2 rounded-md text-white btn-red-gradient">Reset</button>
                             </div>
@@ -63,31 +66,34 @@
         },
         data() {
             const schema = yup.object().shape({
-                email: yup.string().email().required(),
+                password: yup.string().required(),
+                con_password: yup.string().required().oneOf([yup.ref('password'), null], 'Password not match'),
             })
             return {
                 schema,
-                email: null,
+                password: null,
+                con_password:null,
                 loading: false,
                 alert: {
                     active: false,
                     type: null,
                     msg: null
                 },
-                inputValue:null,
-                btnSubmit:true
+                btnSubmit:true,
+                token:null
             }
         },
+        created(){
+            this.token = this.$route.query.token
+        },  
         methods: {
-            checkValidCaptcha(val){
-                if(val){
-                    this.btnSubmit = false
-                }else{
-                    this.btnSubmit = true
+            changePass(){
+                var data = {
+                    password:this.password,
+                    token:this.token
                 }
-            },
-            sendmail(){
-                this.$store.dispatch('user/forgotpass',this.email).then((res)=>{
+                console.log(data);
+                this.$store.dispatch('user/changepass',data).then((res)=>{
                     var success = res.data.success
                     if(success){
                         this.alert.active = true

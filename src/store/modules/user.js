@@ -146,12 +146,19 @@ export const user = {
         })
       },
       forgotpass({},data){
-          this.axios.post(api_backend+'forgotpass',{email:data}).then((res)=>{
+          return this.axios.post(api_backend+'forgotpass',{email:data}).then((res)=>{
             return Promise.resolve(res)
           }).catch((error)=>{
             return Promise.reject(error)
           })
-      }
+      },
+      changepass({},data){
+        return this.axios.post(api_backend+'changepass',{password:data.password,token:data.token}).then((res)=>{
+          return Promise.resolve(res)
+        }).catch((error)=>{
+          return Promise.reject(error)
+        })
+    }
     },
     mutations: {
        setUserData(state,data){
