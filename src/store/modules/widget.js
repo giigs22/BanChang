@@ -36,7 +36,7 @@ export const widget = {
     },
     actions: {
         getListCate({rootState,commit},data){
-            return this.axios.post(api_backend+'widget/list',data,{
+            return axios.post(api_backend+'widget/list',data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                   }
@@ -48,7 +48,7 @@ export const widget = {
             })
         },
          getListCateAll({rootState,commit},data){
-            return this.axios.get(api_backend+'widget/listall',{
+            return axios.get(api_backend+'widget/listall',{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                   }
@@ -60,7 +60,7 @@ export const widget = {
             })
         },
         addCate({rootState},data){
-            return this.axios.post(api_backend+'widget/addcate',data,{
+            return axios.post(api_backend+'widget/addcate',data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value,
                     'Content-Type':'multipart/form-data'
@@ -72,7 +72,7 @@ export const widget = {
             })
         },
          updateCate({rootState},data){
-            return this.axios.post(api_backend+'widget/updatecate',data,{
+            return axios.post(api_backend+'widget/updatecate',data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value,
                     'Content-Type':'multipart/form-data'
@@ -84,7 +84,7 @@ export const widget = {
             })
         },
         delCate({rootState},data){
-            return this.axios.post(api_backend+'widget/destroy',{id:data},{
+            return axios.post(api_backend+'widget/destroy',{id:data},{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                 }
@@ -95,7 +95,7 @@ export const widget = {
             })
         },
         addDevice({rootState},data){
-            return this.axios.post(api_backend+'device/store',data,{
+            return axios.post(api_backend+'device/store',data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                 }
@@ -106,7 +106,7 @@ export const widget = {
             })
         },
         listDevice({rootState},data){
-            return this.axios.post(api_backend+'device/list',data,{
+            return axios.post(api_backend+'device/list',data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                 }
@@ -117,7 +117,7 @@ export const widget = {
             })
         },
         getWidgetID({rootState},data){
-            return this.axios.get(api_backend+'device/'+data,{
+            return axios.get(api_backend+'device/'+data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                 }
@@ -128,7 +128,7 @@ export const widget = {
             })
         },
         getDeviceAll({rootState}){
-            return this.axios.get(api_backend+'device/all',{
+            return axios.get(api_backend+'device/all',{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                 }
@@ -139,7 +139,7 @@ export const widget = {
             })
         },
         updateDevice({rootState},data){
-            return this.axios.patch(api_backend+'device/update/'+data.id,data,{
+            return axios.patch(api_backend+'device/update/'+data.id,data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                 }
@@ -150,7 +150,7 @@ export const widget = {
             })
         },
         destroyDevice({rootState},data){
-            return this.axios.delete(api_backend+'device/destroy/'+data,{
+            return axios.delete(api_backend+'device/destroy/'+data,{
                 headers:{
                   Authorization:"Bearer "+rootState.auth.token.value
                 }
@@ -161,7 +161,7 @@ export const widget = {
               })
         },
         getListDeviceID({rootState},data){
-            return this.axios.get(api_backend+'device/list/'+data,{
+            return axios.get(api_backend+'device/list/'+data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                 }

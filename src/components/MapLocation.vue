@@ -50,7 +50,6 @@
         },
         methods: {
             setMarker() {
-               
                 var oms = new OverlappingMarkerSpiderfier(map, {
                     markersWontMove: true,
                     markersWontHide: true,
@@ -159,8 +158,28 @@
                 } else {
                     if (layer.length > 0) {
                         this.$store.dispatch('map/getMapData', layer).then((res) => {
-                            console.log(res);
+                            var data = res.data
+
+                            data.forEach(el=>{
+                                 var dt = JSON.parse(el.data)
+                                 var loc = JSON.parse(el.location)
+                                 var st = false
+                                 var n = el.name
+
+                                 set_data.push({
+                                    widget: el.widget,
+                                    name: n,
+                                    device_id: el.device_id,
+                                    data: dt,
+                                    location: loc,
+                                    status: st
+                                })
+                            })
+                            this.list_map = set_data
+                            this.clearMarker()
+                            this.setMarker()
                         })
+                        
                     }
                 }
             },

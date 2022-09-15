@@ -18,7 +18,7 @@ export const user = {
         })
       },
       update({rootState},data){
-        return this.axios.patch(api_backend+'users/profile/update/'+data.id,data,{
+        return axios.patch(api_backend+'users/profile/update/'+data.id,data,{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }
@@ -29,7 +29,7 @@ export const user = {
         })
       },
       destroy({rootState},data){
-        return this.axios.delete(api_backend+'users/profile/destroy/'+data,{
+        return axios.delete(api_backend+'users/profile/destroy/'+data,{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }
@@ -41,7 +41,7 @@ export const user = {
       },
       // get all role
       getRole({rootState}){
-        return this.axios.get(api_backend+'roles/role',{
+        return axios.get(api_backend+'roles/role',{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }
@@ -52,7 +52,7 @@ export const user = {
         })     
       },
       getUserData({rootState,commit},data){
-        return this.axios.post(api_backend+'users/alluser',data,{
+        return axios.post(api_backend+'users/alluser',data,{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }
@@ -64,7 +64,7 @@ export const user = {
         })
       },
       getUserProfile({rootState},data){
-        return this.axios.get(api_backend+'users/profile/'+data,{
+        return axios.get(api_backend+'users/profile/'+data,{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }
@@ -76,7 +76,7 @@ export const user = {
       },
       //get all role for manage
        getListRole({rootState,commit},data){
-        return this.axios.post(api_backend+'roles/allrole',data,{
+        return axios.post(api_backend+'roles/allrole',data,{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }
@@ -89,7 +89,7 @@ export const user = {
       },
       userData({commit,rootState}){
         const token = JSON.parse(localStorage.getItem('token'))
-        return this.axios.get(api_backend+'users/user',{
+        return axios.get(api_backend+'users/user',{
           headers:{
             Authorization:"Bearer "+token.value
           }
@@ -102,7 +102,7 @@ export const user = {
         })
       },
       addRole({rootState},data){
-        return this.axios.post(api_backend+'roles/store',{name:data},{
+        return axios.post(api_backend+'roles/store',{name:data},{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }
@@ -113,7 +113,7 @@ export const user = {
         })
       },
       getRoleId({rootState},data){
-        return this.axios.get(api_backend+'roles/'+data,{
+        return axios.get(api_backend+'roles/'+data,{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }
@@ -124,7 +124,7 @@ export const user = {
         })
       },
       updateRole({rootState},data){
-        return this.axios.patch(api_backend+'roles/update/'+data.id,data,{
+        return axios.patch(api_backend+'roles/update/'+data.id,data,{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }
@@ -135,7 +135,7 @@ export const user = {
         })
       },
       destroyRole({rootState},data){
-        return this.axios.post(api_backend+'roles/destroy',data,{
+        return axios.post(api_backend+'roles/destroy',data,{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }
@@ -146,14 +146,14 @@ export const user = {
         })
       },
       forgotpass({},data){
-          return this.axios.post(api_backend+'forgotpass',{email:data}).then((res)=>{
+          return axios.post(api_backend+'forgotpass',{email:data}).then((res)=>{
             return Promise.resolve(res)
           }).catch((error)=>{
             return Promise.reject(error)
           })
       },
       changepass({},data){
-        return this.axios.post(api_backend+'changepass',{password:data.password,token:data.token}).then((res)=>{
+        return axios.post(api_backend+'changepass',{password:data.password,token:data.token}).then((res)=>{
           return Promise.resolve(res)
         }).catch((error)=>{
           return Promise.reject(error)

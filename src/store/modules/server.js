@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const status_sensor = localStorage.getItem('api_sensor')
 const status_data = localStorage.getItem('api_data')
 const api_backend = import.meta.env.VITE_API_SERVER;
@@ -25,7 +27,7 @@ export default (app) => {
         },
 
         sendLog({rootState},data){
-            return this.axios.post(api_backend+'logger',{type:data.type,msg:data.msg},{
+            return axios.post(api_backend+'logger',{type:data.type,msg:data.msg},{
                 headers:{
                   Authorization:"Bearer "+rootState.auth.token.value
                 }
@@ -36,7 +38,7 @@ export default (app) => {
               })
         },
         apiUpdate({rootState},data){
-          return this.axios.post(api_backend+'setting/update',data,{
+          return axios.post(api_backend+'setting/update',data,{
             headers:{
                 Authorization:"Bearer "+rootState.auth.token.value
               }
@@ -47,7 +49,7 @@ export default (app) => {
         })
         },
         apiSetting({rootState}){
-          return this.axios.get(api_backend+'setting/list',{
+          return axios.get(api_backend+'setting/list',{
             headers:{
                 Authorization:"Bearer "+rootState.auth.token.value
               }
@@ -58,7 +60,7 @@ export default (app) => {
         })
         },
         getSettingSensor(){
-          return this.axios.get(api_backend+'setting/data').then((res)=>{
+          return axios.get(api_backend+'setting/data').then((res)=>{
             return Promise.resolve(res)
           }).catch((err)=>{
             return Promise.reject(err)
@@ -74,14 +76,14 @@ export default (app) => {
           commit('setting',data_set);
         },
         backupData({rootState},data){
-          this.axios.post(api_backend+'device/backup',{data:data},{
+          axios.post(api_backend+'device/backup',{data:data},{
             headers:{
               Authorization:"Bearer "+rootState.auth.token.value
             }
           })
         },
         getDataBackup({rootState},data){
-          return this.axios.get(api_backend+'device/backup/get/'+data,{
+          return axios.get(api_backend+'device/backup/get/'+data,{
             headers:{
               Authorization:"Bearer "+rootState.auth.token.value
             }
@@ -92,7 +94,7 @@ export default (app) => {
           })
         },
         backupLocation({rootState},data){
-          this.axios.post(api_backend+'device/backup/location',{data:data},{
+          axios.post(api_backend+'device/backup/location',{data:data},{
             headers:{
               Authorization:"Bearer "+rootState.auth.token.value
             }

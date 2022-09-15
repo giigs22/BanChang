@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const api_backend = import.meta.env.VITE_API_SERVER
 const api_baseURL = localStorage.getItem('api_baseURL')
 const local_token = JSON.parse(localStorage.getItem('token'))
@@ -34,7 +36,7 @@ return {
   },
   actions: {
     login({ commit }, user) {
-      return this.axios.post(api_backend+'login',{username:user.username,password:user.password}).then((res)=>{
+      return axios.post(api_backend+'login',{username:user.username,password:user.password}).then((res)=>{
         if(res.data.token){
             var now = new Date();
             var item = {
@@ -60,7 +62,7 @@ return {
     })
     },
     login_planet({commit},data) {
-      return this.axios.post(data.api_login,{username:data.username,password:data.password},{
+      return axios.post(data.api_login,{username:data.username,password:data.password},{
         timeout:5000,
         headers:{
           'Content-Type': 'application/json',

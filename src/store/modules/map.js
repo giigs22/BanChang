@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const api_backend = import.meta.env.VITE_API_SERVER;
 export const map = {
     namespaced: true,
@@ -13,7 +15,7 @@ export const map = {
             commit('setDataGroup',data)
         },
         getMapData({rootState},data){
-            return this.axios.post(api_backend+'device/map_data',{data:data},{
+            return axios.post(api_backend+'device/map_data',{data:data},{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                   }

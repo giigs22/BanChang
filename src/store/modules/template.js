@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const api_backend = import.meta.env.VITE_API_SERVER;
 
 export const template = {
@@ -86,7 +87,7 @@ export const template = {
         })
        },
        updateGroup({rootState},data){
-        return this.axios.post(api_backend+'dashboard/update_group',data,{
+        return axios.post(api_backend+'dashboard/update_group',data,{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }
@@ -97,7 +98,7 @@ export const template = {
         })
        },
        updateUser({rootState},data){
-        return this.axios.post(api_backend+'dashboard/update_user',data,{
+        return axios.post(api_backend+'dashboard/update_user',data,{
           headers:{
             Authorization:"Bearer "+rootState.auth.token.value
           }
