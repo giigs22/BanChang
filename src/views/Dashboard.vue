@@ -21,7 +21,7 @@
             <!-- Main Section -->
             <div class="inner-content mx-10">
                 <div class="main-content">
-                    <h1 class="text-xl text-white">Dashboard</h1>
+                    <h1 class="text-xl text-white">{{$t('dashboard')}}</h1>
                     <div class="block-content">
                         <img src="@/assets/btn_top.png" alt="" class="w-9 h-9 icon-top">
                         <Environment></Environment>
@@ -30,7 +30,7 @@
                                 <DataLayer @showmap="showMapData" @clearmap="clearMapData"></DataLayer>
                             </div>
                             <div class="col-span-6">
-                                <MapLocation ref="maplocation"></MapLocation>
+                                <!-- <MapLocation ref="maplocation"></MapLocation> -->
                             </div>
                             <div class="col-span-3">
                                 <Devices></Devices>

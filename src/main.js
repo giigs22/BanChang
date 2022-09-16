@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import {createStore} from './store'
 import './assets/style.css'
-import { i18n } from './i18n'
+import { loadLocaleMessages,setI18nLanguage,i18n } from './i18n'
 import dayjs from 'dayjs'
 import AlertDialog from './components/utility/AlertDialog.vue'
 import axios from 'axios'
@@ -41,5 +41,17 @@ app.config.globalProperties.$dayjs = dayjs
 
 app.use(router)
 app.use(i18n)
+
+const lang = localStorage.getItem('lang')
+if(lang){
+    loadLocaleMessages(i18n, lang)
+    setI18nLanguage(i18n, lang)
+    localStorage.setItem('lang',lang)
+}else{
+    loadLocaleMessages(i18n, 'en')
+    setI18nLanguage(i18n, 'en')
+    localStorage.setItem('lang','en')
+}
+
 
 app.mount('#app')

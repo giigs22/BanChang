@@ -10,11 +10,18 @@ import { loadLocaleMessages,setI18nLanguage,i18n } from '../../i18n'
                 locale: 'en'
             }
         },
+        created(){
+            var locale = localStorage.getItem('lang')
+            if(locale){
+                this.locale = locale
+            }
+        },
         methods: {
             switchLocale(locale) {
                 this.locale = locale
                 loadLocaleMessages(i18n, locale)
                 setI18nLanguage(i18n, locale)
+                localStorage.setItem('lang',locale)
             }
         }
     }

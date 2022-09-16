@@ -4,7 +4,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2" viewBox="0 0 9.361 9.361">
                 <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681" fill="#08ff00" />
             </svg>
-            COVID-19
+            {{$t('covid19')}}
         </div>
         <div class="open-full absolute right-2 top-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="43.026" height="43.026" viewBox="0 0 43.026 43.026">
@@ -40,7 +40,7 @@
                 </svg>
             </div>
             <div class="detail-covid text-xs">
-                <p>Total cases</p>
+                <p>{{$t('total_cases')}}</p>
                 <p class="text-yellow-300">{{data_covid.total_case.toLocaleString()}}</p>
             </div>
         </div>
@@ -71,7 +71,7 @@
                 </svg>
             </div>
             <div class="detail-covid text-xs">
-                <p>New cases</p>
+                <p>{{$t('new_cases')}}</p>
                 <p class="text-yellow-300">+{{data_covid.new_case.toLocaleString()}}</p>
             </div>
         </div>
@@ -102,7 +102,7 @@
                 </svg>
             </div>
             <div class="detail-covid text-xs">
-                <p>Deaths</p>
+                <p>{{$t('deaths')}}</p>
                 <p class="text-yellow-300">{{data_covid.deaths.toLocaleString()}}</p>
             </div>
         </div>
@@ -133,7 +133,7 @@
                 </svg>
             </div>
             <div class="detail-covid text-xs">
-                <p>New doses given</p>
+                <p>{{$t('new_doses_given')}}</p>
                 <p class="text-green-300">{{data_covid.new_dose_given}}</p>
             </div>
         </div>
@@ -164,7 +164,7 @@
                 </svg>
             </div>
             <div class="detail-covid text-xs">
-                <p>People fully vaccinated</p>
+                <p>{{$t('people_fully_vac')}}</p>
                 <p class="text-green-300">{{data_covid.people_fully_vac}}</p>
             </div>
         </div>

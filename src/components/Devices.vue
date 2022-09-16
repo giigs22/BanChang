@@ -4,7 +4,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2" viewBox="0 0 9.361 9.361">
                 <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681" fill="#08ff00" />
             </svg>
-            Devices
+            {{$t('device')}}
         </div>
         <div class="open-full absolute right-2 top-3">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" viewBox="0 0 43.026 43.026">
@@ -15,8 +15,8 @@
 
         </div>
         <div class="flex flex-col items-end w-32 ml-10 mt-5"> <span class="text-green-500 text-2xl">{{online}}
-                Online</span>
-            <span class="text-red-500 text-2xl">{{offline}} Offine</span> </div>
+                {{$t('online')}}</span>
+            <span class="text-red-500 text-2xl">{{offline}} {{$t('offline')}}</span> </div>
     </div>
 </template>
 <script>
