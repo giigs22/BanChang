@@ -55,8 +55,8 @@ body {
 
 .block-env {
     background-color: rgb(32, 42, 90, 0.6);
-    @apply flex flex-col py-2 px-6 text-white text-center rounded-lg;
-    max-width: 110px;
+    @apply flex flex-col py-2 px-6 text-white text-center rounded-lg w-1/4 items-center;
+    min-width: 137px;
 }
 
 .icon-env {
@@ -91,7 +91,31 @@ body {
     border-radius: 8px;
     padding: 10px;
 }
+.list-data-layer{
+    max-height: 455px;
+    overflow-y: scroll;
+}
+/* width */
+::-webkit-scrollbar {
+width: 15px;
+}
 
+/* Track */
+::-webkit-scrollbar-track {
+background: #2D3C77;
+border-radius: 10px;  
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #3244AE;
+border-radius: 10px; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: #555; 
+}
 .list-data-layer li{
     @apply flex justify-between relative;
     margin-bottom: 10px;

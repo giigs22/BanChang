@@ -2,12 +2,14 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import {createStore} from './store'
-import './assets/style.css'
 import { loadLocaleMessages,setI18nLanguage,i18n } from './i18n'
 import dayjs from 'dayjs'
 import AlertDialog from './components/utility/AlertDialog.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import './assets/style.css'
+import './assets/style_th.css'
+import './assets/responsive.css'
 
 const app = createApp({
     extends:App,

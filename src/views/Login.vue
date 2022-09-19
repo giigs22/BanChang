@@ -1,13 +1,13 @@
 <template>
     <div class="flex flex-col items-center justify-center min-h-screen">
-        <img src="@/assets/logo.png" alt="" class="mx-auto">
-        <h1 class="text-3xl text-white">เทศบาลตำบลบ้านฉางจังหวัดระยอง</h1>
-        <div class="flex items-center flex-col gap-4 w-1/4 mt-4">
+        <img src="@/assets/logo.png" alt="" class="mx-auto w-32 lg:w-fit">
+        <h1 class="text-xl lg:text-3xl text-white">เทศบาลตำบลบ้านฉางจังหวัดระยอง</h1>
+        <div class="flex items-center flex-col gap-4 w-full lg:w-1/4 mt-4 px-10">
             <Form @submit="handlelogin" :validation-schema="schema" class="w-full">
-                <div class="w-full">
+                <div class="">
                     <Field name="username" v-slot="{field}">
                         <input v-bind="field" v-model="username"
-                            class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
+                            class="form-input placeholder:text-gray-400 disabled:opacity-70 block w-full"
                             placeholder="Username" :disabled="loading">
                     </Field>
                     <ErrorMessage name="username" class="text-xs text-red-500" />
@@ -15,7 +15,7 @@
                 <div class="mt-4">
                     <Field name="password" v-slot="{field}">
                         <input v-bind="field" type="password" v-model="password"
-                            class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
+                            class="form-input placeholder:text-gray-400 disabled:opacity-70 block w-full"
                             placeholder="Password" :disabled="loading">
                     </Field>
                     <ErrorMessage name="password" class="text-xs text-red-500" />

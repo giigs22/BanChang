@@ -30,7 +30,7 @@
                                 <DataLayer @showmap="showMapData" @clearmap="clearMapData"></DataLayer>
                             </div>
                             <div class="col-span-6">
-                                <!-- <MapLocation ref="maplocation"></MapLocation> -->
+                                <MapLocation ref="maplocation"></MapLocation>
                             </div>
                             <div class="col-span-3">
                                 <Devices></Devices>
@@ -161,7 +161,10 @@
                     this.$store.dispatch('server/setStatus', {type:'server_sensor',value:true})
                     this.alert.active = false
                 }).catch((err) => {
-                    if (err.code === "ECONNABORTED") {
+                    var txt_err = err.toString()
+                    var err_protocal = txt_err.includes("undefined (reading 'protocol')")
+
+                    if (err.code === "ECONNABORTED" || err_protocal) {
                         this.$store.dispatch('server/sendLog', {
                             type: 'error',
                             msg: 'Error Connect Login time out.'

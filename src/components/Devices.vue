@@ -14,9 +14,16 @@
             </svg>
 
         </div>
-        <div class="flex flex-col items-end w-32 ml-10 mt-5"> <span class="text-green-500 text-2xl">{{online}}
-                {{$t('online')}}</span>
-            <span class="text-red-500 text-2xl">{{offline}} {{$t('offline')}}</span> </div>
+        <div class="flex flex-col ml-10 mt-5">
+            <div class="flex text-green-500 text-2xl">
+                <div class="text-right w-7">{{online}}</div>
+                <div class="ml-3 text-left">{{$t('online')}}</div>
+            </div> 
+            <div class="flex text-red-500 text-2xl">
+                    <div class="text-right w-7">{{offline}}</div>
+                    <div class="ml-3 text-left">{{$t('offline')}}</div>
+            </div>
+        </div>
     </div>
 </template>
 <script>

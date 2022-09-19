@@ -21,59 +21,59 @@
         <div class="flex gap-1">
             <div class="aqi block-env">
                 <h3>{{$t('aqi')}}</h3>
-                <span class="text-xs my-1">{{aqi.value}}</span>
+                <span class="text-sm my-1">{{aqi.value}}</span>
                 <div class="icon-env">
                     <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" />
                 </div>
-                <span class="text-xs my-1">{{aqi.level.label}}</span>
+                <span class="text-sm my-1">{{aqi.level.label}}</span>
             </div>
             <div class="co2 block-env">
-                <h3>{{$t('co2')}}</h3>
-                <span class="text-xs my-1">{{avg_data.co2}}</span>
+                <h3 class="break-words">{{$t('co2')}}</h3>
+                <span class="text-sm my-1">{{avg_data.co2}}</span>
                 <div class="icon-env">
                     <img src="@/assets/icon_co2.png" />
                 </div>
-                <span class="text-xs my-1">{{_co2.label}}</span>
+                <span class="text-sm my-1">{{_co2.label}}</span>
             </div>
             <div class="pm25 block-env">
                 <h3>{{$t('pm25')}}</h3>
-                <span class="text-xs my-1">{{avg_data.pm25}}</span>
+                <span class="text-sm my-1">{{avg_data.pm25}}</span>
                 <div class="icon-env">
                     <img src="@/assets/icon_pm25.png" />
                 </div>
-                <span class="text-xs my-1">{{_pm25.label}}</span>
+                <span class="text-sm my-1">{{_pm25.label}}</span>
             </div>
             <div class="pm10 block-env">
                 <h3>{{$t('pm10')}}</h3>
-                <span class="text-xs my-1">-</span>
+                <span class="text-sm my-1">-</span>
                 <div class="icon-env">
                     <img src="@/assets/icon_pm10.png" />
                 </div>
-                <span class="text-xs my-1">-</span>
+                <span class="text-sm my-1">-</span>
             </div>
             <div class="hum block-env">
                 <h3>{{$t('humidity')}}</h3>
-                <span class="text-xs my-1">{{avg_data.hum}}</span>
+                <span class="text-sm my-1">{{avg_data.hum}}</span>
                 <div class="icon-env">
                     <img src="@/assets/icon_hum.png" />
                 </div>
-                <span class="text-xs my-1">-</span>
+                <span class="text-sm my-1">-</span>
             </div>
             <div class="uv block-env">
                 <h3>{{$t('uv')}}</h3>
-                <span class="text-xs my-1">{{avg_data.uv}}</span>
+                <span class="text-sm my-1">{{avg_data.uv}}</span>
                 <div class="icon-env">
                     <img src="@/assets/icon_uv.png" />
                 </div>
-                <span class="text-xs my-1">{{_uv.label}}</span>
+                <span class="text-sm my-1">{{_uv.label}}</span>
             </div>
             <div class="voc block-env">
-                <h3>{{$t('voc')}}</h3>
-                <span class="text-xs my-1">{{avg_data.voc}}</span>
+                <h3 class="">{{$t('voc')}}</h3>
+                <span class="text-sm my-1">{{avg_data.voc}}</span>
                 <div class="icon-env">
                     <img src="@/assets/icon_voc.png" />
                 </div>
-                <span class="text-xs my-1">-</span>
+                <span class="text-sm my-1">-</span>
             </div>
         </div>
 

@@ -1,0 +1,12 @@
+html[lang="th"] .block-env h3{
+    font-size: 13px;
+    min-height: 24px;
+    @apply leading-3;
+}
+html[lang="th"] .text-2xl{
+    font-size: 1.4rem;
+}
+html[lang="th"] .btn-purple,.btn-red{
+    font-size: .9rem;
+    @apply px-3 w-24;    
+}

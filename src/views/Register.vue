@@ -1,8 +1,8 @@
 <template>
-    <div class="mx-10 my-20 min-h-screen">
+    <div class="my-5 lg:mx-10 lg:my-20 lg:min-h-screen">
         <!-- Content -->
             <!-- Main Section -->
-            <div class="inner-content mx-10">
+            <div class="inner-content mx-5 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <loading v-model:active="loading" />
