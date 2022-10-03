@@ -2,7 +2,7 @@
     <div class="flex flex-col items-center justify-center min-h-screen">
         <img src="@/assets/logo.png" alt="" class="mx-auto w-32 lg:w-fit">
         <h1 class="text-xl lg:text-3xl text-white">เทศบาลตำบลบ้านฉางจังหวัดระยอง</h1>
-        <div class="flex items-center flex-col gap-4 w-full lg:w-1/4 mt-4 px-10">
+        <div class="flex items-center flex-col gap-4 w-full lg:w-1/2 xl:w-1/4 mt-4 px-10">
             <Form @submit="handlelogin" :validation-schema="schema" class="w-full">
                 <div class="">
                     <Field name="username" v-slot="{field}">

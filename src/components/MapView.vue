@@ -3,7 +3,7 @@
         <button :class="[map_type=='1'?'btn-purple':'btn-gray']" @click="stdMap" v-if="heatmap">Map</button>
         <button :class="[map_type=='2'?'btn-purple':'btn-gray']" @click="heatMap" v-if="heatmap">Heatmap</button>
     </div>
-    <div id="map" class="map"></div>
+    <div id="map" class="map2"></div>
 </template>
 <script>
     import { Loader } from "@googlemaps/js-api-loader"
@@ -30,6 +30,11 @@ export default {
             list_map:[]
         }
     },
+    computed: {
+            statusServer() {
+                return this.$store.state.server.api_sensor.connect;
+            },
+        },
     async created(){
             const spiderfier = document.createElement('script');
             spiderfier.src = "https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.min.js";
@@ -45,6 +50,9 @@ export default {
                 })
             
             this.setMapData()
+            if(this.map_type == '2'){
+                   this.setHeatmap()
+            }
 
             setInterval(async () => {
                 this.setMapData()
@@ -57,6 +65,7 @@ export default {
     },
     watch:{
         datamap(n,o){
+            console.log(n,o);
            var n_data = _.cloneDeep(n)
            var g_data = Object.entries(n_data)
            if(g_data.length > 0){
@@ -88,32 +97,56 @@ export default {
         setMapData(){
             var set_data = []
             var arr_data = []
-            var group_data = _.cloneDeep(this.datamap)
-            var g_arr = Object.entries(group_data)
-                g_arr.forEach(el => {
-                    arr_data.push({
-                        value: el
-                    })
-                });
-            arr_data.forEach(el2 => {
-            var dt = _.find(el2.value[1], 'data')
-            var loc = _.find(el2.value[1], 'location')
-            var st = _.find(el2.value[1], 'status')
-            var n = _.find(el2.value[1], 'name')
-            var t = _.find(el2.value[1], 'type')
 
-            set_data.push({
-                widget: t.type,
-                name: n.name,
-                device_id: el2.value[0],
-                data: dt.data,
-                location: loc.location,
-                status: st == undefined ? false : st.status
-            })
-            });
-            this.list_map = set_data
-            this.clearMarker()
-            this.setMarker()
+            if(this.statusServer){
+                var group_data = _.cloneDeep(this.datamap)
+                var g_arr = Object.entries(group_data)
+                    g_arr.forEach(el => {
+                        arr_data.push({
+                            value: el
+                        })
+                    });
+                arr_data.forEach(el2 => {
+                var dt = _.find(el2.value[1], 'data')
+                var loc = _.find(el2.value[1], 'location')
+                var st = _.find(el2.value[1], 'status')
+                var n = _.find(el2.value[1], 'name')
+                var t = _.find(el2.value[1], 'type')
+
+                set_data.push({
+                    widget: t.type,
+                    name: n.name,
+                    device_id: el2.value[0],
+                    data: dt.data,
+                    location: loc.location,
+                    status: st == undefined ? false : st.status
+                })
+                });
+                this.list_map = set_data
+                this.clearMarker()
+                this.setMarker()
+             }else{
+                var datamap = _.cloneDeep(this.datamap)
+                datamap.forEach(el=>{
+                        var dt = JSON.parse(el.data)
+                        var loc = JSON.parse(el.location)
+                        var st = false
+                        var n = el.name
+
+                        set_data.push({
+                        widget: el.widget,
+                        name: n,
+                        device_id: el.device_id,
+                        data: dt,
+                        location: loc,
+                        status: st
+                    })
+                })
+                this.list_map = set_data
+                this.clearMarker()
+                this.setMarker()
+                
+             }
         },
         clearMarker(){
                 if(markers.length > 0){
@@ -196,7 +229,7 @@ export default {
 }
 </script>
 <style scoped>
-    .map {
+    .map2 {
         height: 620px;
     }
 </style>

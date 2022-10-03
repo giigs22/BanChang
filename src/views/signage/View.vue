@@ -1,40 +1,40 @@
 <template>
     <TopMenu />
-    <main class="mx-10 mt-20">
+    <main class="mt-5 lg:mx-10 lg:mt-20">
         <!-- Content -->
         <section class="">
             <!-- Main Section -->
-            <div class="inner-content mx-10">
+            <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <h1 class="text-xl text-white ml-10">Digital Signage</h1>
                         <div class="searchbox mt-5 mb-5">
                             <h3 class="text-lg text-white">Search</h3>
-                            <div class="grid grid-cols-12">
-                                <div class="col-span-2 flex flex-col items-end gap-5">
-                                    <div>
-                                        <select name="" id="" class="form-select rounded text-sm">
-                                            <option value="">Condition Type</option>
-                                        </select>
-                                    </div>
-                                   
-                                </div>
-                                <div class="col-span-2 flex flex-col items-end gap-5">
-                                    <div>
-                                        <input type="text" placeholder="ID.Name" class="form-input">
-                                    </div>
-                                  
-                                </div>
-                                <div class="col-span-2">
-                                    <div class="ml-2">
-                                        <button class="btn-purple rounded">Search</button>
+                            <div class="grid grid-cols-12 form-search">
+                                <div class="lg:col-span-6 col-span-12">
+                                    <div class="grid grid-cols-4 gap-3">
+                                        <div class="lg:col-span-3 col-span-4">
+                                            <div class="grid grid-cols-4 gap-2">
+                                            <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
+                                                <select name="" id="" class="h-12 rounded text-sm w-full lg:w-auto">
+                                                    <option value="">Condition Type</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-span-4 lg:col-span-2">
+                                                <input type="text" placeholder="ID.Name" class="form-input lg:ml-5 w-full lg:w-auto">
+                                            </div>
+                                            </div>
+                                        </div>
+                                       <div class="col-span-4 lg:col-span-1">
+                                        <button class="btn-purple rounded w-full lg:w-auto">Search</button>
+                                       </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-12 gap-4 mb-5">
-                            <div class="col-span-3">
+                            <div class="col-span-12 lg:col-span-3">
                                 <div class="block-layer data-layer py-2 px-3 mt-4">
                                     <table class="text-white w-full">
                                         <thead>
@@ -56,11 +56,10 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="col-span-6">
-                               
-                                <img src="@/assets/map.png" alt="" class="w-full">
+                            <div class="col-span-12 lg:col-span-6">
+                                <MapView :datamap="group_map_data"/>
                             </div>
-                            <div class="col-span-3">
+                            <div class="col-span-12 lg:col-span-3">
                                 <div class="block-layer data-layer py-2 px-3 mt-4">
                                     <h1 class="text-2xl text-white text-center my-3">Device Status</h1>
                                     <div class="grid grid-cols-3 gap-1 my-5">
@@ -100,16 +99,17 @@
 <script>
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
-   
+   import MapView from '../../components/MapView.vue'
 
     export default {
         components: {
             TopMenu,
-            FooterPage
+            FooterPage,
+            MapView
         },
         data() {
             return {
-              
+              group_map_data:[]
             }
         }
     }

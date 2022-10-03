@@ -99,7 +99,7 @@
                         <!--  Block List Complaint -->
                         <div class="mx-20 my-5 flex flex-col gap-3">
                             <!-- Item -->
-                            <div class="block-env">
+                            <div class="block-comp">
                                 <div class="grid grid-cols-12">
                                     <div class="col-span-2">
                                         <img src="@/assets/img_ex_complaint.png" />
@@ -135,7 +135,7 @@
                             </div>
                             <!-- Item -->
                              <!-- Item -->
-                            <div class="block-env">
+                            <div class="block-comp">
                                 <div class="grid grid-cols-12">
                                     <div class="col-span-2">
                                         <img src="@/assets/img_ex_complaint.png" />
@@ -171,7 +171,7 @@
                             </div>
                             <!-- Item -->
                              <!-- Item -->
-                            <div class="block-env">
+                            <div class="block-comp">
                                 <div class="grid grid-cols-12">
                                     <div class="col-span-2">
                                         <img src="@/assets/img_ex_complaint.png" />
@@ -207,7 +207,7 @@
                             </div>
                             <!-- Item -->
                              <!-- Item -->
-                            <div class="block-env">
+                            <div class="block-comp">
                                 <div class="grid grid-cols-12">
                                     <div class="col-span-2">
                                         <img src="@/assets/img_ex_complaint.png" />

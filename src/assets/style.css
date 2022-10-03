@@ -26,7 +26,9 @@ body {
 .nav-menu {
     @apply flex items-center gap-1 py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white;
 }
-
+.nav-menu-m {
+    @apply flex items-center gap-1 py-3 pr-4 pl-3 text-white rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white;
+}
 .section-content {
     background-color: rgb(47, 64, 126, 0.5);
     border-radius: 10px;
@@ -45,7 +47,7 @@ body {
 }
 
 .top-bar {
-    @apply flex gap-3;
+    @apply flex gap-3 flex-wrap;
 }
 
 .wether {
@@ -56,6 +58,11 @@ body {
 .block-env {
     background-color: rgb(32, 42, 90, 0.6);
     @apply flex flex-col py-2 px-6 text-white text-center rounded-lg w-1/4 items-center;
+    min-width: 137px;
+}
+.block-comp {
+    background-color: rgb(32, 42, 90, 0.6);
+    @apply flex flex-col py-2 px-6 text-white text-center rounded-lg items-center;
     min-width: 137px;
 }
 
@@ -97,7 +104,8 @@ body {
 }
 /* width */
 ::-webkit-scrollbar {
-width: 15px;
+width: 10px;
+height: 10px;
 }
 
 /* Track */
@@ -186,11 +194,11 @@ background-color: rgb(32, 42, 90,0.4);
     @apply text-gray-600 text-sm
 }
 .bg-head-table-comp tr td{
-    @apply text-center p-5 border;
+    @apply text-center p-2 lg:p-5 border;
     border: 2px solid rgb(36, 46, 95);
 }
 .bg-body-table-comp tr td{
-    @apply text-center p-5 border;
+    @apply text-center p-2 lg:p-5 border;
     border: 2px solid rgb(36, 46, 95);
 }
 .bg-footer{

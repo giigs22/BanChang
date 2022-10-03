@@ -1,7 +1,7 @@
 <template>
-    <h2 class="text-lg text-white mb-2">{{$t('environment')}}</h2>
+    <h2 class="lg:text-lg text-white mb-2">{{$t('environment')}}</h2>
     <div class="top-bar">
-        <div class="wether flex flex-wrap w-1/4 py-3 px-7">
+        <div class="wether flex flex-wrap w-full lg:w-1/4 py-3 px-7">
             <div class="flex flex-col text-center cursor-pointer" @click="$router.push('/view/aqi_healthy')">
                 <div class="icon-env-main" :style="{background:aqi.level.color}">
                     <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" alt="">
@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex gap-1">
+        <div class="flex lg:flex-nowrap gap-1 overflow-x-scroll">
             <div class="aqi block-env">
                 <h3>{{$t('aqi')}}</h3>
                 <span class="text-sm my-1">{{aqi.value}}</span>
@@ -205,7 +205,7 @@
                         var data = JSON.parse(res.data.data_value)
                         data['id'] = el.id
                         this.setDataCal('ENV', data)
-
+                        this.status_device.offline += 1
 
                     }))
                 })
@@ -214,7 +214,7 @@
                         var data = JSON.parse(res.data.data_value)
                         data['id'] = el.id
                         this.setDataCal('LNR', data)
-
+                        this.status_device.offline += 1
 
                     }))
                 })

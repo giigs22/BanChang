@@ -1,7 +1,7 @@
 <template>
     <TopMenu />
-    <main class="m-10">
-        <div class="flex items-center justify-end my-5">
+    <main class="m-3 lg:m-10">
+        <div class="flex items-center justify-end my-3 lg:my-5">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36" height="36"
                 viewBox="0 0 36 36">
                 <defs>
@@ -14,25 +14,25 @@
                     d="M14.755,19V33.079L0,31.046V19Zm0-16.075V17.177H0V4.954ZM36,19V36L16.377,33.3V19ZM36,0V17.178H16.377V2.7Z"
                     fill="url(#linear-gradient)" />
             </svg>
-            <h1 class="text-xl text-white ml-1">Video Wall</h1>
+            <h1 class="text-md lg:text-xl text-white ml-1">Video Wall</h1>
         </div>
         <!-- Content -->
         <section class="section-content">
             <!-- Main Section -->
-            <div class="inner-content mx-10">
+            <div class="inner-content lg:mx-10">
                 <div class="main-content">
-                    <h1 class="text-xl text-white">{{$t('dashboard')}}</h1>
+                    <h1 class="lg:text-xl text-white">{{$t('dashboard')}}</h1>
                     <div class="block-content">
                         <img src="@/assets/btn_top.png" alt="" class="w-9 h-9 icon-top">
                         <Environment></Environment>
                         <div class="grid grid-cols-12 gap-4">
-                            <div class="col-span-3">
+                            <div class="col-span-12 lg:col-span-3">
                                 <DataLayer @showmap="showMapData" @clearmap="clearMapData"></DataLayer>
                             </div>
-                            <div class="col-span-6">
+                            <div class="col-span-12 lg:col-span-6">
                                 <MapLocation ref="maplocation"></MapLocation>
                             </div>
-                            <div class="col-span-3">
+                            <div class="col-span-12 lg:col-span-3">
                                 <Devices></Devices>
                                 <SOS></SOS>
                                 <Covid19></Covid19>
@@ -45,7 +45,7 @@
             </div>
             <!-- End Main Section-->
             <!-- Widget -->
-            <div class="inner-content mx-10 mt-5">
+            <div class="inner-content∂ lg:mx-10 mt-5">
                 <div class="main-content">
                     <div class="block-content">
                         <img src="@/assets/btn_top.png" alt="" class="w-9 h-9 icon-top">
@@ -63,7 +63,7 @@
             </div>
             <!-- End Widget -->
             <!-- Recent Complaint -->
-            <div class="inner-content mx-10 mt-5">
+            <div class="inner-content lg:mx-10 mt-5">
                 <div class="main-content">
                     <div class="block-content">
                         <img src="@/assets/btn_top.png" alt="" class="w-9 h-9 ml-auto">

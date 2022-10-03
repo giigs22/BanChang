@@ -24,6 +24,17 @@ export const map = {
             }).catch((err)=>{
                 return Promise.reject(err)
             })
+        },
+        getMapDataDevice({rootState},data){
+            return axios.get(api_backend+'device/map_data/'+data,{
+                headers:{
+                    Authorization:"Bearer "+rootState.auth.token.value
+                  }
+            }).then((res)=>{
+                return Promise.resolve(res)
+            }).catch((err)=>{
+                return Promise.reject(err)
+            })
         }
     },
     mutations:{

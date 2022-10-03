@@ -1,5 +1,5 @@
 <template>
-    <div class="block-widgets col-span-4">
+    <div class="block-widgets col-span-12 lg:col-span-4">
                                 <div class="status">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2" viewBox="0 0 9.361 9.361">
                                         <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681"

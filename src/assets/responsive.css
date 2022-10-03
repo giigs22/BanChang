@@ -1,3 +1,19 @@
-@media (min-width: 640px) {
-   
+@media (width: 414px) {
+    .list-data-layer{
+        max-height: 200px;
+        overflow-y: scroll;
+    }
+    .map{
+        height: 350px !important;
+    }
+    .map2{
+        height: 350px !important;
+    }
+    .detail{
+        justify-content: flex-start;
+    }
+    .detail-inner{
+        margin: 0;
+        overflow-x: scroll;
+    }
 }

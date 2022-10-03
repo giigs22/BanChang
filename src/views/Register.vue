@@ -10,7 +10,7 @@
                         <div class="form-register mt-5 mb-5">
                             <Form @submit="register" :validation-schema="schema">
                                 <div class="grid grid-cols-9 text-sm lg:gap-20 2xl:gap-40">
-                                    <div class="col-span-3">
+                                    <div class="col-span-full lg:col-span-3">
                                         <div class="my-3">
                                             <Field name="idcard" v-slot="{field}">
                                                 <label class="text-white">Employee ID or ID Card</label>
@@ -57,7 +57,7 @@
                                             <ErrorMessage name="con_password" class="text-xs text-red-300" />
                                         </div>
                                     </div>
-                                    <div class="col-span-3">
+                                    <div class="col-span-full lg:col-span-3">
                                         <div class="my-3">
                                             <Field name="position" v-slot="{field}">
                                                 <label class="text-white">Position</label>
@@ -96,7 +96,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-span-3">
+                                    <div class="col-span-full lg:col-span-3">
                                          <div class="flex justify-center flex-col w-32">
                                             <div class="bg-gray-200 p-3 rounded" @click="$refs.profile.click()">
                                                 <img src="@/assets/icon_picture.png" alt="" class="max-h-30 mx-auto"
