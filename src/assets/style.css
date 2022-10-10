@@ -62,7 +62,7 @@ body {
 }
 .block-comp {
     background-color: rgb(32, 42, 90, 0.6);
-    @apply flex flex-col py-2 px-6 text-white text-center rounded-lg items-center;
+    @apply flex flex-col py-2 px-3 lg:px-6 text-white text-center rounded-lg items-center;
     min-width: 137px;
 }
 
@@ -231,7 +231,7 @@ background: -webkit-radial-gradient(circle, hsla(228, 45%, 32%, 1) 0%, hsla(229,
     background: rgba(0, 0, 0,0.08);
 }
 .btn-prev,.btn-page,.btn-next{
-    @apply rounded-full btn-blue-gradient text-white text-lg font-bold p-3 w-12 h-12 text-center;
+    @apply rounded-full btn-blue-gradient text-white lg:text-lg font-bold lg:p-3 lg:w-12 lg:h-12 w-10 h-10 text-center;
 }
 .form-search .form-select,.form-search .form-input{
     @apply h-12 rounded-md

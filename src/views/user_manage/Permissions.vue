@@ -1,32 +1,36 @@
 <template>
     <TopMenu />
-    <main class="mx-10 mt-20">
+    <main class="mt-5 lg:mx-10 lg:mt-20">
         <!-- Content -->
         <section class="">
             <!-- Main Section -->
-            <div class="inner-content mx-10">
+            <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <h1 class="text-xl text-white ml-10">Permissions</h1>
                         <div class="searchbox mt-5 mb-5">
                             <h3 class="text-lg text-white">Permissions</h3>
-                            <div class="grid grid-cols-12  form-search">
-                                <div class="col-span-2 gap-5 flex flex-col">
-                                    <div>
-                                        <select class="rounded-md h-12 w-full">
-                                            <option value="">Role</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-span-2">
-                                    <div class="ml-2">
-                                        <button class="btn-purple rounded h-12">Search</button>
+                            <div class="grid grid-cols-12 form-search">
+                                <div class="lg:col-span-6 col-span-12">
+                                    <div class="grid grid-cols-4 gap-3">
+                                        <div class="lg:col-span-3 col-span-full">
+                                            <div class="grid grid-cols-4 gap-2">
+                                            <div class="col-span-full lg:col-span-2">
+                                                <select class="form-select h-12 rounded text-sm w-full">
+                                                    <option value="">Condition Type</option>
+                                                </select>                                            </div>
+                                            <div class="col-span-full lg:col-span-1">
+                                                <button class="btn-purple rounded w-full lg:w-auto h-12">Search</button>
+                                            </div>
+                                            </div>
+                                        </div>
+                                       
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="">
+                        <div class="lg:overflow-hidden overflow-scroll">
                             <table class="table w-full shadow-sm">
                                 <thead class="text-white bg-head-table rounded-md text-lg">
                                     <tr>
@@ -41,7 +45,7 @@
                                     <tr>
                                         <td class="text-center p-3">1</td>
                                         <td class="text-center">Administrator</td>
-                                        <td class="">
+                                        <td class="text-sm lg:overflow-hidden overflow-scroll h-4">
                                             <p>Dashboard (View)</p>
                                             <p>Air Quality (View, Add, Edit, Delete)</p>
                                             <p>Smart Lighting (View, Add, Edit, Delete)</p>

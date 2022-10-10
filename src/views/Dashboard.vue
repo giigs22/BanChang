@@ -80,7 +80,6 @@
     </main>
     <FooterPage />
     <AlertConnectAPI v-if="alert.active" />
-    <AlertDialogConfirm v-if="confirm.active" :msg="confirm.msg" :type="'error'" @close="closeAlert" />
 </template>
 <script>
     import {
@@ -122,22 +121,13 @@
                 alert: {
                     active: false
                 },
-                confirm: {
-                    active: false,
-                    msg: null
-                },
+
                 components: null,
             }
         },
         computed: {
             loggedIn() {
                 return this.$store.state.auth.status.loggedIn;
-            },
-            statusServer() {
-                return this.$store.state.server.api_sensor.connect;
-            },
-            dataSensorAPI() {
-                return this.$store.getters['auth/dataPlanet']
             },
             userWidget(){
                 return localStorage.getItem('widget')
@@ -149,65 +139,9 @@
                 this.$router.push('/login')
             } else {
                 await this.getUserData()
-                if (!this.statusServer) {
-                    await this.loginPlanet()
-                }
             }
         },
         methods: {
-            loginPlanet() {
-                this.alert.active = true
-                return this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((res) => {
-                    this.$store.dispatch('server/setStatus', {type:'server_sensor',value:true})
-                    this.alert.active = false
-                }).catch((err) => {
-                    var txt_err = err.toString()
-                    var err_protocal = txt_err.includes("undefined (reading 'protocol')")
-
-                    if (err.code === "ECONNABORTED" || err_protocal) {
-                        this.$store.dispatch('server/sendLog', {
-                            type: 'error',
-                            msg: 'Error Connect Login time out.'
-                        }).then((res) => {
-                            var data = res.data
-                            if (data.success) {
-                                this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
-                                this.alert.active = false
-                                this.confirm.active = true
-                                this.confirm.msg = 'Unable to Connect Sensor!'
-                            }
-                        })
-                    }
-                    if (err.code === "ERR_NETWORK") {
-                        this.$store.dispatch('server/sendLog', {
-                            type: 'error',
-                            msg: 'Error Network.'
-                        }).then((res) => {
-                            var data = res.data
-                            if (data.success) {
-                                this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
-                                this.alert.active = false
-                                this.confirm.active = true
-                                this.confirm.msg = 'Error Network!'
-                            }
-                        })
-                    }
-                })
-            },
-            closeAlert() {
-                this.confirm.active = false
-                this.confirm.msg = null
-            },
-            checkExpire() {
-                return this.$store.dispatch('auth/checkExpire').then((res) => {
-                    if (res) {
-                        this.confirm.active = true
-                        this.confirm.msg = 'Token is Expire!'
-                        this.$store.dispatch('auth/logout')
-                        this.$router.push('/login')
-                    }
-                })
-            },
             getUserData() {
                 this.alert.active = true
                 this.$store.dispatch('user/userData').then(()=>{

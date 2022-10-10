@@ -1,17 +1,17 @@
 <template>
     <TopMenu />
-    <main class="mx-10 mt-20">
+    <main class="mt-5 lg:mx-10 lg:mt-20">
         <!-- Content -->
         <section class="">
             <!-- Main Section -->
-            <div class="inner-content mx-10">
+            <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <h1 class="text-xl text-white ml-10 mb-10">Widget Detail</h1>
-                        <div>
+                        <div class="overflow-scroll lg:overflow-hidden">
                             <h2 class="text-white text-lg my-2">List Device</h2>
                             <table class="table  border-collapse text-white w-full bg-black-op8 rounded">
-                                  <thead class="text-lg  bg-head-table">
+                                  <thead class="lg:text-lg  bg-head-table">
                                     <tr class="border-b border-gray-600">
                                         <th class="p-2 border-r border-gray-600">ID</th>
                                         <th class="border-r border-gray-600">Device Name</th>

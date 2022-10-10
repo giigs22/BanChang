@@ -28,16 +28,11 @@
     </div>
 </template>
 <script>
-    import axios from 'axios'
-    import AuthService from '../../services/auth.services'
-    import authHeader from '../../services/auth.header'
     import aqical from '../../services/env.aqi'
     export default {
         data() {
             return {
                 pm25: [],
-                list_device: [],
-                env_sensor:[],
                 aqi: {
                     value: 0,
                     level: {
@@ -55,57 +50,38 @@
                 }
             }
         },
-        computed: {
-            statusAPI() {
-                return this.$store.state.server.api_sensor.connect;
-            },
-            datapm25() {
-                return this.$store.state.widget.pm25
-            },
-            env_sensor() {
-                return this.list_device.filter(d => {
-                    return d.type == 'ENV'
-                })
-            }
-        },
         async created() {
-            await this.getListDeviceAQI()
-            if (this.statusAPI) {
-                this.avg_data.pm25 = this.datapm25
+            this.clearData()
+            await this.getData()
+            this.calAvg()
+            
+            setInterval(async() => {
+                this.clearData()
+                await this.getData()
                 this.calAvg()
-                setInterval(() => {
-                    this.avg_data.pm25 = this.datapm25
-                    this.calAvg()
-                }, this.$interval_time);
-            } else {
-                await this.getDataformBackup();
-                this.calAvg()
-            }
+            }, this.$interval_time);
+            
         },
         methods: {
-            getListDeviceAQI() {
-                return this.$store.dispatch('widget/getListDeviceID', 1).then((res) => {
-                    this.list_device = res.data
+            getData(){
+                var data = {
+                    type:'lastdata',
+                    sensor:'env'
+                }
+                return this.$store.dispatch('data/getData',data).then((res)=>{
+                    var data = res.data
+                    this.setDataCal('ENV',data.env)
                 })
             },
-            getDataformBackup() {
-                var promises = []
-
-                this.env_sensor.forEach(el => {
-                    promises.push(this.$store.dispatch('server/getDataBackup', el.id).then((res) => {
-                        var data = JSON.parse(res.data.data_value)
-                        data['id'] = el.id
-                        this.setDataCal(data)
-
-                    }))
-                })
-                return Promise.all(promises).then(() => {})
-            },
-            setDataCal(data) {
-                this.pm25.push({
-                    id: data.id,
-                    data: data.pm25[0]
-                })
+           
+            setDataCal(type,data) {
+                if (type == 'ENV') {
+                    data.forEach(el => {
+                        this.pm25.push({
+                        data: el.pm25[0]
+                        })
+                    });
+                } 
             },
             calAvg() {
                 if (this.statusAPI) {
@@ -131,8 +107,9 @@
 
                     this._pm25 = aqical.LevelPM25(this.avg_data.pm25)
                 }
-
-
+            },
+            clearData(){
+                this.pm25 = []
             },
             fullview() {
                 this.$router.push('/view/aqi_map')

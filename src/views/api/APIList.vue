@@ -1,10 +1,10 @@
 <template>
     <TopMenu />
-    <main class="mx-10 mt-20">
+    <main class="mt-5 lg:mx-10 lg:mt-20">
         <!-- Content -->
         <section class="">
             <!-- Main Section -->
-            <div class="inner-content mx-10">
+            <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <h1 class="text-xl text-white ml-10 mb-10">API Setting</h1>

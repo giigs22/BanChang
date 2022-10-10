@@ -30,11 +30,6 @@ export default {
             list_map:[]
         }
     },
-    computed: {
-            statusServer() {
-                return this.$store.state.server.api_sensor.connect;
-            },
-        },
     async created(){
             const spiderfier = document.createElement('script');
             spiderfier.src = "https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.min.js";
@@ -96,41 +91,11 @@ export default {
             },
         setMapData(){
             var set_data = []
-            var arr_data = []
-
-            if(this.statusServer){
-                var group_data = _.cloneDeep(this.datamap)
-                var g_arr = Object.entries(group_data)
-                    g_arr.forEach(el => {
-                        arr_data.push({
-                            value: el
-                        })
-                    });
-                arr_data.forEach(el2 => {
-                var dt = _.find(el2.value[1], 'data')
-                var loc = _.find(el2.value[1], 'location')
-                var st = _.find(el2.value[1], 'status')
-                var n = _.find(el2.value[1], 'name')
-                var t = _.find(el2.value[1], 'type')
-
-                set_data.push({
-                    widget: t.type,
-                    name: n.name,
-                    device_id: el2.value[0],
-                    data: dt.data,
-                    location: loc.location,
-                    status: st == undefined ? false : st.status
-                })
-                });
-                this.list_map = set_data
-                this.clearMarker()
-                this.setMarker()
-             }else{
-                var datamap = _.cloneDeep(this.datamap)
+                var datamap = this.datamap
                 datamap.forEach(el=>{
-                        var dt = JSON.parse(el.data)
-                        var loc = JSON.parse(el.location)
-                        var st = false
+                        var dt = el.data
+                        var loc = el.location
+                        var st = el.status
                         var n = el.name
 
                         set_data.push({
@@ -146,7 +111,7 @@ export default {
                 this.clearMarker()
                 this.setMarker()
                 
-             }
+             
         },
         clearMarker(){
                 if(markers.length > 0){

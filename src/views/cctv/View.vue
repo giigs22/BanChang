@@ -205,11 +205,8 @@
     <FooterPage />
 </template>
 <script>
-    import axios from 'axios'
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
-    import AuthService from '../../services/auth.services'
-    import authHeader from '../../services/auth.header'
     import CCTVSurviellance from '../../components/widgets/CCTVSurviellance.vue';
     import Parking from '../../components/widgets/Parking.vue';
     import CheckLicensePlate from '../../components/widgets/CheckLicensePlate.vue';

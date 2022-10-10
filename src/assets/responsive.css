@@ -16,4 +16,7 @@
         margin: 0;
         overflow-x: scroll;
     }
+    .block-widgets {
+        height: auto;
+    }
 }

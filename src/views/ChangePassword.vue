@@ -1,8 +1,8 @@
 <template>
-    <div class="mx-10 my-20 min-h-screen">
+    <div class="mt-5 lg:mx-10 lg:my-20 min-h-screen">
         <!-- Content -->
         <!-- Main Section -->
-        <div class="inner-content mx-10">
+        <div class="inner-content mx-4 lg:mx-10">
             <div class="main-content">
                 <div class="block-content mb-5">
                     <loading v-model:active="loading" />
@@ -10,7 +10,7 @@
                     <div class="form-register mt-5 mb-5">
                         <Form @submit="changePass" :validation-schema="schema">
                             <div class="grid grid-cols-9 text-sm lg:gap-20 2xl:gap-40">
-                                <div class="col-span-3">
+                                <div class="col-span-full lg:col-span-3">
                                     <div class="my-3">
                                         <Field name="password" v-slot="{field}" v-model="password">
                                             <label class="text-white">New Password</label>

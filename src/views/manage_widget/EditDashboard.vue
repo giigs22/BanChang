@@ -1,32 +1,36 @@
 <template>
     <TopMenu />
-    <main class="mx-10 mt-20">
+    <main class="mt-5 lg:mx-10 lg:mt-20">
         <!-- Content -->
         <section class="">
             <!-- Main Section -->
-            <div class="inner-content mx-10">
+            <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <h1 class="text-xl text-white ml-10">Create Dashboard</h1>
                         <div class="searchbox mt-5 mb-5">
                             <h3 class="text-lg text-white">All Widgets</h3>
                             <div class="grid grid-cols-12 form-search my-10">
-                                <div class="col-span-6 flex items-end gap-5">
+                                <div class="col-span-full lg:col-span-6 flex-col lg:flex-row items-end gap-5">
                                     <div>
                                         <label for="" class="text-white m-3">Template Name</label>
                                         <input type="text" class="form-input" v-model="name_template">
                                     </div>
-                                    <div class="ml-2">
-                                        <button class="btn-purple rounded btn-blue-gradient h-12" @click="updateTemplate">Update Template</button>
-                                    </div>
+                                    
                                 </div>
+                                <div class="col-span-full lg:col-span-2">
+                                    <div class="ml-2 mt-3 lg:mt-0">
+                                        <button class="btn-purple rounded btn-blue-gradient h-12" @click="updateTemplate">Update Template</button>
+                                </div>
+                                </div>
+                                
                             </div>
                         </div>
 
                         <div class="mt-10 mb-5 block-content">
                             <h1 class="text-xl text-white">Select Widget</h1>
                             <div class="grid grid-cols-12 gap-1 my-5">
-                                <div class="block-widgets col-span-4 hover:opacity-60 h-full max-h-full"
+                                <div class="block-widgets col-span-6 lg:col-span-4 hover:opacity-60 h-full max-h-full"
                                     @click="selectWidget(item.id)" id="wg-1" v-for="item in list_widget" :key="item.id">
                                     <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"
@@ -34,7 +38,7 @@
                                             <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681"
                                                 fill="#08ff00" />
                                         </svg>
-                                        <span class="uppercase">{{item.name}}</span>
+                                        <span class="uppercase text-sm lg:text-lg">{{item.name}}</span>
                                     </div>
                                     <img :src="item.img" alt="" class="mx-auto w-1/3 my-5">
                                 </div>
@@ -48,7 +52,7 @@
                         <draggable v-model="template" group="widget"
                             @start="drag=true" @end="drag=false" item-key="id" class="grid grid-cols-12 gap-1" @change="updatemove">
                             <template #item="{element,index}">
-                                <div class="block-widgets col-span-4 h-full max-h-full">
+                                <div class="block-widgets col-span-6 lg:col-span-4 h-full max-h-full">
                                     <div class="flex justify-between">
                                          <div class="status">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2"

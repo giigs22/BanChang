@@ -1,18 +1,18 @@
 <template>
     <TopMenu />
-    <main class="mx-10 mt-20">
+    <main class="mt-5 lg:mx-10 lg:mt-20 lg:min-h-screen">
         <!-- Content -->
         <section class="">
             <!-- Main Section -->
-            <div class="inner-content mx-10">
+            <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <loading v-model:active="loading" />
                         <h1 class="text-xl text-white ml-10">Register</h1>
                         <div class="form-register mt-5 mb-5">
                             <Form @submit="register" :validation-schema="schema">
-                                <div class="grid grid-cols-9 text-sm gap-40">
-                                    <div class="col-span-3">
+                                <div class="grid grid-cols-9 text-sm lg:gap-20 2xl:gap-40">
+                                    <div class="col-span-full lg:col-span-3">
                                         <div class="my-3">
                                             <Field name="idcard" v-slot="{field}">
                                                 <label class="text-white">Employee ID or ID Card</label>
@@ -78,7 +78,7 @@
                                             <ErrorMessage name="role" class="text-xs text-red-300" />
                                         </div>
                                     </div>
-                                    <div class="col-span-3">
+                                    <div class="col-span-full lg:col-span-3">
                                         <div class="my-3">
                                             <Field name="position" v-slot="{field}">
                                                 <label class="text-white">Position</label>
@@ -125,7 +125,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-span-3">
+                                    <div class="col-span-full lg:col-span-3">
                                         <div class="flex justify-center flex-col w-32">
                                             <div class="bg-gray-200 p-3 rounded" @click="$refs.profile.click()">
                                                 <img src="@/assets/icon_picture.png" alt="" class="max-h-30 mx-auto"
@@ -153,7 +153,7 @@
         </section>
     </main>
     <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"></AlertDialog>
-    <FooterPage class="fixed inset-x-0 bottom-0" />
+    <FooterPage class="2xl:fixed inset-x-0 bottom-0" />
 </template>
 <script>
     import TopMenu from '../layout/TopMenu.vue'

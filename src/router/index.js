@@ -15,7 +15,7 @@ import UserList from '../views/user_manage/ListUser.vue'
 import EditProfile from '../views/user_manage/EditProfile.vue'
 import Permission from '../views/user_manage/Permissions.vue'
 import SOS from '../views/sos/View.vue'
-import Maintenance from '../views/maintenance/Map.vue'
+import Maintenance from '../views/maintenance/View.vue'
 import Complaint from '../views/Complaint.vue'
 import ManageTemplate from '../views/manage_widget/Template.vue'
 import CreateDashboard from '../views/manage_widget/CreateDashboard.vue'
@@ -236,7 +236,7 @@ const routes = [{
     }
   },
   {
-    path: '/apis/list',
+    path: '/api/list',
     component: APIList,
     meta: {
       middleware: auth

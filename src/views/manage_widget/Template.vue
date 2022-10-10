@@ -1,27 +1,27 @@
 <template>
     <TopMenu />
-    <main class="mx-10 mt-20">
+    <main class="mt-5 lg:mx-10 lg:mt-20 lg:min-h-screen">
         <!-- Content -->
         <section class="">
             <!-- Main Section -->
-            <div class="inner-content mx-10">
+            <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <h1 class="text-xl text-white ml-10">Manage Dashboard Template</h1>
                         <div class="searchbox mt-5 mb-5">
                             <h3 class="text-lg text-white">All Dashboard Template</h3>
-                            <div class="flex justify-between form-search">
-                                <div class="col-span-2 my-5">
+                            <div class="flex flex-col lg:flex-row justify-between form-search">
+                                <div class="col-span-full lg:col-span-2 my-5">
                                 <a class="btn-purple rounded btn-blue-gradient" href="/template/create">Create Template</a>
                                 </div>
-                                <div class="col-span-2">
+                                <div class="col-span-full lg:col-span-2">
                                     <input type="text" placeholder="ID,Name" class="form-input">
                                     <button class="btn-purple rounded ml-3 h-12">Search</button>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mt-10 mb-5">
+                        <div class="mt-10 mb-5 overflow-scroll lg:overflow-hidden">
                            <table class="table  border-collapse text-white w-full bg-black-op8 rounded">
                             <thead class="text-xl">
                                 <tr class="border-b border-gray-600">
@@ -39,8 +39,8 @@
                                 
                             </tbody>
                            </table>
-                          <Pagination :count="count" :itemperpage="itemperpage" @changePage="updateData"/>
                         </div>
+                        <Pagination :count="count" :itemperpage="itemperpage" @changePage="updateData"/>
                     </div>
                 </div>
             </div>

@@ -27,7 +27,6 @@
     </div>
 </template>
 <script>
-import _ from 'lodash'
     export default {
         data() {
             return {
@@ -35,35 +34,20 @@ import _ from 'lodash'
                 offline: 0
             }
         },
-        computed: {
-           device_status(){
-            return this.$store.state.widget.status_device
-           }
-        },
-        watch:{
-            device_status:{
-                deep:true,
-                handler(){
-                    this.showStatusDevice()
-                }
-            }
+        async created(){
+            await this.getstatus();
+            setInterval(async() => {
+                await this.getstatus();
+            }, this.$interval_time);
         },
         methods: {
-           showStatusDevice(){
-            var data = this.device_status
-            var keys = _.keys(data)
-            var on = 0
-            var off = 0
-            keys.forEach(el=>{
-                on +=  _.get(data,el+'.online')
-                
-            })
-            keys.forEach(el=>{
-                off += _.get(data,el+'.offline')
-            })
-            this.online = on
-            this.offline = off
-           }
+            getstatus(){
+                return this.$store.dispatch('sensor/getStatus').then((res)=>{
+                    var data = res.data
+                    this.online = data.online
+                    this.offline = data.offline
+                })
+            }
         }
     }
 </script>

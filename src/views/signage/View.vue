@@ -46,11 +46,11 @@
                                             </tr>
                                         </thead>
                                         <tbody class="text-sm">
-                                            <tr class="border-b border-gray-700">
+                                            <!-- <tr class="border-b border-gray-700">
                                                 <td class=""><span class="mr-5">001</span> test
                                                 </td>
                                                 <td class="text-center">ON</td>
-                                            </tr>
+                                            </tr> -->
 
                                         </tbody>
                                     </table>

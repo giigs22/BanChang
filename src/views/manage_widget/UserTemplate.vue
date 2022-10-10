@@ -1,10 +1,10 @@
 <template>
     <TopMenu/>
-     <main class="mx-10 mt-20">
+     <main class="mt-5 lg:mx-10 lg:mt-20">
         <!-- Content -->
         <section class="">
             <!-- Main Section -->
-            <div class="inner-content mx-10">
+            <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <h1 class="text-xl text-white ml-10 mb-5">User Template</h1>
@@ -17,11 +17,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="">
+                        <div class="lg:overflow-hidden overflow-scroll">
                             <table class="table w-full shadow-sm">
                                 <thead class="text-white bg-head-table rounded-md text-lg">
                                     <tr>
-                                        <th class="p-5">Users</th>
+                                        <th class="p-5 rounded-tl-md">Users</th>
                                         <th>Template</th>
                                         <th class="rounded-tr-md">Action</th>
                                     </tr>
@@ -37,8 +37,9 @@
                                    </tr>
                                 </tbody>
                             </table>
-                            <Pagination :count="count" :itemperpage="itemperpage" @changePage="updateData" />
                         </div>
+                        <Pagination :count="count" :itemperpage="itemperpage" @changePage="updateData" />
+
                     </div>
                 </div>
             </div>

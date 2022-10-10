@@ -19,9 +19,6 @@
     </div>
 </template>
 <script>
-    import axios from 'axios'
-    import AuthService from '../../services/auth.services'
-    import authHeader from '../../services/auth.header'
     import * as dayjs from 'dayjs'
     import ChartCCTV from '../ChartCCTV.vue'
     import _ from 'lodash'
@@ -29,150 +26,88 @@
     export default {
         data() {
             return {
-                list_device: [],
-                facereg: {},
-                traffic: {},
-                park: {},
-                lprplate: {},
                 chart_data: null,
-                cctv_offline:0
+                set_data:[],
+                offline:0
             }
         },
         components: {
             ChartCCTV
         },
-        computed: {
-            statusAPI() {
-                return this.$store.state.server.api_sensor.connect;
-            },
-            api_baseURL() {
-                return localStorage.getItem('api_baseURL');
-            },
-            dataSensorAPI() {
-                return this.$store.getters['auth/dataPlanet']
-            },
-        },
-        watch:{
-            '$store.state.widget.status_device.cctv.offline':{
-                deep:true,
-                handler(n){
-                    this.cctv_offline = n
-                    this.setData()
-                }
-            }
-        },  
         async created() {
-            await this.getListDeviceCam()
-            if (this.statusAPI) {
-                await this.getDataCam()
-                this.setData()
-                setInterval(async () => {
-                    await this.getDataCam()
-                    this.setData()
-                }, this.$interval_time);
-            }
-
+           
+            await this.getData()
+            await this.getStatus()
+            this.setChartData()
+            
+            setInterval(async() => {
+                await this.getData()
+                await this.getStatus()
+                this.setChartData()
+            }, this.$interval_time);
+            
         },
         methods: {
-            getListDeviceCam() {
-                return this.$store.dispatch('widget/getListDeviceID', 4).then((res) => {
-                    this.list_device = res.data
-                })
-            },
-            getDataCam() {
-                const limit = 10000
-                const start = dayjs().startOf('day').valueOf()
-                const end = dayjs().endOf('day').valueOf()
-                const keys = ['faceReg_alllist', 'tracking', 'wrongDirection', 'prohibitedArea', 'lpr_allplate']
-
-                var options = {
-                    headers: authHeader(),
-                    params: {
-                        limit: limit,
-                        startTs: start,
-                        endTs: end
-                    }
+            getData(){
+                var data = {
+                    type:'lastdata',
+                    sensor:'cctv_sur',
+                    option:'chartdata'
                 }
-                var face_data = {}
-                var traffic_data = {}
-                var park_data = {}
-                var lprplate_data = {}
-
-                var promises = []
-
-                this.list_device.forEach(el => {
-
-                    let api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
-
-                    keys.forEach(k => {
-                        options['params']['keys'] = k
-
-                        promises.push(axios.get(this.api_baseURL + api_last, options).then((res) => {
-                            if (Object.keys(res.data).length > 0 && res.data.hasOwnProperty(
-                                    keys[0])) {
-                                face_data[keys[0]] = res.data[keys[0]]
-                            }
-                            if (Object.keys(res.data).length > 0 && res.data.hasOwnProperty(
-                                    keys[1])) {
-                                traffic_data[keys[1]] = res.data[keys[1]]
-                            }
-                            if (Object.keys(res.data).length > 0 && res.data.hasOwnProperty(
-                                    keys[2])) {
-                                traffic_data[keys[2]] = res.data[keys[2]]
-                            }
-                            if (Object.keys(res.data).length > 0 && res.data.hasOwnProperty(
-                                    keys[3])) {
-                                traffic_data[keys[3]] = res.data[keys[3]]
-                            }
-                            if (Object.keys(res.data).length > 0 && res.data.hasOwnProperty(
-                                    keys[4])) {
-                                park_data[keys[4]] = res.data[keys[4]]
-                            }
-                            if (Object.keys(res.data).length > 0 && res.data.hasOwnProperty(
-                                    keys[5])) {
-                                lprplate_data[keys[5]] = res.data[keys[5]]
-                            }
-                        }))
-
-                    })
-                });
-
-                this.facereg = face_data
-                this.traffic = traffic_data
-                this.park = park_data
-                this.lprplate = lprplate_data
-
-                return Promise.all(promises).then(() => {})
+                return this.$store.dispatch('data/getData',data).then((res)=>{
+                    var data = res.data
+                    this.set_data = data
+                })
 
             },
-            setData() {
-                var face = _.keys(this.facereg)
-                var traffic = _.keys(this.traffic)
-                var park = _.keys(this.park)
-
-                var camera_malfunction = this.cctv_offline
-                var trespasser = 0
-                var suspected_face_detection = 0
-                var group_cluster_detection = 0
-                var traffic_violation = 0
-                var parking_violation = 0
-
-                face.forEach(el => {
-                    trespasser += this.facereg[el].length
+            getStatus(){
+                var data = {
+                    sensor:'cctv'
+                }
+                return this.$store.dispatch('data/getStatus',data).then((res)=>{
+                    var data = res.data
+                    this.offline = data.offline
                 })
+            },
+            setChartData(){
+                    
+                    var camera_malfunction = this.offline
+                    var trespasser = 0
+                    var suspected_face_detection = 0
+                    var group_cluster_detection = 0
+                    var traffic_violation = 0
+                    var parking_violation = 0
 
-                traffic.forEach(el => {
-                    traffic_violation += this.traffic[el].length
-                })
-                park.forEach(el => {
-                    parking_violation += this.park[el].length
-                })
+                    var faceReg_alllist_daily = _.cloneDeep(this.set_data.faceReg_alllist_daily)
+                    var faceReg_blacklist_daily = _.cloneDeep(this.set_data.faceReg_blacklist_daily)
+                    var prohibitedArea_daily = _.cloneDeep(this.set_data.prohibitedArea_daily)
+                    var tracking_daily = _.cloneDeep(this.set_data.tracking_daily)
+                    var wrongDirection_daily = _.cloneDeep(this.set_data.wrongDirection_daily)
+                    var prohibitedParking_daily = _.cloneDeep(this.set_data.prohibitedParking_daily)
 
-                
-                var chart_data = [camera_malfunction, trespasser, suspected_face_detection, group_cluster_detection,
-                    traffic_violation, parking_violation
-                ]
-                this.chart_data = chart_data
+                    faceReg_alllist_daily.forEach(el=>{
+                        trespasser += el.value
+                    })
+                    faceReg_blacklist_daily.forEach(el=>{
+                        suspected_face_detection += el.value
+                    })
+                    prohibitedArea_daily.forEach(el=>{
+                        traffic_violation += el.value
+                    })
+                    tracking_daily.forEach(el=>{
+                        traffic_violation += el.value
+                    })
+                    wrongDirection_daily.forEach(el=>{
+                        traffic_violation += el.value
+                    })
+                    prohibitedParking_daily.forEach(el=>{
+                        parking_violation += el.value
+                    })
+
+                    var chart_data = [camera_malfunction, trespasser, suspected_face_detection, group_cluster_detection,
+                        traffic_violation, parking_violation
+                    ]
+                    this.chart_data = chart_data
             }
         }
     }

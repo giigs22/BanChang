@@ -5,6 +5,9 @@ import server from './modules/server'
 import {template} from './modules/template'
 import {widget} from './modules/widget'
 import {map} from './modules/map'
+import {data} from './modules/data'
+import {sensor} from './modules/sensor'
+
 export const createStore = (app) =>{
     return createVuexStore({
         modules:{
@@ -13,7 +16,9 @@ export const createStore = (app) =>{
             server:server(app),
             template,
             widget,
-            map
+            map,
+            data,
+            sensor
         }
     })
    

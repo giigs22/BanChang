@@ -80,9 +80,6 @@
     </div>
 </template>
 <script>
-    import axios from 'axios'
-    import AuthService from '../services/auth.services'
-    import authHeader from '../services/auth.header'
     import aqical from '../services/env.aqi'
     import _ from 'lodash'
 
@@ -128,303 +125,66 @@
                     hum: 0,
                     temp: 0
                 },
-                list_device: [],
-                backup_data: [],
-                location_data:[],
-                status_device:{
-                    online:0,
-                    offline:0
-                },
-                map_data:[]
+                
 
             }
-        },
-        computed: {
-            statusAPI() {
-                return this.$store.state.server.api_sensor.connect;
-            },
-            api_baseURL() {
-                return localStorage.getItem('api_baseURL');
-            },
-            dataSensorAPI() {
-                return this.$store.getters['auth/dataPlanet']
-            },
-            env_sensor() {
-                return this.list_device.filter(d => {
-                    return d.type == 'ENV'
-                })
-            },
-            lnr_sensor() {
-                return this.list_device.filter(d => {
-                    return d.type == 'LNR'
-                })
-            },
         },
         async created() {
-            await this.getListDeviceAQI()
-            if (this.statusAPI) {
+            this.clearData()
+            await this.getData()
+            this.calAvg()
+
+            setInterval(async() => {
                 this.clearData()
-                await this.getEnvSensor()
-                await this.getLNRSensor()
+                await this.getData()
                 this.calAvg()
-                this.setStatusDevice()
-                this.backupData()
-                this.backupLocation()
-                this.setMapData()
-                setInterval(async () => {
-                    this.clearData()
-                    await this.getEnvSensor()
-                    await this.getLNRSensor()
-                    this.calAvg()
-                    this.setStatusDevice()
-                    this.backupData()
-                    this.backupLocation()
-                    this.setMapData()
-                }, this.$interval_time);
-            } else {
-                this.clearData()
-                await this.getDataformBackup();
-                this.calAvg()
-                this.setStatusDevice()
-            }
+            }, this.$interval_time);
         },
         methods: {
-            getListDeviceAQI() {
-                return this.$store.dispatch('widget/getListDeviceID', 1).then((res) => {
-                    this.list_device = res.data
-                })
-            },
-            setStatusDevice(){
-                this.$store.dispatch('widget/setStatusDevice',{type:'aqi',data:this.status_device})
-            },
-            getDataformBackup() {
-                var promises = []
-
-                this.env_sensor.forEach(el => {
-                    promises.push(this.$store.dispatch('server/getDataBackup', el.id).then((res) => {
-                        var data = JSON.parse(res.data.data_value)
-                        data['id'] = el.id
-                        this.setDataCal('ENV', data)
-                        this.status_device.offline += 1
-
-                    }))
-                })
-                this.lnr_sensor.forEach(el => {
-                    promises.push(this.$store.dispatch('server/getDataBackup', el.id).then((res) => {
-                        var data = JSON.parse(res.data.data_value)
-                        data['id'] = el.id
-                        this.setDataCal('LNR', data)
-                        this.status_device.offline += 1
-
-                    }))
-                })
-                return Promise.all(promises).then(() => {})
-            },
-            getEnvSensor() {
-                var options = {
-                    headers: authHeader()
+            getData(){
+                var data = {
+                    type:'lastdata',
+                    sensor:'env'
                 }
-                var promises = []
-
-                this.env_sensor.forEach(el => {
-                    var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
-                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
-
-                    //Last Data From Sensor
-                    promises.push(
-                        axios.get(this.api_baseURL + api_last, options).then((res) => {
-                            if (AuthService.Expire(res.data)) {
-                                this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
-                                    res) => {
-                                    var success = res.data.success
-                                    if (success) {
-                                        this.$forceUpdate()
-                                    }
-                                })
-                            } else {
-
-                               //Backup data
-                                this.backup_data.push({device:el.id,data:res.data,type:'last_data'})
-                                this.map_data.push({device:el.id,data:res.data,name:el.location_name == null?el.device_name:el.location_name})
-
-                                var data = res.data
-                                data['id'] = el.id
-                                this.setDataCal('ENV', data)
-                                
-
-
-                            }
-                        }).catch((err) => {
-                            if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {
-                                this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
-                            }
-                        }))
-                        //Attribute Active Status
-                        promises.push(
-                        axios.get(this.api_baseURL + api_attr, options).then((res) => {
-                            if (AuthService.Expire(res.data)) {
-                                this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
-                                    res) => {
-                                    var success = res.data.success
-                                    if (success) {
-                                        this.$forceUpdate()
-                                    }
-                                })
-                            } else {
-                                var data = res.data
-                                var lat_key = _.findKey(data,function(k){
-                                    return k.key == 'lat' ||  k.key == 'latitude'
-                                })
-                                var long_key = _.findKey(data,function(k){
-                                    return k.key == 'long' ||  k.key == 'longitude'
-                                }) 
-                            //Backup Location
-                            this.location_data.push({device:el.id,data:{lat:data[lat_key].value,long:data[long_key].value}})
-                            this.map_data.push({device:el.id,location:{lat:data[lat_key].value,long:data[long_key].value}})
-
-
-                                data.forEach(el2 => {
-                                    if (el2.key === 'active') {
-                                        if (el2.value === true) {
-                                            this.status_device.online += 1
-                                            this.map_data.push({device:el.id,status:true})
-
-                                        } else {
-                                            this.status_device.offline += 1
-                                            this.map_data.push({device:el.id,status:false})
-                                        }
-                                    }
-                                });
-                            }
-                        }).catch((err) => {
-                            if (err.code === "ECONNABORTED") {
-                                this.$store.dispatch('server/setStatus',{type:'server_data',value:false})
-                            }
-                            if (err.code === "ERR_NETWORK") {
-                                this.$store.dispatch('server/setStatus',{type:'server_data',value:false})
-                            }
-                        }))
-                });
-                return Promise.all(promises).then(() => {})
-            },
-            getLNRSensor() {
-                var options = {
-                    headers: authHeader(),
-                }
-                var promises = []
-
-                this.lnr_sensor.forEach(el => {
-                    var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
-                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
-
-                    //Last Data From Sensor
-                    promises.push(axios.get(this.api_baseURL + api_last, options).then((res) => {
-                        if (AuthService.Expire(res.data)) {
-                            this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
-                                res) => {
-                                var success = res.data.success
-                                if (success) {
-                                    this.$forceUpdate()
-                                }
-                            })
-                        } else {
-                            //Backup data
-                            this.backup_data.push({device:el.id,data:res.data,type:'last_data'})
-                            this.map_data.push({device:el.id,data:res.data,name:el.location_name == null?el.device_name:el.location_name})
-
-                            var data = res.data
-                            data['id'] = el.id
-                            this.setDataCal('LNR', data)
-
-                        }
-                    }).catch((err) => {
-                        if (err.code === "ECONNABORTED") {
-                            this.$store.dispatch('server/setStatus',{type:'server_data',value:false})
-                        }
-                        if (err.code === "ERR_NETWORK") {
-                            this.$store.dispatch('server/setStatus',{type:'server_data',value:false})
-                        }
-                    }))
-
-                    //Attribute Active Status
-                        promises.push(
-                        axios.get(this.api_baseURL + api_attr, options).then((res) => {
-                            if (AuthService.Expire(res.data)) {
-                                this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
-                                    res) => {
-                                    var success = res.data.success
-                                    if (success) {
-                                        this.$forceUpdate()
-                                    }
-                                })
-                            } else {
-                                var data = res.data
-                                
-                                var lat_key = _.findKey(data, function (k) {
-                                    return k.key == 'lat' || k.key == 'latitude'
-                                })
-                                var long_key = _.findKey(data, function (k) {
-                                    return k.key == 'long' || k.key == 'longitude'
-                                })
-                                
-                                //Backup Location
-                                this.location_data.push({device:el.id,data:{lat:data[lat_key].value,long: data[long_key].value}})
-                                this.map_data.push({device:el.id,location:{lat:data[lat_key].value,long:data[long_key].value}})
-
-                            
-                                data.forEach(el2 => {
-                                    if (el2.key === 'active') {
-                                        if (el2.value === true) {
-                                            this.status_device.online += 1
-                                            this.map_data.push({device:el.id,status:true})
-
-                                        } else {
-                                            this.status_device.offline += 1
-                                            this.map_data.push({device:el.id,status:false})
-
-                                        }
-                                    }
-                                });
-                            }
-                        }).catch((err) => {
-                            if (err.code === "ECONNABORTED") {
-                                this.$store.dispatch('server/setStatus',{type:'server_data',value:false})
-                            }
-                            if (err.code === "ERR_NETWORK") {
-                                this.$store.dispatch('server/setStatus',{type:'server_data',value:false})
-                            }
-                        }))
-                });
-
-                return Promise.all(promises).then(() => {})
+                return this.$store.dispatch('data/getData',data).then((res)=>{
+                    var data = res.data
+                    this.setDataCal('ENV',data.env)
+                    this.setDataCal('LNR',data.lnr)
+                })
             },
             setDataCal(type, data) {
                 if (type == 'ENV') {
-                    this.pm25.push({
-                        id: data.id,
-                        data: data.pm25[0]
-                    })
-                    this.temp.push({
-                        id: data.id,
-                        data: data.temp[0]
-                    })
-                    this.hum.push({
-                        id: data.id,
-                        data: data.humid[0]
-                    })
+                    data.forEach(el => {
+                        this.pm25.push({
+                        id: el.id,
+                        data: el.pm25[0]
+                        })
+                        this.temp.push({
+                            id: el.id,
+                            data: el.temp[0]
+                        })
+                        this.hum.push({
+                            id: el.id,
+                            data: el.humid[0]
+                        })
+                    });
+                    
                 } else {
-                    this.co2.push({
-                        id: data.id,
-                        data: data.co2[0]
-                    })
-                    this.uv.push({
-                        id: data.id,
-                        data: data.uv[0]
-                    })
-                    this.voc.push({
-                        id: data.id,
-                        data: data.voc[0]
-                    })
+                    data.forEach(el => {
+                        this.co2.push({
+                            id: el.id,
+                            data: el.co2[0]
+                        })
+                        this.uv.push({
+                            id: el.id,
+                            data: el.uv[0]
+                        })
+                        this.voc.push({
+                            id: el.id,
+                            data: el.voc[0]
+                        })
+                    });
+                    
                 }
             },
             calAvg() {
@@ -515,21 +275,7 @@
                 this.uv = []
                 this.voc = []
                 this.status_device={online:0,offline:0}
-                this.backup_data = []
-                this.location_data = []
-                this.map_data = []
             },
-            backupData(){
-                 this.$store.dispatch('server/backupData', this.backup_data);
-            },
-            backupLocation(){
-                this.$store.dispatch('server/backupLocation',this.location_data);
-            },
-            setMapData(){
-                var group_data = _.groupBy(this.map_data, m=>m.device)
-                this.$store.dispatch('map/setData',{type:'aqi',group_data:group_data})
-            }
-
         }
     }
 </script>

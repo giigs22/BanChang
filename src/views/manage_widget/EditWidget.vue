@@ -1,18 +1,18 @@
 <template>
     <TopMenu />
-    <main class="mx-10 mt-20">
+    <main class="mt-5 lg:mx-10 lg:mt-20">
         <!-- Content -->
         <section class="">
             <!-- Main Section -->
-            <div class="inner-content mx-10">
+            <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <loading v-model:active="loading" />
                         <h1 class="text-xl text-white ml-10">Add Widget</h1>
                         <div class="form-register mt-5 mb-5">
                             <Form @submit="updateWidget" :validation-schema="schema">
-                                <div class="grid grid-cols-9 text-sm gap-40">
-                                    <div class="col-span-3">
+                                <div class="grid grid-cols-9 text-sm lg:gap-40">
+                                    <div class="col-span-full lg:col-span-3">
                                         <div class="my-3">
                                             <label class="text-white">Category</label>
                                             <Field name="cate" as="select" v-model="cate" class="form-select w-full"
@@ -64,7 +64,7 @@
                                             <ErrorMessage name="type" class="text-xs text-red-300" />
                                         </div>
                                     </div>
-                                    <div class="col-span-3">
+                                    <div class="col-span-full lg:col-span-3">
                                         <div class="my-3">
                                             <Field name="name" v-slot="{field}" v-model="name">
                                                 <label class="text-white">Name</label>
@@ -100,7 +100,7 @@
         </section>
     </main>
     <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"></AlertDialog>
-    <FooterPage class="fixed inset-x-0 bottom-0" />
+    <FooterPage class="2xl:fixed inset-x-0 bottom-0" />
 </template>
 <script>
     import TopMenu from '../layout/TopMenu.vue'

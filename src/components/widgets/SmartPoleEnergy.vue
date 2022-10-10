@@ -54,9 +54,6 @@
     </div>
 </template>
 <script>
-    import axios from 'axios'
-    import AuthService from '../../services/auth.services'
-    import authHeader from '../../services/auth.header'
     import _ from 'lodash'
 
     export default {
@@ -66,7 +63,6 @@
                 offline: 0,
                 no_good: 0,
                 cost_energy: 0,
-                list_device: [],
                 data_lnr: [],
                 month_energy: 0,
                 avg_data: {
@@ -75,173 +71,41 @@
                     power: 0,
                     freq: 0,
                     pf: 0
-                },
-                status_device: {
-                    online: 0,
-                    offline: 0
-                },
-                backup_data:[],
-                location_data:[],
-                map_data:[]
-            }
-        },
-        computed: {
-            statusAPI() {
-                return this.$store.state.server.api_sensor.connect;
-            },
-            api_baseURL() {
-                return localStorage.getItem('api_baseURL');
-            },
-            dataSensorAPI() {
-                return this.$store.getters['auth/dataPlanet']
+                }
             }
         },
         async created() {
-            await this.getListDeviceSMP()
-            if (this.statusAPI) {
-                this.clearData()
-                await this.getPowerData()
-                await this.getPowerStatus()
-                this.setStatusDevice()
+            await this.getData()
+            await this.getStatus()
+            this.calEnergy()
+            this.calAvgEnergy()
+            setInterval(async() => {
+                await this.getData()
+                await this.getStatus()
                 this.calEnergy()
                 this.calAvgEnergy()
-                this.backupData()
-                this.backupLocation()
-                this.setMapData()
-                setInterval(async () => {
-                    this.clearData()
-                    await this.getPowerData()
-                    await this.getPowerStatus()
-                    this.setStatusDevice()
-                    this.calEnergy()
-                    this.calAvgEnergy()
-                    this.backupData()
-                    this.setMapData()
-                this.backupLocation()
-                }, this.$interval_time);
-            } else {
-                this.clearData()
-                await this.getDataformBackup()
-                this.calEnergy()
-                this.calAvgEnergy()
-            }
+            }, this.$interval_time);
         },
         methods: {
-            getListDeviceSMP() {
-                return this.$store.dispatch('widget/getListDeviceID', 3).then((res) => {
-                    this.list_device = res.data
-                })
-            },
-            setStatusDevice() {
-                this.$store.dispatch('widget/setStatusDevice', {
-                    type: 'smartpole',
-                    data: this.status_device
-                })
-            },
-            getDataformBackup() {
-                var promises = []
-
-                this.list_device.forEach(el => {
-                    promises.push(this.$store.dispatch('server/getDataBackup', el.id).then((res) => {
-                        if(res.data.length > 0){
-                        var data = JSON.parse(res.data.data_value)
-                        this.data_lnr.push(data)
-                        }
-                        this.no_good += 1
-                    }))
-                })
-
-                return Promise.all(promises).then(() => {})
-            },
-            getPowerData() {
-                var options = {
-                    headers: authHeader()
+            getData(){
+                var data = {
+                    type:'lastdata',
+                    sensor:'smart_pole'
                 }
-                var promises = []
-
-                this.list_device.forEach(el => {
-                    var api_last = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/timeseries'
-                    promises.push(axios.get(this.api_baseURL + api_last, options).then((res) => {
-                        if (AuthService.Expire(res.data)) {
-                            this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
-                                res) => {
-                                var success = res.data.success
-                                if (success) {
-                                    this.$forceUpdate()
-                                }
-                            })
-                        } else {
-                            
-                            //Backup data
-                            this.backup_data.push({device:el.id,data:res.data,type:'last_data'})
-                            this.map_data.push({device:el.id,data:res.data,name:el.location_name == null?el.device_name:el.location_name})
-
-
-
-                            var data = res.data
-                            this.data_lnr.push(data)
-                        }
-                    }).catch((err) => {
-                        if (err.code === "ECONNABORTED" || err.code === "ERR_NETWORK") {
-                                this.$store.dispatch('server/setStatus', {type:'server_sensor',value:false})
-                            }
-                    }))
-                });
-
-                return Promise.all(promises).then(() => {})
+                return this.$store.dispatch('data/getData',data).then((res)=>{
+                    var data = res.data
+                    this.data_lnr = data
+                })
             },
-            getPowerStatus() {
-                var options = {
-                    headers: authHeader()
+            getStatus(){
+                var data = {
+                    sensor:'smart_pole'
                 }
-                var promises = []
-
-                this.list_device.forEach(el => {
-                    var api_attr = 'api/plugins/telemetry/DEVICE/' + el.device_id + '/values/attributes'
-
-                    promises.push(axios.get(this.api_baseURL + api_attr, options).then((res) => {
-                        if (AuthService.Expire(res.data)) {
-                            this.$store.dispatch('auth/login_planet', this.dataSensorAPI).then((
-                                res) => {
-                                var success = res.data.success
-                                if (success) {
-                                    this.$forceUpdate()
-                                }
-                            })
-                        } else {
-
-                            var data = res.data
-                            var lat_key = _.findKey(data, function (k) {
-                                return k.key == 'lat' || k.key == 'latitude'
-                            })
-                            var long_key = _.findKey(data, function (k) {
-                                return k.key == 'long' || k.key == 'longitude'
-                            })
-
-                             //Backup Location
-                            this.location_data.push({device:el.id,data:{lat:data[lat_key].value,long:data[long_key].value}})
-                            this.map_data.push({device:el.id,location:{lat:data[lat_key].value,long:data[long_key].value}})
-
-
-                            data.forEach(el2 => {
-                                if (el2.key === 'active') {
-                                    if (el2.value === true) {
-                                        this.online += 1
-                                        this.status_device.online += 1
-                                        this.map_data.push({device:el.id,status:true})
-
-                                    } else {
-                                        this.offline += 1
-                                        this.status_device.offline += 1
-                                        this.map_data.push({device:el.id,status:false})
-
-                                    }
-                                }
-                            });
-                        }
-                    }))
-                });
-                return Promise.all(promises).then(() => {})
+                return this.$store.dispatch('data/getStatus',data).then((res)=>{
+                    var data = res.data
+                    this.online = data.online
+                    this.offline = data.offline
+                })
             },
             calEnergy() {
                 //Cost Energy Month
@@ -282,31 +146,9 @@
                 this.avg_data.freq = avg_freq;
                 this.avg_data.pf = avg_pf;
             },
-            clearData() {
-                this.data_lnr = []
-                this.online = 0
-                this.offline = 0
-                this.no_good = 0
-                this.status_device = {
-                    online: 0,
-                    offline: 0
-                }
-                this.map_data = []
-            },
             fullview() {
                 this.$router.push('/view/smart_pole')
             },
-             backupData(){
-                 this.$store.dispatch('server/backupData', this.backup_data);
-            },
-            backupLocation(){
-                this.$store.dispatch('server/backupLocation',this.location_data);
-            },
-            setMapData(){
-                var group_data = _.groupBy(this.map_data, m=>m.device)
-                this.$store.dispatch('map/setData',{type:'smpole',group_data:group_data})
-                
-            }
         },
     }
 </script>

@@ -1,27 +1,38 @@
+import axios from 'axios'
+
+const api_backend = import.meta.env.VITE_API_SERVER;
+
 export const sensor = {
     namespaced: true,
     state: {
-        aqi: null,
-        pm25:null,
-        status:{
-            online:0,
-            offline:0
-        }
+       
     },
     actions: {
-        setAQI({commit},data){
-            commit('aqiData',data)
+        
+        getStatus({rootState}){
+            return axios.get(api_backend+'status/all',{
+                headers:{
+                    Authorization:"Bearer "+rootState.auth.token.value
+                  }
+            }).then((res)=>{
+                return Promise.resolve(res)
+            }).catch((err)=>{
+                return Promise.reject(err)
+            })
         },
-        setPM25({commit},data){
-            commit('pm25Data',data)
+        getOffline({rootState}){
+            return axios.get(api_backend+'device/offline',{
+                headers:{
+                    Authorization:"Bearer "+rootState.auth.token.value
+                  }
+            }).then((res)=>{
+                return Promise.resolve(res)
+            }).catch((err)=>{
+                return Promise.reject(err)
+            })
         }
     },
     mutations: {
-        aqiData(state,data){
-            state.aqi = data
-        },
-        pm25Data(state,data){
-            state.pm25 = data
-        }
+       
     }
   };

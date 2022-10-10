@@ -59,7 +59,7 @@ export default (app) => {
           return Promise.reject(err)
         })
         },
-        getSettingSensor(){
+        getSetting(){
           return axios.get(api_backend+'setting/data').then((res)=>{
             return Promise.resolve(res)
           }).catch((err)=>{
@@ -68,10 +68,7 @@ export default (app) => {
         },
         setting({commit}){
           var data_set = {
-            api_baseURL: app.config.globalProperties.$api_baseURL,
-            api_login : app.config.globalProperties.$api_login ,
-            api_user : app.config.globalProperties.$api_user ,
-            api_pass : app.config.globalProperties.$api_pass
+            api_data_baseURL: app.config.globalProperties.$api_data_baseURL,
           }
           commit('setting',data_set);
         },
@@ -111,7 +108,7 @@ export default (app) => {
           localStorage.setItem('api_data',data.value)
       },
         setting(state,data){
-            localStorage.setItem('api_baseURL',data.api_baseURL)
+            localStorage.setItem('api_data_baseURL',data.api_data_baseURL)
             state.data_api = data
         }
     }

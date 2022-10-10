@@ -138,9 +138,6 @@
 <script>
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
-    import axios from 'axios'
-    import AuthService from '../../services/auth.services'
-    import authHeader from '../../services/auth.header'
     import aqical from '../../services/env.aqi'
     export default {
         components: {
