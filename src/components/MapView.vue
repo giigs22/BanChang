@@ -97,15 +97,26 @@ export default {
                         var loc = el.location
                         var st = el.status
                         var n = el.name
-
-                        set_data.push({
-                        widget: el.widget,
-                        name: n,
-                        device_id: el.device_id,
-                        data: dt,
-                        location: loc,
-                        status: st
-                    })
+                        if(el.fix){
+                            set_data.push({
+                            widget: el.widget,
+                            name: n,
+                            device_id: el.device_id,
+                            data: dt,
+                            location: loc,
+                            status: st,
+                            fix:el.fix
+                            })
+                        }else{
+                            set_data.push({
+                            widget: el.widget,
+                            name: n,
+                            device_id: el.device_id,
+                            data: dt,
+                            location: loc,
+                            status: st
+                            })
+                        }
                 })
                 this.list_map = set_data
                 this.clearMarker()
@@ -137,7 +148,12 @@ export default {
                    legWeight:0.2
                })
                this.list_map.forEach(el => {
-                   var icon_sensor = dataMap.setIconMap(el.widget,el.status)
+                   var icon_sensor
+                   if(el.fix){
+                    icon_sensor = dataMap.setIconMapFix()
+                   }else{
+                    icon_sensor = dataMap.setIconMap(el.widget,el.status)
+                   }
                    var latlong = {
                        lat: parseFloat(el.location.lat),
                        lng: parseFloat(el.location.long),
@@ -148,10 +164,18 @@ export default {
                    title:el.name,
                    icon:icon_sensor,
                    })
+                   var content_html
 
-                   var content_html = `<h5 class="font-bold my-2">${el.name}</h5>`
-                   content_html += dataMap.setContent(el.widget,el.data,el.status)
-                   content_html += `<h5 class="font-bold my-2">Location:LAT${latlong.lat},LONG${latlong.lng}</h5>`
+                   if(el.fix){
+                    content_html = `<h5 class="font-bold my-2">${el.name}</h5>`
+                    content_html += dataMap.setContentFix(el.widget,el.data)
+                    content_html += `<h5 class="font-bold my-2">Location:LAT${latlong.lat},LONG${latlong.lng}</h5>`
+                    }else{
+                    content_html = `<h5 class="font-bold my-2">${el.name}</h5>`
+                    content_html += dataMap.setContent(el.widget,el.data,el.status)
+                    content_html += `<h5 class="font-bold my-2">Location:LAT${latlong.lat},LONG${latlong.lng}</h5>`
+                   }
+                  
                    const inforwindow = new window.google.maps.InfoWindow({
                        content:content_html,
                    })

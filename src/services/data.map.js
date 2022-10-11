@@ -14,6 +14,9 @@ class dataMap{
             return status?url_img+'icon_wifi_green.png':url_img+'icon_wifi_red.png'
         }
     }
+    setIconMapFix(){
+        return url_img+'icon_fix_red.png'
+    }
     setContent(type,data,status){
         var dt = _.cloneDeep(data)
         var html
@@ -60,6 +63,31 @@ class dataMap{
                 set_status = 'Offline'
             }
             html = `<ul><li><span class="font-bold mr-2">Free Wifi:</span>${set_status}</li><li><span class="font-bold mr-2">User:</span>${client}</li></ul>`
+        }
+
+        return html
+        
+    }
+    setContentFix(type,data){
+        var dt = _.cloneDeep(data)
+        var html
+        if(type == 'aqi'){
+            html = `<ul><li><span class="font-bold mr-2">Maintenance:</span>Air Quality</li></ul>`
+        }else if(type == 'smlight' || type == 'smpole'){
+            var month_energy = dt.monthlyEnergy?.[0].value?dt.monthlyEnergy?.[0].value:0
+            var set_status
+            if(type == 'smlight'){
+                set_status = 'Smart Light'
+            }else{
+                set_status = 'Smart Pole'
+            }
+            html = `<ul><li><span class="font-bold mr-2">Power Usage:</span>${month_energy} kWh</li><li><span class="font-bold mr-2">Maintenance:</span>${set_status}</li></ul>`
+        }else if(type == 'cctv'){
+            html = `<ul><li><span class="font-bold mr-2">Maintenance:</span>CCTV</li></ul>`
+        }else if(type == 'wifi'){
+            html = `<ul><li><span class="font-bold mr-2">Maintenance:</span>Free Wifi</li></ul>`
+        }else if(type == 'sos'){
+            html = `<ul><li><span class="font-bold mr-2">Maintenance:</span>SOS</li></ul>`
         }
 
         return html

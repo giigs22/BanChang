@@ -4,12 +4,12 @@ import router from './router'
 import {createStore} from './store'
 import { loadLocaleMessages,setI18nLanguage,i18n } from './i18n'
 import dayjs from 'dayjs'
-import AlertDialog from './components/utility/AlertDialog.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import './assets/style.css'
 import './assets/style_th.css'
 import './assets/responsive.css'
+
 
 const app = createApp({
     extends:App,
@@ -30,9 +30,6 @@ const app = createApp({
 const store = createStore(app)
 app.use(store)
 app.use(VueAxios, axios)
-
-app.component('AlertDialog',AlertDialog);
-
 
 app.config.globalProperties.$api_backend = import.meta.env.VITE_API_SERVER
 app.config.globalProperties.$interval_time = import.meta.env.VITE_INTERVAL_TIME

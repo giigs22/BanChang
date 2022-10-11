@@ -93,27 +93,30 @@
                         </div>
                         <!--  Block List Complaint -->
                         <div class="lg:mx-20 my-5 flex flex-col gap-3">
-                            <!-- Item -->
-                            <div class="block-comp">
+
+                            <div class="block-comp" v-for="item in list_comp">
                                 <div class="grid grid-cols-12">
                                     <div class="col-span-12 lg:col-span-2">
-                                        <img src="@/assets/img_ex_complaint.png" class="w-full lg:w-auto"/>
+                                        <img :src="item.img_cover" class="w-full lg:w-auto"/>
                                     </div>
                                     <div class="col-span-12 lg:col-span-7">
                                         <div class="flex flex-col items-center lg:flex-row">
-                                            <h1 class="font-bold my-2 lg:text-lg">Lorem ipsum dolor sit amet consectetur</h1>
-                                            <div class="rounded-md bg-green-600 text-white px-3 py-1 lg:ml-10 lg:w-32">Disturbance
+                                            <h1 class="font-bold my-2 lg:text-lg">{{item.title}}</h1>
+                                            <div class="rounded-md bg-green-600 text-white px-3 py-1 lg:ml-10 lg:w-32" v-if="item.type=='disturbance'">Disturbance
+                                            </div>
+                                            <div class="rounded-md bg-red-600 text-white px-3 py-1 lg:ml-10 lg:w-32" v-if="item.type=='electricity'">Electricity
+                                            </div>
+                                            <div class="rounded-md bg-cyan-600 text-white px-3 py-1 lg:ml-10 w-32" v-if="item.type=='water'">Water
+                                            </div>
+                                            <div class="rounded-md bg-yellow-400 text-black px-3 py-1 lg:ml-10 w-32" v-if="item.type=='etc'">Etc
                                             </div>
                                         </div>
-                                        <p class="text-left my-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non, sunt
-                                            veritatis aut esse quasi et fuga? Laudantium provident aliquam odio
-                                            repellat laboriosam reiciendis omnis, molestiae minus et, doloremque
-                                            ipsum earum.</p>
+                                        <p class="text-left my-2">{{item.detail}}</p>
                                         <div class="my-5 text-sm flex flex-col items-start lg:flex-row gap-2 lg:gap-5">
-                                            <div>By xyz</div>
-                                            <div>Location BanChang</div>
-                                            <div>Date/Time DD/MM/YYYY HH:MM:SS</div>
-                                            <div>Responsible Agency ABC Unit</div>
+                                            <div><span class="font-bold">By</span> {{item.name_complaint}}</div>
+                                            <div><span class="font-bold">Location</span> {{item.location}}</div>
+                                            <div><span class="font-bold">Date/Time</span> {{item.date_complaint}}</div>
+                                            <div><span class="font-bold">Responsible Agency</span> {{item.respon_agen}}</div>
                                         </div>
 
                                     </div>
@@ -122,163 +125,84 @@
                                             <button
                                                 class="bg-blue-900 px-3 py-2 rounded-md text-red-400">Pending</button>
                                             <button class=" bg-cyan-400 px-3 py-2 rounded-md">Reply</button>
-                                            <button class="bg-red-600 px-3 py-2 rounded-md">Delete</button>
+                                            <button class="bg-red-600 px-3 py-2 rounded-md"  @click="delcomp(item.id)">Delete</button>
                                         </div>
 
                                     </div>
                                 </div>
                             </div>
-                            <!-- Item -->
-                             <!-- Item -->
-                            <div class="block-comp">
-                                <div class="grid grid-cols-12">
-                                    <div class="col-span-12 lg:col-span-2">
-                                        <img src="@/assets/img_ex_complaint.png" class="w-full lg:w-auto"/>
-                                    </div>
-                                    <div class="col-span-12 lg:col-span-7">
-                                        <div class="flex flex-col items-center lg:flex-row">
-                                            <h1 class="font-bold my-2 lg:text-lg">Lorem ipsum dolor sit amet consectetur</h1>
-                                            <div class="rounded-md bg-red-600 text-white px-3 py-1 lg:ml-10 lg:w-32">Electricity
-                                            </div>
-                                        </div>
-                                        <p class="text-left my-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non, sunt
-                                            veritatis aut esse quasi et fuga? Laudantium provident aliquam odio
-                                            repellat laboriosam reiciendis omnis, molestiae minus et, doloremque
-                                            ipsum earum.</p>
-                                        <div class="my-5 text-sm flex flex-col items-start lg:flex-row gap-2 lg:gap-5">
-                                            <div>By xyz</div>
-                                            <div>Location BanChang</div>
-                                            <div>Date/Time DD/MM/YYYY HH:MM:SS</div>
-                                            <div>Responsible Agency ABC Unit</div>
-                                        </div>
+                            
+                             
 
-                                    </div>
-                                    <div class="col-span-3">
-                                        <div class="flex gap-2 my-3">
-                                            <button
-                                                class="bg-blue-900 px-3 py-2 rounded-md text-red-400">Pending</button>
-                                            <button class=" bg-cyan-400 px-3 py-2 rounded-md">Reply</button>
-                                            <button class="bg-red-600 px-3 py-2 rounded-md">Delete</button>
-                                        </div>
+                            <Pagination :count="count" :itemperpage="itemperpage" @changePage="updateData"/>
 
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Item -->
-                             <!-- Item -->
-                            <div class="block-comp">
-                                <div class="grid grid-cols-12">
-                                    <div class="col-span-12 lg:col-span-2">
-                                        <img src="@/assets/img_ex_complaint.png" class="w-full lg:w-auto"/>
-                                    </div>
-                                    <div class="col-span-12 lg:col-span-7">
-                                        <div class="flex flex-col lg:flex-row items-center">
-                                            <h1 class="font-bold my-2 lg:text-lg">Lorem ipsum dolor sit amet consectetur</h1>
-                                            <div class="rounded-md bg-cyan-600 text-white px-3 py-1 lg:ml-10 w-32">Water
-                                            </div>
-                                        </div>
-                                        <p class="text-left my-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non, sunt
-                                            veritatis aut esse quasi et fuga? Laudantium provident aliquam odio
-                                            repellat laboriosam reiciendis omnis, molestiae minus et, doloremque
-                                            ipsum earum.</p>
-                                        <div class="my-5 text-sm flex flex-col items-start lg:flex-row gap-2 lg:gap-5">
-                                            <div>By xyz</div>
-                                            <div>Location BanChang</div>
-                                            <div>Date/Time DD/MM/YYYY HH:MM:SS</div>
-                                            <div>Responsible Agency ABC Unit</div>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-span-3">
-                                        <div class="flex gap-2 my-3">
-                                            <button
-                                                class="bg-blue-900 px-3 py-2 rounded-md text-red-400">Pending</button>
-                                            <button class=" bg-cyan-400 px-3 py-2 rounded-md">Reply</button>
-                                            <button class="bg-red-600 px-3 py-2 rounded-md">Delete</button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Item -->
-                             <!-- Item -->
-                            <div class="block-comp">
-                                <div class="grid grid-cols-12">
-                                    <div class="col-span-12 lg:col-span-2">
-                                        <img src="@/assets/img_ex_complaint.png" class="w-full lg:w-auto"/>
-                                    </div>
-                                    <div class="col-span-12 lg:col-span-7">
-                                        <div class="flex flex-col lg:flex-row items-center">
-                                            <h1 class="font-bold lg:text-lg my-2">Lorem ipsum dolor sit amet consectetur</h1>
-                                            <div class="rounded-md bg-yellow-400 text-black px-3 py-1 lg:ml-10 w-32">Etc
-                                            </div>
-                                        </div>
-                                        <p class="text-left my-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non, sunt
-                                            veritatis aut esse quasi et fuga? Laudantium provident aliquam odio
-                                            repellat laboriosam reiciendis omnis, molestiae minus et, doloremque
-                                            ipsum earum.</p>
-                                        <div class="my-5 text-sm flex flex-col items-start lg:flex-row gap-2 lg:gap-5">
-                                            <div>By xyz</div>
-                                            <div>Location BanChang</div>
-                                            <div>Date/Time DD/MM/YYYY HH:MM:SS</div>
-                                            <div>Responsible Agency ABC Unit</div>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-span-3">
-                                        <div class="flex gap-2 my-3">
-                                            <button
-                                                class="bg-blue-900 px-3 py-2 rounded-md text-red-400">Pending</button>
-                                            <button class=" bg-cyan-400 px-3 py-2 rounded-md">Reply</button>
-                                            <button class="bg-red-600 px-3 py-2 rounded-md">Delete</button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Item -->
-
-                            <div class="lg:my-5 paginate flex justify-center">
-                                <button class="btn-prev"
-                                    
-                                    > {{'<<'}} </button>
-                                <button class="btn-prev" 
-                                   
-                                    > {{'<'}}
-                                </button>
-                                <button class="btn-page"
-                                   
-                                    > 1
-                                </button>
-                                <button class="btn-next"
-                                   
-                                    > {{'>'}}
-                                </button>
-                                <button class="btn-next"
-                                    > {{'>>'}} </button>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
+    <AlertDialogConfirm v-if="confirm.active" :type="confirm.type" :msg="confirm.msg" @submit="confirmDel"
+        @close="closeConfirm" />
     <FooterPage />
 </template>
 <script>
     import TopMenu from './layout/TopMenu.vue'
     import FooterPage from './layout/FooterPage.vue'
-
+    import Pagination from '../components/utility/Pagination.vue'
+    import AlertDialogConfirm from '../components/utility/AlertDialogConfirm.vue'
 
     export default {
         components: {
             TopMenu,
-            FooterPage
+            FooterPage,
+            Pagination,
+            AlertDialogConfirm
         },
         data() {
             return {
-
+                count:0,
+                itemperpage:4,
+                start:0,
+                list_comp:[],
+                confirm:{
+                    active:false,
+                    type:null,
+                    msg:null
+                },
+                del_id:null
             }
         },
+        created() {
+            this.getComplaintData()
+        },
+        methods:{
+            getComplaintData(){
+                var data = {
+                    itemperpage: this.itemperpage,
+                    start: this.start,
+                }
+                this.$store.dispatch('complaint/listdata',data).then((res)=>{
+                    var data = res.data
+                    this.count = data.count_all
+                    this.list_comp = data.list_comp
+                })
+            },
+            updateData(start){
+                this.start= start
+                this.getComplaintData()
+            },
+            confirmDel(){
+                this.$store.dispatch('complaint/compDistroy',this.del_id).then((res)=>{
+                    console.log(res);
+                })
+            },
+            delcomp(id){
+                this.del_id = id
+                this.confirm.active = true
+                this.confirm.type = 'confirmdel'
+                this.confirm.msg = 'Are you sure to Delete this Record?'
+            }
+        }
     }
 </script>

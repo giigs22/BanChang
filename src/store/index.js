@@ -7,6 +7,7 @@ import {widget} from './modules/widget'
 import {map} from './modules/map'
 import {data} from './modules/data'
 import {sensor} from './modules/sensor'
+import {complaint} from './modules/complaint'
 
 export const createStore = (app) =>{
     return createVuexStore({
@@ -18,7 +19,8 @@ export const createStore = (app) =>{
             widget,
             map,
             data,
-            sensor
+            sensor,
+            complaint
         }
     })
    

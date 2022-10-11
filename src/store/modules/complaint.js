@@ -2,15 +2,14 @@ import axios from 'axios'
 
 const api_backend = import.meta.env.VITE_API_SERVER;
 
-export const sensor = {
+export const complaint = {
     namespaced: true,
     state: {
-       
+     
     },
     actions: {
-        
-        getStatus({rootState}){
-            return axios.get(api_backend+'status/all',{
+       listdata({rootState},data){
+            return axios.post(api_backend+'complaint/list',data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                   }
@@ -19,20 +18,20 @@ export const sensor = {
             }).catch((err)=>{
                 return Promise.reject(err)
             })
-        },
-        Maintenance({rootState}){
-            return axios.get(api_backend+'device/list/ma',{
+       },
+       compDistroy({rootState},data){
+            return axios.delete(api_backend+'complaint/destroy/'+data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
-                  }
+                }
             }).then((res)=>{
                 return Promise.resolve(res)
             }).catch((err)=>{
                 return Promise.reject(err)
             })
-        }
+       }
     },
     mutations: {
-       
+      
     }
-  };
+};

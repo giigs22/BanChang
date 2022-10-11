@@ -47,13 +47,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="text-sm">
-                                            <tr class="border-b border-gray-700" 
-                                                >
-                                                <td class=""><span class="mr-5">00</span> test
-                                                </td>
-                                                <td class="text-center">test</td>
-                                            </tr>
-
+                                           
                                         </tbody>
                                     </table>
                                 </div>
