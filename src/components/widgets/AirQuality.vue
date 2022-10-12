@@ -112,7 +112,7 @@
                 this.pm25 = []
             },
             fullview() {
-                this.$router.push('/view/aqi_map')
+                this.$router.push('/view/aqi')
             }
         }
     }

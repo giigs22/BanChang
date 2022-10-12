@@ -16,7 +16,8 @@ import EditProfile from '../views/user_manage/EditProfile.vue'
 import Permission from '../views/user_manage/Permissions.vue'
 import SOS from '../views/sos/View.vue'
 import Maintenance from '../views/maintenance/View.vue'
-import Complaint from '../views/Complaint.vue'
+import Complaint from '../views/complaint/View.vue'
+import ComplaintReply from '../views/complaint/Reply.vue'
 import ManageTemplate from '../views/manage_widget/Template.vue'
 import CreateDashboard from '../views/manage_widget/CreateDashboard.vue'
 import CCTV from '../views/cctv/View.vue'
@@ -147,6 +148,13 @@ const routes = [{
   {
     path: '/complaint',
     component: Complaint,
+    meta: {
+      middleware: auth
+    }
+  },
+  {
+    path: '/complaint/reply/:id',
+    component: ComplaintReply,
     meta: {
       middleware: auth
     }

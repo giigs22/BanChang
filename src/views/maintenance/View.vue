@@ -115,15 +115,12 @@
     import FooterPage from '../layout/FooterPage.vue'
     import MapView from '../../components/MapView.vue'
     import _ from 'lodash'
-    import Loading from 'vue-loading-overlay';
-    import 'vue-loading-overlay/dist/vue-loading.css';
-
+   
     export default {
         components: {
             TopMenu,
             FooterPage,
             MapView,
-            Loading
         },
         data() {
             return {

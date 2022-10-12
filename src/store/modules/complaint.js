@@ -29,6 +29,17 @@ export const complaint = {
             }).catch((err)=>{
                 return Promise.reject(err)
             })
+       },
+       getcompID({rootState},data){
+            return axios.get(api_backend+'complaint/'+data,{
+                headers:{
+                    Authorization:"Bearer "+rootState.auth.token.value
+                }
+            }).then((res)=>{
+                return Promise.resolve(res)
+            }).catch((err)=>{
+                return Promise.reject(err)
+            })
        }
     },
     mutations: {

@@ -7,6 +7,8 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
+                        <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false" :opacity="0.1" class="rounded-lg"/>
+
                         <h1 class="text-xl text-white ml-10">Air Quality</h1>
                         <div class="searchbox mt-5 mb-5">
                             <h3 class="text-lg text-white">Search</h3>
@@ -143,7 +145,6 @@
         },
         data() {
             return {
-                list_device: [],
                 list_data: [],
                 online: 0,
                 abnormal: 0,
@@ -153,10 +154,8 @@
                     abnormal: 0,
                     offline: 0
                 },
-                env_sensor: [],
-                lnr_sensor: [],
-                map_data:[],
-                group_map_data:[]
+                group_map_data:[],
+                isLoading:false
             }
         },
         computed: {
@@ -187,10 +186,11 @@
                     option:'view'
 
                 }
+                this.isLoading = true
                 return this.$store.dispatch('data/getData',data).then((res)=>{
                     var data = res.data
                     this.list_data = data
-
+                    this.isLoading = false
                 })
             },
             setStatus(){

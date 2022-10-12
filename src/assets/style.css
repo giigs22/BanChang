@@ -62,7 +62,7 @@ body {
 }
 .block-comp {
     background-color: rgb(32, 42, 90, 0.6);
-    @apply flex flex-col py-2 px-3 lg:px-6 text-white text-center rounded-lg items-center;
+    @apply flex flex-col py-2 px-3 lg:px-6 text-white text-center rounded-lg;
     min-width: 137px;
 }
 

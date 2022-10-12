@@ -7,6 +7,8 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
+                        <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false" :opacity="0.1" class="rounded-lg"/>
+
                         <h1 class="text-xl text-white ml-10">Complaint</h1>
                         <div class="searchbox mt-5 mb-5">
                             <h3 class="text-lg text-white">Search</h3>
@@ -14,22 +16,25 @@
                                 <div class="col-span-12 lg:col-span-10">
                                     <div class="grid grid-cols-12 gap-3">
                                         <div class="col-span-12 lg:col-span-4 flex lg:justify-end">
-                                            <select name="" id="" class="h-12 rounded text-sm w-full lg:w-2/3">
+                                            <select name="" id="" class="h-12 rounded text-sm w-full lg:w-2/3" disabled>
                                             <option value="">Condition Type</option>
                                         </select>
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex lg:justify-end">
-                                            <input type="text" placeholder="ID,Name" class="form-input w-full lg:w-2/3">
+                                            <input type="text" placeholder="Title" class="form-input w-full lg:w-2/3">
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex flex-col lg:flex-row lg:items-end justify-end">
                                             <label for="" class="text-white">Order by</label>
-                                        <select name="" id="" class="h-12 rounded text-sm lg:ml-4 w-full lg:w-2/3">
+                                        <select class="h-12 rounded text-sm lg:ml-4 w-full lg:w-2/3">
                                             <option value="">Order by</option>
+                                            <option value="asc">ASC</option>
+                                            <option value="desc">DESC</option>
                                         </select>
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex flex-col lg:flex-row lg:items-end justify-end">
                                             <label for="" class="text-white">From</label>
                                         <input type="text" placeholder="DD/MM/YYYY" class="form-input lg:ml-3 w-full lg:w-2/3">
+                                        <Datepicker/>
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex flex-col lg:flex-row lg:items-end justify-end">
                                             <label for="" class="text-white">To</label>
@@ -52,41 +57,28 @@
                                 <button class="btn-purple rounded py-1 px-2">Export CSV</button>
                             </div>
                             <div class="relative pt-1">
-                                <div class="overflow-hidden h-10 my-4 text-xs flex rounded-2xl">
-                                    <div style="width: 20%"
-                                        class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500">
-                                    </div>
-                                    <div style="width: 50%"
-                                        class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500">
-                                    </div>
-                                    <div style="width: 20%"
-                                        class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-500">
-                                    </div>
-                                    <div style="width: 10%"
-                                        class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-yellow-500">
-                                    </div>
-                                </div>
+                                <Summary :data="stat" :alldata="count"/>
                             </div>
                             <div class="grid grid-cols-12">
                                 <div class="col-span-12 lg:col-span-4">
                                     <div class="flex text-white items-center gap-5 text-xl mb-3">
                                         <div class="w-4 h-4 rounded-full bg-red-500"></div> Electricity <span
-                                            class="ml-3">45</span>
+                                            class="ml-3">{{stat.electricity}}</span>
                                     </div>
                                     <div class="flex text-white items-center gap-5 text-xl">
                                         <div class="w-4 h-4 rounded-full bg-blue-500"></div> Water <span
-                                            class="ml-3">44</span>
+                                            class="ml-3">{{stat.water}}</span>
                                     </div>
                                 </div>
                                 <div class="col-span-12 lg:col-span-4">
                                     <div class="flex text-white items-center gap-5 text-xl mb-3">
                                         <div class="w-4 h-4 rounded-full bg-yellow-500"></div> Etc <span
-                                            class="ml-3">1</span>
+                                            class="ml-3">{{stat.etc}}</span>
 
                                     </div>
                                     <div class="flex text-white items-center gap-5 text-xl">
                                         <div class="w-4 h-4 rounded-full bg-green-500"></div> Disturbance <span
-                                            class="ml-3">10</span>
+                                            class="ml-3">{{stat.disturbance}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -95,41 +87,44 @@
                         <div class="lg:mx-20 my-5 flex flex-col gap-3">
 
                             <div class="block-comp" v-for="item in list_comp">
-                                <div class="grid grid-cols-12">
+                                <div class="grid grid-cols-12 gap-4">
                                     <div class="col-span-12 lg:col-span-2">
-                                        <img :src="item.img_cover" class="w-full lg:w-auto"/>
+                                        <img :src="item.img_cover" class="w-full lg:w-full"/>
                                     </div>
                                     <div class="col-span-12 lg:col-span-7">
-                                        <div class="flex flex-col items-center lg:flex-row">
-                                            <h1 class="font-bold my-2 lg:text-lg">{{item.title}}</h1>
+                                        <div class="flex flex-col items-center justify-between lg:flex-row">
+                                            <div>
+                                                <h1 class="font-bold my-2 lg:text-lg text-left max-w-xl">{{item.title}}</h1>
+                                            </div>
                                             <div class="rounded-md bg-green-600 text-white px-3 py-1 lg:ml-10 lg:w-32" v-if="item.type=='disturbance'">Disturbance
                                             </div>
                                             <div class="rounded-md bg-red-600 text-white px-3 py-1 lg:ml-10 lg:w-32" v-if="item.type=='electricity'">Electricity
                                             </div>
-                                            <div class="rounded-md bg-cyan-600 text-white px-3 py-1 lg:ml-10 w-32" v-if="item.type=='water'">Water
+                                            <div class="rounded-md bg-cyan-600 text-white px-3 py-1 lg:ml-10 lg:w-32" v-if="item.type=='water'">Water
                                             </div>
-                                            <div class="rounded-md bg-yellow-400 text-black px-3 py-1 lg:ml-10 w-32" v-if="item.type=='etc'">Etc
+                                            <div class="rounded-md bg-yellow-400 text-black px-3 py-1 lg:ml-10 lg:w-32" v-if="item.type=='etc'">Etc
                                             </div>
                                         </div>
                                         <p class="text-left my-2">{{item.detail}}</p>
-                                        <div class="my-5 text-sm flex flex-col items-start lg:flex-row gap-2 lg:gap-5">
-                                            <div><span class="font-bold">By</span> {{item.name_complaint}}</div>
-                                            <div><span class="font-bold">Location</span> {{item.location}}</div>
-                                            <div><span class="font-bold">Date/Time</span> {{item.date_complaint}}</div>
-                                            <div><span class="font-bold">Responsible Agency</span> {{item.respon_agen}}</div>
-                                        </div>
+                                       
 
                                     </div>
                                     <div class="col-span-3">
-                                        <div class="flex gap-2 my-3">
+                                        <div class="flex lg:justify-end gap-2 my-3">
                                             <button
                                                 class="bg-blue-900 px-3 py-2 rounded-md text-red-400">Pending</button>
-                                            <button class=" bg-cyan-400 px-3 py-2 rounded-md">Reply</button>
+                                            <a class=" bg-cyan-400 px-3 py-2 rounded-md" :href="'complaint/reply/'+item.id">Reply</a>
                                             <button class="bg-red-600 px-3 py-2 rounded-md"  @click="delcomp(item.id)">Delete</button>
                                         </div>
 
                                     </div>
                                 </div>
+                                <div class="lg:ml-52 my-5 text-sm flex flex-col text-left lg:flex-row gap-2 lg:gap-5">
+                                            <div><span class="font-bold">By</span> {{item.name_complaint}}</div>
+                                            <div><span class="font-bold">Location</span> {{item.location}}</div>
+                                            <div><span class="font-bold">Date/Time</span> {{item.date_complaint}}</div>
+                                            <div><span class="font-bold">Responsible Agency</span> {{item.respon_agen}}</div>
+                                        </div>
                             </div>
                             
                              
@@ -147,17 +142,19 @@
     <FooterPage />
 </template>
 <script>
-    import TopMenu from './layout/TopMenu.vue'
-    import FooterPage from './layout/FooterPage.vue'
-    import Pagination from '../components/utility/Pagination.vue'
-    import AlertDialogConfirm from '../components/utility/AlertDialogConfirm.vue'
-
+    import TopMenu from '../layout/TopMenu.vue'
+    import FooterPage from '../layout/FooterPage.vue'
+    import Pagination from '../../components/utility/Pagination.vue'
+    import AlertDialogConfirm from '../../components/utility/AlertDialogConfirm.vue'
+    import Summary from './Summary.vue'
+    
     export default {
         components: {
             TopMenu,
             FooterPage,
             Pagination,
-            AlertDialogConfirm
+            AlertDialogConfirm,
+            Summary
         },
         data() {
             return {
@@ -170,11 +167,18 @@
                     type:null,
                     msg:null
                 },
-                del_id:null
+                del_id:null,
+                isLoading:false,
+                stat:{
+                    electricity:0,
+                    water:0,
+                    etc:0,
+                    disturbance:0
+                },
             }
         },
-        created() {
-            this.getComplaintData()
+        async created() {
+            await this.getComplaintData()
         },
         methods:{
             getComplaintData(){
@@ -182,10 +186,20 @@
                     itemperpage: this.itemperpage,
                     start: this.start,
                 }
-                this.$store.dispatch('complaint/listdata',data).then((res)=>{
+                this.isLoading = true
+                return this.$store.dispatch('complaint/listdata',data).then((res)=>{
                     var data = res.data
                     this.count = data.count_all
                     this.list_comp = data.list_comp
+                    this.stat = {
+                    electricity:data.stat.electricity,
+                    water:data.stat.water,
+                    etc:data.stat.etc,
+                    disturbance:data.stat.disturbance
+
+                    }
+                    this.isLoading = false
+                    console.log('get');
                 })
             },
             updateData(start){
@@ -202,7 +216,8 @@
                 this.confirm.active = true
                 this.confirm.type = 'confirmdel'
                 this.confirm.msg = 'Are you sure to Delete this Record?'
-            }
+            },
+            
         }
     }
 </script>

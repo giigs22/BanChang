@@ -9,7 +9,10 @@ import VueAxios from 'vue-axios'
 import './assets/style.css'
 import './assets/style_th.css'
 import './assets/responsive.css'
-
+import VueLoading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 const app = createApp({
     extends:App,
@@ -30,6 +33,8 @@ const app = createApp({
 const store = createStore(app)
 app.use(store)
 app.use(VueAxios, axios)
+app.component('Loading',VueLoading)
+app.component('Datepicker',Datepicker)
 
 app.config.globalProperties.$api_backend = import.meta.env.VITE_API_SERVER
 app.config.globalProperties.$interval_time = import.meta.env.VITE_INTERVAL_TIME
