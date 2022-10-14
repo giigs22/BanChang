@@ -16,16 +16,16 @@
                                 <div class="col-span-12 lg:col-span-10">
                                     <div class="grid grid-cols-12 gap-3">
                                         <div class="col-span-12 lg:col-span-4 flex lg:justify-end">
-                                            <select name="" id="" class="h-12 rounded text-sm w-full lg:w-2/3" disabled>
+                                            <select class="h-12 rounded text-sm w-full lg:w-2/3" disabled>
                                             <option value="">Condition Type</option>
                                         </select>
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex lg:justify-end">
-                                            <input type="text" placeholder="Title" class="form-input w-full lg:w-2/3">
+                                            <input v-model="search.title" type="text" placeholder="Title" class="form-input w-full lg:w-2/3">
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex flex-col lg:flex-row lg:items-end justify-end">
                                             <label for="" class="text-white">Order by</label>
-                                        <select class="h-12 rounded text-sm lg:ml-4 w-full lg:w-2/3">
+                                        <select v-model="search.order_by" class="h-12 rounded text-sm lg:ml-4 w-full lg:w-2/3">
                                             <option value="">Order by</option>
                                             <option value="asc">ASC</option>
                                             <option value="desc">DESC</option>
@@ -33,21 +33,20 @@
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex flex-col lg:flex-row lg:items-end justify-end">
                                             <label for="" class="text-white">From</label>
-                                        <input type="text" placeholder="DD/MM/YYYY" class="form-input lg:ml-3 w-full lg:w-2/3">
-                                        <Datepicker/>
+                                        <input v-model="search.start_date" type="date" placeholder="DD/MM/YYYY" class="form-input lg:ml-3 w-full lg:w-2/3">
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex flex-col lg:flex-row lg:items-end justify-end">
                                             <label for="" class="text-white">To</label>
-                                        <input type="text" placeholder="DD/MM/YYYY" class="form-input lg:ml-3 w-full lg:w-2/3">
+                                        <input v-model="search.end_date" type="date" placeholder="DD/MM/YYYY" class="form-input lg:ml-3 w-full lg:w-2/3">
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex flex-col lg:flex-row lg:items-end justify-end">
                                             <label for="" class="text-white">Agency</label>
-                                        <input type="text" placeholder="Unit name" class="form-input lg:ml-5 w-full file:lg:w-2/3">
+                                        <input v-model="search.agency" type="text" placeholder="Unit name" class="form-input lg:ml-5 w-full file:lg:w-2/3">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-span-12 lg:col-span-2">
-                                    <button class="h-12 btn-purple rounded my-3 lg:my-0 lg:ml-3 w-full lg:w-auto">Search</button>
+                                    <button class="h-12 btn-purple rounded my-3 lg:my-0 lg:ml-3 w-full lg:w-auto" @click="searchComp">Search</button>
                                 </div>
                             </div>
                         </div>
@@ -57,36 +56,14 @@
                                 <button class="btn-purple rounded py-1 px-2">Export CSV</button>
                             </div>
                             <div class="relative pt-1">
-                                <Summary :data="stat" :alldata="count"/>
+                                <Summary :data="stat"></Summary>
                             </div>
-                            <div class="grid grid-cols-12">
-                                <div class="col-span-12 lg:col-span-4">
-                                    <div class="flex text-white items-center gap-5 text-xl mb-3">
-                                        <div class="w-4 h-4 rounded-full bg-red-500"></div> Electricity <span
-                                            class="ml-3">{{stat.electricity}}</span>
-                                    </div>
-                                    <div class="flex text-white items-center gap-5 text-xl">
-                                        <div class="w-4 h-4 rounded-full bg-blue-500"></div> Water <span
-                                            class="ml-3">{{stat.water}}</span>
-                                    </div>
-                                </div>
-                                <div class="col-span-12 lg:col-span-4">
-                                    <div class="flex text-white items-center gap-5 text-xl mb-3">
-                                        <div class="w-4 h-4 rounded-full bg-yellow-500"></div> Etc <span
-                                            class="ml-3">{{stat.etc}}</span>
-
-                                    </div>
-                                    <div class="flex text-white items-center gap-5 text-xl">
-                                        <div class="w-4 h-4 rounded-full bg-green-500"></div> Disturbance <span
-                                            class="ml-3">{{stat.disturbance}}</span>
-                                    </div>
-                                </div>
-                            </div>
+                           
                         </div>
                         <!--  Block List Complaint -->
                         <div class="lg:mx-20 my-5 flex flex-col gap-3">
-
-                            <div class="block-comp" v-for="item in list_comp">
+                            <div class="block-comp" v-if="list_comp.length == 0"><h1 class="text-xl text-white text-center">No Result Data.</h1></div>
+                            <div v-else class="block-comp" v-for="item in list_comp" :key="item.id">
                                 <div class="grid grid-cols-12 gap-4">
                                     <div class="col-span-12 lg:col-span-2">
                                         <img :src="item.img_cover" class="w-full lg:w-full"/>
@@ -129,7 +106,7 @@
                             
                              
 
-                            <Pagination :count="count" :itemperpage="itemperpage" @changePage="updateData"/>
+                            <Pagination :count="count" :itemperpage="itemperpage" @changePage="updateData" v-if="list_comp.length > 0"/>
 
                         </div>
                     </div>
@@ -139,6 +116,7 @@
     </main>
     <AlertDialogConfirm v-if="confirm.active" :type="confirm.type" :msg="confirm.msg" @submit="confirmDel"
         @close="closeConfirm" />
+    <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"/>
     <FooterPage />
 </template>
 <script>
@@ -147,14 +125,16 @@
     import Pagination from '../../components/utility/Pagination.vue'
     import AlertDialogConfirm from '../../components/utility/AlertDialogConfirm.vue'
     import Summary from './Summary.vue'
-    
+    import AlertDialog from '../../components/utility/AlertDialog.vue'
+
     export default {
         components: {
             TopMenu,
             FooterPage,
             Pagination,
             AlertDialogConfirm,
-            Summary
+            Summary,
+            AlertDialog
         },
         data() {
             return {
@@ -167,14 +147,27 @@
                     type:null,
                     msg:null
                 },
+                 alert: {
+                    active: false,
+                    type: null,
+                    msg: null
+                },
                 del_id:null,
                 isLoading:false,
                 stat:{
                     electricity:0,
                     water:0,
                     etc:0,
-                    disturbance:0
+                    disturbance:0,
                 },
+                search:{
+                    title:null,
+                    start_date:null,
+                    end_date:null,
+                    order_by:null,
+                    agency:null
+                }
+                
             }
         },
         async created() {
@@ -185,6 +178,13 @@
                 var data = {
                     itemperpage: this.itemperpage,
                     start: this.start,
+                    search:{
+                        title:this.search.title,
+                        start_date:this.search.start_date,
+                        end_date:this.search.end_date,
+                        order_by:this.search.order_by,
+                        agency:this.search.agency
+                    }
                 }
                 this.isLoading = true
                 return this.$store.dispatch('complaint/listdata',data).then((res)=>{
@@ -192,23 +192,45 @@
                     this.count = data.count_all
                     this.list_comp = data.list_comp
                     this.stat = {
-                    electricity:data.stat.electricity,
-                    water:data.stat.water,
-                    etc:data.stat.etc,
-                    disturbance:data.stat.disturbance
-
+                        electricity:data.stat.electricity,
+                        water:data.stat.water,
+                        etc:data.stat.etc,
+                        disturbance:data.stat.disturbance,
                     }
                     this.isLoading = false
-                    console.log('get');
                 })
             },
             updateData(start){
                 this.start= start
                 this.getComplaintData()
             },
+            searchComp(){
+                this.getComplaintData()
+            },
             confirmDel(){
                 this.$store.dispatch('complaint/compDistroy',this.del_id).then((res)=>{
-                    console.log(res);
+                    var data = res.data
+                    if (data.success) {
+                        this.alert.active = true
+                        this.alert.type = "del_success"
+                        this.alert.msg = data.message
+                        this.loading = false
+                        this.closeConfirm()
+                    setTimeout(() => {
+                        this.closeAlert()
+                        this.getComplaintData()
+                    }, 2000);
+                    }else{
+                        this.alert.active = true
+                        this.alert.type = "error"
+                        this.alert.msg = data.message
+                         setTimeout(() => {
+                        this.closeAlert()
+                        this.closeConfirm()
+                        this.loading=false
+                       
+                    }, 2000);
+                    }
                 })
             },
             delcomp(id){
@@ -216,6 +238,17 @@
                 this.confirm.active = true
                 this.confirm.type = 'confirmdel'
                 this.confirm.msg = 'Are you sure to Delete this Record?'
+            },
+             closeConfirm() {
+                this.del_id = null
+                this.confirm.active = false
+                this.confirm.type = null
+                this.confirm.msg = null
+            },
+             closeAlert() {
+                this.alert.active = false
+                this.alert.type = null
+                this.alert.msg = null
             },
             
         }

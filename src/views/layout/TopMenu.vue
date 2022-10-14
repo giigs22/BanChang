@@ -383,18 +383,31 @@
             return {
                 user: {
                     id: null,
-                    name: null
+                    name: null,
+                    user_group:null
                 },
                 img_profile: null,
                 openMenu: false
             }
         },
+        mounted(){
+            var local_data = JSON.parse(localStorage.getItem('user_data'))
+            this.user = local_data.data
+            this.img_profile = local_data.img_profile
+        },
         watch: {
             '$store.state.user.user_data': {
                 deep: true,
                 handler(n) {
+                    console.log(n)
+                    if(n != null){
                     this.user = n.data
                     this.img_profile = n.img_profile
+                    }else{
+                     var local_data = JSON.parse(localStorage.getItem('user_data'))
+                     this.user = local_data.data
+                     this.img_profile = local_data.img_profile
+                    }
                 }
             }
         },

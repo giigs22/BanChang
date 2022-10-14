@@ -88,7 +88,7 @@
         },
         data() {
             return {
-                comp_data:null
+                comp_data:{}
             }
         },
         async created() {

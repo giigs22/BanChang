@@ -17,12 +17,27 @@ export default {
         }else{
             localStorage.setItem('theme',theme)
             this.theme = theme
+            if(theme == 'dark'){
+                document.documentElement.classList.remove('white')
+                document.documentElement.classList.add('dark')
+            }else{
+                document.documentElement.classList.remove('dark')
+                document.documentElement.classList.add('white')
+            }
+            
         }
     },
     methods:{
         switchTheme(theme){
             localStorage.setItem('theme',theme)
             this.theme = theme
+            if(theme == 'dark'){
+                document.documentElement.classList.remove('white')
+                document.documentElement.classList.add('dark')
+            }else{
+                document.documentElement.classList.remove('dark')
+                document.documentElement.classList.add('white')
+            }
         }
     }
 }
