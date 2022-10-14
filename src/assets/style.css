@@ -250,3 +250,9 @@ background: -webkit-radial-gradient(circle, hsla(228, 45%, 32%, 1) 0%, hsla(229,
     position: relative !important;
     border-radius: 5px;
 }
+.result-table thead tr td{
+    @apply p-5;
+}
+.result-table tbody tr td{
+    @apply p-3;
+}

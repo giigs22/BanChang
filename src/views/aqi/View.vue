@@ -18,25 +18,25 @@
                                         <div class="lg:col-span-3 col-span-4">
                                             <div class="grid grid-cols-4 gap-2">
                                             <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
-                                                <select name="" id="" class="h-12 rounded text-sm w-full lg:w-auto">
+                                                <select name="" id="" class="h-12 rounded text-sm w-full lg:ml-10">
                                                     <option value="">Condition Type</option>
                                                 </select>
                                             </div>
                                             <div class="col-span-4 lg:col-span-2">
-                                                <input type="text" placeholder="ID.Name" class="form-input lg:ml-5 w-full lg:w-auto">
+                                                <input type="text" placeholder="ID.Name" class="form-input w-full">
                                             </div>
                                             <div class="col-span-4 lg:col-span-2 lg:flex items-end lg:justify-end">
                                                 <label for="" class="text-white mr-1 block">From</label>
-                                            <input type="text" placeholder="DD/MM/YYYY" class="form-input w-full lg:w-auto">
+                                            <input type="date" placeholder="DD/MM/YYYY" class="form-input w-full">
                                             </div>
                                             <div class="col-span-4 lg:col-span-2 lg:flex items-end">
                                                 <label for="" class="text-white mr-1 block">To</label>
-                                            <input type="text" placeholder="DD/MM/YYYY" class="form-input w-full lg:w-auto">
+                                            <input type="date" placeholder="DD/MM/YYYY" class="form-input w-full">
                                             </div>
                                             </div>
                                         </div>
                                        <div class="col-span-4 lg:col-span-1">
-                                        <button class="btn-purple rounded w-full lg:w-auto">Search</button>
+                                        <button class="btn-purple rounded w-full lg:w-auto" @click="searchData">Search</button>
                                        </div>
                                     </div>
                                 </div>
@@ -55,16 +55,30 @@
                                                 <th class="font-normal text-lg text-center">Status</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="text-sm">
-                                            <tr class="border-b border-gray-700" v-for="(item,index) in sort_list_data"
-                                                :key="index" :class="[item.status?'text-green-600':'text-red-600']">
-                                                <td class=""><span class="mr-5">{{index+1}}</span> {{item.name}}
-                                                </td>
-                                                <td class="text-center">{{(item.status)?'ON':'OFF'}}</td>
-                                            </tr>
 
-                                        </tbody>
                                     </table>
+                                    <div v-if="sort_list_data.length == 0 && isLoading == false" class="text-white text-center my-5">No Result
+                                        Data.</div>
+                                    <div class="m-1 p-1 lg:m-2 lg:p-2 list-data-layer bg-black-op8" v-else>
+                                        <table class="w-full">
+                                            <tbody class="text-sm">
+                                                <tr class="border-b border-gray-700"
+                                                    v-for="(item,index) in sort_list_data" :key="index"
+                                                    :class="[item.status?'text-green-600':'text-red-600']">
+                                                    <td class="">
+                                                        {{index+1}}
+                                                    </td>
+                                                    <td>
+                                                        {{item.name}}
+                                                    </td>
+                                                    <td class="w-1/2 text-center">{{(item.status)?'ON':'OFF'}}</td>
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="col-span-12 lg:col-span-6">
@@ -194,6 +208,8 @@
                 })
             },
             setStatus(){
+                this.online = 0
+                this.offline = 0
                 this.list_data.forEach(el=>{
                     if(el.status){
                         this.online += 1
@@ -214,6 +230,9 @@
             setMapData(){
                 this.group_map_data = this.list_data
             },
+            searchData(){
+                this.$router.push('/view/aqi/result')
+            }
             
 
         }

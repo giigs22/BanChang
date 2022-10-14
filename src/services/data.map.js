@@ -12,6 +12,10 @@ class dataMap{
             return status?url_img+'icon_cctv_green.png':url_img+'icon_cctv_red.png'
         }else if(type == 'wifi'){
             return status?url_img+'icon_wifi_green.png':url_img+'icon_wifi_red.png'
+        }else if(type == 'digi_sig'){
+            return status?url_img+'icon_digis_green.png':url_img+'icon_digis_red.png'
+        }else if(type == 'sos'){
+            return status?url_img+'icon_sos_green.png':url_img+'icon_sos_red.png'
         }
     }
     setIconMapFix(){
@@ -63,6 +67,22 @@ class dataMap{
                 set_status = 'Offline'
             }
             html = `<ul><li><span class="font-bold mr-2">Free Wifi:</span>${set_status}</li><li><span class="font-bold mr-2">User:</span>${client}</li></ul>`
+        }else if(type == 'digi_sig'){
+            var set_status
+            if(status){
+                set_status = 'Online'
+            }else{
+                set_status = 'Offline'
+            }
+            html = `<ul><li><span class="font-bold mr-2">Digital Signage:</span>${set_status}</li></ul>`
+        }else if(type == 'sos'){
+            var set_status
+            if(status){
+                set_status = 'Online'
+            }else{
+                set_status = 'Offline'
+            }
+            html = `<ul><li><span class="font-bold mr-2">SOS:</span>${set_status}</li></ul>`
         }
 
         return html

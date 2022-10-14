@@ -4,25 +4,33 @@ import {
 } from 'vue-router'
 import auth from '../middleware/auth'
 import AQIView from '../views/aqi/View.vue'
+import AQIResult from '../views/aqi/Result.vue'
 import AQIHealthy from '../views/aqi/Healthy.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import SmartLight from '../views/smart_light/View.vue'
+import SmartLightResult from '../views/smart_light/Result.vue'
 import SmartPole from '../views/smart_pole/View.vue'
+import SmartPoleResult from '../views/smart_pole/Result.vue'
 import UserRegister from '../views/user_manage/RegisterUser.vue'
 import UserList from '../views/user_manage/ListUser.vue'
 import EditProfile from '../views/user_manage/EditProfile.vue'
 import Permission from '../views/user_manage/Permissions.vue'
 import SOS from '../views/sos/View.vue'
+import SOSResult from '../views/sos/Result.vue'
 import Maintenance from '../views/maintenance/View.vue'
+import MaintenanceResult from '../views/maintenance/Result.vue'
 import Complaint from '../views/complaint/View.vue'
 import ComplaintReply from '../views/complaint/Reply.vue'
 import ManageTemplate from '../views/manage_widget/Template.vue'
 import CreateDashboard from '../views/manage_widget/CreateDashboard.vue'
 import CCTV from '../views/cctv/View.vue'
+import CCTVResult from '../views/cctv/Result.vue'
 import FreeWiFi from '../views/wifi/View.vue'
+import FreeWiFiResult from '../views/wifi/Result.vue'
 import DigitalSignage from '../views/signage/View.vue'
+import DigitalSignageResult from '../views/signage/Result.vue'
 import EditDashboard from '../views/manage_widget/EditDashboard.vue'
 import GroupUser from '../views/user_manage/GroupUser.vue'
 import GroupTemplate from '../views/manage_widget/GroupTemplate.vue'
@@ -104,6 +112,13 @@ const routes = [{
     }
   },
   {
+    path: '/view/aqi/result',
+    component: AQIResult,
+    meta: {
+      middleware: auth
+    }
+  },
+  {
     path: '/view/aqi_healthy',
     component: AQIHealthy,
     meta: {
@@ -118,8 +133,22 @@ const routes = [{
     }
   },
   {
+    path: '/view/smart_light/result',
+    component: SmartLightResult,
+    meta: {
+      middleware: auth
+    }
+  },
+  {
     path: '/view/smart_pole',
     component: SmartPole,
+    meta: {
+      middleware: auth
+    }
+  },
+  {
+    path: '/view/smart_pole/result',
+    component: SmartPoleResult,
     meta: {
       middleware: auth
     }
@@ -132,6 +161,13 @@ const routes = [{
     }
   },
   {
+    path: '/view/cctv/result',
+    component: CCTVResult,
+    meta: {
+      middleware: auth
+    }
+  },
+  {
     path: '/sos',
     component: SOS,
     meta: {
@@ -139,8 +175,22 @@ const routes = [{
     }
   },
   {
+    path: '/sos/result',
+    component: SOSResult,
+    meta: {
+      middleware: auth
+    }
+  },
+  {
     path: '/maintenance',
     component: Maintenance,
+    meta: {
+      middleware: auth
+    }
+  },
+  {
+    path: '/maintenance/result',
+    component: MaintenanceResult,
     meta: {
       middleware: auth
     }
@@ -202,8 +252,22 @@ const routes = [{
     }
   },
   {
+    path: '/view/freewifi/result',
+    component: FreeWiFiResult,
+    meta: {
+      middleware: auth
+    }
+  },
+  {
     path: '/view/digital_signage',
     component: DigitalSignage,
+    meta: {
+      middleware: auth
+    }
+  },
+  {
+    path: '/view/digital_signage/result',
+    component: DigitalSignageResult,
     meta: {
       middleware: auth
     }

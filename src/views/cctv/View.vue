@@ -19,28 +19,27 @@
                                         <div class="lg:col-span-3 col-span-4">
                                             <div class="grid grid-cols-4 gap-2">
                                                 <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
-                                                    <select name="" id="" class="h-12 rounded text-sm w-full lg:w-auto">
+                                                    <select name="" id="" class="h-12 rounded text-sm w-full">
                                                         <option value="">Condition Type</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-span-4 lg:col-span-2">
-                                                    <input type="text" placeholder="ID.Name"
-                                                        class="form-input lg:ml-5 w-full lg:w-auto">
+                                                    <input type="text" placeholder="ID.Name" class="form-input w-full">
                                                 </div>
                                                 <div class="col-span-4 lg:col-span-2 lg:flex items-end lg:justify-end">
                                                     <label for="" class="text-white mr-1 block">From</label>
                                                     <input type="text" placeholder="DD/MM/YYYY"
-                                                        class="form-input w-full lg:w-auto">
+                                                        class="form-input w-full">
                                                 </div>
                                                 <div class="col-span-4 lg:col-span-2 lg:flex items-end">
                                                     <label for="" class="text-white mr-1 block">To</label>
                                                     <input type="text" placeholder="DD/MM/YYYY"
-                                                        class="form-input w-full lg:w-auto">
+                                                        class="form-input w-full">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-span-4 lg:col-span-1">
-                                            <button class="btn-purple rounded w-full lg:w-auto">Search</button>
+                                            <button class="btn-purple rounded w-full lg:w-auto" @click="searchData">Search</button>
                                         </div>
                                     </div>
                                 </div>
@@ -94,46 +93,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- cctv item -->
-                                    <!-- <div class="border-b border-gray-600">
-                                        <h2 class="text-white text-md ml-14">Cam 01 สนามกีฬา</h2>
-                                        <div class="flex justify-around items-center my-2">
-                                            <div class="rounded-full w-5 h-5 bg-green-600 border-4 border-gray-500">
-                                            </div>
-                                            <div>
-                                                <img src="@/assets/icon_cctv_green.png" alt="">
-                                            </div>
-                                            <div>
-                                                <ul class="text-white text-sm list-disc">
-                                                    <li>Status : <span class="text-green-500">Ng</span></li>
-                                                    <li>Setting : <span class="text-green-500">720p 25fps</span></li>
-                                                    <li>Time : <span class="text-green-500">08:00 AM</span></li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <input type="checkbox" value="main" class="mr-5 cus-checkbox">
-                                            </div>
-                                        </div>
-                                    </div> -->
-                                    <!-- <div class="border-b border-gray-600">
-                                        <h2 class="text-white text-md ml-14">Cam 01 สนามกีฬา</h2>
-                                        <div class="flex justify-around items-center my-2">
-                                            <div class="rounded-full w-5 h-5 bg-red-600 border-4 border-gray-500"></div>
-                                            <div>
-                                                <img src="@/assets/icon_cctv_red.png" alt="">
-                                            </div>
-                                            <div>
-                                                <ul class="text-white text-sm list-disc">
-                                                    <li>Status : <span class="text-red-500">Ng</span></li>
-                                                    <li>Setting : <span class="text-red-500">720p 25fps</span></li>
-                                                    <li>Time : <span class="text-red-500">08:00 AM</span></li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <input type="checkbox" value="main" class="mr-5 cus-checkbox">
-                                            </div>
-                                        </div>
-                                    </div> -->
+                                   
                                     <div class="flex justify-between mt-5">
                                         <div class="flex items-center gap-3">
                                             <input type="checkbox" class="cus-checkbox" v-model="allSelect"
@@ -181,7 +141,7 @@
                                     </div>
                                 </div>
                                 <div class="block-layer data-layer py-2 px-3 mt-4">
-                                    <StatData />
+                                    <StatData :status="{online,abnormal,offline}"/>
                                 </div>
                             </div>
                         </div>
@@ -257,6 +217,11 @@
             await this.getData()
             this.setStatus()
             this.calPercent()
+            setInterval(async() => {
+                await this.getData()
+                this.setStatus()
+                this.calPercent()
+            }, this.$interval_time);
         },
         watch: {
             selected: {
@@ -326,6 +291,9 @@
             setMapData() {
                 this.group_map_data = this.selected
             },
+            searchData(){
+                this.$router.push('/view/cctv/result')
+            }
 
         }
     }

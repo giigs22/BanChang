@@ -18,17 +18,17 @@
                                         <div class="lg:col-span-3 col-span-4">
                                             <div class="grid grid-cols-4 gap-2">
                                             <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
-                                                <select name="" id="" class="h-12 rounded text-sm w-full lg:w-auto">
+                                                <select name="" id="" class="h-12 rounded text-sm w-full">
                                                     <option value="">Condition Type</option>
                                                 </select>
                                             </div>
                                             <div class="col-span-4 lg:col-span-2">
-                                                <input type="text" placeholder="ID.Name" class="form-input lg:ml-5 w-full lg:w-auto">
+                                                <input type="text" placeholder="ID.Name" class="form-input w-full">
                                             </div>
                                             </div>
                                         </div>
                                        <div class="col-span-4 lg:col-span-1">
-                                        <button class="btn-purple rounded w-full lg:w-auto">Search</button>
+                                        <button class="btn-purple rounded w-full lg:w-auto h-12" @click="searchData">Search</button>
                                        </div>
                                     </div>
                                 </div>
@@ -148,6 +148,12 @@
             this.setStatus()
             this.calPercent()
             this.setMapData()
+            setInterval(async() => {
+                    await this.getData()
+                this.setStatus()
+                this.calPercent()
+                this.setMapData()
+            }, this.$interval_time);
         },
         methods:{
             getData(){
@@ -159,6 +165,8 @@
                 })
             },
             setStatus(){
+                this.online = 0
+                this.offline = 0
                 this.list_data.forEach(el=>{
                     if(el.status){
                         this.online += 1
@@ -186,7 +194,11 @@
                     }
                 })
                 this.group_map_data = list_off
+            },
+            searchData(){
+                this.$router.push('/maintenance/result')
             }
+
         }
     }
 </script>
