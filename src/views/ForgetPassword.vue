@@ -1,26 +1,26 @@
 <template>
-    <div class="mt-5 lg:mx-10 lg:my-20 min-h-screen">
+    <div class="pt-5 lg:px-10 lg:py-20 min-h-screen dark:bg-body-dark bg-[#D5ECF4]">
         <!-- Content -->
         <!-- Main Section -->
         <div class="inner-content mx-4 lg:mx-10">
             <div class="main-content">
                 <div class="block-content mb-5">
                     <loading v-model:active="loading" />
-                    <h1 class="text-xl text-white ml-10">Forgot Password</h1>
+                    <h1 class="text-xl dark:text-white ml-10">Forgot Password</h1>
                     <div class="form-register mt-5 mb-5">
                         <Form @submit="sendmail" :validation-schema="schema">
                             <div class="grid grid-cols-9 text-sm lg:gap-20 2xl:gap-40">
                                 <div class="col-span-full lg:col-span-3">
                                     <div class="my-3">
                                         <Field name="email" v-slot="{field}" v-model="email">
-                                            <label class="text-white">Email</label>
+                                            <label class="dark:text-white">Email</label>
                                             <input v-bind="field" class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                 placeholder="Email Address" :disabled="loading">
                                         </Field>
                                         <ErrorMessage name="email" class="text-xs text-red-300" />
                                     </div>
                                     <div class="my-3">
-                                            <label class="text-white block">Verify Captcha</label>
+                                            <label class="dark:text-white block">Verify Captcha</label>
                                             <VueClientRecaptcha class="flex" :value="inputValue" customTextColor="gray" count="6" hideLines="false" @isValid="checkValidCaptcha"/>
                                             <input type="text" class="form-input placeholder:text-gray-400 w-full lg:w-auto" v-model="inputValue" placeholder="Verify Code"/>
                                     </div>

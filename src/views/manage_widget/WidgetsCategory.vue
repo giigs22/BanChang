@@ -7,7 +7,7 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl text-white ml-10">Category Widgets</h1>
+                        <h1 class="text-xl dark:text-white ml-10">Category Widgets</h1>
                         <div class="searchbox mt-5 mb-5">
                             <div class="flex flex-col lg:flex-row justify-between form-search">
                                 <div class="col-span-full lg:col-span-2 my-5">
@@ -20,25 +20,25 @@
                             </div>
                         </div>
                         <div class="mb-5 lg:overflow-hidden overflow-scroll">
-                            <table class="table  border-collapse text-white w-full bg-black-op8 rounded">
-                                <thead class="text-lg  bg-head-table">
-                                    <tr class="border-b border-gray-600">
-                                        <th class="p-5 border-r border-gray-600">ID</th>
-                                        <th class="border-r border-gray-600">Name</th>
-                                        <th class="border-r border-gray-600">Icon</th>
+                            <table class="table  border-collapse w-full dark:bg-black-op8 bg-white rounded">
+                                <thead class="text-lg  bg-head-table text-white">
+                                    <tr class="border-b dark:border-gray-600 border-slate-300">
+                                        <th class="p-5 border-r dark:border-gray-600 border-slate-300">ID</th>
+                                        <th class="border-r dark:border-gray-600 border-slate-300">Name</th>
+                                        <th class="border-r dark:border-gray-600 border-slate-300">Icon</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="dark:text-white">
                                     <tr v-for="item in list" :key="item.id">
-                                        <td class="p-5 text-center border-r border-b border-gray-600">{{item.id}}</td>
-                                        <td class="text-center border-r border-b border-gray-600">{{item.name}}</td>
-                                        <td class="text-center border-r border-b border-gray-600"><img :src="item.icon"
+                                        <td class="p-5 text-center border-r border-b dark:border-gray-600">{{item.id}}</td>
+                                        <td class="text-center border-r border-b dark:border-gray-600">{{item.name}}</td>
+                                        <td class="text-center border-r border-b dark:border-gray-600"><img :src="item.icon"
                                                 alt="" class="w-12 mx-auto"></td>
-                                        <td class="text-center border-r border-b border-gray-600">
+                                        <td class="text-center border-r border-b dark:border-gray-600">
                                             <a :href="'/widgets/cate/'+item.id" class="text-green-400">View</a> |
                                             <button @click="editCate(item.id,item.name)"
-                                                class="text-cyan-300">Edit</button> |
+                                                class="dark:text-cyan-300 text-cyan-600">Edit</button> |
                                             <button @click="delCate(item.id)" class="text-red-500">Delete</button></td>
                                     </tr>
                                 </tbody>

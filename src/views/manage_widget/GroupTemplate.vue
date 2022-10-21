@@ -7,7 +7,7 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl text-white ml-10 mb-5">Group User Template</h1>
+                        <h1 class="text-xl dark:text-white ml-10 mb-5">Group User Template</h1>
                          <div class="searchbox mt-5 mb-5">
                             <div class="flex justify-between form-search">
                                
@@ -26,14 +26,14 @@
                                         <th class="rounded-tr-md">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-white bg-body-table">
-                                   <tr v-for="item in list_group" :key="item.id" class="border-b border-gray-600">
+                                <tbody class="dark:text-white bg-body-table">
+                                   <tr v-for="item in list_group" :key="item.id" class="border-b dark:border-gray-600">
                                     <td class="text-center p-2">{{item.name}}</td>
                                     <td class="text-center">
                                         <span v-if="item.templates[0] == null" class="text-gray-400 text-sm">No Setting Template</span>
                                         <span v-else class="text-md text-green-600">{{item.templates[0].name}}</span>
                                     </td>
-                                    <td class="text-center"><button class="text-cyan-300" @click="setting(item.id)">Setting</button></td>
+                                    <td class="text-center"><button class="dark:text-cyan-300 text-cyan-800" @click="setting(item.id)">Setting</button></td>
                                    </tr>
                                 </tbody>
                             </table>

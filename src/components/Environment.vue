@@ -1,76 +1,76 @@
 <template>
-    <h2 class="lg:text-lg text-white mb-2">{{$t('environment')}}</h2>
+    <h2 class="lg:text-lg dark:text-white mb-2">{{$t('environment')}}</h2>
     <div class="top-bar">
-        <div class="wether flex flex-wrap w-full lg:w-1/4 py-3 px-7">
+        <div class="dark:bg-wether-dark bg-wether-light flex flex-wrap w-full lg:w-1/4 py-3 px-7">
             <div class="flex flex-col text-center cursor-pointer" @click="$router.push('/view/aqi_healthy')">
-                <div class="icon-env-main" :style="{background:aqi.level.color}">
+                <div class="icon-env-main dark:bg-icon-env-dark bg-icon-env-light" :style="{background:aqi.level.color}">
                     <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" alt="">
                 </div>
-                <h3 class="text-lg text-white">{{(aqi.level.label == null?'':aqi.level.label)}}</h3>
+                <h3 class="text-lg dark:text-white">{{(aqi.level.label == null?'':aqi.level.label)}}</h3>
             </div>
             <div class="flex flex-col text-center ml-auto">
-                <h3 class="text-lg text-white">{{today.toLocaleDateString('en-US',{ weekday: 'long' }).split(' ')[0]}}
+                <h3 class="text-lg dark:text-white">{{today.toLocaleDateString('en-US',{ weekday: 'long' }).split(' ')[0]}}
                 </h3>
                 <img src="@/assets/icon_clound.png" alt="">
                 <div class="flex justify-between">
-                    <span class="text-sky-300 text-sm">{{avg_data.temp}}c°</span>
+                    <span class="dark:text-sky-300 text-lime-600 text-sm">{{avg_data.temp}}c°</span>
                     <!-- <span class="text-yellow-300 text-sm">25c°</span> -->
                 </div>
             </div>
         </div>
-        <div class="flex lg:flex-nowrap gap-1 overflow-x-scroll">
-            <div class="aqi block-env">
+        <div class="flex lg:flex-nowrap gap-1 lg:overflow-hidden overflow-x-scroll">
+            <div class="aqi block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3>{{$t('aqi')}}</h3>
                 <span class="text-sm my-1">{{aqi.value}}</span>
-                <div class="icon-env">
+                <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" />
                 </div>
                 <span class="text-sm my-1">{{aqi.level.label}}</span>
             </div>
-            <div class="co2 block-env">
+            <div class="co2 block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3 class="break-words">{{$t('co2')}}</h3>
                 <span class="text-sm my-1">{{avg_data.co2}}</span>
-                <div class="icon-env">
+                <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img src="@/assets/icon_co2.png" />
                 </div>
                 <span class="text-sm my-1">{{_co2.label}}</span>
             </div>
-            <div class="pm25 block-env">
+            <div class="pm25 block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3>{{$t('pm25')}}</h3>
                 <span class="text-sm my-1">{{avg_data.pm25}}</span>
-                <div class="icon-env">
+                <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img src="@/assets/icon_pm25.png" />
                 </div>
                 <span class="text-sm my-1">{{_pm25.label}}</span>
             </div>
-            <div class="pm10 block-env">
+            <div class="pm10 block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3>{{$t('pm10')}}</h3>
                 <span class="text-sm my-1">-</span>
-                <div class="icon-env">
+                <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img src="@/assets/icon_pm10.png" />
                 </div>
                 <span class="text-sm my-1">-</span>
             </div>
-            <div class="hum block-env">
+            <div class="hum block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3>{{$t('humidity')}}</h3>
                 <span class="text-sm my-1">{{avg_data.hum}}</span>
-                <div class="icon-env">
+                <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img src="@/assets/icon_hum.png" />
                 </div>
                 <span class="text-sm my-1">-</span>
             </div>
-            <div class="uv block-env">
+            <div class="uv block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3>{{$t('uv')}}</h3>
                 <span class="text-sm my-1">{{avg_data.uv}}</span>
-                <div class="icon-env">
+                <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img src="@/assets/icon_uv.png" />
                 </div>
                 <span class="text-sm my-1">{{_uv.label}}</span>
             </div>
-            <div class="voc block-env">
+            <div class="voc block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3 class="">{{$t('voc')}}</h3>
                 <span class="text-sm my-1">{{avg_data.voc}}</span>
-                <div class="icon-env">
+                <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img src="@/assets/icon_voc.png" />
                 </div>
                 <span class="text-sm my-1">-</span>

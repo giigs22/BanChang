@@ -9,9 +9,9 @@
                     <div class="block-content mb-5">
                         <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false" :opacity="0.1" class="rounded-lg"/>
 
-                        <h1 class="text-xl text-white ml-10">Complaint</h1>
+                        <h1 class="text-xl dark:text-white ml-10">Complaint</h1>
                         <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg text-white">Search</h3>
+                            <h3 class="text-lg dark:text-white">Search</h3>
                             <div class="grid grid-cols-12 form-search">
                                 <div class="col-span-12 lg:col-span-10">
                                     <div class="grid grid-cols-12 gap-3">
@@ -24,7 +24,7 @@
                                             <input v-model="search.title" type="text" placeholder="Title" class="form-input w-full lg:w-2/3">
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex flex-col lg:flex-row lg:items-end justify-end">
-                                            <label for="" class="text-white">Order by</label>
+                                            <label for="" class="dark:text-white">Order by</label>
                                         <select v-model="search.order_by" class="h-12 rounded text-sm lg:ml-4 w-full lg:w-2/3">
                                             <option value="">Order by</option>
                                             <option value="asc">ASC</option>
@@ -32,15 +32,15 @@
                                         </select>
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex flex-col lg:flex-row lg:items-end justify-end">
-                                            <label for="" class="text-white">From</label>
+                                            <label for="" class="dark:text-white">From</label>
                                         <input v-model="search.start_date" type="date" placeholder="DD/MM/YYYY" class="form-input lg:ml-3 w-full lg:w-2/3">
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex flex-col lg:flex-row lg:items-end justify-end">
-                                            <label for="" class="text-white">To</label>
+                                            <label for="" class="dark:text-white">To</label>
                                         <input v-model="search.end_date" type="date" placeholder="DD/MM/YYYY" class="form-input lg:ml-3 w-full lg:w-2/3">
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex flex-col lg:flex-row lg:items-end justify-end">
-                                            <label for="" class="text-white">Agency</label>
+                                            <label for="" class="dark:text-white">Agency</label>
                                         <input v-model="search.agency" type="text" placeholder="Unit name" class="form-input lg:ml-5 w-full file:lg:w-2/3">
                                         </div>
                                     </div>
@@ -52,7 +52,7 @@
                         </div>
                         <div class="lg:mx-20 my-10 bg-white-op6 p-2 lg:p-7 rounded-lg">
                             <div class="flex justify-between">
-                                <h1 class="lg:text-xl font-bold text-white uppercase">Complaint summary</h1>
+                                <h1 class="lg:text-xl font-bold dark:text-white uppercase">Complaint summary</h1>
                                 <button class="btn-purple rounded py-1 px-2">Export CSV</button>
                             </div>
                             <div class="relative pt-1">
@@ -62,7 +62,7 @@
                         </div>
                         <!--  Block List Complaint -->
                         <div class="lg:mx-20 my-5 flex flex-col gap-3">
-                            <div class="block-comp" v-if="list_comp.length == 0"><h1 class="text-xl text-white text-center">No Result Data.</h1></div>
+                            <div class="block-comp" v-if="list_comp.length == 0"><h1 class="text-xl dark:text-white text-center">No Result Data.</h1></div>
                             <div v-else class="block-comp" v-for="item in list_comp" :key="item.id">
                                 <div class="grid grid-cols-12 gap-4">
                                     <div class="col-span-12 lg:col-span-2">
@@ -90,8 +90,8 @@
                                         <div class="flex lg:justify-end gap-2 my-3">
                                             <button
                                                 class="bg-blue-900 px-3 py-2 rounded-md text-red-400">Pending</button>
-                                            <a class=" bg-cyan-400 px-3 py-2 rounded-md" :href="'complaint/reply/'+item.id">Reply</a>
-                                            <button class="bg-red-600 px-3 py-2 rounded-md"  @click="delcomp(item.id)">Delete</button>
+                                            <a class=" bg-cyan-400 px-3 py-2 rounded-md dark:text-black text-white" :href="'complaint/reply/'+item.id">Reply</a>
+                                            <button class="bg-red-600 px-3 py-2 rounded-md text-white"  @click="delcomp(item.id)">Delete</button>
                                         </div>
 
                                     </div>

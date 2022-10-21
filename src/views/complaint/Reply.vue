@@ -61,7 +61,7 @@
                             </div>
                             <div class="block-comp">
                                 <button class="bg-cyan-400 px-3 py-2 rounded-md text-black font-bold w-32">>Reply</button>
-                                <textarea rows="5" class="my-3 bg-gray-400 text-white rounded-xl">Type Someting...</textarea>
+                                <textarea rows="5" class="my-3 dark:bg-gray-400 dark:text-white bg-wether-light rounded-xl">Type Someting...</textarea>
                                 <div class="flex justify-end gap-2 my-2">
                                     <button class="bg-cyan-400 px-3 py-2 rounded-md text-black font-bold w-32">Submit</button>
                                     <button class="bg-red-600 px-3 py-2 rounded-md font-bold w-32">Reset</button>

@@ -7,34 +7,34 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl text-white ml-10">User List</h1>
+                        <h1 class="text-xl dark:text-white ml-10">User List</h1>
                         <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg text-white">Search</h3>
+                            <h3 class="text-lg dark:text-white">Search</h3>
                             <div class="grid grid-cols-12 form-search">
                                 <div class="lg:col-span-6 col-span-12">
                                     <div class="grid grid-cols-4 gap-3">
                                         <div class="lg:col-span-3 col-span-4">
                                             <div class="grid grid-cols-4 gap-2">
                                             <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
-                                                <select name="" id="" class="h-12 rounded text-sm w-full lg:w-auto">
+                                                <select name="" id="" class="h-12 rounded text-sm w-full">
                                                     <option value="">Condition Type</option>
                                                 </select>
                                             </div>
                                             <div class="col-span-4 lg:col-span-2">
-                                                <input type="text" placeholder="ID.Name" class="form-input lg:ml-5 w-full lg:w-auto">
+                                                <input type="text" placeholder="ID.Name" class="form-input w-full">
                                             </div>
                                             <div class="col-span-4 lg:col-span-2 lg:flex items-end lg:justify-end">
-                                                <label for="" class="text-white mr-1 block">From</label>
-                                            <input type="text" placeholder="DD/MM/YYYY" class="form-input w-full lg:w-auto">
+                                                <label for="" class="dark:text-white mr-1 block">From</label>
+                                            <input type="text" placeholder="DD/MM/YYYY" class="form-input w-full">
                                             </div>
                                             <div class="col-span-4 lg:col-span-2 lg:flex items-end">
-                                                <label for="" class="text-white mr-1 block">To</label>
-                                            <input type="text" placeholder="DD/MM/YYYY" class="form-input w-full lg:w-auto">
+                                                <label for="" class="dark:text-white mr-1 block">To</label>
+                                            <input type="text" placeholder="DD/MM/YYYY" class="form-input w-full">
                                             </div>
                                             </div>
                                         </div>
                                        <div class="col-span-4 lg:col-span-1">
-                                        <button class="btn-purple rounded w-full lg:w-auto">Search</button>
+                                        <button class="btn-purple rounded w-full lg:w-auto h-15">Search</button>
                                        </div>
                                     </div>
                                 </div>
@@ -53,22 +53,22 @@
                                         <th class="rounded-tr-md">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-white bg-body-table">
+                                <tbody class="dark:text-white bg-body-table">
                                     <tr v-for="(item,index) in list_user" :key="index"
                                         :class="[item.status ==='0'?'text-red-500':'']">
-                                        <td class="text-center p-3">{{item.id}}</td>
-                                        <td class="w-52">
+                                        <td class="text-center p-3 border dark:border-gray-500 border-slate-300">{{item.id}}</td>
+                                        <td class="w-52 border dark:border-gray-500 border-slate-300">
                                             {{$dayjs(item.register_date).format('dddd,')}}<br>
                                             {{$dayjs(item.register_date).format('DD MMMM YYYY')}}
                                         </td>
-                                        <td class="text-center">{{item.name}}</td>
-                                        <td class="text-center">{{item.username}}</td>
-                                        <td class="text-center">{{item.role}}</td>
-                                        <td class="text-center">
+                                        <td class="text-center border dark:border-gray-500 border-slate-300">{{item.name}}</td>
+                                        <td class="text-center border dark:border-gray-500 border-slate-300">{{item.username}}</td>
+                                        <td class="text-center border dark:border-gray-500 border-slate-300">{{item.role}}</td>
+                                        <td class="text-center border dark:border-gray-500 border-slate-300">
                                             <div class="text-green-500" v-if="item.status ==='1'">Active</div>
                                             <div class="text-red-500" v-else>Inactive</div>
                                         </td>
-                                        <td class="text-center"><a class="text-cyan-300"
+                                        <td class="text-center border dark:border-gray-500 border-slate-300"><a class="dark:text-cyan-300 text-cyan-600"
                                                 :href="'/user/edit/'+item.id">Edit</a> <span class="text-white"> | </span>
                                             <a @click="delUser(item.id)" class="text-red-500 cursor-pointer">Delete</a></td>
                                     </tr>

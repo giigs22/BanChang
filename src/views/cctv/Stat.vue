@@ -1,10 +1,10 @@
 <template>
-    <ul class="text-white flex text-lg text-center border-b border-gray-600">
-        <li class="w-1/2 py-1 px-3 hover:bg-gray-500" :class="[tab==1?'bg-gray-500':'']" @click="tab=1">Event</li>
-        <li class="w-1/2 py-1 px-3 hover:bg-gray-500" :class="[tab==2?'bg-gray-500':'']" @click="tab=2">Parking</li>
+    <ul class="dark:text-white flex text-lg text-center border-b border-gray-600">
+        <li class="w-1/2 py-1 px-3 dark:hover:bg-gray-500" :class="[tab==1?'dark:bg-gray-500 bg-slate-50':'']" @click="tab=1">Event</li>
+        <li class="w-1/2 py-1 px-3 dark:hover:bg-gray-500" :class="[tab==2?'dark:bg-gray-500 bg-slate-50':'']" @click="tab=2">Parking</li>
     </ul>
     <div id="tab1" v-if="tab==1">
-        <ul class="text-white p-2 list-event">
+        <ul class="dark:text-white p-2 list-event">
             <li>Camera Malfunction <span class="text-red-600">{{camera_malfunction}}</span></li>
             <li>Trespasser <span class="text-red-600">{{trespasser}}</span></li>
             <li>Suspected Face Detection <span class="text-red-600">{{suspected_face_detection}}</span></li>
@@ -14,7 +14,7 @@
         </ul>
     </div>
     <div id="tab2" v-if="tab==2">
-        <ul class="text-white p-2 list-event">
+        <ul class="dark:text-white p-2 list-event">
             <li>Status <span class="text-green-600">Normal</span></li>
             <li>Occupied Parking <span class="text-blue-600">0</span></li>
             <li>Vacant Parking <span class="text-purple-600">0</span></li>

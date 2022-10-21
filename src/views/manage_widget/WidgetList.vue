@@ -7,7 +7,7 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl text-white ml-10">Widgets</h1>
+                        <h1 class="text-xl dark:text-white ml-10">Widgets</h1>
                         <div class="searchbox mt-5 mb-5">
                             <div class="flex flex-col lg:flex-row justify-between form-search">
                                 <div class="col-span-full lg:col-span-2 my-5">
@@ -22,28 +22,28 @@
 
                         
                         <div class="mb-5 lg:overflow-hidden overflow-scroll">
-                            <table class="table  border-collapse text-white w-full bg-black-op8 rounded">
-                                <thead class="text-lg  bg-head-table">
-                                    <tr class="border-b border-gray-600">
-                                        <th class="p-5 border-r border-gray-600">ID</th>
-                                        <th class="border-r border-gray-600">Device Name</th>
-                                        <th class="border-r border-gray-600">Device ID</th>
-                                        <th class="border-r border-gray-600">Name</th>
-                                        <th class="border-r border-gray-600">Location Name</th>
-                                        <th class="border-r border-gray-600">Category Widget</th>
+                            <table class="table  border-collaps w-full dark:bg-black-op8 bg-white rounded">
+                                <thead class="text-lg  bg-head-table text-white">
+                                    <tr class="border-b dark:border-gray-600">
+                                        <th class="p-5 border-r dark:border-gray-600">ID</th>
+                                        <th class="border-r dark:border-gray-600">Device Name</th>
+                                        <th class="border-r dark:border-gray-600">Device ID</th>
+                                        <th class="border-r dark:border-gray-600">Name</th>
+                                        <th class="border-r dark:border-gray-600">Location Name</th>
+                                        <th class="border-r dark:border-gray-600">Category Widget</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="dark:text-white">
                                     <tr v-for="item in list_device">
-                                        <td class="p-1 text-center">{{item.id}}</td>
-                                        <td class="text-center">{{item.device_name}}</td>
-                                        <td class="text-center">{{item.device_id}}</td>
-                                        <td class="text-center">{{(item.name == null)?'-':item.name}}</td>
-                                        <td class="text-center">{{(item.location_name == null)?'-':item.location_name}}</td>
-                                        <td class="text-center">{{item.widget.name}}</td>
-                                        <td class="text-center">
-                                            <a class="text-cyan-300" :href="'/widgets/edit/'+item.id">Edit</a> | 
+                                        <td class="p-1 text-center border dark:border-gray-600 border-slate-300">{{item.id}}</td>
+                                        <td class="text-center border dark:border-gray-600 border-slate-300">{{item.device_name}}</td>
+                                        <td class="text-center border dark:border-gray-600 border-slate-300">{{item.device_id}}</td>
+                                        <td class="text-center border dark:border-gray-600 border-slate-300">{{(item.name == null)?'-':item.name}}</td>
+                                        <td class="text-center border dark:border-gray-600 border-slate-300">{{(item.location_name == null)?'-':item.location_name}}</td>
+                                        <td class="text-center border dark:border-gray-600 border-slate-300">{{item.widget.name}}</td>
+                                        <td class="text-center border dark:border-gray-600 border-slate-300">
+                                            <a class="dark:text-cyan-300 text-cyan-800" :href="'/widgets/edit/'+item.id">Edit</a> | 
                                             <button class="text-red-500" @click="delDevice(item.id)">Delete</button>
                                         </td>
                                     </tr>

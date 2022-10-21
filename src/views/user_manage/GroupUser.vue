@@ -7,16 +7,16 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl text-white ml-10">GroupUser List</h1>
+                        <h1 class="text-xl dark:text-white ml-10">GroupUser List</h1>
                         <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg text-white">Search</h3>
+                            <h3 class="text-lg dark:text-white">Search</h3>
                             <div class="grid grid-cols-12 form-search">
                                 <div class="lg:col-span-6 col-span-12">
                                     <div class="grid grid-cols-4 gap-3">
                                         <div class="lg:col-span-3 col-span-full">
                                             <div class="grid grid-cols-4 gap-2">
                                             <div class="col-span-full lg:col-span-2">
-                                                <input type="text" placeholder="ID.Name" class="form-input lg:ml-5 w-full lg:w-auto">
+                                                <input type="text" placeholder="ID.Name" class="form-input w-full">
                                             </div>
                                             <div class="col-span-full lg:col-span-1">
                                                 <button class="btn-purple rounded w-full lg:w-auto h-12">Search</button>
@@ -48,11 +48,11 @@
                                         <th class="rounded-tr-md">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-white bg-body-table">
+                                <tbody class="dark:text-white bg-body-table">
                                     <tr v-for="(item,index) in list" :key="index">
-                                        <td class="text-center p-3">{{item.id}}</td>
-                                        <td class="text-center">{{item.name}}</td>
-                                        <td class="text-center"><button class="text-cyan-300"
+                                        <td class="text-center p-3 border dark:border-gray-500 border-slate-300">{{item.id}}</td>
+                                        <td class="text-center border dark:border-gray-500 border-slate-300">{{item.name}}</td>
+                                        <td class="text-center border dark:border-gray-500 border-slate-300"><button class="dark:text-cyan-300 text-cyan-600"
                                                 @click="editUser(item.id)">Edit</button> <span class="text-white"> |
                                             </span>
                                             <a @click="delUser(item.id)" class="text-red-500 cursor-pointer">Delete</a>

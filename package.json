@@ -9,6 +9,7 @@
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.14.3",
     "@googlemaps/markerclusterer": "^2.0.10",
+    "@videojs-player/vue": "^1.0.0",
     "@vuepic/vue-datepicker": "^3.5.2",
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
@@ -16,6 +17,7 @@
     "dayjs": "^1.11.4",
     "lodash": "^4.17.21",
     "vee-validate": "^4.6.1",
+    "video.js": "^7.20.3",
     "vue": "^3.2.37",
     "vue-axios": "^3.4.1",
     "vue-chartjs": "^4.1.1",

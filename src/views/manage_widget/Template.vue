@@ -7,9 +7,9 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl text-white ml-10">Manage Dashboard Template</h1>
+                        <h1 class="text-xl dark:text-white ml-10">Manage Dashboard Template</h1>
                         <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg text-white">All Dashboard Template</h3>
+                            <h3 class="text-lg dark:text-white">All Dashboard Template</h3>
                             <div class="flex flex-col lg:flex-row justify-between form-search">
                                 <div class="col-span-full lg:col-span-2 my-5">
                                 <a class="btn-purple rounded btn-blue-gradient" href="/template/create">Create Template</a>
@@ -22,19 +22,19 @@
                         </div>
 
                         <div class="mt-10 mb-5 overflow-scroll lg:overflow-hidden">
-                           <table class="table  border-collapse text-white w-full bg-black-op8 rounded">
-                            <thead class="text-xl">
+                           <table class="table  border-collapse w-full rounded">
+                            <thead class="text-xl bg-head-table text-white">
                                 <tr class="border-b border-gray-600">
                                     <th class="p-5 border-r border-gray-600">ID</th>
                                     <th class="p-5 border-r border-gray-600">Template Name</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr class="border-b border-gray-600" v-for="item in list_temp" :key="item.id">
+                            <tbody class="bg-body-table dark:text-white">
+                                <tr class="border-b dark:border-gray-600 border-slate-300" v-for="item in list_temp" :key="item.id">
                                     <td class="text-center border-r border-gray-600 p-3">{{item.id}}</td>
                                     <td class="text-center border-r border-gray-600 p-3">{{item.name}}</td>
-                                    <td class="text-center"><a class="text-cyan-300" :href="'/template/edit/'+item.id">Edit</a> | <button class="text-red-500" @click="delTemplate(item.id)">Delete</button></td>
+                                    <td class="text-center"><a class="dark:text-cyan-300 text-cyan-800" :href="'/template/edit/'+item.id">Edit</a> | <button class="text-red-500" @click="delTemplate(item.id)">Delete</button></td>
                                 </tr>
                                 
                             </tbody>

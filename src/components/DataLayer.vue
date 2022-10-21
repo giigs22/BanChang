@@ -1,7 +1,7 @@
 <template>
-    <div class="block-layer data-layer py-2 px-3 mt-4">
-        <h4 class="text-white">{{$t('datalayer')}}</h4>
-        <ul class="text-white text-sm list-data-layer mt-5">
+    <div class="block-layer dark:bg-block-layer-dark bg-wether-light data-layer py-2 px-3 mt-4">
+        <h4 class="dark:text-white">{{$t('datalayer')}}</h4>
+        <ul class="dark:text-white text-sm lg:text-md list-data-layer mt-5">
             <li>{{$t('air_quality')}} <input v-model="selected_widget" type="checkbox" value="aqi" class="mr-5 cus-checkbox">
             </li>
             <li>{{$t('smart_lighting')}} <input v-model="selected_widget" type="checkbox" value="smlight" class="mr-5 cus-checkbox">
@@ -26,7 +26,7 @@
         </ul>
         <div class="flex justify-between mx-5">
             <div class="flex items-center gap-3">
-                <input type="checkbox" v-model="allSelect" class="cus-checkbox" @click="selectAll"> <label for="" class="text-white text-sm">
+                <input type="checkbox" v-model="allSelect" class="cus-checkbox" @click="selectAll"> <label for="" class="dark:text-white text-sm">
                     {{$t('all')}}</label>
             </div>
             <div class="flex gap-2">

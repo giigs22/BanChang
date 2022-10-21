@@ -14,15 +14,16 @@ export default {
         if(theme === null || theme === undefined){
             localStorage.setItem('theme','dark')
             this.theme = 'dark'
+            this.$store.dispatch('template/setTheme','dark')
+
         }else{
             localStorage.setItem('theme',theme)
             this.theme = theme
+            this.$store.dispatch('template/setTheme',theme)
             if(theme == 'dark'){
-                document.documentElement.classList.remove('white')
                 document.documentElement.classList.add('dark')
             }else{
                 document.documentElement.classList.remove('dark')
-                document.documentElement.classList.add('white')
             }
             
         }
@@ -31,12 +32,11 @@ export default {
         switchTheme(theme){
             localStorage.setItem('theme',theme)
             this.theme = theme
+            this.$store.dispatch('template/setTheme',theme)
             if(theme == 'dark'){
-                document.documentElement.classList.remove('white')
                 document.documentElement.classList.add('dark')
             }else{
                 document.documentElement.classList.remove('dark')
-                document.documentElement.classList.add('white')
             }
         }
     }

@@ -7,9 +7,9 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl text-white ml-10">Permissions</h1>
+                        <h1 class="text-xl dark:text-white ml-10">Permissions</h1>
                         <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg text-white">Permissions</h3>
+                            <h3 class="text-lg dark:text-white">Permissions</h3>
                             <div class="grid grid-cols-12 form-search">
                                 <div class="lg:col-span-6 col-span-12">
                                     <div class="grid grid-cols-4 gap-3">
@@ -41,7 +41,7 @@
                                         <th class="rounded-tr-md">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-white bg-body-table">
+                                <tbody class="dark:text-white bg-body-table">
                                     <tr>
                                         <td class="text-center p-3">1</td>
                                         <td class="text-center">Administrator</td>
@@ -56,10 +56,10 @@
                                             <p>Complaint (View, Reply, Edit, Delete)</p>
                                         </td>
                                         <td class="text-center">
-                                            <div class="text-green-500">Active</div>
+                                            <div class="dark:text-green-500 text-green-800">Active</div>
                                             <!-- <div class="text-red-500">Inactive</div> -->
                                         </td>
-                                        <td class="text-center"><a class="text-cyan-300">Edit</a>
+                                        <td class="text-center"><a class="dark:text-cyan-300 text-cyan-600">Edit</a>
                                         </td>
                                     </tr>
                                 </tbody>

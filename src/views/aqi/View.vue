@@ -9,9 +9,9 @@
                     <div class="block-content mb-5">
                         <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false" :opacity="0.1" class="rounded-lg"/>
 
-                        <h1 class="text-xl text-white ml-10">Air Quality</h1>
+                        <h1 class="text-xl dark:text-white ml-10">Air Quality</h1>
                         <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg text-white">Search</h3>
+                            <h3 class="text-lg dark:text-white">Search</h3>
                             <div class="grid grid-cols-12 form-search">
                                 <div class="lg:col-span-6 col-span-12">
                                     <div class="grid grid-cols-4 gap-3">
@@ -26,11 +26,11 @@
                                                 <input type="text" placeholder="ID.Name" class="form-input w-full">
                                             </div>
                                             <div class="col-span-4 lg:col-span-2 lg:flex items-end lg:justify-end">
-                                                <label for="" class="text-white mr-1 block">From</label>
+                                                <label for="" class="dark:text-white mr-1 block">From</label>
                                             <input type="date" placeholder="DD/MM/YYYY" class="form-input w-full">
                                             </div>
                                             <div class="col-span-4 lg:col-span-2 lg:flex items-end">
-                                                <label for="" class="text-white mr-1 block">To</label>
+                                                <label for="" class="dark:text-white mr-1 block">To</label>
                                             <input type="date" placeholder="DD/MM/YYYY" class="form-input w-full">
                                             </div>
                                             </div>
@@ -45,8 +45,8 @@
 
                         <div class="grid grid-cols-12 gap-4 mb-5">
                             <div class="col-span-12 lg:col-span-3">
-                                <div class="block-layer data-layer py-2 px-3 mt-4">
-                                    <table class="text-white w-full">
+                                <div class="block-layer data-layer py-2 px-3 mt-4 dark:bg-nav-dark bg-white">
+                                    <table class="dark:text-white w-full">
                                         <thead>
                                             <tr>
                                                 <th
@@ -57,12 +57,12 @@
                                         </thead>
 
                                     </table>
-                                    <div v-if="sort_list_data.length == 0 && isLoading == false" class="text-white text-center my-5">No Result
+                                    <div v-if="sort_list_data.length == 0 && isLoading == false" class="dark:text-white text-center my-5">No Result
                                         Data.</div>
-                                    <div class="m-1 p-1 lg:m-2 lg:p-2 list-data-layer bg-black-op8" v-else>
+                                    <div class="m-1 p-1 lg:m-2 lg:p-2 list-data-layer dark:bg-black-op8" v-else>
                                         <table class="w-full">
                                             <tbody class="text-sm">
-                                                <tr class="border-b border-gray-700"
+                                                <tr class="border-b dark:border-gray-700 border-slate-100"
                                                     v-for="(item,index) in sort_list_data" :key="index"
                                                     :class="[item.status?'text-green-600':'text-red-600']">
                                                     <td class="">
@@ -85,8 +85,8 @@
                                 <MapView :datamap="group_map_data" heatmap="true"/>
                             </div>
                             <div class="col-span-12 lg:col-span-3">
-                                <div class="block-layer data-layer py-2 px-3 mt-4">
-                                    <h1 class="text-2xl text-white text-center my-3">Device Status</h1>
+                                <div class="block-layer data-layer py-2 px-3 mt-4 dark:bg-nav-dark bg-block-content-light">
+                                    <h1 class="text-2xl dark:text-white text-center my-3">Device Status</h1>
                                     <div class="grid grid-cols-3 gap-1 my-5">
                                         <div class="col-span-1">
                                             <div class="bg-green-600 text-white flex flex-col items-center rounded-lg">
@@ -111,26 +111,26 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block-layer data-layer py-2 px-3 mt-4">
-                                    <h5 class="text-white text-center my-3">Air Quality Summary</h5>
+                                <div class="block-layer data-layer py-2 px-3 mt-4 dark:bg-nav-dark bg-white">
+                                    <h5 class="dark:text-white text-center my-3">Air Quality Summary</h5>
                                     <table class="w-full my-3">
-                                        <tr style="color:#00F9CF">
+                                        <tr class="dark:text-[#00F9CF] text-cyan-500">
                                             <td>Excellent</td>
                                             <td>0</td>
                                         </tr>
-                                        <tr style="color:#4CBF08">
+                                        <tr class="dark:text-[#4CBF08] text-green-600">
                                             <td>Satisfactory</td>
                                             <td>0</td>
                                         </tr>
-                                        <tr style="color:#FFEB50">
+                                        <tr class="dark:text-[#FFEB50] text-yellow-400">
                                             <td>Moderate</td>
                                             <td>0</td>
                                         </tr>
-                                        <tr style="color:#FFB14C">
+                                        <tr class="dark:text-[#FFB14C] text-orange-500">
                                             <td>Unhealthy</td>
                                             <td>0</td>
                                         </tr>
-                                        <tr style="color:#BF4957">
+                                        <tr class="dark:text-[#BF4957] text-fuchsia-900" >
                                             <td>Very Unhealthy</td>
                                             <td>0</td>
                                         </tr>

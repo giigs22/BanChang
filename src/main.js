@@ -11,6 +11,8 @@ import './assets/style_th.css'
 import './assets/responsive.css'
 import VueLoading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+import VueVideoPlayer from '@videojs-player/vue'
+import 'video.js/dist/video-js.css'
 
 const app = createApp({
     extends:App,
@@ -19,7 +21,10 @@ const app = createApp({
             app.config.globalProperties.$api_data_baseURL = res.data.data_api
             this.$store.dispatch('server/setting');
             this.$store.dispatch('server/setStatus',{type:'server_data',value:true})
-
+            var theme = localStorage.getItem('theme')
+            if(theme == null || theme == undefined){
+                localStorage.setItem('theme','dark')
+            }
         }).catch((err)=>{
             if(err.code === 'ERR_NETWORK'){
                 this.$store.dispatch('server/setStatus',{type:'server_data',value:false})
@@ -31,6 +36,7 @@ const app = createApp({
 const store = createStore(app)
 app.use(store)
 app.use(VueAxios, axios)
+app.use(VueVideoPlayer)
 app.component('Loading',VueLoading)
 
 app.config.globalProperties.$api_backend = import.meta.env.VITE_API_SERVER

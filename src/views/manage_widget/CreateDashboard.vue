@@ -7,13 +7,13 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl text-white ml-10">Create Dashboard</h1>
+                        <h1 class="text-xl dark:text-white ml-10">Create Dashboard</h1>
                         <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg text-white">All Widgets</h3>
+                            <h3 class="text-lg dark:text-white">All Widgets</h3>
                             <div class="grid grid-cols-12 form-search my-10">
                                 <div class="col-span-full lg:col-span-3 flex-col lg:flex-row items-end gap-5">
                                     <div class="">
-                                        <label for="" class="text-white m-3">Template Name</label>
+                                        <label for="" class="dark:text-white m-3">Template Name</label>
                                         <input type="text" class="form-input" v-model="name_template">
                                     </div>
                                 </div>
@@ -26,7 +26,7 @@
                         </div>
 
                         <div class="mt-10 mb-5 block-content">
-                            <h1 class="text-xl text-white">Select Widget</h1>
+                            <h1 class="text-xl dark:text-white">Select Widget</h1>
                             <div class="grid grid-cols-12 gap-1 my-5">
                                  <div class="block-widgets col-span-6 lg:col-span-4 hover:opacity-60 h-full max-h-full"
                                     @click="selectWidget(item.id)" id="wg-1" v-for="item in list_widget" :key="item.id">

@@ -80,11 +80,14 @@
             }
         },
         computed:{
+            theme() {
+                return this.$store.state.template.theme
+            },  
             chartData(){
                 return{
                     labels: ['Normal', 'Suspect'],
                     datasets: [{
-                        backgroundColor: ['#7A7AFE','#FF5774'],
+                        backgroundColor: this.theme=='dark'?['#7A7AFE','#FF5774']:['#035671','#FF5774'],
                         data: this.data_set,
                         borderWidth:0,
                     }]

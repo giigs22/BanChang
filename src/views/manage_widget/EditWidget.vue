@@ -8,13 +8,13 @@
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <loading v-model:active="loading" />
-                        <h1 class="text-xl text-white ml-10">Add Widget</h1>
+                        <h1 class="text-xl dark:text-white ml-10">Add Widget</h1>
                         <div class="form-register mt-5 mb-5">
                             <Form @submit="updateWidget" :validation-schema="schema">
                                 <div class="grid grid-cols-9 text-sm lg:gap-40">
                                     <div class="col-span-full lg:col-span-3">
                                         <div class="my-3">
-                                            <label class="text-white">Category</label>
+                                            <label class="dark:text-white">Category</label>
                                             <Field name="cate" as="select" v-model="cate" class="form-select w-full"
                                                 :disabled="loading">
                                                 <option value="">Select Category Widget</option>
@@ -25,7 +25,7 @@
                                         </div>
                                         <div class="my-3">
                                             <Field name="device_name" v-slot="{field}"  v-model="device_name">
-                                                <label class="text-white">Device Name</label>
+                                                <label class="dark:text-white">Device Name</label>
                                                 <input v-bind="field"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Ex.BC-P01-LNR01" :disabled="loading">
@@ -34,7 +34,7 @@
                                         </div>
                                         <div class="my-3">
                                             <Field name="device_id" v-slot="{field}" v-model="device_id">
-                                                <label class="text-white">Device ID</label>
+                                                <label class="dark:text-white">Device ID</label>
                                                 <input v-bind="field"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Ex.468000f0-3188-11ec-9f75-bdae041d8bb7"
@@ -44,7 +44,7 @@
                                         </div>
 
                                         <div class="my-3" v-if="cate == 1">
-                                            <label class="text-white">Type Sensor</label>
+                                            <label class="dark:text-white">Type Sensor</label>
                                             <Field name="type" as="select" v-model="type" class="form-select w-full"
                                                 :disabled="loading">
                                                 <option value="">Select Type Sensor</option>
@@ -54,7 +54,7 @@
                                             <ErrorMessage name="type" class="text-xs text-red-300" />
                                         </div>
                                         <div class="my-3" v-if="cate == 4">
-                                            <label class="text-white">Group Camera Pole</label>
+                                            <label class="dark:text-white">Group Camera Pole</label>
                                             <Field name="type" as="select" v-model="type" class="form-select w-full"
                                                 :disabled="loading">
                                                 <option value="">Select Group Pole</option>
@@ -67,7 +67,7 @@
                                     <div class="col-span-full lg:col-span-3">
                                         <div class="my-3">
                                             <Field name="name" v-slot="{field}" v-model="name">
-                                                <label class="text-white">Name</label>
+                                                <label class="dark:text-white">Name</label>
                                                 <input v-bind="field"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Ex.Lighting 1" :disabled="loading">
@@ -76,7 +76,7 @@
                                         </div>
                                         <div class="my-3">
                                             <Field name="location" v-slot="{field}" v-model="location">
-                                                <label class="text-white">Location Name</label>
+                                                <label class="dark:text-white">Location Name</label>
                                                 <input v-bind="field"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Ex. BanChang Stadium" :disabled="loading">

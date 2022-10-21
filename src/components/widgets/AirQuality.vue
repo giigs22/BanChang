@@ -7,11 +7,11 @@
             <span class="text-sm uppercase">Air Quality</span>
         </div>
         <div class="open-full absolute right-2 top-3">
-            <svg @click="fullview" class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="43.026"
+            <svg @click="fullview" class="bg-dark-light cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="43.026"
                 height="43.026" viewBox="0 0 43.026 43.026">
                 <path id="Icon_awesome-arrow-circle-down" data-name="Icon awesome-arrow-circle-down"
                     d="M30.424,15.212A15.212,15.212,0,1,1,15.212,0,15.209,15.209,0,0,1,30.424,15.212Zm-8.808-1.773-4.441,4.631V6.87A1.469,1.469,0,0,0,15.7,5.4h-.981A1.469,1.469,0,0,0,13.249,6.87v11.2L8.808,13.439a1.474,1.474,0,0,0-2.1-.025l-.669.675a1.466,1.466,0,0,0,0,2.079l8.134,8.14a1.466,1.466,0,0,0,2.079,0l8.14-8.14a1.466,1.466,0,0,0,0-2.079l-.669-.675a1.474,1.474,0,0,0-2.1.025Z"
-                    transform="translate(21.513 43.026) rotate(-135)" fill="#7a7afe" />
+                    transform="translate(21.513 43.026) rotate(-135)" fill="" />
             </svg>
         </div>
         <div class="detail gap-10">
@@ -19,7 +19,7 @@
                 <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" alt=""
                     class="w-32">
             </div>
-            <div class="flex flex-col text-center text-white">
+            <div class="flex flex-col text-center dark:text-white">
                 <h1 class="text-6xl">{{avg_data.pm25}}</h1>
                 <h3 class="text-xl">{{_pm25.label}}</h3>
                 <h1 class="text-2xl">AQI {{aqi.value}}</h1>

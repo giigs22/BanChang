@@ -15,20 +15,20 @@
     </div>
     <div class="grid grid-cols-12">
         <div class="col-span-12 lg:col-span-4">
-            <div class="flex text-white items-center gap-5 text-xl mb-3">
+            <div class="flex dark:text-white items-center gap-5 text-xl mb-3">
                 <div class="w-4 h-4 rounded-full bg-red-500"></div> Electricity <span
                     class="ml-3">{{data.electricity}}</span>
             </div>
-            <div class="flex text-white items-center gap-5 text-xl">
+            <div class="flex dark:text-white items-center gap-5 text-xl">
                 <div class="w-4 h-4 rounded-full bg-blue-500"></div> Water <span class="ml-3">{{data.water}}</span>
             </div>
         </div>
         <div class="col-span-12 lg:col-span-4">
-            <div class="flex text-white items-center gap-5 text-xl mb-3">
+            <div class="flex dark:text-white items-center gap-5 text-xl mb-3">
                 <div class="w-4 h-4 rounded-full bg-yellow-500"></div> Etc <span class="ml-3">{{data.etc}}</span>
 
             </div>
-            <div class="flex text-white items-center gap-5 text-xl">
+            <div class="flex dark:text-white items-center gap-5 text-xl">
                 <div class="w-4 h-4 rounded-full bg-green-500"></div> Disturbance <span
                     class="ml-3">{{data.disturbance}}</span>
             </div>

@@ -7,18 +7,23 @@
             <span class="text-sm uppercase">Smart Pole Energy</span>
         </div>
         <div class="open-full absolute right-2 top-3">
-            <svg @click="fullview" class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="43.026"
-                height="43.026" viewBox="0 0 43.026 43.026">
+            <svg @click="fullview" class="cursor-pointer bg-dark-light" xmlns="http://www.w3.org/2000/svg"
+                width="43.026" height="43.026" viewBox="0 0 43.026 43.026">
                 <path id="Icon_awesome-arrow-circle-down" data-name="Icon awesome-arrow-circle-down"
                     d="M30.424,15.212A15.212,15.212,0,1,1,15.212,0,15.209,15.209,0,0,1,30.424,15.212Zm-8.808-1.773-4.441,4.631V6.87A1.469,1.469,0,0,0,15.7,5.4h-.981A1.469,1.469,0,0,0,13.249,6.87v11.2L8.808,13.439a1.474,1.474,0,0,0-2.1-.025l-.669.675a1.466,1.466,0,0,0,0,2.079l8.134,8.14a1.466,1.466,0,0,0,2.079,0l8.14-8.14a1.466,1.466,0,0,0,0-2.079l-.669-.675a1.474,1.474,0,0,0-2.1.025Z"
-                    transform="translate(21.513 43.026) rotate(-135)" fill="#7a7afe" />
+                    transform="translate(21.513 43.026) rotate(-135)" fill="" />
             </svg>
         </div>
         <div class="detail gap-10">
             <div>
-                <img src="@/assets/icon_poll.png" alt="" class="w-32">
+                <svg class="bg-dark-light w-32" xmlns="http://www.w3.org/2000/svg" width="158.603" height="158.603" viewBox="0 0 158.603 158.603">
+                    <path id="Icon_awesome-poll-h" data-name="Icon awesome-poll-h"
+                        d="M158.6,143.86V19.243A17,17,0,0,0,141.61,2.25H16.993A17,17,0,0,0,0,19.243V143.86a17,17,0,0,0,16.993,16.993H141.61A17,17,0,0,0,158.6,143.86ZM39.651,58.894a5.663,5.663,0,0,1-5.664-5.664V41.9a5.663,5.663,0,0,1,5.664-5.664H84.966A5.663,5.663,0,0,1,90.63,41.9V53.23a5.663,5.663,0,0,1-5.664,5.664Zm0,33.986a5.663,5.663,0,0,1-5.664-5.664V75.887a5.663,5.663,0,0,1,5.664-5.664h79.3a5.663,5.663,0,0,1,5.664,5.664V87.216a5.663,5.663,0,0,1-5.664,5.664Zm0,33.986a5.663,5.663,0,0,1-5.664-5.664V109.873a5.663,5.663,0,0,1,5.664-5.664H62.308a5.663,5.663,0,0,1,5.664,5.664V121.2a5.663,5.663,0,0,1-5.664,5.664Z"
+                        transform="translate(0 -2.25)" fill="" />
+                </svg>
+
             </div>
-            <div class="flex flex-col items-center text-center text-white">
+            <div class="flex flex-col items-center text-center dark:text-white">
                 <p class="text-sm">Power Usage / Month</p>
                 <p class="text-lg">{{cost_energy}} Baht</p>
                 <div class="flex items-baseline gap-3">
@@ -79,7 +84,7 @@
             await this.getStatus()
             this.calEnergy()
             this.calAvgEnergy()
-            setInterval(async() => {
+            setInterval(async () => {
                 await this.getData()
                 await this.getStatus()
                 this.calEnergy()
@@ -87,21 +92,21 @@
             }, this.$interval_time);
         },
         methods: {
-            getData(){
+            getData() {
                 var data = {
-                    type:'lastdata',
-                    sensor:'smart_pole'
+                    type: 'lastdata',
+                    sensor: 'smart_pole'
                 }
-                return this.$store.dispatch('data/getData',data).then((res)=>{
+                return this.$store.dispatch('data/getData', data).then((res) => {
                     var data = res.data
                     this.data_lnr = data
                 })
             },
-            getStatus(){
+            getStatus() {
                 var data = {
-                    sensor:'smart_pole'
+                    sensor: 'smart_pole'
                 }
-                return this.$store.dispatch('data/getStatus',data).then((res)=>{
+                return this.$store.dispatch('data/getStatus', data).then((res) => {
                     var data = res.data
                     this.online = data.online
                     this.offline = data.offline

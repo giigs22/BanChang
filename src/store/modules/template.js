@@ -5,7 +5,8 @@ const api_backend = import.meta.env.VITE_API_SERVER;
 export const template = {
     namespaced: true,
     state: {
-      list_template:[]
+      list_template:[],
+      theme:null
     },
     actions: {
        saveDashboard({rootState},data){
@@ -107,12 +108,18 @@ export const template = {
         }).catch((err)=>{
           return Promise.reject(err)
         })
+       },
+       setTheme({commit},data){
+          commit('set_theme',data)
        }
        
     },
     mutations: {
       set_list_template(state,data){
         state.list_template = data
+      },
+      set_theme(state,data){
+        state.theme = data
       }
     }
   };

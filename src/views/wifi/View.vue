@@ -9,9 +9,9 @@
                     <div class="block-content mb-5">
                         <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false"
                             :opacity="0.1" class="rounded-lg" />
-                        <h1 class="text-xl text-white ml-10">Wifi</h1>
+                        <h1 class="text-xl dark:text-white ml-10">Wifi</h1>
                         <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg text-white">Search</h3>
+                            <h3 class="text-lg dark:text-white">Search</h3>
                             <div class="grid grid-cols-12 form-search">
                                 <div class="lg:col-span-6 col-span-12">
                                     <div class="grid grid-cols-4 gap-3">
@@ -26,12 +26,12 @@
                                                     <input type="text" placeholder="ID.Name" class="form-input w-full">
                                                 </div>
                                                 <div class="col-span-4 lg:col-span-2 lg:flex items-end lg:justify-end">
-                                                    <label for="" class="text-white mr-1 block">From</label>
+                                                    <label for="" class="dark:text-white mr-1 block">From</label>
                                                     <input type="text" placeholder="DD/MM/YYYY"
                                                         class="form-input w-full">
                                                 </div>
                                                 <div class="col-span-4 lg:col-span-2 lg:flex items-end">
-                                                    <label for="" class="text-white mr-1 block">To</label>
+                                                    <label for="" class="dark:text-white mr-1 block">To</label>
                                                     <input type="text" placeholder="DD/MM/YYYY"
                                                         class="form-input w-full">
                                                 </div>
@@ -46,19 +46,19 @@
                         </div>
                         <div class="grid grid-cols-12 gap-4 mb-5">
                             <div class="col-span-12 lg:col-span-3">
-                                <div class="block-layer data-layer py-2 px-3 mt-4">
+                                <div class="block-layer data-layer py-2 px-3 mt-4 dark:bg-nav-dark bg-white">
                                     <div class="list-data-layer">
-                                    <div class="border-b border-gray-600" v-for="item in sort_list_data" :key="item.id">
-                                        <h2 class="text-white text-md ml-14">{{item.name}}</h2>
+                                    <div class="border-b dark:border-gray-600" v-for="item in sort_list_data" :key="item.id">
+                                        <h2 class="dark:text-white text-md ml-14">{{item.name}}</h2>
                                         <div class="flex justify-around items-center my-2">
                                             <template v-if="item.status">
-                                                <div class="rounded-full w-5 h-5 bg-green-500 border-4 border-gray-500">
+                                                <div class="rounded-full w-5 h-5 bg-green-500 border-4 dark:border-gray-500">
                                                 </div>
                                                 <div>
                                                     <img src="@/assets/icon_wifi_green.png" alt="">
                                                 </div>
                                                 <div>
-                                                    <ul class="text-white text-sm list-disc">
+                                                    <ul class="dark:text-white text-sm list-disc">
                                                         <li>Status : <span class="text-green-500">ON</span></li>
                                                         <li>Users : <span class="text-green-500">{{item.data.client[0].value}}</span></li>
                                                         <li>Time : <span class="text-green-500">{{$dayjs(item.data.client[0].ts).format('HH:mm A')}}</span></li>
@@ -66,7 +66,7 @@
                                                 </div>
                                             </template>
                                             <template v-else>
-                                                <div class="rounded-full w-5 h-5 bg-red-500 border-4 border-gray-500">
+                                                <div class="rounded-full w-5 h-5 bg-red-500 border-4 dark:border-gray-500">
                                                 </div>
                                                 <div>
                                                     <img src="@/assets/icon_wifi_red.png" alt="">
@@ -92,8 +92,8 @@
                                 <MapView :datamap="group_map_data" />
                             </div>
                             <div class="col-span-12 lg:col-span-3">
-                                <div class="block-layer data-layer py-2 px-3 mt-4">
-                                    <h1 class="text-2xl text-white text-center my-3">Device Status</h1>
+                                <div class="block-layer data-layer py-2 px-3 mt-4 dark:bg-nav-dark bg-block-content-light">
+                                    <h1 class="text-2xl dark:text-white text-center my-3">Device Status</h1>
                                     <div class="grid grid-cols-3 gap-1 my-5">
                                         <div class="col-span-1">
                                             <div class="bg-green-600 text-white flex flex-col items-center rounded-lg">
@@ -118,9 +118,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block-layer data-layer py-2 px-3 mt-4">
-                                    <h1 class="text-white text-lg text-center">User Used</h1>
-                                    <h1 class="text-white text-3xl text-center my-20">{{client}}</h1>
+                                <div class="block-layer data-layer py-2 px-3 mt-4 dark:bg-nav-dark bg-block-content-light">
+                                    <h1 class="dark:text-white text-lg text-center">User Used</h1>
+                                    <h1 class="dark:text-white text-3xl text-center my-20">{{client}}</h1>
                                 </div>
                             </div>
                         </div>

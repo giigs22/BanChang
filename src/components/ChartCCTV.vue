@@ -21,8 +21,6 @@
 
     ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ChartDataLabels)
 
-
-
     export default {
         name: 'BarChart',
         components: {
@@ -84,15 +82,22 @@
                             align: 'end',
                             anchor: 'end',
                             clamp:true,
+                            color:this.theme=='dark'?'white':'black',
                         },
                         borderRadius: 15,
                         backgroundColor: (ctx) => {
                             const canvas = ctx.chart.ctx;
                             const gradient = canvas.createLinearGradient(0, 0, 300, 0);
 
+                            if(this.theme == 'dark'){
                             gradient.addColorStop(0, 'rgba(218,186,255,0)');
                             gradient.addColorStop(0.7, 'rgba(223,154,255,0.28)');
                             gradient.addColorStop(1, 'rgba(237,71,255,1)');
+                            }else{
+                            gradient.addColorStop(0, 'rgba(218,186,255,0)');
+                            gradient.addColorStop(0.7, 'rgba(53,150,181)');
+                            gradient.addColorStop(1, 'rgba(3,86,113)');
+                            }
 
                             return gradient;
                         },
@@ -117,7 +122,7 @@
                         },
                         y:{
                             ticks:{
-                                color:'white'
+                                color: this.theme=='dark'?'white':'black'
                             }
                         }
                     },
@@ -131,6 +136,9 @@
             }
         },
         computed: {
+            theme() {
+                return this.$store.state.template.theme
+            },  
             chartData() {
                 return {
                     labels: ['Camera Malfunction', 'Trespasser', 'Suspected Face Detection', 'Group Cluster Detection',
@@ -144,7 +152,7 @@
                             align: 'end',
                             anchor: 'end',
                             clamp:true,
-                            color:"white",
+                            color:this.theme=='dark'?'white':'black',
                             
                         },
                         borderRadius: 15,
@@ -152,15 +160,53 @@
                             const canvas = ctx.chart.ctx;
                             const gradient = canvas.createLinearGradient(0, 0, 300, 0);
 
+                            if(this.theme == 'dark'){
                             gradient.addColorStop(0, 'rgba(218,186,255,0)');
                             gradient.addColorStop(0.7, 'rgba(223,154,255,0.28)');
                             gradient.addColorStop(1, 'rgba(237,71,255,1)');
+                            }else{
+                            gradient.addColorStop(0, 'rgba(218,186,255,0)');
+                            gradient.addColorStop(0.7, 'rgba(53,150,181)');
+                            gradient.addColorStop(1, 'rgba(3,86,113)');
+                            }
 
                             return gradient;
                         },
                     }],
                 };
             },
+            chartOptions() {
+                    return {
+                        responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            display: false,
+                            max:()=>{
+                                var m = _.max(this.data_set)
+                                if(m > 50){
+                                    m = m+10
+                                }else{
+                                    m = m+5
+                                }
+                                return m
+                            },
+                        },
+                        y:{
+                            ticks:{
+                                color: this.theme=='dark'?'white':'black'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+
+                }
         },
     }
 </script>

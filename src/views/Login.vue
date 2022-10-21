@@ -1,7 +1,7 @@
 <template>
-    <div class="flex flex-col items-center justify-center min-h-screen">
+    <div class="flex flex-col items-center justify-center min-h-screen dark:bg-body-dark bg-[#D5ECF4]">
         <img src="@/assets/logo.png" alt="" class="mx-auto w-32 lg:w-fit">
-        <h1 class="text-xl lg:text-3xl text-white">เทศบาลตำบลบ้านฉางจังหวัดระยอง</h1>
+        <h1 class="text-xl lg:text-3xl dark:text-white">เทศบาลตำบลบ้านฉางจังหวัดระยอง</h1>
         <div class="flex items-center flex-col gap-4 w-full lg:w-1/2 xl:w-1/4 mt-4 px-10">
             <Form @submit="handlelogin" :validation-schema="schema" class="w-full">
                 <div class="">
@@ -40,9 +40,9 @@
                 <hr class="border border-cyan-500 w-full">
             </div>
             <div class="mt-3 flex items-center gap-5">
-                <a href="/register" class="text-cyan-500">Register</a>
+                <a href="/register" class="dark:text-cyan-500 text-cyan-800">Register</a>
                 <p class="text-cyan-500">|</p>
-                <a href="/forgetpass" class="text-cyan-500">Forget Password?</a>
+                <a href="/forgetpass" class="dark:text-cyan-500 text-cyan-800">Forget Password?</a>
             </div>
         </div>
     </div>

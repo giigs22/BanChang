@@ -7,15 +7,15 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl text-white ml-10 mb-10">API Setting</h1>
+                        <h1 class="text-xl dark:text-white ml-10 mb-10">API Setting</h1>
                         <div class="grid grid-cols-2 gap-10">
                             <div class="col-span-1">
-                                <h2 class="font-bold text-white mb-5">Sensor Setting</h2>
+                                <h2 class="font-bold dark:text-white mb-5">Sensor Setting</h2>
                                 <div class="grid mb-3">
-                                    <label for="" class="text-white">API</label>
-                                    <input type="text" class="form-input disabled:bg-gray-300" v-model="sensor.api" :disabled="disable">
+                                    <label for="" class="dark:text-white">API Data Sensor</label>
+                                    <input type="text" class="form-input dark:disabled:bg-gray-300" v-model="sensor.api" :disabled="disable">
                                 </div>
-                                <div class="grid mb-3">
+                                <!-- <div class="grid mb-3">
                                     <label for="" class="text-white">API Login Token</label>
                                     <input type="text" class="form-input disabled:bg-gray-300" v-model="sensor.login_token" :disabled="disable">
                                 </div>
@@ -26,7 +26,7 @@
                                  <div class="grid mb-3">
                                     <label for="" class="text-white">Password</label>
                                     <input type="text" class="form-input disabled:bg-gray-300" v-model="sensor.pass" :disabled="disable">
-                                </div>
+                                </div> -->
                             </div>
                           
                         </div>
@@ -63,9 +63,6 @@
                 disable:true,
                 sensor:{
                     api:null,
-                    login_token:null,
-                    user:null,
-                    pass:null
                 },
                 alert: {
                     active: false,
@@ -81,18 +78,13 @@
             getDataSetting(){
                 this.$store.dispatch('server/apiSetting').then((res)=>{
                     var data = res.data
-                    this.sensor.api = data.sensor_api
-                    this.sensor.login_token = data.sensor_api_token
-                    this.sensor.user = data.sensor_api_user
-                    this.sensor.pass = data.sensor_api_pass
+                    this.sensor.api = data.data_api
+                   
                 })
             },  
             updateAPI() {
                 var data = {
                     sensor_api:this.sensor.api,
-                    sensor_api_token:this.sensor.login_token,
-                    sensor_api_user:this.sensor.user,
-                    sensor_api_pass:this.sensor.pass,
                 }
                 this.$store.dispatch('server/apiUpdate',data).then((res)=>{
                       var data = res.data

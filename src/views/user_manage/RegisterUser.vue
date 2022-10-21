@@ -8,14 +8,14 @@
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <loading v-model:active="loading" />
-                        <h1 class="text-xl text-white ml-10">Register</h1>
+                        <h1 class="text-xl dark:text-white ml-10">Register</h1>
                         <div class="form-register mt-5 mb-5">
                             <Form @submit="register" :validation-schema="schema">
                                 <div class="grid grid-cols-9 text-sm lg:gap-20 2xl:gap-40">
                                     <div class="col-span-full lg:col-span-3">
                                         <div class="my-3">
                                             <Field name="idcard" v-slot="{field}">
-                                                <label class="text-white">Employee ID or ID Card</label>
+                                                <label class="dark:text-white">Employee ID or ID Card</label>
                                                 <input v-bind="field" v-model="idcard"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="ID/ID Card" :disabled="loading">
@@ -24,7 +24,7 @@
                                         </div>
                                          <div class="my-3">
                                             <Field name="name" v-slot="{field}">
-                                                <label class="text-white">Name</label>
+                                                <label class="dark:text-white">Name</label>
                                                 <input v-bind="field" v-model="name"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Name" :disabled="loading">
@@ -33,7 +33,7 @@
                                         </div>
                                         <div class="my-3">
                                             <Field name="username" v-slot="{field}">
-                                                <label class="text-white">Username</label>
+                                                <label class="dark:text-white">Username</label>
                                                 <input v-bind="field" v-model="username"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Username" :disabled="loading">
@@ -44,7 +44,7 @@
                                             <div class="flex gap-3">
                                                 <Field name="password" v-slot="{field}">
                                                     <div class="flex flex-col">
-                                                        <label class="text-white">Password</label>
+                                                        <label class="dark:text-white">Password</label>
                                                         <input v-bind="field" v-model="password" type="password"
                                                             class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                             placeholder="Password" :disabled="loading">
@@ -55,7 +55,7 @@
                                                 </Field>
                                                 <Field name="con_password" v-slot="{field}">
                                                     <div class="flex flex-col">
-                                                        <label class="text-white">Confirm Password</label>
+                                                        <label class="dark:text-white">Confirm Password</label>
                                                         <input v-bind="field" type="password" v-model="con_password"
                                                             class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                             placeholder="Confirm Password" :disabled="loading">
@@ -69,7 +69,7 @@
 
                                         </div>
                                         <div class="my-3">
-                                             <label class="text-white">Role</label>
+                                             <label class="dark:text-white">Role</label>
                                             <Field name="role" as="select" v-model="role" class="form-select w-full" :disabled="loading">
                                                         <option value="">Select Group User</option>
                                                         <option :value="item.id" v-for="item in list_role"
@@ -81,7 +81,7 @@
                                     <div class="col-span-full lg:col-span-3">
                                         <div class="my-3">
                                             <Field name="position" v-slot="{field}">
-                                                <label class="text-white">Position</label>
+                                                <label class="dark:text-white">Position</label>
                                                 <input v-bind="field" v-model="position"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Position" :disabled="loading">
@@ -90,7 +90,7 @@
                                         </div>
                                         <div class="my-3">
                                             <Field name="location" v-slot="{field}">
-                                                <label class="text-white">Location</label>
+                                                <label class="dark:text-white">Location</label>
                                                 <input v-bind="field" v-model="location"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Location" :disabled="loading">
@@ -99,7 +99,7 @@
                                         </div>
                                         <div class="my-3">
                                             <Field name="email" v-slot="{field}">
-                                                <label class="text-white">Email</label>
+                                                <label class="dark:text-white">Email</label>
                                                 <input v-bind="field" v-model="email"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Email" :disabled="loading">
@@ -108,7 +108,7 @@
                                         </div>
                                         <div class="my-3">
                                             <Field name="phone" v-slot="{field}">
-                                                <label class="text-white">Phone</label>
+                                                <label class="dark:text-white">Phone</label>
                                                 <input v-bind="field" v-model="phone"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="phone" :disabled="loading">
@@ -116,7 +116,7 @@
                                             <ErrorMessage name="phone" class="text-xs text-red-300" />
                                         </div>
                                         <div class="my-3">
-                                              <label class="text-white">Status</label>
+                                              <label class="dark:text-white">Status</label>
                                             <Field name="status" as="select" v-model="status" class="form-select w-full" :disabled="loading">
                                                         <option value="1">Active</option>
                                                         <option value="0">Disable</option>

@@ -7,30 +7,24 @@
 body {
     font-family: 'Barlow','Noto Sans Thai', sans-serif;
     font-size:400;
-    background-color: #374B91;
 }
 /*Form Input*/
 .form-input,.form-select{
     @apply rounded px-3 py-1
 }
-.bg-nav-dark {
-    background-color: #1F295A;
-}
-
-.bg-nav-light {
-    background-color: #035671;
-}
 .bg-violet-gradient{
-    @apply bg-gradient-to-r from-indigo-500 via-indigo-400 to-indigo-500
+    @apply bg-gradient-to-r dark:from-indigo-500 dark:via-indigo-400 dark:to-indigo-500 from-[#035671] to-[#3596B5];
 }
 .nav-menu {
-    @apply flex items-center gap-1 py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white;
+    @apply flex items-center gap-1 py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:p-0;
+}
+a.nav-menu{
+    @apply fill-white hover:fill-yellow-500 hover:text-yellow-500 dark:hover:fill-white dark:hover:text-white;
 }
 .nav-menu-m {
-    @apply flex items-center gap-1 py-3 pr-4 pl-3 text-white rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white;
+    @apply flex items-center gap-1 py-3 pr-4 pl-3 text-white rounded md:bg-transparent  md:p-0;
 }
 .section-content {
-    background-color: rgb(47, 64, 126, 0.5);
     border-radius: 10px;
     padding: 15px;
     margin: 0 auto;
@@ -40,10 +34,8 @@ body {
     max-width: 1500px;
     margin: 0 auto;
 }
-
 .block-content {
-    background-color: rgb(36, 46, 95, 0.5);
-    @apply rounded-lg p-5 relative;
+    @apply rounded-lg p-5 relative dark:bg-content-dark bg-content-light;
 }
 
 .top-bar {
@@ -52,22 +44,18 @@ body {
 
 .wether {
     @apply rounded-lg;
-    background-color: rgb(38, 51, 104);
 }
 
 .block-env {
-    background-color: rgb(32, 42, 90, 0.6);
-    @apply flex flex-col py-2 px-6 text-white text-center rounded-lg w-1/4 items-center;
+    @apply flex flex-col py-2 px-6 dark:text-white text-center rounded-lg w-1/4 items-center;
     min-width: 137px;
 }
 .block-comp {
-    background-color: rgb(32, 42, 90, 0.6);
-    @apply flex flex-col py-2 px-3 lg:px-6 text-white text-center rounded-lg;
+    @apply flex flex-col py-2 px-3 lg:px-6 dark:text-white text-center rounded-lg dark:bg-block-env-dark bg-block-content-light;
     min-width: 137px;
 }
 
 .icon-env {
-    background: #7A7AFE;
     border-radius: 10px;
     padding: 10px;
     width: 62px;
@@ -75,7 +63,6 @@ body {
     @apply flex items-center justify-center;
 }
 .icon-env-main {
-    background: #7A7AFE;
     border-radius: 10px;
     padding: 15px;
     width: 128px;
@@ -94,7 +81,6 @@ body {
     @apply absolute right-2 top-3
 }
 .block-layer{
-    background-color: rgb(32, 42, 90);
     border-radius: 8px;
     padding: 10px;
 }
@@ -110,13 +96,13 @@ height: 10px;
 
 /* Track */
 ::-webkit-scrollbar-track {
-background: #2D3C77;
+@apply  dark:bg-scroll-b-dark bg-scroll-b-light;
 border-radius: 10px;  
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-background: #3244AE;
+@apply dark:bg-scroll-dark bg-scroll-light;
 border-radius: 10px; 
 }
 
@@ -125,44 +111,41 @@ border-radius: 10px;
 background: #555; 
 }
 .list-data-layer li{
-    @apply flex justify-between relative;
+    @apply flex justify-between relative dark:bg-dark-op08 border-b-[1px] border-b-gray-400 dark:border-b-slate-600;
     margin-bottom: 10px;
-    border-bottom: 1px solid rgb(255, 255, 255,0.2);
     padding-left: 45px;
     padding-top: 3px;
     padding-bottom: 3px;
-    background-color: rgb(0, 0, 0,0.08);
 }
 .cus-checkbox{
         height: 25px;
         width: 25px;
 }
 .btn-purple{
-    @apply text-white rounded-lg px-7 py-2 bg-gradient-to-r from-purple-500 via-purple-500 to-fuchsia-300;
+    @apply text-white rounded-lg px-7 py-2 bg-gradient-to-r dark:from-purple-500 dark:via-purple-500 dark:to-fuchsia-300 from-[#035671] to-[#3596B5];
 }
 .btn-red{
     @apply text-white rounded-lg px-7 py-2 bg-gradient-to-b from-red-300 via-red-500 to-red-600;
 }
 .btn-gray{
-    @apply  rounded-lg px-7 py-2 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-100;
-}
-.covid-19{
-background-color: rgb(32, 42, 90,0.4);
+    @apply  rounded-lg px-7 py-2 bg-gradient-to-r dark:from-gray-300 dark:via-gray-200 dark:to-gray-100 from-[#3596B5] to-[#3596B5];
 }
 .list-item-covid{
-    background-color: rgb(32, 42, 90);
-    @apply rounded text-white text-sm;
+    @apply rounded dark:text-white text-sm dark:bg-covid-item-dark bg-covid-item-light;
 }
 .status{
-    @apply flex items-center gap-1 text-white text-lg;
+    @apply flex items-center gap-1 dark:text-white text-lg;
 }
 .block-widgets{
-    background-color: rgb(31, 41, 88,0.91);
+    @apply dark:bg-block-widget-dark bg-block-widget-light;
     border-radius: 8px;
     padding: 10px;
     position: relative;
     max-height: 250px;
     height: 240px;
+}
+.block-widgets-light-gradient{
+    @apply bg-gradient-radial from-[rgb(173,219,234,0.5)] to-[rgb(53,150,181,0.5)];
 }
 .detail{
     @apply flex justify-evenly items-center mt-4;
@@ -182,27 +165,24 @@ background-color: rgb(32, 42, 90,0.4);
     border-bottom: 1px solid rgb(255, 255, 255,0.2);
 }
 .table-complaint{
-    background-color: rgb(36, 46, 95);
+    @apply bg-wether-light dark:bg-table-comp-dark;
     border-radius: 10px;
 }
 .bg-head-table-comp{
-    background-color: rgb(58, 67, 109);
-    @apply text-white text-sm
+    @apply text-white text-sm dark:bg-table-comp-dark bg-nav-light;
 }
 .bg-body-table-comp{
     background-color: rgb(255, 255, 255);
     @apply text-gray-600 text-sm
 }
 .bg-head-table-comp tr td{
-    @apply text-center p-2 lg:p-5 border;
-    border: 2px solid rgb(36, 46, 95);
+    @apply text-center p-2 lg:p-5 border-2 dark:border-nav-dark border-wether-light;
 }
 .bg-body-table-comp tr td{
-    @apply text-center p-2 lg:p-5 border;
-    border: 2px solid rgb(36, 46, 95);
+    @apply text-center p-2 lg:p-5 border-2 dark:border-nav-dark border-wether-light;
 }
 .bg-footer{
-    background-color: rgb(27, 37, 71);
+    @apply dark:bg-[#1B2547] bg-[#035671];
 }
 .circle-stat{
      background:url('@/assets/demo_circle.png') no-repeat;
@@ -213,22 +193,16 @@ background-color: rgb(32, 42, 90,0.4);
     background: radial-gradient(circle, rgba(82,82,175,1) 0%, rgba(82,82,175,1) 40%, rgba(40,52,101,1) 100%);
 }
 .btn-blue-gradient{
-    @apply bg-gradient-to-b from-blue-500 to-blue-800
+    @apply bg-gradient-to-b dark:from-blue-500 dark:to-blue-800 from-[#035671] to-[#3596B5];
 }
 .btn-red-gradient{
 @apply bg-gradient-to-b from-red-400 to-red-600
 }
 .bg-head-table{
-    background: hsla(228, 45%, 32%, 1);
-
-background: radial-gradient(circle, hsla(228, 45%, 32%, 1) 0%, hsla(229, 48%, 23%, 1) 100%);
-
-background: -moz-radial-gradient(circle, hsla(228, 45%, 32%, 1) 0%, hsla(229, 48%, 23%, 1) 100%);
-
-background: -webkit-radial-gradient(circle, hsla(228, 45%, 32%, 1) 0%, hsla(229, 48%, 23%, 1) 100%)
+    @apply dark:bg-table-comp-dark bg-nav-light;
 }
 .bg-body-table{
-    background: rgba(0, 0, 0,0.08);
+    @apply dark:bg-black-op8 bg-white;
 }
 .btn-prev,.btn-page,.btn-next{
     @apply rounded-full btn-blue-gradient text-white lg:text-lg font-bold lg:p-3 lg:w-12 lg:h-12 w-10 h-10 text-center;
@@ -255,4 +229,10 @@ background: -webkit-radial-gradient(circle, hsla(228, 45%, 32%, 1) 0%, hsla(229,
 }
 .result-table tbody tr td{
     @apply p-3;
+}
+.chart-theme{
+    @apply dark:text-white text-black;
+}
+.bg-dark-light{
+    @apply dark:fill-[#7a7afe] fill-[#035671]
 }

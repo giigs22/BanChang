@@ -1,98 +1,98 @@
 <template>
-    <div class="my-5 lg:mx-10 lg:my-20 lg:min-h-screen">
+    <div class="py-5 lg:px-10 lg:py-20 lg:min-h-screen dark:bg-body-dark bg-[#D5ECF4]">
         <!-- Content -->
             <!-- Main Section -->
             <div class="inner-content mx-5 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <loading v-model:active="loading" />
-                        <h1 class="text-xl text-white ml-10">Register</h1>
+                        <h1 class="text-xl dark:text-white ml-10">Register</h1>
                         <div class="form-register mt-5 mb-5">
                             <Form @submit="register" :validation-schema="schema">
                                 <div class="grid grid-cols-9 text-sm lg:gap-20 2xl:gap-40">
                                     <div class="col-span-full lg:col-span-3">
                                         <div class="my-3">
                                             <Field name="idcard" v-slot="{field}">
-                                                <label class="text-white">Employee ID or ID Card</label>
+                                                <label class="dark:text-white">Employee ID or ID Card</label>
                                                 <input v-bind="field" v-model="idcard"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="ID/ID Card" :disabled="loading">
                                             </Field>
-                                            <ErrorMessage name="idcard" class="text-xs text-red-300" />
+                                            <ErrorMessage name="idcard" class="text-xs dark:text-red-300 text-red-600" />
                                         </div>
                                           <div class="my-3">
                                             <Field name="name" v-slot="{field}">
-                                                <label class="text-white">Name</label>
+                                                <label class="dark:text-white">Name</label>
                                                 <input v-bind="field" v-model="name"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Name" :disabled="loading">
                                             </Field>
-                                            <ErrorMessage name="idcard" class="text-xs text-red-300" />
+                                            <ErrorMessage name="idcard" class="text-xs dark:text-red-300 text-red-600" />
                                         </div>
                                         <div class="my-3">
                                             <Field name="username" v-slot="{field}">
-                                                <label class="text-white">Username</label>
+                                                <label class="dark:text-white">Username</label>
                                                 <input v-bind="field" v-model="username"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Username" :disabled="loading">
                                             </Field>
-                                            <ErrorMessage name="username" class="text-xs text-red-300" />
+                                            <ErrorMessage name="username" class="text-xs dark:text-red-300 text-red-600" />
                                         </div>
                                         <div class="my-3">
                                             <Field name="password" v-slot="{field}">
-                                                <label class="text-white">Password</label>
+                                                <label class="dark:text-white">Password</label>
                                                 <input v-bind="field" v-model="password" type="password"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Password" :disabled="loading">
                                             </Field>
-                                            <ErrorMessage name="password" class="text-xs text-red-300" />
+                                            <ErrorMessage name="password" class="text-xs dark:text-red-300 text-red-600" />
                                         </div>
                                         <div class="my-3">
                                             <Field name="con_password" v-slot="{field}">
-                                                <label class="text-white">Confirm Password</label>
+                                                <label class="dark:text-white">Confirm Password</label>
                                                 <input v-bind="field" type="password" v-model="con_password"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Confirm Password" :disabled="loading">
                                             </Field>
-                                            <ErrorMessage name="con_password" class="text-xs text-red-300" />
+                                            <ErrorMessage name="con_password" class="text-xs dark:text-red-300 text-red-600" />
                                         </div>
                                     </div>
                                     <div class="col-span-full lg:col-span-3">
                                         <div class="my-3">
                                             <Field name="position" v-slot="{field}">
-                                                <label class="text-white">Position</label>
+                                                <label class="dark:text-white">Position</label>
                                                 <input v-bind="field" v-model="position"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Position" :disabled="loading">
                                             </Field>
-                                            <ErrorMessage name="position" class="text-xs text-red-300" />
+                                            <ErrorMessage name="position" class="text-xs dark:text-red-300 text-red-600" />
                                         </div>
                                         <div class="my-3">
                                             <Field name="location" v-slot="{field}">
-                                                <label class="text-white">Location</label>
+                                                <label class="dark:text-white">Location</label>
                                                 <input v-bind="field" v-model="location"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Location" :disabled="loading">
                                             </Field>
-                                            <ErrorMessage name="location" class="text-xs text-red-300" />
+                                            <ErrorMessage name="location" class="text-xs dark:text-red-300 text-red-600" />
                                         </div>
                                         <div class="my-3">
                                             <Field name="email" v-slot="{field}">
-                                                <label class="text-white">Email</label>
+                                                <label class="dark:text-white">Email</label>
                                                 <input v-bind="field" v-model="email"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Email" :disabled="loading">
                                             </Field>
-                                            <ErrorMessage name="email" class="text-xs text-red-300" />
+                                            <ErrorMessage name="email" class="text-xs dark:text-red-300 text-red-600" />
                                         </div>
                                         <div class="my-3">
                                             <Field name="phone" v-slot="{field}">
-                                                <label class="text-white">Phone</label>
+                                                <label class="dark:text-white">Phone</label>
                                                 <input v-bind="field" v-model="phone"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="phone" :disabled="loading">
                                             </Field>
-                                            <ErrorMessage name="phone" class="text-xs text-red-300" />
+                                            <ErrorMessage name="phone" class="text-xs dark:text-red-300 text-red-600" />
                                         </div>
 
                                     </div>
