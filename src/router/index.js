@@ -29,6 +29,8 @@ import CCTV from '../views/cctv/View.vue'
 import CCTVResult from '../views/cctv/Result.vue'
 import FreeWiFi from '../views/wifi/View.vue'
 import FreeWiFiResult from '../views/wifi/Result.vue'
+import eTourism from '../views/eTourism/View.vue'
+import eTourismResult from '../views/eTourism/Result.vue'
 import DigitalSignage from '../views/signage/View.vue'
 import DigitalSignageResult from '../views/signage/Result.vue'
 import EditDashboard from '../views/manage_widget/EditDashboard.vue'
@@ -254,6 +256,20 @@ const routes = [{
   {
     path: '/view/freewifi/result',
     component: FreeWiFiResult,
+    meta: {
+      middleware: auth
+    }
+  },
+  {
+    path: '/view/etourism',
+    component: eTourism,
+    meta: {
+      middleware: auth
+    }
+  },
+  {
+    path: '/view/etourism/result',
+    component: eTourismResult,
     meta: {
       middleware: auth
     }

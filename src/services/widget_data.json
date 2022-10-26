@@ -57,5 +57,45 @@
         "id": 12,
         "name": "Sos",
         "img": "/src/assets/icon_widget_sos.png"
+    },
+    {
+        "id": 13,
+        "name": "Hotel",
+        "img": "/src/assets/icon_hotel_green.png"
+    },
+    {
+        "id": 14,
+        "name": "Restaurant",
+        "img": "/src/assets/icon_restaurant_green.png"
+    },
+    {
+        "id": 15,
+        "name": "Attraction",
+        "img": "/src/assets/icon_attraction_green.png"
+    },
+    {
+        "id": 16,
+        "name": "OTOP",
+        "img": "/src/assets/icon_otop_green.png"
+    },
+    {
+        "id": 17,
+        "name": "Hotel",
+        "img": "/src/assets/icon_hotel_red.png"
+    },
+    {
+        "id": 18,
+        "name": "Restaurant",
+        "img": "/src/assets/icon_restaurant_red.png"
+    },
+    {
+        "id": 19,
+        "name": "Attraction",
+        "img": "/src/assets/icon_attraction_red.png"
+    },
+    {
+        "id": 20,
+        "name": "OTOP",
+        "img": "/src/assets/icon_otop_red.png"
     }
 ]

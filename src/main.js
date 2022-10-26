@@ -40,6 +40,7 @@ app.use(VueVideoPlayer)
 app.component('Loading',VueLoading)
 
 app.config.globalProperties.$api_backend = import.meta.env.VITE_API_SERVER
+app.config.globalProperties.$etourism_service_backend = import.meta.env.ETOURISM_SERVICE
 app.config.globalProperties.$interval_time = import.meta.env.VITE_INTERVAL_TIME
 app.config.globalProperties.$dayjs = dayjs
 

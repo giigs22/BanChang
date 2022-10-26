@@ -9,7 +9,18 @@
                     <div class="block-content mb-5">
                         <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false"
                             :opacity="0.1" class="rounded-lg" />
-                        <h1 class="text-xl dark:text-white ml-10">Wifi</h1>
+                        <h1 class="text-xl dark:text-white ml-10">eTourism</h1>
+                        <select v-model="tourismtype" class="form-select h-12 rounded text-sm w-full">
+                            <option value="restaurant">Restaurant</option>
+                            <option value="hotel">Hotel</option>
+                            <option value="attraction">Attractions Point</option>
+                            <option value="otop">OTOP Product</option>
+                        </select>
+                        <div class="col-span-4 lg:col-span-1">
+                            <button class="btn-purple rounded w-full lg:w-auto" @click="chooseType">Choose</button>
+                        </div>
+                        <input type="checkbox" class="cus-checkbox" v-model="unassigned" @click="setUnassigned">
+                        <label for="" class="dark:text-white">Only unassigned</label>
                         <div class="searchbox mt-5 mb-5">
                             <h3 class="text-lg dark:text-white">Search</h3>
                             <div class="grid grid-cols-12 form-search">
@@ -50,12 +61,13 @@
                                     <div class="list-data-layer">
                                     <div class="border-b dark:border-gray-600" v-for="item in sort_list_data" :key="item.id">
                                         <h2 class="dark:text-white text-md ml-14">{{item.name}}</h2>
-                                        <div class="flex justify-around items-center my-2">
+                                        <img src="@/assets/icon_hotel_green.png" alt="">
+                                        <!--<div class="flex justify-around items-center my-2">
                                             <template v-if="item.status">
                                                 <div class="rounded-full w-5 h-5 bg-green-500 border-4 dark:border-gray-500">
                                                 </div>
                                                 <div>
-                                                    <img src="@/assets/icon_wifi_green.png" alt="">
+                                                    <img src="@/assets/icon_hotel_green.png" alt="">
                                                 </div>
                                                 <div>
                                                     <ul class="dark:text-white text-sm list-disc">
@@ -81,7 +93,7 @@
                                             </template>
                                             <div>
                                             </div>
-                                        </div>
+                                        </div>-->
                                     </div>
                                     </div>
 
@@ -147,6 +159,7 @@
         },
         data() {
             return {
+                tourismtype: "",
                 group_map_data: [],
                 list_data: [],
                 isLoading: false,
@@ -158,7 +171,9 @@
                     abnormal: 0,
                     offline: 0
                 },
-                client:0
+                client:0,
+                onlyUnassigned: false,
+                unassigned:false
             }
         },
         computed: {
@@ -168,34 +183,69 @@
         },
         async created() {
             await this.getData()
-            this.setStatus()
-            this.calPercent()
-            this.sumclient()
-            this.setMapData()
-            setInterval(async() => {
+            // this.setStatus()
+            // this.calPercent()
+            // this.sumclient()
+            // this.setMapData()
+          //  setInterval(async() => {
                 await this.getData()
-            this.setStatus()
-            this.calPercent()
-            this.sumclient()
-            this.setMapData()
-            }, this.$interval_time);
+                // this.setStatus()
+                // this.calPercent()
+                // this.sumclient()
+                // this.setMapData()
+           // }, this.$interval_time);
         },
         methods: {
+            setUnassigned() {
+                console.log('setUnassigned:this.unassigned:', this.unassigned)
+                this.onlyUnassigned = !this.unassigned
+                console.log('setUnassigned ran')
+            },
+            getComplaintData(){
+                        var data = {
+                            search:{
+                                title:this.search.title,
+                                start_date:this.search.start_date,
+                                end_date:this.search.end_date,
+                                order_by:this.search.order_by,
+                                agency:this.search.agency
+                            }
+                        }
+                        this.isLoading = true
+                        return this.$store.dispatch('complaint/listdata',data).then((res)=>{
+                            var data = res.data
+                            this.count = data.count_all
+                            this.list_comp = data.list_comp
+                            this.stat = {
+                                electricity:data.stat.electricity,
+                                water:data.stat.water,
+                                etc:data.stat.etc,
+                                disturbance:data.stat.disturbance,
+                            }
+                            this.isLoading = false
+                        })
+                    },
             getData() {
-                var data = {
-                    type: 'lastdata',
-                    sensor: 'wifi',
-                    option: 'view'
-
+                if (this.tourismtype !== '') {
+                    var data = {
+                        type: 'all',
+                        sensor: this.tourismtype,
+                        option: this.onlyUnassigned ? 'onlyUnassigned': ''
+                    }
+                    console.log(`getData:data:`)
+                    console.log(JSON.stringify(data))
+                    this.isLoading = true
+                    const t = `etourism/${this.tourismtype}`
+                    console.log(`etourism:t:${t}`)
+                    return this.$store.dispatch(t, data).then((res) => {
+                        var data = res.data
+                        console.log("etourism:getDAta:dispatch:return:data:")
+                        console.log(data)
+                        this.list_data = data
+                        this.isLoading = false
+                        this.setMapData()
+                    })
                 }
-                this.isLoading = true
-                return this.$store.dispatch('data/getData', data).then((res) => {
-                    var data = res.data
-                    console.log("wifi:getDAta:dispatch:return:data:")
-                    console.log(data)
-                    this.list_data = data
-                    this.isLoading = false
-                })
             },
             setStatus() {
                 this.online = 0
@@ -230,9 +280,14 @@
             },
             setMapData(){
                 this.group_map_data = this.list_data
+                console.log('setMapData ran')
             },
             searchData(){
-                this.$router.push('/view/freewifi/result')
+                this.$router.push('/view/eTourism/result')
+            },
+            chooseType() {
+                console.log('chooseType:this.tourismtype:', this.tourismtype)
+                this.getData()
             }
         }
     }
