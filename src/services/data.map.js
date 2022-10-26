@@ -95,6 +95,51 @@ class dataMap{
                 set_status = 'Offline'
             }
             html = `<ul><li><span class="font-bold mr-2">SOS:</span>${set_status}</li></ul>`
+        }else if(type == 'restaurant'){
+            const address = dt.entities_data.address
+            const phone = dt.entities_data.phone
+            const active = dt.entities_data.active
+            const website = dt.entities_data.website
+
+            html = '<ul>'
+            html += `<li><span class="font-bold mr-2">Address:</span>${address}</li>`
+            html += `<li><span class="font-bold mr-2">Phone:</span>${phone}</li>`
+            html += `<li><span class="font-bold mr-2">Website:</span>${website}</li>`
+            html += '</ul>'
+
+        }else if(type == 'hotel'){
+            const address = dt.entities_data.address
+            const phone = dt.entities_data.phone
+            const active = dt.entities_data.active
+            const website = dt.entities_data.website
+
+            html = '<ul>'
+            html += `<li><span class="font-bold mr-2">Address:</span>${address}</li>`
+            html += `<li><span class="font-bold mr-2">Phone:</span>${phone}</li>`
+            html += `<li><span class="font-bold mr-2">Website:</span>${website}</li>`
+            html += '</ul>'
+        }else if(type == 'attraction'){
+            const address = dt.entities_data.address
+            const phone = dt.entities_data.phone
+            const active = dt.entities_data.active
+            const website = dt.entities_data.website
+
+            html = '<ul>'
+            html += `<li><span class="font-bold mr-2">Address:</span>${address}</li>`
+            html += `<li><span class="font-bold mr-2">Phone:</span>${phone}</li>`
+            html += `<li><span class="font-bold mr-2">Website:</span>${website}</li>`
+            html += '</ul>'
+        }else if(type == 'otop'){
+            const address = dt.entities_data.address
+            const phone = dt.entities_data.phone
+            const active = dt.entities_data.active
+            const website = dt.entities_data.website
+
+            html = '<ul>'
+            html += `<li><span class="font-bold mr-2">Address:</span>${address}</li>`
+            html += `<li><span class="font-bold mr-2">Phone:</span>${phone}</li>`
+            html += `<li><span class="font-bold mr-2">Website:</span>${website}</li>`
+            html += '</ul>'
         }
 
         return html
