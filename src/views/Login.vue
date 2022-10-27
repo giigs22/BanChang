@@ -99,8 +99,6 @@
             }
             else{
                   localStorage.setItem('token',JSON.stringify({value:null,expire:null}))
-                  //localStorage.setItem('token_planet',null)
-                  //localStorage.setItem('api_sensor',false)
             }
         },
         methods: {
@@ -115,11 +113,14 @@
                     if (!data.success) {
                         this.message = data.message
                         this.loading = false
+                        this.$store.dispatch('server/setStatus',false)
                     } else {
                         this.$router.push("/")
+                        this.$store.dispatch('server/setStatus',true)
                     }
                 }).catch((err)=>{
                     if(err.code === 'ERR_NETWORK'){
+                        this.$store.dispatch('server/setStatus',false)
                         window.location.reload()
                     }
                 })

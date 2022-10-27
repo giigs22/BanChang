@@ -16,9 +16,6 @@ export const data = {
                     var url = api_backend+'get_data/'+data.type+'/'+data.sensor
                 }
             }
-            // else{
-            //     var url = api_backend+'get_data/'+data.type+'/'+data.sensor+'/'+data.params.limit+'/'+data.params.startTs+'/'+data.params.endTs
-            // }
             return axios.get(url,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value

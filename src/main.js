@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import {createStore} from './store'
+import store from './store'
 import { loadLocaleMessages,setI18nLanguage,i18n } from './i18n'
 import dayjs from 'dayjs'
 import axios from 'axios'
@@ -17,23 +17,13 @@ import 'video.js/dist/video-js.css'
 const app = createApp({
     extends:App,
     beforeCreate(){
-        this.$store.dispatch('server/getSetting').then((res)=>{
-            app.config.globalProperties.$api_data_baseURL = res.data.data_api
-            this.$store.dispatch('server/setting');
-            this.$store.dispatch('server/setStatus',{type:'server_data',value:true})
+            this.$store.dispatch('server/setStatus',true)
             var theme = localStorage.getItem('theme')
             if(theme == null || theme == undefined){
                 localStorage.setItem('theme','dark')
             }
-        }).catch((err)=>{
-            if(err.code === 'ERR_NETWORK'){
-                this.$store.dispatch('server/setStatus',{type:'server_data',value:false})
-            }
-        })
-
     }
 })
-const store = createStore(app)
 app.use(store)
 app.use(VueAxios, axios)
 app.use(VueVideoPlayer)

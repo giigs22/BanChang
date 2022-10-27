@@ -1,13 +1,16 @@
 import axios from 'axios';
 import UserService from '../../services/user.service'
 const api_backend = import.meta.env.VITE_API_SERVER;
-
+const local_user = localStorage.getItem('user_data')
 export const user = {
     namespaced: true,
     state: {
-      user_data:null,
-      roles:[],
-      user_widget:null
+      user_data:local_user != null?JSON.parse(local_user):null,
+    },
+    getters:{
+      userRole(state){
+        return state.user_data?.data.user_group
+      }
     },
     actions: {
       register({commit},data){
@@ -57,7 +60,6 @@ export const user = {
             Authorization:"Bearer "+rootState.auth.token.value
           }
         }).then((res)=>{
-          commit('userdata',res.data)
           return Promise.resolve(res)
         }).catch((err)=>{
           return Promise.reject(err)
@@ -169,7 +171,6 @@ export const user = {
         state.roles = data
        },
        setUserWidget(state,data){
-        state.user_widget = data
         const widget = []
         data.forEach(el => {
           widget.push(el.id)
