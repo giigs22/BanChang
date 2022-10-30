@@ -8,7 +8,7 @@
                     <Field name="username" v-slot="{field}">
                         <input v-bind="field" v-model="username"
                             class="form-input placeholder:text-gray-400 disabled:opacity-70 block w-full"
-                            placeholder="Username" :disabled="loading">
+                            :placeholder="$t('username')" :disabled="loading">
                     </Field>
                     <ErrorMessage name="username" class="text-xs text-red-500" />
                 </div>
@@ -16,7 +16,7 @@
                     <Field name="password" v-slot="{field}">
                         <input v-bind="field" type="password" v-model="password"
                             class="form-input placeholder:text-gray-400 disabled:opacity-70 block w-full"
-                            placeholder="Password" :disabled="loading">
+                            :placeholder="$t('password')" :disabled="loading">
                     </Field>
                     <ErrorMessage name="password" class="text-xs text-red-500" />
                 </div>
@@ -30,19 +30,19 @@
                         <path class="opacity-75" fill="currentColor"
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                         </path>
-                    </svg> Login</button>
+                    </svg> {{$t('login')}}</button>
                 <div v-if="message" class="text-sm text-red-500 text-center my-3">
                     {{message}}
                 </div>
             </form>
             <div class="mt-5 relative w-full flex items-center justify-center">
-                <button class="px-1 py-2 bg-violet-gradient text-white rounded w-24 absolute">OR</button>
+                <button class="px-1 py-2 bg-violet-gradient text-white rounded w-24 absolute">{{$t('or')}}</button>
                 <hr class="border border-cyan-500 w-full">
             </div>
             <div class="mt-3 flex items-center gap-5">
-                <a href="/register" class="dark:text-cyan-500 text-cyan-800">Register</a>
+                <a href="/register" class="dark:text-cyan-500 text-cyan-800">{{$t('register')}}</a>
                 <p class="text-cyan-500">|</p>
-                <a href="/forgetpass" class="dark:text-cyan-500 text-cyan-800">Forget Password?</a>
+                <a href="/forgetpass" class="dark:text-cyan-500 text-cyan-800">{{$t('forget_password')}}</a>
             </div>
         </div>
     </div>

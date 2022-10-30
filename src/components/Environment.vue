@@ -6,7 +6,7 @@
                 <div class="icon-env-main dark:bg-icon-env-dark bg-icon-env-light" :style="{background:aqi.level.color}">
                     <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" alt="">
                 </div>
-                <h3 class="text-lg dark:text-white">{{(aqi.level.label == null?'':aqi.level.label)}}</h3>
+                <h3 class="text-lg dark:text-white">{{(aqi.level.label != null)?$t(aqi.level.label):'-'}}</h3>
             </div>
             <div class="flex flex-col text-center ml-auto">
                 <h3 class="text-lg dark:text-white">{{today.toLocaleDateString('en-US',{ weekday: 'long' }).split(' ')[0]}}
@@ -25,7 +25,7 @@
                 <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" />
                 </div>
-                <span class="text-sm my-1">{{aqi.level.label}}</span>
+                <span class="text-sm my-1 level-label">{{(aqi.level.label != null)?$t(aqi.level.label):'-'}}</span>
             </div>
             <div class="co2 block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3 class="break-words">{{$t('co2')}}</h3>
@@ -33,7 +33,7 @@
                 <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img src="@/assets/icon_co2.png" />
                 </div>
-                <span class="text-sm my-1">{{_co2.label}}</span>
+                <span class="text-sm my-1 level-label">{{(_co2.label != null)?$t(_co2.label):'-'}}</span>
             </div>
             <div class="pm25 block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3>{{$t('pm25')}}</h3>
@@ -41,7 +41,7 @@
                 <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img src="@/assets/icon_pm25.png" />
                 </div>
-                <span class="text-sm my-1">{{_pm25.label}}</span>
+                <span class="text-sm my-1 level-label">{{(_pm25.label != null)?$t(_pm25.label):'-'}}</span>
             </div>
             <div class="pm10 block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3>{{$t('pm10')}}</h3>
@@ -49,7 +49,7 @@
                 <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img src="@/assets/icon_pm10.png" />
                 </div>
-                <span class="text-sm my-1">-</span>
+                <span class="text-sm my-1 level-label">-</span>
             </div>
             <div class="hum block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3>{{$t('humidity')}}</h3>
@@ -57,7 +57,7 @@
                 <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img src="@/assets/icon_hum.png" />
                 </div>
-                <span class="text-sm my-1">-</span>
+                <span class="text-sm my-1 level-label">-</span>
             </div>
             <div class="uv block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3>{{$t('uv')}}</h3>
@@ -65,7 +65,7 @@
                 <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img src="@/assets/icon_uv.png" />
                 </div>
-                <span class="text-sm my-1">{{_uv.label}}</span>
+                <span class="text-sm my-1 level-label">{{_uv.label}}</span>
             </div>
             <div class="voc block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3 class="">{{$t('voc')}}</h3>
@@ -73,7 +73,7 @@
                 <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img src="@/assets/icon_voc.png" />
                 </div>
-                <span class="text-sm my-1">-</span>
+                <span class="text-sm my-1 level-label">-</span>
             </div>
         </div>
 

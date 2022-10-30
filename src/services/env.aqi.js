@@ -3,27 +3,27 @@ class EnvAqi{
         var detail={}
         if(pm25 < 26){
             detail = {
-                label:'Excellent',
+                label:'excellent',
                 color:'#00F9CF'
             }
         }else if(pm25 < 38){
             detail = {
-                label:'Satisfactory',
+                label:'satisfactory',
                 color:'#4CBF08'
             }
         }else if(pm25 < 51){
             detail = {
-                label:'Moderate',
+                label:'moderate',
                 color:'#FFEB50'
             }
         }else if(pm25 < 91){
             detail = {
-                label:'Unhealthy',
+                label:'unhealthy',
                 color:'#FFB14C'
             }
         }else{
             detail = {
-                label:'Very Unhealthy',
+                label:'very_unhealthy',
                 color:'#BF4957'
             }
         }
@@ -33,31 +33,31 @@ class EnvAqi{
         var detail = {}
          if(aqi < 26){
             detail = {
-                label:'Excellent',
+                label:'excellent',
                 icon:'icon_aqi_1.png',
                 color:'#00F9CF'
             }
         }else if(aqi < 51){
             detail = {
-                label:'Satisfactory',
+                label:'satisfactory',
                 icon:'icon_aqi_1.png',
                 color:'#4CBF08'
             }
         }else if(aqi < 101){
             detail = {
-                label:'Moderate',
+                label:'moderate',
                 icon:'icon_aqi_3.png',
                 color:'#FFEB50'
             }
         }else if(aqi < 201){
             detail = {
-                label:'Unhealthy',
+                label:'unhealthy',
                 icon:'icon_aqi_4.png',
                 color:'#FFB14C'
             }
         }else{
             detail = {
-                label:'Very Unhealthy',
+                label:'very_unhealthy',
                 icon:'icon_aqi_5.png',
                 color:'#BF4957'
             }
@@ -68,27 +68,27 @@ class EnvAqi{
         var detail={}
         if(co2 < 4.5){
             detail = {
-                label:'Excellent',
+                label:'excellent',
                 color:'#00F9CF'
             }
         }else if(co2 < 6.5){
             detail = {
-                label:'Satisfactory',
+                label:'satisfactory',
                 color:'#4CBF08'
             }
         }else if(co2 < 9.1){
             detail = {
-                label:'Moderate',
+                label:'moderate',
                 color:'#FFEB50'
             }
         }else if(co2 < 30.1){
             detail = {
-                label:'Unhealthy',
+                label:'unhealthy',
                 color:'#FFB14C'
             }
         }else{
             detail = {
-                label:'Very Unhealthy',
+                label:'very_unhealthy',
                 color:'#BF4957'
             }
         }

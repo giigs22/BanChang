@@ -3,6 +3,12 @@
         "username":"Username is required!",
         "password":"Password is required!"
     },
+    "username":"Username",
+    "password":"Password",
+    "login":"Login",
+    "or":"OR",
+    "register":"Register",
+    "forget_password":"Forget Password?",
     "environment":"Environment",
     "dashboard":"Dashboard",
     "advance_info":"Advance Info",
@@ -44,5 +50,15 @@
     "deaths":"Deaths",
     "new_doses_given":"New doses given",
     "people_fully_vac":"Fully vaccinated",
-    "times":"Times"  
+    "times":"Times",
+    "excellent":"Excellent",
+    "satisfactory":"Satisfactory",
+    "moderate":"Moderate",
+    "unhealthy":"Unhealthy",
+    "very_unhealthy":"Very Unhealthy",
+    "widgets":"Widgets",
+    "power_usage":"Power Usage",
+    "month":"Month",
+    "baht":"Baht",
+    "no_good":"No Good"
 }

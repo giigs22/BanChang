@@ -135,7 +135,7 @@
                             </svg>
                         </div>
 
-                        <h1 class="text-xl dark:text-white">Widgets</h1>
+                        <h1 class="text-xl dark:text-white">{{$t('widgets')}}</h1>
                         <div class="grid grid-cols-12 gap-1">
                             <component v-bind:is="component" v-for="component in components"></component>
 
