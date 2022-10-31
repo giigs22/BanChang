@@ -1,7 +1,7 @@
 <template>
     <div class="flex gap-5 my-4 justify-end">
-        <button :class="[map_type=='1'?'btn-purple':'btn-gray']" @click="stdMap" v-if="heatmap">Map</button>
-        <button :class="[map_type=='2'?'btn-purple':'btn-gray']" @click="heatMap" v-if="heatmap">Heatmap</button>
+        <button :class="[map_type=='1'?'btn-purple':'btn-gray']" @click="stdMap" v-if="heatmap">{{$t('map')}}</button>
+        <button :class="[map_type=='2'?'btn-purple':'btn-gray']" @click="heatMap" v-if="heatmap">{{$t('heatmap')}}</button>
     </div>
     <div id="map" class="map2"></div>
 </template>

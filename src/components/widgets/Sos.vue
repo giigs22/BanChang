@@ -4,7 +4,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2" viewBox="0 0 9.361 9.361">
                 <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681" fill="#08ff00" />
             </svg>
-            <span class="text-sm uppercase">SOS</span>
+            <span class="text-sm uppercase">{{$t('sos')}}</span>
         </div>
         <div class="open-full absolute right-2 top-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="43.026" height="43.026" viewBox="0 0 43.026 43.026"
@@ -24,9 +24,9 @@
 
             </div>
             <div class="dark:text-white">
-                <p class="text-2xl"><span class="text-6xl">0</span> Times</p>
+                <p class="text-2xl"><span class="text-6xl">0</span> {{$t('times')}}</p>
                 <div class="text-center">
-                    <p>SOS Latest</p>
+                    <p>{{$t('sos_latest')}}</p>
                     <!-- <p class="text-red-400">05/09/2021 6:55</p> -->
                 </div>
             </div>

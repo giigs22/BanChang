@@ -13,7 +13,7 @@
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
                                     href="/view/aqi">{{$t('air_quality')}}</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
-                                    href="/view/smart_light">Lighting</a>
+                                    href="/view/smart_light">{{$t('lighting')}}</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
                                     href="/view/smart_pole">{{$t('smart_pole')}}</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"

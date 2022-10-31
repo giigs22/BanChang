@@ -4,7 +4,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2" viewBox="0 0 9.361 9.361">
                 <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681" fill="#08ff00" />
             </svg>
-            <span class="text-sm uppercase">Check License Plate</span>
+            <span class="text-sm uppercase">{{$t('check_license_plate')}}</span>
         </div>
         <div class="open-full absolute right-2 top-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="43.026" height="43.026" viewBox="0 0 43.026 43.026" class="bg-dark-light">
@@ -19,8 +19,8 @@
                 <div class="text-4xl dark:text-white absolute">0</div>
             </div>
             <div class="dark:text-white">
-                <p>Normal <span class="text-3xl dark:text-cyan-400 text-green-600">0</span> Plate</p>
-                <p>Suspect <span class="text-3xl dark:text-indigo-400">0</span> Plate</p>
+                <p>{{$t('normal')}} <span class="text-3xl dark:text-cyan-400 text-green-600">0</span> {{$t('plate')}}</p>
+                <p>{{$t('suspect')}} <span class="text-3xl dark:text-indigo-400">0</span> {{$t('plate')}}</p>
             </div>
         </div>
     </div>

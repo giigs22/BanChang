@@ -19,4 +19,8 @@
     .block-widgets {
         height: auto;
     }
+    html:lang(th) .btn-purple,.btn-red,.btn-gray{
+        font-size: 0.85rem;
+        @apply p-3
+    }
 }

@@ -10,7 +10,6 @@ html:lang(th) .level-label{
 html:lang(th) .text-2xl{
     font-size: 1.4rem;
 }
-html:lang(th) .btn-purple,.btn-red{
-    font-size: .9rem;
-    @apply px-3 w-24;    
+html:lang(th) .head-status{
+    font-size: 1.5rem;
 }

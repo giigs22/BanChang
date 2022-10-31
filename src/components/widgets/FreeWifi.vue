@@ -4,7 +4,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2" viewBox="0 0 9.361 9.361">
                 <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681" fill="#08ff00" />
             </svg>
-            <span class="text-sm uppercase">Free WiFi</span>
+            <span class="text-sm uppercase">{{$t('freewifi')}}</span>
         </div>
         <div class="open-full absolute right-2 top-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="43.026" height="43.026" viewBox="0 0 43.026 43.026"
@@ -26,14 +26,14 @@
             <div class="flex flex-col justify-center content-center items-center dark:text-white">
                 <h1 class="text-6xl">{{online}} <span class="text-lg">/{{online+offline}}</span></h1>
                 <div class="flex items-baseline gap-3">
-                    <h3 class="text-xl">{{online}} <p class="dark:text-cyan-300 text-green-600 text-xs">Online</p>
+                    <h3 class="text-xl">{{online}} <p class="dark:text-cyan-300 text-green-600 text-xs">{{$t('online')}}</p>
                     </h3>
                     <div class="border border-slate-500 h-6 my-auto"></div>
-                    <h3 class="text-2xl">{{offline}} <p class="text-red-400 text-xs">Offline</p>
+                    <h3 class="text-2xl">{{offline}} <p class="text-red-400 text-xs">{{$t('offline')}}</p>
                     </h3>
                 </div>
-                <p>Use <span class="text-2xl dark:text-cyan-400 text-green-600">{{users}}</span> Users</p>
-                <p>User Average <span class="text-2xl dark:text-indigo-400">{{avg_users}}</span> Users</p>
+                <p>{{$t('use')}} <span class="text-2xl dark:text-cyan-400 text-green-600">{{users}}</span> {{$t('users')}}</p>
+                <p>{{$t('user_average')}} <span class="text-2xl dark:text-indigo-400">{{avg_users}}</span> {{$t('users')}}</p>
             </div>
         </div>
 

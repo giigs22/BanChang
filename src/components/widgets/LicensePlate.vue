@@ -5,7 +5,7 @@
                                             <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681"
                                                 fill="#08ff00" />
                                         </svg>
-                                        <span class="text-sm uppercase">License Plate</span>
+                                        <span class="text-sm uppercase">{{$t('license_plate')}}</span>
                                     </div>
                                     <div class="open-full absolute right-2 top-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="43.026" height="43.026"
@@ -20,8 +20,8 @@
                                         <table class="tabel border-collapse dark:text-white text-sm bg-table-head w-full">
                                             <thead class="bg-table-head">
                                                 <tr>
-                                                    <td class="pl-20">Plate</td>
-                                                    <td>Timestamp</td>
+                                                    <td class="pl-20">{{$t('plate')}}</td>
+                                                    <td>{{$t('timestamp')}}</td>
                                                 </tr>
                                             </thead>
                                             <tbody class="bg-table-body">
