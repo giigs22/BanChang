@@ -22,6 +22,7 @@ import { loadLocaleMessages,setI18nLanguage,i18n } from '../../i18n'
                 loadLocaleMessages(i18n, locale)
                 setI18nLanguage(i18n, locale)
                 localStorage.setItem('lang',locale)
+                this.$store.dispatch('template/setLang',locale)
             }
         }
     }

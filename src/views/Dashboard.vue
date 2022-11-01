@@ -135,7 +135,7 @@
                             </svg>
                         </div>
 
-                        <h1 class="text-xl dark:text-white">Widgets</h1>
+                        <h1 class="text-xl dark:text-white">{{$t('widgets')}}</h1>
                         <div class="grid grid-cols-12 gap-1">
                             <component v-bind:is="component" v-for="component in components"></component>
 
@@ -259,23 +259,29 @@
             },
             theme() {
                 return this.$store.state.template.theme
-            }
+            },
         },
         async created() {
             if (!this.loggedIn) {
                 this.$store.dispatch('auth/logout');
                 this.$router.push('/login')
             } else {
+                if(this.userData == undefined || this.userData == null){
                 await this.getUserData()
+                }else{
+                    setTimeout(() => {
+                        this.setWidget()
+                    }, 2000);
+                }
             }
         },
         methods: {
             getUserData() {
-                this.alert.active = true
+                //this.alert.active = true
                 this.$store.dispatch('user/userData').then(() => {
                     setTimeout(() => {
                         this.setWidget()
-                        this.alert.active = false
+                        //this.alert.active = false
                     }, 2000);
 
                 })

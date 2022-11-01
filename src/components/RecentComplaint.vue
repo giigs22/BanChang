@@ -1,20 +1,20 @@
 <template>
-    <h1 class="text-xl dark:text-white">Recent Complaint</h1>
+    <h1 class="text-xl dark:text-white">{{$t('recent_complaint')}}</h1>
                         <div class="table-complaint px-4 lg:px-10 lg:overflow-hidden overflow-scroll">
                             <div class="text-right py-3">
-                                <button class="btn-purple">> Read More</button>
+                                <button class="btn-purple">> {{$t('read_more')}}</button>
                             </div>
                             <table class="table-auto lg:w-full">
                                 <thead class="bg-head-table-comp">
                                     <tr>
-                                        <td>No</td>
-                                        <td>Topic</td>
-                                        <td>Category</td>
-                                        <td>Date-Time</td>
-                                        <td>Rponsible<br>Agency</td>
-                                        <td>Location</td>
-                                        <td>Status</td>
-                                        <td>Action</td>
+                                        <td>{{$t('no')}}</td>
+                                        <td>{{$t('topic')}}</td>
+                                        <td>{{$t('category')}}</td>
+                                        <td>{{$t('date_time')}}</td>
+                                        <td>{{$t('responsible_agency')}}</td>
+                                        <td>{{$t('location')}}</td>
+                                        <td>{{$t('status')}}</td>
+                                        <td>{{$t('action')}}</td>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-body-table-comp">

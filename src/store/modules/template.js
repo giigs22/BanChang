@@ -1,12 +1,14 @@
 import axios from "axios";
 
 const api_backend = import.meta.env.VITE_API_SERVER;
+const lang_local = localStorage.getItem('lang')
 
 export const template = {
     namespaced: true,
     state: {
       list_template:[],
-      theme:null
+      theme:null,
+      lang:lang_local !== null || lang_local !== undefined?lang_local:'en'
     },
     actions: {
        saveDashboard({rootState},data){
@@ -111,6 +113,9 @@ export const template = {
        },
        setTheme({commit},data){
           commit('set_theme',data)
+       },
+       setLang({commit},data){
+        commit('set_lang',data)
        }
        
     },
@@ -120,6 +125,9 @@ export const template = {
       },
       set_theme(state,data){
         state.theme = data
+      },
+      set_lang(state,data){
+        state.lang = data
       }
     }
   };

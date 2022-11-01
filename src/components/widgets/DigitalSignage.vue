@@ -4,7 +4,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2" viewBox="0 0 9.361 9.361">
                 <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681" fill="#08ff00" />
             </svg>
-            <span class="text-sm uppercase">Digital Signage</span>
+            <span class="text-sm uppercase">{{$t('digital_signage')}}</span>
         </div>
         <div class="open-full absolute right-2 top-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="43.026" height="43.026" viewBox="0 0 43.026 43.026"
@@ -26,10 +26,10 @@
             <div class="flex flex-col justify-center dark:text-white">
                 <h1 class="text-6xl">0 <span class="text-lg">/0</span></h1>
                 <div class="flex items-baseline gap-3">
-                    <h3 class="text-xl">0 <p class="text-red-400 text-xs">Offline</p>
+                    <h3 class="text-xl">0 <p class="text-red-400 text-xs">{{$t('offline')}}</p>
                     </h3>
                     <div class="border border-slate-500 h-6 my-auto"></div>
-                    <h3 class="text-2xl">0 <p class="dark:text-indigo-400 text-orange-400 text-xs">No Good</p>
+                    <h3 class="text-2xl">0 <p class="dark:text-indigo-400 text-orange-400 text-xs">{{$t('no_good')}}</p>
                     </h3>
                 </div>
             </div>

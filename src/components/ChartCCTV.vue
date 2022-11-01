@@ -71,9 +71,11 @@
         data() {
             return {
                 chartData: {
-                    labels: ['Camera Malfunction', 'Trespasser', 'Suspected Face Detection', 'Group Cluster Detection',
-                        'Traffic Violation', 'Parking Violation'
-                    ],
+                    labels:this.lang == 'en'?
+                        ['Camera Malfunction', 'Trespasser', 'Suspected Face Detection', 'Group Cluster Detection',
+                        'Traffic Violation', 'Parking Violation']
+                        :['กล้องทำงานผิดปกติ', 'ผู้บุกรุก', 'ตรวจพบผู้ต้องสงสัย', 'ตรวจพบการรวมกลุ่ม',
+                        'การฝ่าฝืนกฎจราจร', 'จอดในที่ห้ามจอด'],
                     datasets: [{
                         data: this.data_set,
                         barPercentage: 0.8,
@@ -138,12 +140,17 @@
         computed: {
             theme() {
                 return this.$store.state.template.theme
+            },
+            lang(){
+                return this.$store.state.template.lang
             },  
             chartData() {
                 return {
-                    labels: ['Camera Malfunction', 'Trespasser', 'Suspected Face Detection', 'Group Cluster Detection',
-                        'Traffic Violation', 'Parking Violation'
-                    ],
+                    labels:this.lang == 'en'?
+                        ['Camera Malfunction', 'Trespasser', 'Suspected Face Detection', 'Group Cluster Detection',
+                        'Traffic Violation', 'Parking Violation']
+                        :['กล้องทำงานผิดปกติ', 'ผู้บุกรุก', 'ตรวจพบผู้ต้องสงสัย', 'ตรวจพบการรวมกลุ่ม',
+                        'การฝ่าฝืนกฎจราจร', 'จอดในที่ห้ามจอด'],
                     datasets: [{
                         data: this.data_set,
                         barPercentage: 0.8,

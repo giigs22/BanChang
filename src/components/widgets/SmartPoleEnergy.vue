@@ -4,7 +4,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2" viewBox="0 0 9.361 9.361">
                 <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681" fill="#08ff00" />
             </svg>
-            <span class="text-sm uppercase">Smart Pole Energy</span>
+            <span class="text-sm uppercase">{{$t('smart_pole')}}</span>
         </div>
         <div class="open-full absolute right-2 top-3">
             <svg @click="fullview" class="cursor-pointer bg-dark-light" xmlns="http://www.w3.org/2000/svg"
@@ -24,18 +24,18 @@
 
             </div>
             <div class="flex flex-col items-center text-center dark:text-white">
-                <p class="text-sm">Power Usage / Month</p>
-                <p class="text-lg">{{cost_energy}} Baht</p>
+                <p class="text-sm">{{$t('power_usage')}} / {{$t('month')}}</p>
+                <p class="text-lg">{{cost_energy}} {{$t('baht')}}</p>
                 <div class="flex items-baseline gap-3">
                     <div>
                         <p class="text-4xl">{{offline}}</p>
-                        <p class="text-xs">Offline</p>
+                        <p class="text-xs">{{$t('offline')}}</p>
                     </div>
                     <div class="border border-slate-500 h-10 my-auto"></div>
 
                     <div>
                         <p class="text-4xl">{{no_good}}</p>
-                        <p class="text-xs">No good</p>
+                        <p class="text-xs">{{$t('no_good')}}</p>
                     </div>
                 </div>
                 <div class="flex mt-2 content-center">

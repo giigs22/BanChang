@@ -217,7 +217,7 @@
                 online: 0,
                 abnormal: 0,
                 offline: 0,
-                tab_view: 2
+                tab_view: 1
             }
         },
         computed: {
@@ -229,12 +229,12 @@
             await this.getData()
             this.setStatus()
             this.calPercent()
-            // setInterval(async () => {
-            //     this.clearAll()
-            //     await this.getData()
-            //     this.setStatus()
-            //     this.calPercent()
-            // }, this.$interval_time);
+            setInterval(async () => {
+                this.clearAll()
+                await this.getData()
+                this.setStatus()
+                this.calPercent()
+            }, this.$interval_time);
         },
         watch: {
             selected: {
@@ -261,6 +261,8 @@
                     var data = res.data
                     this.list_data = data
                     this.isLoading = false
+                }).catch((err)=>{
+                    console.error(err)
                 })
             },
             selectAll() {

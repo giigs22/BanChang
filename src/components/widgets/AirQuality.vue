@@ -4,7 +4,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2" viewBox="0 0 9.361 9.361">
                 <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681" fill="#08ff00" />
             </svg>
-            <span class="text-sm uppercase">Air Quality</span>
+            <span class="text-sm uppercase">{{$t('air_quality')}}</span>
         </div>
         <div class="open-full absolute right-2 top-3">
             <svg @click="fullview" class="bg-dark-light cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="43.026"
@@ -21,8 +21,8 @@
             </div>
             <div class="flex flex-col text-center dark:text-white">
                 <h1 class="text-6xl">{{avg_data.pm25}}</h1>
-                <h3 class="text-xl">{{_pm25.label}}</h3>
-                <h1 class="text-2xl">AQI {{aqi.value}}</h1>
+                <h3 class="text-xl">{{(_pm25.label != null)?$t(_pm25.label):'-'}}</h3>
+                <h1 class="text-2xl">{{$t('aqi')}} {{aqi.value}}</h1>
             </div>
         </div>
     </div>
