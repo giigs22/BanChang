@@ -58,7 +58,7 @@ router.beforeEach((to, from, next) => {
       next: nextMiddleware
     });
   }
-  
+
   return next();
 })
 

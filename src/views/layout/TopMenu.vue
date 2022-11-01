@@ -119,7 +119,7 @@
                 <m-widget-manage></m-widget-manage>
                 <m-api-manage></m-api-manage>
             </template>
-          
+
             <li class="my-3 mx-5">
                 <LanguageSwitcher/>
             </li>
@@ -158,7 +158,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
         </button>
-       
+
     </nav>
     <!-- Add This END -->
 </template>
@@ -211,7 +211,7 @@
             setTimeout(() => {
                 this.setUser()
             }, 2000);
-        },  
+        },
         watch: {
             '$store.state.user.user_data': {
                 deep: true,

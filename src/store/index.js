@@ -8,6 +8,7 @@ import {map} from './modules/map'
 import {data} from './modules/data'
 import {sensor} from './modules/sensor'
 import {complaint} from './modules/complaint'
+import {etourism} from './modules/etourism'
 
 const store = createStore ({
     modules:{
@@ -19,7 +20,8 @@ const store = createStore ({
         map,
         data,
         sensor,
-        complaint
+        complaint,
+        etourism
     }
 })
 export default store;

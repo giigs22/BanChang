@@ -84,7 +84,7 @@
                                         </div>
                                     </div>
                                     </div>
-                                  
+
                                 </div>
 
                             </div>
@@ -191,6 +191,8 @@
                 this.isLoading = true
                 return this.$store.dispatch('data/getData', data).then((res) => {
                     var data = res.data
+                    console.log("wifi:getDAta:dispatch:return:data:")
+                    console.log(data)
                     this.list_data = data
                     this.isLoading = false
                 })
