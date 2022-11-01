@@ -7,13 +7,13 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl dark:text-white ml-10 mb-5">Group User Template</h1>
+                        <h1 class="text-xl dark:text-white ml-10 mb-5">{{$t('group_user_template')}}</h1>
                          <div class="searchbox mt-5 mb-5">
                             <div class="flex justify-between form-search">
                                
                                 <div class="col-span-2">
-                                    <input type="text" placeholder="ID,Name" class="form-input">
-                                    <button class="btn-purple rounded ml-3 h-12">Search</button>
+                                    <input type="text" :placeholder="$t('id')+','+$t('name')" class="form-input">
+                                    <button class="btn-purple rounded ml-3 h-12">{{$t('search')}}</button>
                                 </div>
                             </div>
                         </div>
@@ -21,9 +21,9 @@
                             <table class="table w-full shadow-sm">
                                 <thead class="text-white bg-head-table rounded-md text-lg">
                                     <tr>
-                                        <th class="p-5 rounded-tl-md">Group Users</th>
-                                        <th>Template</th>
-                                        <th class="rounded-tr-md">Action</th>
+                                        <th class="p-5 rounded-tl-md">{{$t('group_user')}}</th>
+                                        <th>{{$t('template')}}</th>
+                                        <th class="rounded-tr-md">{{$t('action')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="dark:text-white bg-body-table">

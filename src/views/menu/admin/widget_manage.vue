@@ -11,15 +11,15 @@
                             <div
                                 class="hidden peer-hover:flex hover:flex flex-col bg-blue-400 drop-shadow-lg absolute z-50">
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
-                                    href="/template">Template</a>
+                                    href="/template">{{$t('template')}}</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
-                                    href="/template/group">Group Template</a>
+                                    href="/template/group">{{$t('group_template')}}</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
-                                    href="/template/user">User Template</a>
+                                    href="/template/user">{{$t('user_template')}}</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
-                                    href="/widgets/list">Widgets Devices List</a>
+                                    href="/devices/list">{{$t('devices_list')}}</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
-                                    href="/widgets/cate">Widgets Category</a>
+                                    href="/widgets/cate">{{$t('widgets_category')}}</a>
                             </div>
                         </li>
 </template>

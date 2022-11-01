@@ -8,15 +8,15 @@
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <loading v-model:active="loading" />
-                        <h1 class="text-xl dark:text-white ml-10">Add Widget</h1>
+                        <h1 class="text-xl dark:text-white ml-10">{{$t('add_device')}}</h1>
                         <div class="form-register mt-5 mb-5">
                             <Form @submit="addWidget" :validation-schema="schema">
                                 <div class="grid grid-cols-9 text-sm lg:gap-40">
                                     <div class="col-span-full lg:col-span-3">
                                         <div class="my-3">
-                                            <label class="dark:text-white">Category</label>
+                                            <label class="dark:text-white">{{$t('category')}}</label>
                                             <Field name="cate" as="select" v-model="cate" class="form-select w-full" :disabled="loading">
-                                                        <option value="">Select Category Widget</option>
+                                                        <option value="">{{$t('select_category_widget')}}</option>
                                                         <option :value="item.id" v-for="item in listcate"
                                                             :key="item.id">{{item.name}}</option>
                                             </Field>
@@ -24,7 +24,7 @@
                                         </div>
                                          <div class="my-3">
                                             <Field name="device_name" v-slot="{field}">
-                                                <label class="dark:text-white">Device Name</label>
+                                                <label class="dark:text-white">{{$t('device_name')}}</label>
                                                 <input v-bind="field" v-model="device_name"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Ex.BC-P01-LNR01" :disabled="loading">
@@ -33,7 +33,7 @@
                                         </div>
                                         <div class="my-3">
                                             <Field name="device_id" v-slot="{field}">
-                                                <label class="dark:text-white">Device ID</label>
+                                                <label class="dark:text-white">{{$t('device_id')}}</label>
                                                 <input v-bind="field" v-model="device_id"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Ex.468000f0-3188-11ec-9f75-bdae041d8bb7" :disabled="loading">
@@ -42,27 +42,27 @@
                                         </div>
                                         
                                         <div class="my-3" v-if="cate == 1">
-                                             <label class="dark:text-white">Type Sensor</label>
+                                             <label class="dark:text-white">{{$t('type_sensor')}}</label>
                                             <Field name="type" as="select" v-model="type" class="form-select w-full" :disabled="loading">
-                                                        <option value="">Select Type Sensor</option>
+                                                        <option value="">{{$t('select_type_sensor')}}</option>
                                                         <option :value="item" v-for="item in type_aqi">{{item}}</option>
 
                                             </Field>
                                             <ErrorMessage name="type" class="text-xs text-red-300" />
                                         </div>
                                           <div class="my-3" v-if="cate == 4">
-                                             <label class="dark:text-white">Group Camera Pole</label>
+                                             <label class="dark:text-white">{{$t('group_camera_pole')}}</label>
                                             <Field name="type" as="select" v-model="type" class="form-select w-full" :disabled="loading">
-                                                        <option value="">Select Group Pole</option>
+                                                        <option value="">{{$t('select_group_pole')}}</option>
                                                         <option :value="item" v-for="item in group_pole">{{item}}</option>
 
                                             </Field>
                                             <ErrorMessage name="type" class="text-xs text-red-300" />
                                         </div>
                                         <div class="my-3" v-if="cate == 4">
-                                             <label class="dark:text-white">Type Camera</label>
+                                             <label class="dark:text-white">{{$t('type_camera')}}</label>
                                             <Field name="type_cam" as="select" v-model="type_cam" class="form-select w-full" :disabled="loading">
-                                                        <option value="">Select Type Camera</option>
+                                                        <option value="">{{$t('select_type_camera')}}</option>
                                                         <option :value="item" v-for="item in group_camera">{{item}}</option>
 
                                             </Field>
@@ -72,7 +72,7 @@
                                     <div class="col-span-full lg:col-span-3">
                                          <div class="my-3">
                                             <Field name="name" v-slot="{field}">
-                                                <label class="dark:text-white">Name</label>
+                                                <label class="dark:text-white">{{$t('name')}}</label>
                                                 <input v-bind="field" v-model="name"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Ex.Lighting 1" :disabled="loading">
@@ -81,7 +81,7 @@
                                         </div>
  <div class="my-3">
                                             <Field name="location" v-slot="{field}">
-                                                <label class="dark:text-white">Location Name</label>
+                                                <label class="dark:text-white">{{$t('location_name')}}</label>
                                                 <input v-bind="field" v-model="location"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
                                                     placeholder="Ex. BanChang Stadium" :disabled="loading">
@@ -93,9 +93,9 @@
                                 </div>
                                 <div class="flex gap-3 justify-end mt-10">
                                     <button type="submit"
-                                        class="px-5 py-2 rounded-md text-white btn-blue-gradient">Add Widget</button>
+                                        class="px-5 py-2 rounded-md text-white btn-blue-gradient">{{$t('add_device')}}</button>
                                     <button type="reset"
-                                        class="px-5 py-2 rounded-md text-white btn-red-gradient">Reset</button>
+                                        class="px-5 py-2 rounded-md text-white btn-red-gradient">{{$t('reset')}}</button>
                                 </div>
                             </Form>
                         </div>
@@ -148,8 +148,8 @@
                 },
                 listcate:[],
                 type_aqi:['LNR','ENV'],
-                group_pole:['1','2','3','4','5','dc'],
-                group_camera:['IPC','PTZ','OFCh'],
+                group_pole:['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','dc'],
+                group_camera:['IPC','PTZ','OFCh','Bullet'],
                 loading:false,
            
             }

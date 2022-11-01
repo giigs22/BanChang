@@ -29,10 +29,10 @@ import GroupUser from '../views/user_manage/GroupUser.vue'
 import GroupTemplate from '../views/manage_widget/GroupTemplate.vue'
 import UserTemplate from '../views/manage_widget/UserTemplate.vue'
 import WidgetsCategory from '../views/manage_widget/WidgetsCategory.vue'
-import WidgetList from '../views/manage_widget/WidgetList.vue'
-import WidgetCreate from '../views/manage_widget/CreateWidget.vue'
-import WidgetEdit from '../views/manage_widget/EditWidget.vue'
-import WidgetDetail from '../views/manage_widget/WidgetDetail.vue'
+import DeviceList from '../views/manage_widget/DeviceList.vue'
+import DeviceCreate from '../views/manage_widget/CreateDevice.vue'
+import DeviceEdit from '../views/manage_widget/EditDevice.vue'
+import DeviceDetail from '../views/manage_widget/DeviceDetail.vue'
 
 let admin = [
  
@@ -269,32 +269,32 @@ let admin = [
       }
     },
     {
-      path: '/widgets/list',
-      component: WidgetList,
+      path: '/devices/list',
+      component: DeviceList,
       meta: {
         middleware: auth,
         roles:['administrator']
       }
     },
     {
-      path: '/widgets/create',
-      component: WidgetCreate,
+      path: '/devices/create',
+      component: DeviceCreate,
       meta: {
         middleware: auth,
         roles:['administrator']
       }
     },
     {
-      path: '/widgets/edit/:id',
-      component: WidgetEdit,
+      path: '/devices/edit/:id',
+      component: DeviceEdit,
       meta: {
         middleware: auth,
         roles:['administrator']
       }
     },
     {
-      path: '/widgets/cate/:id',
-      component: WidgetDetail,
+      path: '/devices/cate/:id',
+      component: DeviceDetail,
       meta: {
         middleware: auth,
         roles:['administrator']

@@ -13,3 +13,7 @@ html:lang(th) .text-2xl{
 html:lang(th) .head-status{
     font-size: 1.5rem;
 }
+html:lang(th) .btn-purple,.btn-red{
+    font-size: 0.9rem;
+    @apply px-3;
+}

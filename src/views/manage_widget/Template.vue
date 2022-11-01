@@ -7,16 +7,16 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl dark:text-white ml-10">Manage Dashboard Template</h1>
+                        <h1 class="text-xl dark:text-white ml-10">{{$t('manage_dashboard_template')}}</h1>
                         <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg dark:text-white">All Dashboard Template</h3>
+                            <h3 class="text-lg dark:text-white">{{$t('all_dashboard_template')}}</h3>
                             <div class="flex flex-col lg:flex-row justify-between form-search">
                                 <div class="col-span-full lg:col-span-2 my-5">
-                                <a class="btn-purple rounded btn-blue-gradient" href="/template/create">Create Template</a>
+                                <a class="btn-purple rounded btn-blue-gradient" href="/template/create">{{$t('create_template')}}</a>
                                 </div>
                                 <div class="col-span-full lg:col-span-2">
-                                    <input type="text" placeholder="ID,Name" class="form-input">
-                                    <button class="btn-purple rounded ml-3 h-12">Search</button>
+                                    <input type="text" :placeholder="$t('id')+','+$t('name')" class="form-input">
+                                    <button class="btn-purple rounded ml-3 h-12">{{$t('search')}}</button>
                                 </div>
                             </div>
                         </div>
@@ -25,9 +25,9 @@
                            <table class="table  border-collapse w-full rounded">
                             <thead class="text-xl bg-head-table text-white">
                                 <tr class="border-b border-gray-600">
-                                    <th class="p-5 border-r border-gray-600">ID</th>
-                                    <th class="p-5 border-r border-gray-600">Template Name</th>
-                                    <th>Action</th>
+                                    <th class="p-5 border-r border-gray-600">{{$t('id')}}</th>
+                                    <th class="p-5 border-r border-gray-600">{{$t('template_name')}}</th>
+                                    <th>{{$t('action')}}</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-body-table dark:text-white">

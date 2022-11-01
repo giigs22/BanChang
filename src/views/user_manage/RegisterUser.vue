@@ -8,35 +8,35 @@
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <loading v-model:active="loading" />
-                        <h1 class="text-xl dark:text-white ml-10">Register</h1>
+                        <h1 class="text-xl dark:text-white ml-10">{{$t('register')}}</h1>
                         <div class="form-register mt-5 mb-5">
                             <Form @submit="register" :validation-schema="schema">
                                 <div class="grid grid-cols-9 text-sm lg:gap-20 2xl:gap-40">
                                     <div class="col-span-full lg:col-span-3">
                                         <div class="my-3">
                                             <Field name="idcard" v-slot="{field}">
-                                                <label class="dark:text-white">Employee ID or ID Card</label>
+                                                <label class="dark:text-white">{{$t('employee_id')}}</label>
                                                 <input v-bind="field" v-model="idcard"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
-                                                    placeholder="ID/ID Card" :disabled="loading">
+                                                    :placeholder="$t('id')+'/'+$t('idcard')" :disabled="loading">
                                             </Field>
                                             <ErrorMessage name="idcard" class="text-xs text-red-300" />
                                         </div>
                                          <div class="my-3">
                                             <Field name="name" v-slot="{field}">
-                                                <label class="dark:text-white">Name</label>
+                                                <label class="dark:text-white">{{$t('name')}}</label>
                                                 <input v-bind="field" v-model="name"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
-                                                    placeholder="Name" :disabled="loading">
+                                                    :placeholder="$t('name')" :disabled="loading">
                                             </Field>
                                             <ErrorMessage name="idcard" class="text-xs text-red-300" />
                                         </div>
                                         <div class="my-3">
                                             <Field name="username" v-slot="{field}">
-                                                <label class="dark:text-white">Username</label>
+                                                <label class="dark:text-white">{{$t('username')}}</label>
                                                 <input v-bind="field" v-model="username"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
-                                                    placeholder="Username" :disabled="loading">
+                                                    :placeholder="$t('username')" :disabled="loading">
                                             </Field>
                                             <ErrorMessage name="username" class="text-xs text-red-300" />
                                         </div>
@@ -44,10 +44,10 @@
                                             <div class="flex gap-3">
                                                 <Field name="password" v-slot="{field}">
                                                     <div class="flex flex-col">
-                                                        <label class="dark:text-white">Password</label>
+                                                        <label class="dark:text-white">{{$t('password')}}</label>
                                                         <input v-bind="field" v-model="password" type="password"
                                                             class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
-                                                            placeholder="Password" :disabled="loading">
+                                                            :placeholder="$t('password')" :disabled="loading">
                                                         <ErrorMessage name="password" class="text-xs text-red-300" />
 
                                                     </div>
@@ -55,10 +55,10 @@
                                                 </Field>
                                                 <Field name="con_password" v-slot="{field}">
                                                     <div class="flex flex-col">
-                                                        <label class="dark:text-white">Confirm Password</label>
+                                                        <label class="dark:text-white">{{$t('con_password')}}</label>
                                                         <input v-bind="field" type="password" v-model="con_password"
                                                             class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
-                                                            placeholder="Confirm Password" :disabled="loading">
+                                                            :placeholder="$t('con_password')" :disabled="loading">
                                                         <ErrorMessage name="con_password"
                                                             class="text-xs text-red-300" />
 
@@ -69,9 +69,9 @@
 
                                         </div>
                                         <div class="my-3">
-                                             <label class="dark:text-white">Role</label>
+                                             <label class="dark:text-white">{{$t('role')}}</label>
                                             <Field name="role" as="select" v-model="role" class="form-select w-full" :disabled="loading">
-                                                        <option value="">Select Group User</option>
+                                                        <option value="">{{$t('select_group_user')}}</option>
                                                         <option :value="item.id" v-for="item in list_role"
                                                             :key="item.id">{{item.name}}</option>
                                             </Field>
@@ -81,45 +81,45 @@
                                     <div class="col-span-full lg:col-span-3">
                                         <div class="my-3">
                                             <Field name="position" v-slot="{field}">
-                                                <label class="dark:text-white">Position</label>
+                                                <label class="dark:text-white">{{$t('position')}}</label>
                                                 <input v-bind="field" v-model="position"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
-                                                    placeholder="Position" :disabled="loading">
+                                                    :placeholder="$t('position')" :disabled="loading">
                                             </Field>
                                             <ErrorMessage name="position" class="text-xs text-red-300" />
                                         </div>
                                         <div class="my-3">
                                             <Field name="location" v-slot="{field}">
-                                                <label class="dark:text-white">Location</label>
+                                                <label class="dark:text-white">{{$t('location')}}</label>
                                                 <input v-bind="field" v-model="location"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
-                                                    placeholder="Location" :disabled="loading">
+                                                    :placeholder="$t('location')" :disabled="loading">
                                             </Field>
                                             <ErrorMessage name="location" class="text-xs text-red-300" />
                                         </div>
                                         <div class="my-3">
                                             <Field name="email" v-slot="{field}">
-                                                <label class="dark:text-white">Email</label>
+                                                <label class="dark:text-white">{{$t('email')}}</label>
                                                 <input v-bind="field" v-model="email"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
-                                                    placeholder="Email" :disabled="loading">
+                                                    :placeholder="$t('email')" :disabled="loading">
                                             </Field>
                                             <ErrorMessage name="email" class="text-xs text-red-300" />
                                         </div>
                                         <div class="my-3">
                                             <Field name="phone" v-slot="{field}">
-                                                <label class="dark:text-white">Phone</label>
+                                                <label class="dark:text-white">{{$t('phone')}}</label>
                                                 <input v-bind="field" v-model="phone"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
-                                                    placeholder="phone" :disabled="loading">
+                                                    :placeholder="$t('phone')" :disabled="loading">
                                             </Field>
                                             <ErrorMessage name="phone" class="text-xs text-red-300" />
                                         </div>
                                         <div class="my-3">
-                                              <label class="dark:text-white">Status</label>
+                                              <label class="dark:text-white">{{$t('status')}}</label>
                                             <Field name="status" as="select" v-model="status" class="form-select w-full" :disabled="loading">
-                                                        <option value="1">Active</option>
-                                                        <option value="0">Disable</option>
+                                                        <option value="1">{{$t('active')}}</option>
+                                                        <option value="0">{{$t('disable')}}</option>
                                             </Field>
                                              <ErrorMessage name="status" class="text-xs text-red-300" />
                                         </div>
@@ -133,7 +133,7 @@
                                             </div>
                                             <input type="file" class="hidden" ref="profile" @change="previewFile">
                                             <button type="button" @click="$refs.profile.click()"
-                                                class="mt-3 px-5 py-2 rounded-md text-white btn-blue-gradient">Browse....</button>
+                                                class="mt-3 px-5 py-2 rounded-md text-white btn-blue-gradient">{{$t('browse')}}....</button>
 
                                         </div>
 
@@ -141,9 +141,9 @@
                                 </div>
                                 <div class="flex gap-3 justify-end mt-10">
                                     <button type="submit"
-                                        class="px-5 py-2 rounded-md text-white btn-blue-gradient">Register</button>
+                                        class="px-5 py-2 rounded-md text-white btn-blue-gradient">{{$t('register')}}</button>
                                     <button type="reset"
-                                        class="px-5 py-2 rounded-md text-white btn-red-gradient">Reset</button>
+                                        class="px-5 py-2 rounded-md text-white btn-red-gradient">{{$t('reset')}}</button>
                                 </div>
                             </Form>
                         </div>

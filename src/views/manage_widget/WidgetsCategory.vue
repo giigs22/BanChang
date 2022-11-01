@@ -7,15 +7,14 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl dark:text-white ml-10">Category Widgets</h1>
+                        <h1 class="text-xl dark:text-white ml-10">{{$t('category_widgets')}}</h1>
                         <div class="searchbox mt-5 mb-5">
                             <div class="flex flex-col lg:flex-row justify-between form-search">
                                 <div class="col-span-full lg:col-span-2 my-5">
-                                    <button class="btn-purple rounded btn-blue-gradient" @click="addCate">Add
-                                        Category</button>                              </div>
+                                    <button class="btn-purple rounded btn-blue-gradient" @click="addCate">{{$t('add_category')}}</button>                              </div>
                                 <div class="col-span-full lg:col-span-2">
-                                    <input type="text" placeholder="ID,Name" class="form-input">
-                                    <button class="btn-purple rounded ml-3 h-12">Search</button>
+                                    <input type="text" :placeholder="$t('id')+','+$t('name')" class="form-input">
+                                    <button class="btn-purple rounded ml-3 h-12">{{$t('search')}}</button>
                                 </div>
                             </div>
                         </div>
@@ -23,10 +22,10 @@
                             <table class="table  border-collapse w-full dark:bg-black-op8 bg-white rounded">
                                 <thead class="text-lg  bg-head-table text-white">
                                     <tr class="border-b dark:border-gray-600 border-slate-300">
-                                        <th class="p-5 border-r dark:border-gray-600 border-slate-300">ID</th>
-                                        <th class="border-r dark:border-gray-600 border-slate-300">Name</th>
-                                        <th class="border-r dark:border-gray-600 border-slate-300">Icon</th>
-                                        <th>Action</th>
+                                        <th class="p-5 border-r dark:border-gray-600 border-slate-300">{{$t('id')}}</th>
+                                        <th class="border-r dark:border-gray-600 border-slate-300">{{$t('name')}}</th>
+                                        <th class="border-r dark:border-gray-600 border-slate-300">{{$t('icon')}}</th>
+                                        <th>{{$t('action')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="dark:text-white">
@@ -36,7 +35,7 @@
                                         <td class="text-center border-r border-b dark:border-gray-600"><img :src="item.icon"
                                                 alt="" class="w-12 mx-auto"></td>
                                         <td class="text-center border-r border-b dark:border-gray-600">
-                                            <a :href="'/widgets/cate/'+item.id" class="text-green-400">View</a> |
+                                            <a :href="'/devices/cate/'+item.id" class="text-green-400">View</a> |
                                             <button @click="editCate(item.id,item.name)"
                                                 class="dark:text-cyan-300 text-cyan-600">Edit</button> |
                                             <button @click="delCate(item.id)" class="text-red-500">Delete</button></td>

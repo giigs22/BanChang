@@ -1,23 +1,23 @@
 <template>
     <ul class="dark:text-white flex text-lg text-center border-b border-gray-600">
-        <li class="w-1/2 py-1 px-3 dark:hover:bg-gray-500" :class="[tab==1?'dark:bg-gray-500 bg-slate-50':'']" @click="tab=1">Event</li>
-        <li class="w-1/2 py-1 px-3 dark:hover:bg-gray-500" :class="[tab==2?'dark:bg-gray-500 bg-slate-50':'']" @click="tab=2">Parking</li>
+        <li class="w-1/2 py-1 px-3 dark:hover:bg-gray-500" :class="[tab==1?'dark:bg-gray-500 bg-slate-50':'']" @click="tab=1">{{$t('event')}}</li>
+        <li class="w-1/2 py-1 px-3 dark:hover:bg-gray-500" :class="[tab==2?'dark:bg-gray-500 bg-slate-50':'']" @click="tab=2">{{$t('parking')}}</li>
     </ul>
     <div id="tab1" v-if="tab==1">
         <ul class="dark:text-white p-2 list-event">
-            <li>Camera Malfunction <span class="text-red-600">{{camera_malfunction}}</span></li>
-            <li>Trespasser <span class="text-red-600">{{trespasser}}</span></li>
-            <li>Suspected Face Detection <span class="text-red-600">{{suspected_face_detection}}</span></li>
-            <li>Group Cluster Detection <span class="text-red-600">{{group_cluster_detection}}</span></li>
-            <li>Traffic Violation <span class="text-red-600">{{traffic_violation}}</span></li>
-            <li>Parking Violation <span class="text-red-600">{{parking_violation}}</span></li>
+            <li>{{$t('camera_malfunction')}} <span class="text-red-600">{{camera_malfunction}}</span></li>
+            <li>{{$t('trespasser')}} <span class="text-red-600">{{trespasser}}</span></li>
+            <li>{{$t('suspected_face_detection')}} <span class="text-red-600">{{suspected_face_detection}}</span></li>
+            <li>{{$t('group_cluster_detection')}} <span class="text-red-600">{{group_cluster_detection}}</span></li>
+            <li>{{$t('traffic_violation')}} <span class="text-red-600">{{traffic_violation}}</span></li>
+            <li>{{$t('parking_violation')}} <span class="text-red-600">{{parking_violation}}</span></li>
         </ul>
     </div>
     <div id="tab2" v-if="tab==2">
         <ul class="dark:text-white p-2 list-event">
-            <li>Status <span class="text-green-600">Normal</span></li>
-            <li>Occupied Parking <span class="text-blue-600">0</span></li>
-            <li>Vacant Parking <span class="text-purple-600">0</span></li>
+            <li>{{$t('status')}} <span class="text-green-600">Normal</span></li>
+            <li>{{$t('occupied_parking')}} <span class="text-blue-600">0</span></li>
+            <li>{{$t('vacant_parking')}} <span class="text-purple-600">0</span></li>
 
         </ul>
     </div>

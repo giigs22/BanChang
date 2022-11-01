@@ -9,9 +9,9 @@
                     <div class="block-content mb-5">
                         <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false" :opacity="0.1" class="rounded-lg"/>
 
-                        <h1 class="text-xl dark:text-white ml-10">Maintenance</h1>
+                        <h1 class="text-xl dark:text-white ml-10">{{$t('maintenance')}}</h1>
                         <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg dark:text-white">Search</h3>
+                            <h3 class="text-lg dark:text-white">{{$t('search')}}</h3>
                             <div class="grid grid-cols-12 form-search">
                                 <div class="lg:col-span-6 col-span-12">
                                     <div class="grid grid-cols-4 gap-3">
@@ -19,16 +19,16 @@
                                             <div class="grid grid-cols-4 gap-2">
                                             <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
                                                 <select name="" id="" class="h-12 rounded text-sm w-full">
-                                                    <option value="">Condition Type</option>
+                                                    <option value="">{{$t('condition_type')}}</option>
                                                 </select>
                                             </div>
                                             <div class="col-span-4 lg:col-span-2">
-                                                <input type="text" placeholder="ID.Name" class="form-input w-full">
+                                                <input type="text" :placeholder="$t('id')+','+$t('name')" class="form-input w-full">
                                             </div>
                                             </div>
                                         </div>
                                        <div class="col-span-4 lg:col-span-1">
-                                        <button class="btn-purple rounded w-full lg:w-auto h-12" @click="searchData">Search</button>
+                                        <button class="btn-purple rounded w-full lg:w-auto h-12" @click="searchData">{{$t('search')}}</button>
                                        </div>
                                     </div>
                                 </div>
@@ -43,8 +43,8 @@
                                             <tr>
                                                 <th
                                                     class="font-normal text-lg text-center border-r border-gray-700 w-1/2">
-                                                    Location</th>
-                                                <th class="font-normal text-lg text-center">Status</th>
+                                                    {{$t('location')}}</th>
+                                                <th class="font-normal text-lg text-center">{{$t('status')}}</th>
                                             </tr>
                                         </thead>
                                        
@@ -75,27 +75,27 @@
                             </div>
                             <div class="col-span-12 lg:col-span-3">
                                 <div class="block-layer data-layer py-2 px-3 mt-4 dark:bg-nav-dark bg-block-content-light">
-                                    <h1 class="text-2xl dark:text-white text-center my-3">Device Status</h1>
+                                    <h1 class="text-2xl dark:text-white text-center my-3">{{$t('device_status')}}</h1>
                                     <div class="grid grid-cols-3 gap-1 my-5">
                                         <div class="col-span-1">
-                                            <div class="bg-green-600 text-white flex flex-col items-center rounded-lg">
-                                                <h1 class="text-4xl">ON</h1>
+                                            <div class="bg-green-600 text-white flex flex-col items-center rounded-lg max-h-40 h-40">
+                                                <h1 class="text-4xl head-status">{{$t('on')}}</h1>
                                                 <h1 class="text-7xl">{{online}}</h1>
-                                                <h1 class="text-sm mt-2">{{percent.online}}% Online</h1>
+                                                <h1 class="text-sm mt-2 text-center">{{percent.online}}% {{$t('online')}}</h1>
                                             </div>
                                         </div>
                                         <div class="col-span-1">
-                                            <div class="bg-yellow-400 text-white flex flex-col items-center rounded-lg">
-                                                <h1 class="text-4xl">NG</h1>
+                                            <div class="bg-yellow-400 text-white flex flex-col items-center rounded-lg max-h-40 h-40">
+                                                <h1 class="text-4xl head-status">{{$t('ng')}}</h1>
                                                 <h1 class="text-7xl">{{abnormal}}</h1>
-                                                <h1 class="text-sm mt-2">{{percent.abnormal}}% Abnormal</h1>
+                                                <h1 class="text-sm mt-2 text-center">{{percent.abnormal}}% {{$t('abnormal')}}</h1>
                                             </div>
                                         </div>
                                         <div class="col-span-1">
-                                            <div class="bg-red-600 text-white flex flex-col items-center rounded-lg">
-                                                <h1 class="text-4xl">OFF</h1>
+                                            <div class="bg-red-600 text-white flex flex-col items-center rounded-lg max-h-40 h-40">
+                                                <h1 class="text-4xl head-status">{{$t('off')}}</h1>
                                                 <h1 class="text-7xl">{{offline}}</h1>
-                                                <h1 class="text-sm mt-2">{{percent.offline}} Offline</h1>
+                                                <h1 class="text-sm mt-2 text-center">{{percent.offline}}% {{$t('offline')}}</h1>
                                             </div>
                                         </div>
                                     </div>

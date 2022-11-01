@@ -7,15 +7,14 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl dark:text-white ml-10">Widgets</h1>
+                        <h1 class="text-xl dark:text-white ml-10">{{$t('devices_list')}}</h1>
                         <div class="searchbox mt-5 mb-5">
                             <div class="flex flex-col lg:flex-row justify-between form-search">
                                 <div class="col-span-full lg:col-span-2 my-5">
-                                    <a class="btn-purple rounded btn-blue-gradient" href="/widgets/create">Add
-                                        Widget</a>                                </div>
+                                    <a class="btn-purple rounded btn-blue-gradient" href="/devices/create">{{$t('add_device')}}</a>                                </div>
                                 <div class="col-span-full lg:col-span-2">
-                                    <input type="text" placeholder="ID,Name" class="form-input">
-                                    <button class="btn-purple rounded ml-3 h-12">Search</button>
+                                    <input type="text" :placeholder="$t('id')+','+$t('name')" class="form-input">
+                                    <button class="btn-purple rounded ml-3 h-12">{{$t('search')}}</button>
                                 </div>
                             </div>
                         </div>
@@ -25,13 +24,13 @@
                             <table class="table  border-collaps w-full dark:bg-black-op8 bg-white rounded">
                                 <thead class="text-lg  bg-head-table text-white">
                                     <tr class="border-b dark:border-gray-600">
-                                        <th class="p-5 border-r dark:border-gray-600">ID</th>
-                                        <th class="border-r dark:border-gray-600">Device Name</th>
-                                        <th class="border-r dark:border-gray-600">Device ID</th>
-                                        <th class="border-r dark:border-gray-600">Name</th>
-                                        <th class="border-r dark:border-gray-600">Location Name</th>
-                                        <th class="border-r dark:border-gray-600">Category Widget</th>
-                                        <th>Action</th>
+                                        <th class="p-5 border-r dark:border-gray-600">{{$t('id')}}</th>
+                                        <th class="border-r dark:border-gray-600">{{$t('device_name')}}</th>
+                                        <th class="border-r dark:border-gray-600">{{$t('device_id')}}</th>
+                                        <th class="border-r dark:border-gray-600">{{$t('name')}}</th>
+                                        <th class="border-r dark:border-gray-600">{{$t('location_name')}}</th>
+                                        <th class="border-r dark:border-gray-600">{{$t('category_widget')}}</th>
+                                        <th>{{$t('action')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="dark:text-white">
@@ -43,7 +42,7 @@
                                         <td class="text-center border dark:border-gray-600 border-slate-300">{{(item.location_name == null)?'-':item.location_name}}</td>
                                         <td class="text-center border dark:border-gray-600 border-slate-300">{{item.widget.name}}</td>
                                         <td class="text-center border dark:border-gray-600 border-slate-300">
-                                            <a class="dark:text-cyan-300 text-cyan-800" :href="'/widgets/edit/'+item.id">Edit</a> | 
+                                            <a class="dark:text-cyan-300 text-cyan-800" :href="'/devices/edit/'+item.id">Edit</a> | 
                                             <button class="text-red-500" @click="delDevice(item.id)">Delete</button>
                                         </td>
                                     </tr>
@@ -60,7 +59,7 @@
       <AlertDialogConfirm v-if="confirm.active" :type="confirm.type" :msg="confirm.msg" @submit="confirmDel"
         @close="closeConfirm" />
     <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"/>
-    <FooterPage />
+    <FooterPage class="2xl:fixed inset-x-0 bottom-0"/>
 </template>
 <script>
     import TopMenu from '../layout/TopMenu.vue';

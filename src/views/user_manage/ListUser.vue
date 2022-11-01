@@ -7,9 +7,9 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl dark:text-white ml-10">User List</h1>
+                        <h1 class="text-xl dark:text-white ml-10">{{$t('user_list')}}</h1>
                         <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg dark:text-white">Search</h3>
+                            <h3 class="text-lg dark:text-white">{{$t('search')}}</h3>
                             <div class="grid grid-cols-12 form-search">
                                 <div class="lg:col-span-6 col-span-12">
                                     <div class="grid grid-cols-4 gap-3">
@@ -17,24 +17,24 @@
                                             <div class="grid grid-cols-4 gap-2">
                                             <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
                                                 <select name="" id="" class="h-12 rounded text-sm w-full">
-                                                    <option value="">Condition Type</option>
+                                                    <option value="">{{$t('condition_type')}}</option>
                                                 </select>
                                             </div>
                                             <div class="col-span-4 lg:col-span-2">
-                                                <input type="text" placeholder="ID.Name" class="form-input w-full">
+                                                <input type="text" :placeholder="$t('id')+','+$t('name')" class="form-input w-full">
                                             </div>
                                             <div class="col-span-4 lg:col-span-2 lg:flex items-end lg:justify-end">
-                                                <label for="" class="dark:text-white mr-1 block">From</label>
+                                                <label for="" class="dark:text-white mr-1 block lg:w-16">{{$t('from')}}</label>
                                             <input type="text" placeholder="DD/MM/YYYY" class="form-input w-full">
                                             </div>
                                             <div class="col-span-4 lg:col-span-2 lg:flex items-end">
-                                                <label for="" class="dark:text-white mr-1 block">To</label>
+                                                <label for="" class="dark:text-white mr-1 block lg:w-16">{{$t('to')}}</label>
                                             <input type="text" placeholder="DD/MM/YYYY" class="form-input w-full">
                                             </div>
                                             </div>
                                         </div>
                                        <div class="col-span-4 lg:col-span-1">
-                                        <button class="btn-purple rounded w-full lg:w-auto h-15">Search</button>
+                                        <button class="btn-purple rounded w-full lg:w-auto h-15">{{$t('search')}}</button>
                                        </div>
                                     </div>
                                 </div>
@@ -44,13 +44,13 @@
                             <table class="w-full shadow-sm">
                                 <thead class="text-white bg-head-table rounded-md lg:text-lg">
                                     <tr>
-                                        <th class="p-5 rounded-tl-md">ID</th>
-                                        <th>Register Date</th>
-                                        <th>Name</th>
-                                        <th>Username</th>
-                                        <th>Role</th>
-                                        <th>Status</th>
-                                        <th class="rounded-tr-md">Action</th>
+                                        <th class="p-5 rounded-tl-md">{{$t('id')}}</th>
+                                        <th>{{$t('register_date')}}</th>
+                                        <th>{{$t('name')}}</th>
+                                        <th>{{$t('username')}}</th>
+                                        <th>{{$t('role')}}</th>
+                                        <th>{{$t('status')}}</th>
+                                        <th class="rounded-tr-md">{{$t('action')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="dark:text-white bg-body-table">

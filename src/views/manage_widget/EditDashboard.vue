@@ -7,20 +7,20 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl dark:text-white ml-10">Create Dashboard</h1>
+                        <h1 class="text-xl dark:text-white ml-10">{{$t('edit_dashboard')}}</h1>
                         <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg dark:text-white">All Widgets</h3>
+                            <h3 class="text-lg dark:text-white">{{$t('all_widgets')}}</h3>
                             <div class="grid grid-cols-12 form-search my-10">
-                                <div class="col-span-full lg:col-span-6 flex-col lg:flex-row items-end gap-5">
+                                <div class="col-span-full lg:col-span-3 flex-col lg:flex-row items-end gap-5">
                                     <div>
-                                        <label for="" class="dark:text-white m-3">Template Name</label>
+                                        <label for="" class="dark:text-white m-3">{{$t('template_name')}}</label>
                                         <input type="text" class="form-input" v-model="name_template">
                                     </div>
                                     
                                 </div>
                                 <div class="col-span-full lg:col-span-2">
                                     <div class="ml-2 mt-3 lg:mt-0">
-                                        <button class="btn-purple rounded btn-blue-gradient h-12" @click="updateTemplate">Update Template</button>
+                                        <button class="btn-purple rounded btn-blue-gradient h-12" @click="updateTemplate">{{$t('update_template')}}</button>
                                 </div>
                                 </div>
                                 
@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="mt-10 mb-5 block-content">
-                            <h1 class="text-xl text-white">Select Widget</h1>
+                            <h1 class="text-xl text-white">{{$t('select_widget')}}</h1>
                             <div class="grid grid-cols-12 gap-1 my-5">
                                 <div class="block-widgets col-span-6 lg:col-span-4 hover:opacity-60 h-full max-h-full"
                                     @click="selectWidget(item.id)" id="wg-1" v-for="item in list_widget" :key="item.id">
@@ -38,7 +38,7 @@
                                             <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681"
                                                 fill="#08ff00" />
                                         </svg>
-                                        <span class="uppercase text-sm lg:text-lg">{{item.name}}</span>
+                                        <span class="uppercase text-sm lg:text-lg">{{$t(item.name)}}</span>
                                     </div>
                                     <img :src="item.img" alt="" class="mx-auto w-1/3 my-5">
                                 </div>
@@ -47,7 +47,7 @@
 
                     </div>
                     <div class="my-5">
-                        <h1 class="text-xl text-white mb-5">Dashboard Layout</h1>
+                        <h1 class="text-xl text-white mb-5">{{$t('dashboard_layout')}}</h1>
 
                         <draggable v-model="template" group="widget"
                             @start="drag=true" @end="drag=false" item-key="id" class="grid grid-cols-12 gap-1" @change="updatemove">
@@ -60,7 +60,7 @@
                                             <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681"
                                                 fill="#08ff00" />
                                         </svg>
-                                        <span class="text-sm uppercase">{{element.name}}</span>
+                                        <span class="text-sm uppercase">{{$t(element.name)}}</span>
                                     </div>
                                     <button class="text-white p-1 bg-red-500 text-sm rounded" @click="removeWidget(index,element.id)">Remove</button>
 

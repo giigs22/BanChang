@@ -7,19 +7,19 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl dark:text-white ml-10">GroupUser List</h1>
+                        <h1 class="text-xl dark:text-white ml-10">{{$t('group_user_list')}}</h1>
                         <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg dark:text-white">Search</h3>
+                            <h3 class="text-lg dark:text-white">{{$t('search')}}</h3>
                             <div class="grid grid-cols-12 form-search">
                                 <div class="lg:col-span-6 col-span-12">
                                     <div class="grid grid-cols-4 gap-3">
                                         <div class="lg:col-span-3 col-span-full">
                                             <div class="grid grid-cols-4 gap-2">
                                             <div class="col-span-full lg:col-span-2">
-                                                <input type="text" placeholder="ID.Name" class="form-input w-full">
+                                                <input type="text" :placeholder="$t('id')+','+$t('name')" class="form-input w-full">
                                             </div>
                                             <div class="col-span-full lg:col-span-1">
-                                                <button class="btn-purple rounded w-full lg:w-auto h-12">Search</button>
+                                                <button class="btn-purple rounded w-full lg:w-auto h-12">{{$t('search')}}</button>
                                             </div>
                                             </div>
                                         </div>
@@ -32,8 +32,7 @@
                                         class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <line x1="12" y1="5" x2="12" y2="19" />
-                                        <line x1="5" y1="12" x2="19" y2="12" /></svg> Add
-                                    Group</button>
+                                        <line x1="5" y1="12" x2="19" y2="12" /></svg> {{$t('add_group')}}</button>
                             </div>
                         </div>
 
@@ -41,11 +40,11 @@
                             <table class="table w-full shadow-sm">
                                 <thead class="text-white bg-head-table rounded-md text-lg">
                                     <tr>
-                                        <th class="p-5 rounded-tl-md">ID</th>
+                                        <th class="p-5 rounded-tl-md">{{$t('id')}}</th>
 
-                                        <th>Name</th>
+                                        <th>{{$t('name')}}</th>
 
-                                        <th class="rounded-tr-md">Action</th>
+                                        <th class="rounded-tr-md">{{$t('action')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="dark:text-white bg-body-table">

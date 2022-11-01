@@ -7,19 +7,19 @@
             <div class="inner-content mx-4 lg:mx-10">
                 <div class="main-content">
                     <div class="block-content mb-5">
-                        <h1 class="text-xl dark:text-white ml-10 mb-10">Widget Detail</h1>
+                        <h1 class="text-xl dark:text-white ml-10 mb-10">{{$t('device_detail')}}</h1>
                         <div class="overflow-scroll lg:overflow-hidden">
-                            <h2 class="dark:text-white text-lg my-2">List Device</h2>
+                            <h2 class="dark:text-white text-lg my-2">{{$t('list_device')}}</h2>
                             <table class="table  border-collapse w-full dark:bg-black-op8 bg-white rounded">
                                   <thead class="lg:text-lg  bg-head-table text-white">
                                     <tr class="border-b dark:border-gray-600 border-slate-300">
-                                        <th class="p-2 border-r dark:border-gray-600 border-slate-300">ID</th>
-                                        <th class="border-r dark:border-gray-600 border-slate-300">Device Name</th>
-                                        <th class="border-r dark:border-gray-600 border-slate-300">Device ID</th>
-                                        <th class="border-r dark:border-gray-600 border-slate-300" v-if="cate_id == 1">Sensor</th>
-                                        <th class="border-r dark:border-gray-600 border-slate-300" v-if="cate_id == 4">Group Pole</th>
-                                        <th class="border-r dark:border-gray-600 border-slate-300" v-else>Name</th>
-                                        <th class="border-r dark:border-gray-600 border-slate-300">Location Name</th>
+                                        <th class="p-2 border-r dark:border-gray-600 border-slate-300">{{$t('id')}}</th>
+                                        <th class="border-r dark:border-gray-600 border-slate-300">{{$t('device_name')}}</th>
+                                        <th class="border-r dark:border-gray-600 border-slate-300">{{$t('device_id')}}</th>
+                                        <th class="border-r dark:border-gray-600 border-slate-300" v-if="cate_id == 1">{{$t('sensor')}}</th>
+                                        <th class="border-r dark:border-gray-600 border-slate-300" v-if="cate_id == 4">{{$t('group_pole')}}</th>
+                                        <th class="border-r dark:border-gray-600 border-slate-300" v-else>{{$t('name')}}</th>
+                                        <th class="border-r dark:border-gray-600 border-slate-300">{{$t('location_name')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="dark:text-white">
@@ -40,7 +40,7 @@
             </div>
         </section>
     </main>
-    <FooterPage class="2xl:fixed inset-x-0 bottom-0"/>
+    <FooterPage class=""/>
 </template>
 <script>
     import TopMenu from '../layout/TopMenu.vue'
