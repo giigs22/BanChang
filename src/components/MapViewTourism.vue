@@ -158,11 +158,17 @@ export default {
                        lat: parseFloat(el.location.lat),
                        lng: parseFloat(el.location.long),
                    }
+                   const my_icon ={
+                       url: icon_sensor,
+                       scaledSize: new google.maps.Size(24, 24), // scaled size
+                       origin: new google.maps.Point(0,0), // origin
+                       anchor: new google.maps.Point(12, 12) // anchor
+                   };
                    var marker = new window.google.maps.Marker({
                    position:latlong,
                    map,
                    title:el.name,
-                   icon:icon_sensor,
+                   icon:my_icon,
                    })
                    var content_html
 

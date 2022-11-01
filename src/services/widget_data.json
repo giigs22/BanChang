@@ -61,17 +61,17 @@
     {
         "id": 13,
         "name": "Hotel",
-        "img": "/src/assets/icon_hotel_green.png"
+        "img": "/src/assets/icon_hotel_green.svg"
     },
     {
         "id": 14,
         "name": "Restaurant",
-        "img": "/src/assets/icon_restaurant_green.png"
+        "img": "/src/assets/icon_restaurant_green.svg"
     },
     {
         "id": 15,
         "name": "Attraction",
-        "img": "/src/assets/icon_attraction_green.png"
+        "img": "/src/assets/icon_attraction_green.svg"
     },
     {
         "id": 16,
@@ -81,17 +81,17 @@
     {
         "id": 17,
         "name": "Hotel",
-        "img": "/src/assets/icon_hotel_red.png"
+        "img": "/src/assets/icon_hotel_red.svg"
     },
     {
         "id": 18,
         "name": "Restaurant",
-        "img": "/src/assets/icon_restaurant_red.png"
+        "img": "/src/assets/icon_restaurant_red.svg"
     },
     {
         "id": 19,
         "name": "Attraction",
-        "img": "/src/assets/icon_attraction_red.png"
+        "img": "/src/assets/icon_attraction_red.svg"
     },
     {
         "id": 20,

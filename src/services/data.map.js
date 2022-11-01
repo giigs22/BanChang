@@ -18,13 +18,13 @@ class dataMap{
             return status?url_img+'icon_sos_green.png':url_img+'icon_sos_red.png'
         } else if(type == 'hotel'){
             console.log('selected hotel')
-            return status?url_img+'icon_hotel_green.png':url_img+'icon_hotel_red.png'
+            return status?url_img+'icon_hotel_green.svg':url_img+'icon_hotel_red.svg'
         } else if(type == 'restaurant'){
             console.log('selected restaurant')
-            return status?url_img+'icon_restaurant_green.png':url_img+'icon_restaurant_red.png'
+            return status?url_img+'icon_restaurant_green.svg':url_img+'icon_restaurant_red.svg'
         } else if(type == 'attraction'){
             console.log('selected attraction')
-            return status?url_img+'icon_attraction_green.png':url_img+'icon_attraction_red.png'
+            return status?url_img+'icon_attraction_green.svg':url_img+'icon_attraction_red.svg'
         } else if(type == 'otop'){
             console.log('selected otop')
             return status?url_img+'icon_otop_green.png':url_img+'icon_otop_red.png'

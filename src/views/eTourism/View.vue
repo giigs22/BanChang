@@ -10,90 +10,39 @@
                         <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false"
                             :opacity="0.1" class="rounded-lg" />
                         <h1 class="text-xl dark:text-white ml-10">eTourism</h1>
-                        <select v-model="tourismtype" class="form-select h-12 rounded text-sm w-full">
+                        <div style="display:flex;">
+                            <select v-model="tourismtype" class="form-select h-12 rounded text-sm w-full" style="float: left; width:60%;margin-right: 5%;" >
                             <option value="restaurant">Restaurant</option>
                             <option value="hotel">Hotel</option>
                             <option value="attraction">Attractions Point</option>
                             <option value="otop">OTOP Product</option>
                         </select>
-                        <div class="col-span-4 lg:col-span-1">
-                            <button class="btn-purple rounded w-full lg:w-auto" @click="chooseType">Choose</button>
-                        </div>
-                        <input type="checkbox" class="cus-checkbox" v-model="unassigned" @click="setUnassigned">
-                        <label for="" class="dark:text-white">Only unassigned</label>
-                        <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg dark:text-white">Search</h3>
-                            <div class="grid grid-cols-12 form-search">
-                                <div class="lg:col-span-6 col-span-12">
-                                    <div class="grid grid-cols-4 gap-3">
-                                        <div class="lg:col-span-3 col-span-4">
-                                            <div class="grid grid-cols-4 gap-2">
-                                                <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
-                                                    <select name="" id="" class="h-12 rounded text-sm w-full">
-                                                        <option value="">Condition Type</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-span-4 lg:col-span-2">
-                                                    <input type="text" placeholder="ID.Name" class="form-input w-full">
-                                                </div>
-                                                <div class="col-span-4 lg:col-span-2 lg:flex items-end lg:justify-end">
-                                                    <label for="" class="dark:text-white mr-1 block">From</label>
-                                                    <input type="text" placeholder="DD/MM/YYYY"
-                                                        class="form-input w-full">
-                                                </div>
-                                                <div class="col-span-4 lg:col-span-2 lg:flex items-end">
-                                                    <label for="" class="dark:text-white mr-1 block">To</label>
-                                                    <input type="text" placeholder="DD/MM/YYYY"
-                                                        class="form-input w-full">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-span-4 lg:col-span-1">
-                                            <button class="btn-purple rounded w-full lg:w-auto" @click="searchData">Search</button>
-                                        </div>
-                                    </div>
-                                </div>
+                            <input type="checkbox" class="cus-checkbox" v-model="unassigned" @click="setUnassigned" style="float: left;margin-right: 1%;">
+                            <label for="" class="dark:text-white" style="width: 16%;margin-right: 3%;">Only unassigned</label>
+
+                            <div class="col-span-4 lg:col-span-1" style="float: left; width:30%;margin-right: 1%;">
+                                <button class="btn-purple rounded w-full lg:w-auto" @click="chooseType">Choose</button>
                             </div>
+
                         </div>
+
+
                         <div class="grid grid-cols-12 gap-4 mb-5">
                             <div class="col-span-12 lg:col-span-3">
                                 <div class="block-layer data-layer py-2 px-3 mt-4 dark:bg-nav-dark bg-white">
                                     <div class="list-data-layer">
                                     <div class="border-b dark:border-gray-600" v-for="item in sort_list_data" :key="item.id">
                                         <h2 class="dark:text-white text-md ml-14">{{item.name}}</h2>
-                                        <img src="@/assets/icon_hotel_green.png" alt="">
-                                        <!--<div class="flex justify-around items-center my-2">
-                                            <template v-if="item.status">
-                                                <div class="rounded-full w-5 h-5 bg-green-500 border-4 dark:border-gray-500">
-                                                </div>
-                                                <div>
-                                                    <img src="@/assets/icon_hotel_green.png" alt="">
-                                                </div>
-                                                <div>
-                                                    <ul class="dark:text-white text-sm list-disc">
-                                                        <li>Status : <span class="text-green-500">ON</span></li>
-                                                        <li>Users : <span class="text-green-500">{{item.data.client[0].value}}</span></li>
-                                                        <li>Time : <span class="text-green-500">{{$dayjs(item.data.client[0].ts).format('HH:mm A')}}</span></li>
-                                                    </ul>
-                                                </div>
-                                            </template>
-                                            <template v-else>
-                                                <div class="rounded-full w-5 h-5 bg-red-500 border-4 dark:border-gray-500">
-                                                </div>
-                                                <div>
-                                                    <img src="@/assets/icon_wifi_red.png" alt="">
-                                                </div>
-                                                <div>
-                                                    <ul class="text-white text-sm list-disc">
-                                                        <li>Status : <span class="text-red-500">OFF</span></li>
-                                                        <li>Users : <span class="text-red-500">{{item.data.client[0].value}}</span></li>
-                                                    <li>Time : <span class="text-red-500">{{$dayjs(item.data.client[0].ts).format('HH:mm A')}}</span></li>
-                                                    </ul>
-                                                </div>
-                                            </template>
-                                            <div>
-                                            </div>
-                                        </div>-->
+
+                                        <img  v-if="item.typeOfThing ==='hotel' && item.active === true" src="@/assets/icon_hotel_green.svg" alt="" width="24">
+                                        <img  v-if="item.typeOfThing ==='hotel' && item.active === false" src="@/assets/icon_hotel_red.svg" alt="" width="24">
+                                        <img  v-if="item.typeOfThing ==='restaurant'  && item.active === true" src="@/assets/icon_restaurant_green.svg" alt="" width="24">
+                                        <img  v-if="item.typeOfThing ==='restaurant' && item.active === false" src="@/assets/icon_restaurant_red.svg" alt="" width="24">
+                                        <img  v-if="item.typeOfThing ==='attraction' && item.active === true" src="@/assets/icon_attraction_green.svg" alt="" width="24">
+                                        <img  v-if="item.typeOfThing ==='attraction' && item.active === false" src="@/assets/icon_attraction_green.svg" alt="" width="24">
+                                        <img  v-if="item.typeOfThing ==='otop' && item.active === true" src="@/assets/icon_otop_green.png" alt="" width="24">
+                                        <img  v-if="item.typeOfThing ==='otop' && item.active === false" src="@/assets/icon_otop_red.png" alt="" width="24">
+
                                     </div>
                                     </div>
 
@@ -102,38 +51,6 @@
                             </div>
                             <div class="col-span-12 lg:col-span-6">
                                 <MapView :datamap="group_map_data" />
-                            </div>
-                            <div class="col-span-12 lg:col-span-3">
-                                <div class="block-layer data-layer py-2 px-3 mt-4 dark:bg-nav-dark bg-block-content-light">
-                                    <h1 class="text-2xl dark:text-white text-center my-3">Device Status</h1>
-                                    <div class="grid grid-cols-3 gap-1 my-5">
-                                        <div class="col-span-1">
-                                            <div class="bg-green-600 text-white flex flex-col items-center rounded-lg">
-                                                <h1 class="text-4xl">ON</h1>
-                                                <h1 class="text-7xl">{{online}}</h1>
-                                                <h1 class="text-sm mt-2">{{percent.online}}% Online</h1>
-                                            </div>
-                                        </div>
-                                        <div class="col-span-1">
-                                            <div class="bg-yellow-400 text-white flex flex-col items-center rounded-lg">
-                                                <h1 class="text-4xl">NG</h1>
-                                                <h1 class="text-7xl">{{abnormal}}</h1>
-                                                <h1 class="text-sm mt-2">{{percent.abnormal}}% Abnormal</h1>
-                                            </div>
-                                        </div>
-                                        <div class="col-span-1">
-                                            <div class="bg-red-600 text-white flex flex-col items-center rounded-lg">
-                                                <h1 class="text-4xl">OFF</h1>
-                                                <h1 class="text-7xl">{{offline}}</h1>
-                                                <h1 class="text-sm mt-2">{{percent.offline}}% Offline</h1>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="block-layer data-layer py-2 px-3 mt-4 dark:bg-nav-dark bg-block-content-light">
-                                    <h1 class="dark:text-white text-lg text-center">User Used</h1>
-                                    <h1 class="dark:text-white text-3xl text-center my-20">{{client}}</h1>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -159,7 +76,7 @@
         },
         data() {
             return {
-                tourismtype: "",
+                tourismtype: "restaurant",
                 group_map_data: [],
                 list_data: [],
                 isLoading: false,
