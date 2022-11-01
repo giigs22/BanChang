@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const api_backend = import.meta.env.VITE_API_SERVER;
 // const etourism_service_backend  = import.meta.env.ETOURISM_SERVICE ;
-const etourism_service_backend  = "http://localhost:8000/"
+const etourism_service_backend  = "http://ec2-13-251-222-89.ap-southeast-1.compute.amazonaws.com:3003/"
 export const etourism = {
     namespaced: true,
     state: {

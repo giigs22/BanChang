@@ -147,7 +147,7 @@
 <script>
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
-    import MapView from '../../components/MapView.vue'
+    import MapView from '../../components/MapViewTourism.vue'
     import _ from 'lodash'
     import * as dayjs from 'dayjs'
 
