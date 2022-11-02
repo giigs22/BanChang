@@ -12,15 +12,15 @@
                     <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
                         href="/view/aqi">{{$t('air_quality')}}</a>
                     <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
-                        href="/view/smart_light">Lighting</a>
+                        href="/view/smart_light">{{$t('smart_lighting')}}</a>
                     <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
-                        href="/view/smart_pole">{{$t('smart_pole')}}</a>
+                        href="/view/smart_pole">{{$t('smart_pole_energy')}}</a>
                     <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
                         href="/view/cctv">{{$t('cctv_camera')}}</a>
                     <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
                         href="/view/freewifi">{{$t('freewifi')}}</a>
                     <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
-                        href="/view/digital_signage">Digital Signage</a>
+                        href="/view/digital_signage">{{$t('digital_signage')}}</a>
 
                 </div>
             </li>

@@ -4,7 +4,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-2" viewBox="0 0 9.361 9.361">
                 <ellipse id="wStatus" cx="4.681" cy="4.681" rx="4.681" ry="4.681" fill="#08ff00" />
             </svg>
-            <span class="text-sm uppercase">{{$t('smart_pole')}}</span>
+            <span class="text-sm uppercase">{{$t('smart_pole_energy')}}</span>
         </div>
         <div class="open-full absolute right-2 top-3">
             <svg @click="fullview" class="cursor-pointer bg-dark-light" xmlns="http://www.w3.org/2000/svg"

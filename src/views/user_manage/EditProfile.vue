@@ -36,7 +36,7 @@
                                                 <label class="text-white">{{$t('username')}}</label>
                                                 <input v-bind="field"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
-                                                    :disabled="loading">
+                                                    :disabled="true">
                                             </Field>
                                             <ErrorMessage name="username" class="text-xs text-red-300" />
                                         </div>
@@ -68,7 +68,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="my-3">
+                                        <div class="my-3" v-if="user_role == 'administrator'">
                                              <label class="text-white">{{$t('role')}}</label>
                                             <Field name="role" as="select" v-model="role" class="form-select w-full" :disabled="loading">
                                                         <option value="">{{$t('select_group_user')}}</option>
@@ -115,7 +115,7 @@
                                             </Field>
                                             <ErrorMessage name="phone" class="text-xs text-red-300" />
                                         </div>
-                                        <div class="my-3">
+                                        <div class="my-3" v-if="user_role == 'administrator'">
                                               <label class="text-white">{{$t('status')}}</label>
                                             <Field name="status" as="select" v-model="status" class="form-select w-full" :disabled="loading">
                                                         <option value="1">{{$t('active')}}</option>
@@ -142,8 +142,8 @@
                                 <div class="flex gap-3 justify-end mt-10">
                                     <button type="submit"
                                         class="px-5 py-2 rounded-md text-white btn-blue-gradient">{{$t('update')}}</button>
-                                    <button type="reset"
-                                        class="px-5 py-2 rounded-md text-white btn-red-gradient">{{$t('reset')}}</button>
+                                    <!-- <button type="reset"
+                                        class="px-5 py-2 rounded-md text-white btn-red-gradient">{{$t('reset')}}</button> -->
                                 </div>
                             </Form>
                         </div>
@@ -165,6 +165,8 @@
     } from "vee-validate"
     import * as yup from 'yup'
     import AlertDialog from '../../components/utility/AlertDialog.vue'
+    var schema
+
     export default {
         components: {
             TopMenu,
@@ -175,18 +177,20 @@
             AlertDialog
         },
         data() {
-            const schema = yup.object().shape({
-                idcard: yup.string().required(),
-                name: yup.string().required(),
-                username: yup.string().required(),
-                password: yup.string().nullable(),
-                con_password: yup.string().oneOf([yup.ref('password'), null], 'Password not match').nullable(),
-                position: yup.string().required(),
-                location: yup.string().required(),
-                email: yup.string().email().required(),
-                phone: yup.string().required(),
-                role: yup.string().required().nullable(),
-            })
+            if(this.user_role == 'administrator'){
+                schema = yup.object().shape({
+                    idcard: yup.string().required(),
+                    name: yup.string().required(),
+                    username: yup.string().required(),
+                    password: yup.string().nullable(),
+                    con_password: yup.string().oneOf([yup.ref('password'), null], 'Password not match').nullable(),
+                    position: yup.string().required(),
+                    location: yup.string().required(),
+                    email: yup.string().email().required(),
+                    phone: yup.string().required(),
+                    role: yup.string().required().nullable(),
+                })
+            }
             return {
                 schema,
                 idcard: null,
@@ -211,8 +215,15 @@
             }
         },
         created() {
-            this.getRole()
+            if(this.user_role == 'administator'){
+                this.getRole()
+            }
             this.getProfile()
+        },
+        computed:{
+            user_role(){
+                return this.$store.state.user.user_data.data.user_group
+            }
         },
         methods: {
             getProfile(){
@@ -262,7 +273,7 @@
                         this.loading = false
                     setTimeout(() => {
                         this.alert.active = false
-                        this.$router.push('/user/list')
+                        window.location.reload()
                     }, 2000);
                     }else{
                         this.alert.active = true

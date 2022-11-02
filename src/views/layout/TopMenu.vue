@@ -8,7 +8,7 @@
                     </a>
                 </div>
                 <div class="hidden w-full md:block md:w-auto">
-                    <ul class="flex flex-col mt-4 mb-10 md:flex-row md:space-x-8 md:mt-0 md:text-md content-end">
+                    <ul class="flex flex-col mt-4 mb-10 md:flex-row md:space-x-4 md:mt-0 md:text-md content-end">
                         <MenuDefault></MenuDefault>
                         <template v-if="user.user_group =='staff' || user.user_group == 'administrator'">
                             <menu-admin></menu-admin>
@@ -104,12 +104,12 @@
         </div>
     </nav>
     <!-- Add This START -->
-    <nav id="mobile-navigation" class="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm z-10"
+    <nav id="mobile-navigation" class="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm z-10 "
         :class="openMenu ? 'visible' : 'invisible' ">
 
         <!-- UL Links -->
         <ul
-            class="absolute top-0 right-0 bottom-0 w-11/12 py-4 bg-nav-dark text-white drop-shadow-2xl z-10 transition-all">
+            class="absolute top-0 right-0 bottom-0 w-11/12 py-4 bg-nav-light dark:bg-nav-dark text-white drop-shadow-2xl z-10 transition-all">
             <m-default></m-default>
             <template v-if="user.user_group =='staff' || user.user_group == 'administrator'">
                 <m-admin></m-admin>
@@ -172,9 +172,9 @@
     import ApiManage from '../menu/admin/api_manage.vue';
     import MDefault from '../menu/m_default.vue'
     import MAdmin from '../menu/admin/m_admin_menu.vue'
-    import MUserManage from '../menu/admin/user_manage.vue';
-    import MWidgetManage from '../menu/admin/widget_manage.vue';
-    import MApiManage from '../menu/admin/api_manage.vue';
+    import MUserManage from '../menu/admin/m_user_manage.vue';
+    import MWidgetManage from '../menu/admin/m_widget_manage.vue';
+    import MApiManage from '../menu/admin/m_api_manage.vue';
 
     export default {
         components: {

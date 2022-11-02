@@ -1,63 +1,63 @@
 [{
-    "id": 1,
-    "name": "air_quality",
-    "img": "/src/assets/icon_widget_aqi.png"
-},
-{
-    "id": 2,
-    "name": "smart_lighting",
-    "img": "/src/assets/icon_widget_smartlight.png"
-},
-{
-    "id": 3,
-    "name": "smart_pole_energy",
-    "img": "/src/assets/icon_widget_smartpole.png"
-},
-{
-    "id": 4,
-    "name": "cctv_camera",
-    "img": "/src/assets/icon_widget_cctv.png"
-},
-{
-    "id": 5,
-    "name": "cctv_survillance",
-    "img": "/src/assets/icon_widget_cctvsur.png"
-},
-{
-    "id": 6,
-    "name": "parking",
-    "img": "/src/assets/icon_widget_parking.png"
-},
-{
-    "id": 7,
-    "name": "check_license_plate",
-    "img": "/src/assets/icon_widget_checklicense.png"
-},
-{
-    "id": 8,
-    "name": "license_plate",
-    "img": "/src/assets/icon_widget_licenseplate.png"
-},
-{
-    "id": 9,
-    "name": "freewifi",
-    "img": "/src/assets/icon_widget_freewifi.png"
-},
-{
-    "id": 10,
-    "name": "digital_signage",
-    "img": "/src/assets/icon_widget_digital.png"
-},
-{
-    "id": 11,
-    "name": "complaint",
-    "img": "/src/assets/icon_widget_complaint.png"
-},
-{
-    "id": 12,
-    "name": "sos",
-    "img": "/src/assets/icon_widget_sos.png"
-},
+        "id": 1,
+        "name": "Air Quality",
+        "img": "/src/assets/icon_widget_aqi.png"
+    },
+    {
+        "id": 2,
+        "name": "Smart Lighting",
+        "img": "/src/assets/icon_widget_smartlight.png"
+    },
+    {
+        "id": 3,
+        "name": "Smart Pole Energy",
+        "img": "/src/assets/icon_widget_smartpole.png"
+    },
+    {
+        "id": 4,
+        "name": "CCTV Camera",
+        "img": "/src/assets/icon_widget_cctv.png"
+    },
+    {
+        "id": 5,
+        "name": "CCTV Surviellance",
+        "img": "/src/assets/icon_widget_cctvsur.png"
+    },
+    {
+        "id": 6,
+        "name": "Parking",
+        "img": "/src/assets/icon_widget_parking.png"
+    },
+    {
+        "id": 7,
+        "name": "Check License Plate",
+        "img": "/src/assets/icon_widget_checklicense.png"
+    },
+    {
+        "id": 8,
+        "name": "License Plate",
+        "img": "/src/assets/icon_widget_licenseplate.png"
+    },
+    {
+        "id": 9,
+        "name": "Free Wifi",
+        "img": "/src/assets/icon_widget_freewifi.png"
+    },
+    {
+        "id": 10,
+        "name": "Digital Signage",
+        "img": "/src/assets/icon_widget_digital.png"
+    },
+    {
+        "id": 11,
+        "name": "Complaint",
+        "img": "/src/assets/icon_widget_complaint.png"
+    },
+    {
+        "id": 12,
+        "name": "Sos",
+        "img": "/src/assets/icon_widget_sos.png"
+    },
     {
         "id": 13,
         "name": "Hotel",

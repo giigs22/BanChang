@@ -1,7 +1,7 @@
 <template>
     <TopMenu />
     <main class="m-3 lg:m-10">
-        <div class="flex items-center justify-end my-3 lg:my-5">
+        <div class="flex items-center justify-end my-3 lg:my-5" v-if="user_role == 'administrator'">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36" height="36"
                 viewBox="0 0 36 36">
                 <defs>
@@ -148,7 +148,7 @@
             </div>
             <!-- End Widget -->
             <!-- Recent Complaint -->
-            <div class="inner-content lg:mx-10 mt-5">
+            <div class="inner-content lg:mx-10 mt-5" v-if="user_role == 'administrator' || user_role=='staff'">
                 <div class="main-content">
                     <div class="block-content dark:bg-block-content-dark bg-block-content-light">
                         <div class="flex justify-end">
@@ -247,9 +247,6 @@
                 components: null
             }
         },
-        watch: {
-
-        },
         computed: {
             loggedIn() {
                 return this.$store.state.auth.status.loggedIn;
@@ -260,6 +257,9 @@
             theme() {
                 return this.$store.state.template.theme
             },
+            user_role(){
+                return this.$store.state.user.user_data?.data.user_group
+            }
         },
         async created() {
             if (!this.loggedIn) {
