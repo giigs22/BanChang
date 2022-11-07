@@ -67,117 +67,25 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white-op6">
-                                    <tr class="text-green-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
+                                    <tr :class="[item.status?'text-green-500':'text-red-500']" v-for="item in result_data" :key="item.device.id">
+                                        <td class="p-3 border border-gray-600">
+                                            <template v-if="item.date_data.diff > 0">
+                                                {{$dayjs(item.date_data.start).format('DD/MM/YYYY')}}-{{$dayjs(item.date_data.end).format('DD/MM/YYYY')}}
+                                            </template>
+                                            <template v-else>
+                                                {{$dayjs().format('dddd')}}<br>
+                                            {{$dayjs().format('DD MMMM YYYY')}}<br>
+                                            {{$dayjs().format('H:mm A')}}
+                                            </template>
                                             </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">ON</td>
-                                        <td class="border border-gray-600 text-center">140 kWh</td>
+                                        <td class="border border-gray-600 text-center">{{item.device.id}}</td>
+                                        <td class="border border-gray-600 text-center">
+                                            {{item.location.lat}}<br>{{item.location.long}}
+                                        </td>
+                                        <td class="border border-gray-600 text-center">{{item.status==1?'On':'Off'}}</td>
+                                        <td class="border border-gray-600 text-center">{{(item.data.energy)?item.data.energy.toFixed(2):'-'}} kWh</td>
                                     </tr>
-                                    <tr class="text-red-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">OFF</td>
-                                        <td class="border border-gray-600 text-center">140 kWh</td>
-                                    </tr>
-                                    <tr class="text-orange-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">NG</td>
-                                        <td class="border border-gray-600 text-center">140 kWh</td>
-                                    </tr>
-                                    <tr class="text-green-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">ON</td>
-                                        <td class="border border-gray-600 text-center">140 kWh</td>
-                                    </tr>
-                                    <tr class="text-green-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">ON</td>
-                                        <td class="border border-gray-600 text-center">140 kWh</td>
-                                    </tr>
-                                    <tr class="text-green-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">ON</td>
-                                        <td class="border border-gray-600 text-center">140 kWh</td>
-                                    </tr>
-                                    <tr class="text-green-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">ON</td>
-                                        <td class="border border-gray-600 text-center">140 kWh</td>
-                                    </tr>
-                                    <tr class="text-green-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">ON</td>
-                                        <td class="border border-gray-600 text-center">140 kWh</td>
-                                    </tr>
-                                    <tr class="text-green-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">ON</td>
-                                        <td class="border border-gray-600 text-center">140 kWh</td>
-                                    </tr>
-                                    <tr class="text-green-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">ON</td>
-                                        <td class="border border-gray-600 text-center">140 kWh</td>
-                                    </tr>
-                                  
+                                    
                                 </tbody>
                             </table>
                         </div>
@@ -217,10 +125,10 @@
         },
         methods: {
             setParams(){
-                this.condition = this.$route.params.cond != null ? this.$route.params.cond: null
-                this.keyword = this.$route.params.keyword != null ? this.$route.params.keyword : null
-                this.start_date = this.$route.params.start_date != null ? this.$route.params.start_date : null
-                this.end_date =  this.$route.params.end_date != null ? this.$route.params.end_date : null
+                this.condition = this.$route.params.cond != "" ? this.$route.params.cond: null
+                this.keyword = this.$route.params.keyword != "" ? this.$route.params.keyword : null
+                this.start_date = this.$route.params.start_date != "" ? this.$route.params.start_date : null
+                this.end_date =  this.$route.params.end_date != "" ? this.$route.params.end_date : null
             },
             searchData(){
                 this.getDataFilter()
@@ -238,9 +146,9 @@
                         end_date:e_timestamp
                     }
                 }
-                //this.isLoading = true
+                this.isLoading = true
                 return this.$store.dispatch('data/getFilter',data).then((res)=>{
-                    //this.isLoading = false
+                    this.isLoading = false
                     this.result_data = res.data
                 })
             },

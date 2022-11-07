@@ -47,7 +47,7 @@
                                             </div>
                                         </div>
                                        <div class="col-span-4 lg:col-span-1">
-                                        <button class="btn-purple rounded w-full lg:w-auto" @click="searchData">{{$t('search')}}</button>
+                                        <button class="btn-purple rounded w-full lg:w-auto" @click="searchData()">{{$t('search')}}</button>
                                        </div>
                                     </div>
                                 </div>
@@ -75,8 +75,8 @@
                                 <tbody class="bg-white-op6">
                                     <tr :class="[item.status?'text-green-500':'text-red-500']" v-for="item in result_data" :key="item.device.id">
                                         <td class="p-3 border border-gray-600">
-                                            <template v-if="start_date !== null && end_date !== null">
-                                                {{$dayjs(start_date).format('DD/MM/YYYY')}}-{{$dayjs(end_date).format('DD/MM/YYYY')}}
+                                            <template v-if="item.date_data.diff > 0">
+                                                {{$dayjs(item.date_data.start).format('DD/MM/YYYY')}}-{{$dayjs(item.date_data.end).format('DD/MM/YYYY')}}
                                             </template>
                                             <template v-else>
                                                 {{$dayjs().format('dddd')}}<br>
@@ -125,19 +125,17 @@
               result_data:[]   
             }
         },
-        computed: {
-
-        },
+        
         async created() {
             this.setParams()
             await this.getDataFilter()
         },
         methods: {
             setParams(){
-                this.condition = this.$route.params.cond != null ? this.$route.params.cond: null
-                this.keyword = this.$route.params.keyword != null ? this.$route.params.keyword : null
-                this.start_date = this.$route.params.start_date != null ? this.$route.params.start_date : null
-                this.end_date =  this.$route.params.end_date != null ? this.$route.params.end_date : null
+                this.condition = this.$route.params.cond != "" ? this.$route.params.cond: null
+                this.keyword = this.$route.params.keyword != "" ? this.$route.params.keyword : null
+                this.start_date = this.$route.params.start_date != "" ? this.$route.params.start_date : null
+                this.end_date =  this.$route.params.end_date != "" ? this.$route.params.end_date : null
             },
             searchData(){
                 this.getDataFilter()

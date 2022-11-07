@@ -28,6 +28,8 @@
                                                     <option value="">{{$t('condition_type')}}</option>
                                                     <option value="id">ID</option>
                                                     <option value="name">Name</option>
+                                                    <option value="device_id">Device ID</option>
+                                                    <option value="device_name">Device Name</option>
                                                 </select>
                                             </div>
                                             <div class="col-span-4 lg:col-span-2">
