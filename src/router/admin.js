@@ -79,6 +79,7 @@ let admin = [
     {
       path: '/view/aqi/result',
       component: AQIResult,
+      name:'aqi_result',
       meta: {
         middleware: auth,
         roles:['administrator','staff']
@@ -102,6 +103,7 @@ let admin = [
     },
     {
       path: '/view/smart_light/result',
+      name:'smart_light_result',
       component: SmartLightResult,
       meta: {
         middleware: auth,
@@ -118,6 +120,7 @@ let admin = [
     },
     {
       path: '/view/smart_pole/result',
+      name:'smart_pole_result',
       component: SmartPoleResult,
       meta: {
         middleware: auth,

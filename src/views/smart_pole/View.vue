@@ -9,29 +9,39 @@
                     <div class="block-content mb-5">
                         <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false" :opacity="0.1" class="rounded-lg"/>
 
-                        <h1 class="text-xl dark:text-white ml-10">{{$t('smart_pole')}}</h1>
-                        <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg dark:text-white">{{$t('search')}}</h3>
+                        <h1 class="text-xl dark:text-white ml-10">{{$t('smart_pole_energy')}}</h1>
+                        <div class="searachbox mt-5 mb-5 dark:bg-block-content-dark bg-block-env-light lg:p-10 p-3 rounded-md">
+                            <div class="flex">
+                                <h3 class="text-lg dark:text-white">{{$t('search')}}</h3>
+
+                                <div class="ml-auto">
+                                    <button class="btn-red">Report CSV</button>
+                                </div>
+                            </div>
                             <div class="grid grid-cols-12 form-search">
                                 <div class="lg:col-span-6 col-span-12">
                                     <div class="grid grid-cols-4 gap-3">
                                         <div class="lg:col-span-3 col-span-4">
                                             <div class="grid grid-cols-4 gap-2">
                                             <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
-                                                <select name="" id="" class="h-12 rounded text-sm w-full lg:ml-10">
+                                                <select v-model="condition" class="h-12 rounded text-sm w-full lg:ml-10">
                                                     <option value="">{{$t('condition_type')}}</option>
+                                                    <option value="id">ID</option>
+                                                    <option value="name">Name</option>
+                                                    <option value="device_id">Device ID</option>
+                                                    <option value="device_name">Device Name</option>
                                                 </select>
                                             </div>
                                             <div class="col-span-4 lg:col-span-2">
-                                                <input type="text" :placeholder="$t('id')+','+$t('name')" class="form-input w-full">
+                                                <input v-model="keyword" type="text" :placeholder="$t('id')+','+$t('name')" class="form-input w-full">
                                             </div>
                                             <div class="col-span-4 lg:col-span-2 lg:flex items-end lg:justify-end">
                                                 <label for="" class="dark:text-white mr-1 block lg:w-16">{{$t('from')}}</label>
-                                            <input type="date" placeholder="DD/MM/YYYY" class="form-input w-full">
+                                            <input v-model="start_date" type="date" placeholder="DD/MM/YYYY" class="form-input w-full">
                                             </div>
                                             <div class="col-span-4 lg:col-span-2 lg:flex items-end">
                                                 <label for="" class="dark:text-white mr-1 block lg:w-16">{{$t('to')}}</label>
-                                            <input type="date" placeholder="DD/MM/YYYY" class="form-input w-full">
+                                            <input v-model="end_date" type="date" placeholder="DD/MM/YYYY" class="form-input w-full">
                                             </div>
                                             </div>
                                         </div>
@@ -42,6 +52,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="grid grid-cols-12 gap-4 mb-5">
                             <div class="col-span-12 lg:col-span-3">
                                 <div class="block-layer data-layer py-2 px-3 mt-4 dark:bg-nav-dark bg-white">
@@ -143,11 +154,16 @@
                     abnormal: 0,
                 },
                 group_map_data:[],
-                isLoading:false
+                isLoading:false,
+                search:{
+                    condition:null,
+                    keyword:null,
+                    start_date:null,
+                    end_date:null
+                }
             }
         },
         async created() {
-            
             await this.getData()
             this.setStatus()
             this.setMapData()
@@ -199,7 +215,15 @@
                 this.group_map_data = this.list_data
             },
             searchData(){
-                this.$router.push('/view/smart_pole/result')
+                this.$router.push({
+                    name:'smart_pole_result',
+                    params:{
+                    cond:this.search.condition,
+                    keyword:this.search.keyword,
+                    start_date:this.search.start_date,
+                    end_date:this.search.end_date
+                    }
+                })
             }
         }
     }

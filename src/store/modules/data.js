@@ -37,6 +37,17 @@ export const data = {
                 return Promise.reject(err)
             })
         },
+        getFilter({rootState},data){
+            return axios.post(api_backend+'device/filter',data,{
+                headers:{
+                    Authorization:"Bearer "+rootState.auth.token.value
+                }
+            }).then((res)=>{
+                return Promise.resolve(res)
+            }).catch((err)=>{
+                return Promise.reject(err)
+            })
+        }
         
     },
     mutations: {

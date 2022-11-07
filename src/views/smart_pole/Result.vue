@@ -10,41 +10,50 @@
                         <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false"
                             :opacity="0.1" class="rounded-lg" />
 
-                        <h1 class="text-xl text-white ml-10">Smart Pole</h1>
-                        <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg text-white">Search</h3>
+                        <h1 class="text-xl text-white ml-10">{{$t('smart_pole_energy')}}</h1>
+                        <div class="searachbox mt-5 mb-5 dark:bg-block-content-dark bg-block-env-light lg:p-10 p-3 rounded-md">
+                            <div class="flex">
+                                <h3 class="text-lg dark:text-white">{{$t('search')}}</h3>
+
+                                <div class="ml-auto">
+                                    <button class="btn-red">Report CSV</button>
+                                </div>
+                            </div>
                             <div class="grid grid-cols-12 form-search">
                                 <div class="lg:col-span-6 col-span-12">
                                     <div class="grid grid-cols-4 gap-3">
                                         <div class="lg:col-span-3 col-span-4">
                                             <div class="grid grid-cols-4 gap-2">
-                                                <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
-                                                    <select name="" id="" class="h-12 rounded text-sm w-full">
-                                                        <option value="">Condition Type</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-span-4 lg:col-span-2">
-                                                    <input type="text" placeholder="ID.Name" class="form-input w-full">
-                                                </div>
-                                                <div class="col-span-4 lg:col-span-2 lg:flex items-end lg:justify-end">
-                                                    <label for="" class="text-white mr-1 block">From</label>
-                                                    <input type="text" placeholder="DD/MM/YYYY"
-                                                        class="form-input w-full">
-                                                </div>
-                                                <div class="col-span-4 lg:col-span-2 lg:flex items-end">
-                                                    <label for="" class="text-white mr-1 block">To</label>
-                                                    <input type="text" placeholder="DD/MM/YYYY"
-                                                        class="form-input w-full">
-                                                </div>
+                                            <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
+                                                <select v-model="condition" class="h-12 rounded text-sm w-full lg:ml-10">
+                                                    <option value="">{{$t('condition_type')}}</option>
+                                                    <option value="id">ID</option>
+                                                    <option value="name">Name</option>
+                                                    <option value="device_id">Device ID</option>
+                                                    <option value="device_name">Device Name</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-span-4 lg:col-span-2">
+                                                <input v-model="keyword" type="text" :placeholder="$t('id')+','+$t('name')" class="form-input w-full">
+                                            </div>
+                                            <div class="col-span-4 lg:col-span-2 lg:flex items-end lg:justify-end">
+                                                <label for="" class="dark:text-white mr-1 block lg:w-16">{{$t('from')}}</label>
+                                            <input v-model="start_date" type="date" placeholder="DD/MM/YYYY" class="form-input w-full">
+                                            </div>
+                                            <div class="col-span-4 lg:col-span-2 lg:flex items-end">
+                                                <label for="" class="dark:text-white mr-1 block lg:w-16">{{$t('to')}}</label>
+                                            <input v-model="end_date" type="date" placeholder="DD/MM/YYYY" class="form-input w-full">
+                                            </div>
                                             </div>
                                         </div>
-                                        <div class="col-span-4 lg:col-span-1">
-                                            <button class="btn-purple rounded w-full lg:w-auto">Search</button>
-                                        </div>
+                                       <div class="col-span-4 lg:col-span-1">
+                                        <button class="btn-purple rounded w-full lg:w-auto" @click="searchData">{{$t('search')}}</button>
+                                       </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
 
                         <div>
                             <table class="table-auto w-full result-table">
@@ -182,6 +191,7 @@
 <script>
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
+    import * as dayjs from 'dayjs'
 
     export default {
         components: {
@@ -190,19 +200,51 @@
         },
         data() {
             return {
-
+              condition:null,
+              keyword:null,
+              start_date:null,
+              end_date:null,
+              isLoading:false,
+              result_data:[]   
             }
         },
         computed: {
 
         },
         async created() {
-
+            this.setParams()
+            await this.getDataFilter()
         },
         methods: {
+            setParams(){
+                this.condition = this.$route.params.cond != null ? this.$route.params.cond: null
+                this.keyword = this.$route.params.keyword != null ? this.$route.params.keyword : null
+                this.start_date = this.$route.params.start_date != null ? this.$route.params.start_date : null
+                this.end_date =  this.$route.params.end_date != null ? this.$route.params.end_date : null
+            },
+            searchData(){
+                this.getDataFilter()
+            },
+            getDataFilter(){
+                var s_timestamp = this.start_date == null ? dayjs().startOf('day').valueOf(): dayjs(this.start_date).valueOf()
+                var e_timestamp = this.end_date == null ? dayjs().endOf('day').valueOf() : dayjs(this.end_date).valueOf()
 
-
-
+                var data = {
+                    widget:'smpole',
+                    filter:{
+                        cond:this.condition,
+                        keyword:this.keyword,
+                        start_date:s_timestamp,
+                        end_date:e_timestamp
+                    }
+                }
+                //this.isLoading = true
+                return this.$store.dispatch('data/getFilter',data).then((res)=>{
+                    //this.isLoading = false
+                    this.result_data = res.data
+                })
+            },
+            
         }
     }
 </script>
