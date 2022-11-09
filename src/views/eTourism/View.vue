@@ -66,7 +66,7 @@
     import FooterPage from '../layout/FooterPage.vue'
     import MapView from '../../components/MapViewTourism.vue'
     import _ from 'lodash'
-    import * as dayjs from 'dayjs'
+    import  dayjs from 'dayjs'
 
     export default {
         components: {

@@ -217,7 +217,7 @@
                 online: 0,
                 abnormal: 0,
                 offline: 0,
-                tab_view: 1
+                tab_view: 2
             }
         },
         computed: {
@@ -301,6 +301,8 @@
                 this.selected = []
                 this.allSelect = false
                 this.group_map_data = []
+                this.online = 0
+                this.offline = 0
             },
             setMapData() {
                 this.group_map_data = this.selected

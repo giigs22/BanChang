@@ -99,7 +99,7 @@
 <script>
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
-    import * as dayjs from 'dayjs'
+    import dayjs from 'dayjs'
 
     export default {
         components: {

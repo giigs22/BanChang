@@ -19,7 +19,7 @@
     </div>
 </template>
 <script>
-    import * as dayjs from 'dayjs'
+    import dayjs from 'dayjs'
     import ChartCCTV from '../ChartCCTV.vue'
     import _ from 'lodash'
 

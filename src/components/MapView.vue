@@ -60,7 +60,6 @@ export default {
     },
     watch:{
         datamap(n,o){
-            console.log(n,o);
            var n_data = _.cloneDeep(n)
            var g_data = Object.entries(n_data)
            if(g_data.length > 0){

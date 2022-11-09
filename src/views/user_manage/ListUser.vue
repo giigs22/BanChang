@@ -89,7 +89,7 @@
 <script>
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
-    import * as dayjs from 'dayjs'
+    import dayjs from 'dayjs'
     import AlertDialogConfirm from '../../components/utility/AlertDialogConfirm.vue'
     import AlertDialog from '../../components/utility/AlertDialog.vue'
     import Pagination from '../../components/utility/Pagination.vue'
