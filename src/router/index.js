@@ -38,7 +38,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next('/error/403')
     }
-    }
+  }
 
   if (to.meta.middleware) {
     const middleware = Array.isArray(to.meta.middleware) ?

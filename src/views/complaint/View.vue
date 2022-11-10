@@ -15,13 +15,13 @@
                             <div class="grid grid-cols-12 form-search">
                                 <div class="col-span-12 lg:col-span-10">
                                     <div class="grid grid-cols-12 gap-3">
-                                        <div class="col-span-12 lg:col-span-4 flex lg:justify-end">
+                                        <!-- <div class="col-span-12 lg:col-span-4 flex lg:justify-end">
                                             <select class="h-12 rounded text-sm w-full lg:w-2/3" disabled>
                                             <option value="">Condition Type</option>
                                         </select>
-                                        </div>
-                                        <div class="col-span-12 lg:col-span-4 flex lg:justify-end">
-                                            <input v-model="search.title" type="text" placeholder="Title" class="form-input w-full lg:w-2/3">
+                                        </div> -->
+                                        <div class="col-span-12 lg:col-span-8 flex lg:justify-end">
+                                            <input v-model="search.title" type="text" placeholder="Title" class="form-input w-full lg:ml-20">
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex flex-col lg:flex-row lg:items-end justify-end">
                                             <label for="" class="dark:text-white">Order by</label>
@@ -47,6 +47,7 @@
                                 </div>
                                 <div class="col-span-12 lg:col-span-2">
                                     <button class="h-12 btn-purple rounded my-3 lg:my-0 lg:ml-3 w-full lg:w-auto" @click="searchComp">Search</button>
+                                    <button class="h-12 btn-red rounded my-3 lg:my-0 lg:ml-3 w-full lg:w-auto" @click="resetfilter">Reset</button>
                                 </div>
                             </div>
                         </div>
@@ -66,7 +67,8 @@
                             <div v-else class="block-comp" v-for="item in list_comp" :key="item.id">
                                 <div class="grid grid-cols-12 gap-4">
                                     <div class="col-span-12 lg:col-span-2">
-                                        <img :src="item.img_cover" class="w-full lg:w-full"/>
+                                        <img :src="item.img_comp[0]" class="w-full lg:w-full" v-if="item.img_comp.length > 0"/>
+                                        <img src="@/assets/img_ex_complaint.png" class="w-full lg:w-full" v-else/>
                                     </div>
                                     <div class="col-span-12 lg:col-span-7">
                                         <div class="flex flex-col items-center justify-between lg:flex-row">
@@ -84,7 +86,16 @@
                                         </div>
                                         <p class="text-left my-2">{{item.detail}}</p>
                                        
-
+                                        <div class="bg-white-op6 py-3 px-4 rounded-md mb-5" v-if="item.img_comp.length > 0">
+                                            <h1 class="font-bold text-lg text-left mb-3">Picture</h1>
+                                    <div class="grid grid-cols-12 gap-3">
+                                        <div class="col-span-3" v-for="img in item.img_comp">
+                                            <img :src="img" alt="" class="h-32" @click="openImage(img)">
+                                        </div>
+                                       
+                                    </div>
+                                    
+                                </div>
                                     </div>
                                     <div class="col-span-3">
                                         <div class="flex lg:justify-end gap-2 my-3">
@@ -102,6 +113,7 @@
                                             <div><span class="font-bold">Date/Time</span> {{item.date_complaint}}</div>
                                             <div><span class="font-bold">Responsible Agency</span> {{item.respon_agen}}</div>
                                         </div>
+                                        
                             </div>
                             
                              
@@ -117,6 +129,7 @@
     <AlertDialogConfirm v-if="confirm.active" :type="confirm.type" :msg="confirm.msg" @submit="confirmDel"
         @close="closeConfirm" />
     <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"/>
+    <LightBoxImage :img_url="img_selected" v-if="lightbox" @close="closeLightbox"></LightBoxImage>
     <FooterPage />
 </template>
 <script>
@@ -126,6 +139,7 @@
     import AlertDialogConfirm from '../../components/utility/AlertDialogConfirm.vue'
     import Summary from './Summary.vue'
     import AlertDialog from '../../components/utility/AlertDialog.vue'
+    import LightBoxImage from '../../components/modals/LightBoxImage.vue'
 
     export default {
         components: {
@@ -134,7 +148,8 @@
             Pagination,
             AlertDialogConfirm,
             Summary,
-            AlertDialog
+            AlertDialog,
+            LightBoxImage
         },
         data() {
             return {
@@ -166,8 +181,9 @@
                     end_date:null,
                     order_by:null,
                     agency:null
-                }
-                
+                },
+                img_selected:null,
+                lightbox:false
             }
         },
         async created() {
@@ -192,10 +208,10 @@
                     this.count = data.count_all
                     this.list_comp = data.list_comp
                     this.stat = {
-                        electricity:data.stat.electricity,
-                        water:data.stat.water,
-                        etc:data.stat.etc,
-                        disturbance:data.stat.disturbance,
+                        electricity:data.stat.electricity?data.stat.electricity:0,
+                        water:data.stat.water?data.stat.water:0,
+                        etc:data.stat.etc?data.stat.etc:0,
+                        disturbance:data.stat.disturbance?data.stat.disturbance:0,
                     }
                     this.isLoading = false
                 })
@@ -250,6 +266,21 @@
                 this.alert.type = null
                 this.alert.msg = null
             },
+            openImage(val){
+                this.img_selected = val
+                this.lightbox = true
+            },
+            closeLightbox(){
+                this.lightbox = false
+            },
+            resetfilter(){
+                    this.search.title= null
+                    this.search.start_date= null
+                    this.search.end_date= null
+                    this.search.order_by= null
+                    this.search.agency= null
+                    this.getComplaintData()
+            }
             
         }
     }

@@ -9,7 +9,7 @@ export const complaint = {
     },
     actions: {
        listdata({rootState},data){
-            return axios.post(api_backend+'complaint/list',data,{
+            return axios.post(api_backend+'complaint/list/all',data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                   }

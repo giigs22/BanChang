@@ -140,11 +140,11 @@
                     option:'view'
 
                 }
-               this.isLoading =true
+               //this.isLoading =true
                 return this.$store.dispatch('data/getData',data).then((res)=>{
                     var data = res.data
                     this.list_data = data
-                    this.isLoading = false                    
+                    //this.isLoading = false                    
                 })
             },
             setStatus(){

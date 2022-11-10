@@ -7,7 +7,7 @@
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
             <transition name="alertbox">
                 <div
-                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 sm:align-middle z-50">
+                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 sm:align-middle max-w-lg w-full z-50">
                     <div class="px-2 py-2 bg-nav-dark text-white flex">
                         <svg class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -18,15 +18,17 @@
                             <polyline points="10 9 9 9 8 9" /></svg> <span
                             class="ml-3 text-xl">{{$t('Export Report CSV')}}</span>
                     </div>
-                    <div class="bg-white px-4 pt-5 pb-4 text-center">
+                    <div class="bg-white px-4 pt-5 pb-4">
                         <div class="flex gap-3">
                             <div>
+                                <label for="" class="font-bold">Sensor Data</label>
                                 <select v-model="sdata">
                                     <option value="">Select Data</option>
                                     <option :value="item.value" v-for="item in data">{{item.label}}</option>
                                 </select>
                             </div>
                             <div>
+                                <label for="" class="font-bold">Frequency</label>
                                 <select v-model="freq">
                                     <option value="">Select Frequency</option>
                                     <option value="daily">Daily</option>
@@ -35,13 +37,16 @@
                                     <option value="year">Year</option>
                                 </select>
                             </div>
+                        </div>
+                        <div class="my-5">
+                            <label for="">Filter</label>
                             <div v-if="freq == 'daily'">
                                 <input type="date" v-model="day">
                             </div>
-                            <div v-if="freq == 'week'">
+                            <div v-if="freq == 'week'" class="flex gap-3">
                                 <select v-model="week.year">
                                     <option value="">Year</option>
-                                    <option :value="item" v-for="item in 52">{{item}}</option>
+                                    <option :value="item" v-for="item in listyearWeek">{{item}}</option>
                                 </select>
                                 <select v-model="week.num">
                                     <option value="">Num</option>
@@ -58,7 +63,6 @@
                                 </select>
                             </div>
                         </div>
-
 
                     </div>
                     <div class="px-4 py-3 justify-end sm:px-6 sm:flex sm:flex-row">
@@ -92,13 +96,20 @@
                     num: ""
                 },
                 month: null,
-                year: null
+                year: null,
+                listyearWeek:null
             }
         },
         created() {
             this.setData()
-            this.listYearWeek();
         },
+        watch:{
+            freq(n,o){
+                if(n == 'week'){
+                    this.listYearWeek()
+                }
+            }
+        },  
         methods: {
             setData() {
                 if (this.widget == 'env') {
@@ -127,7 +138,20 @@
                 }
             },
             listYearWeek() {
-                var year = dayjs().year()
+                var this_year = dayjs().year()
+                var min_year = 2022
+                var list_year
+                if(this_year == min_year){
+                    list_year = ['2022']
+                }else{
+                    var rang_year = this_year - min_year
+
+                    for (let index = 0; index < rang_year; index++) {
+                        var y = min_year+1
+                        list_year.push(y)
+                    }
+                }
+                this.listyearWeek = list_year
                
             },
             close() {
