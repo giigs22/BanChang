@@ -176,6 +176,17 @@
     "device_detail":"รายละเอียดหมวดหมู่",
     "list_device":"รายการอุปกรณ์",
     "sensor":"Sensor",
-    "group_pole":"ตำแหน่งเสาอัจฉริยะ"
+    "group_pole":"ตำแหน่งเสาอัจฉริยะ",
+    "send_picture":"ส่งรูปภาพ",
+    "disturbance":"การรบกวน",
+    "electricity":"ไฟฟ้า",
+    "water":"น้ำ",
+    "etc":"อื่นๆ",
+    "delete":"ลบ",
+    "reply":"ตอบกลับ",
+    "by":"แจ้งโดย",
+    "submit":"ตกลง",
+    "type_something":"พิมพ์ข้อความ",
+    "please_insert_text_reply":"กรุณาใส่ข้อความเพื่อตอบกลับ"
 
 }

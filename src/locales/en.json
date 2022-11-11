@@ -176,5 +176,16 @@
     "device_detail":"Device Detail",
     "list_device":"List Device",
     "sensor":"Sensor",
-    "group_pole":"Group Pole"
+    "group_pole":"Group Pole",
+    "send_picture":"Send Picture",
+    "disturbance":"Disturbance",
+    "electricity":"Electricity",
+    "water":"Water",
+    "etc":"Etc",
+    "delete":"Delete",
+    "reply":"Reply",
+    "by":"By",
+    "submit":"Submit",
+    "type_something":"Type Something",
+    "please_insert_text_reply":"Please insert text for reply"
 }

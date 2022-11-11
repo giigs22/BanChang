@@ -202,7 +202,7 @@
                         agency:this.search.agency
                     }
                 }
-                this.isLoading = true
+               // this.isLoading = true
                 return this.$store.dispatch('complaint/listdata',data).then((res)=>{
                     var data = res.data
                     this.count = data.count_all
@@ -213,7 +213,7 @@
                         etc:data.stat.etc?data.stat.etc:0,
                         disturbance:data.stat.disturbance?data.stat.disturbance:0,
                     }
-                    this.isLoading = false
+                    //this.isLoading = false
                 })
             },
             updateData(start){
