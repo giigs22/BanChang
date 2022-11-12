@@ -113,7 +113,18 @@
                                             <div><span class="font-bold">Date/Time</span> {{item.date_complaint}}</div>
                                             <div><span class="font-bold">Responsible Agency</span> {{item.respon_agen}}</div>
                                         </div>
-                                        
+                                        <div>
+                                    <h1 class="font-bold text-lg text-left mb-5">{{$t('reply')}}</h1>
+                                </div>
+                                <div class="mx-10 p-5 text-left bg-block-content-dark rounded-md mb-5"
+                                    v-for="item_re in item.reply">
+                                    {{item_re.text_reply}}
+                                    <div class="mt-10 text-sm flex flex-col text-left lg:flex-row gap-2 lg:gap-5">
+                                        <div><span class="font-bold">{{$t('by')}}</span> {{item_re.user.name}}</div>
+                                        <div><span class="font-bold">{{$t('date_time')}}</span> {{item_re.created_at}}
+                                        </div>
+                                    </div>
+                                </div>      
                             </div>
                             
                              
