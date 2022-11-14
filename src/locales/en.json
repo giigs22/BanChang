@@ -187,5 +187,6 @@
     "by":"By",
     "submit":"Submit",
     "type_something":"Type Something",
-    "please_insert_text_reply":"Please insert text for reply"
+    "please_insert_text_reply":"Please insert text for reply",
+    "export_csv":"Export CSV"
 }

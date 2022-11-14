@@ -100,7 +100,7 @@
                                     <div class="col-span-3">
                                         <div class="flex lg:justify-end gap-2 my-3">
                                             <button
-                                                class="bg-blue-900 px-3 py-2 rounded-md text-red-400">Pending</button>
+                                                class="px-3 py-2 rounded-md text-white btn-blue-gradient">{{$t(item.status)}}</button>
                                             <a class=" bg-cyan-400 px-3 py-2 rounded-md dark:text-black text-white" :href="'complaint/reply/'+item.id">Reply</a>
                                             <button class="bg-red-600 px-3 py-2 rounded-md text-white"  @click="delcomp(item.id)">Delete</button>
                                         </div>
@@ -149,7 +149,6 @@
     import Pagination from '../../components/utility/Pagination.vue'
     import AlertDialogConfirm from '../../components/utility/AlertDialogConfirm.vue'
     import Summary from './Summary.vue'
-    import AlertDialog from '../../components/utility/AlertDialog.vue'
     import LightBoxImage from '../../components/modals/LightBoxImage.vue'
 
     export default {
@@ -159,7 +158,6 @@
             Pagination,
             AlertDialogConfirm,
             Summary,
-            AlertDialog,
             LightBoxImage
         },
         data() {
@@ -213,8 +211,9 @@
                         agency:this.search.agency
                     }
                 }
-               // this.isLoading = true
-                return this.$store.dispatch('complaint/listdata',data).then((res)=>{
+                var type = 'all'
+                this.isLoading = true
+                return this.$store.dispatch('complaint/listdata',{data,type}).then((res)=>{
                     var data = res.data
                     this.count = data.count_all
                     this.list_comp = data.list_comp
@@ -224,7 +223,19 @@
                         etc:data.stat.etc?data.stat.etc:0,
                         disturbance:data.stat.disturbance?data.stat.disturbance:0,
                     }
-                    //this.isLoading = false
+                    this.isLoading = false
+                }).catch((err)=>{
+                    var err_data = err.response
+                    if(err_data.status === 401){
+                        this.alert.active = true
+                        this.alert.type = 'error'
+                        this.alert.msg = err_data.data.message
+
+                        setTimeout(() => {
+                            this.closeAlert()
+                            this.$store.dispatch('auth/logout');
+                        }, 2000);
+                    }
                 })
             },
             updateData(start){
@@ -235,7 +246,7 @@
                 this.getComplaintData()
             },
             confirmDel(){
-                this.$store.dispatch('complaint/compDistroy',this.del_id).then((res)=>{
+                this.$store.dispatch('complaint/compDestroy',this.del_id).then((res)=>{
                     var data = res.data
                     if (data.success) {
                         this.alert.active = true
@@ -257,6 +268,18 @@
                         this.loading=false
                        
                     }, 2000);
+                    }
+                }).catch((err)=>{
+                    var err_data = err.response
+                    if(err_data.status === 401){
+                        this.alert.active = true
+                        this.alert.type = 'error'
+                        this.alert.msg = err_data.data.message
+
+                        setTimeout(() => {
+                            this.closeAlert()
+                            this.$store.dispatch('auth/logout');
+                        }, 2000);
                     }
                 })
             },

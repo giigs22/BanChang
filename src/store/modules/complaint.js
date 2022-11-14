@@ -9,7 +9,7 @@ export const complaint = {
     },
     actions: {
        listdata({rootState},data){
-            return axios.post(api_backend+'complaint/list/all',data,{
+            return axios.post(api_backend+'complaint/list/'+data.type,data.data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                   }
@@ -19,7 +19,7 @@ export const complaint = {
                 return Promise.reject(err)
             })
        },
-       compDistroy({rootState},data){
+       compDestroy({rootState},data){
             return axios.delete(api_backend+'complaint/destroy/'+data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value

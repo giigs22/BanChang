@@ -109,7 +109,12 @@
                     offline: 0
                 },
                 group_map_data:[],
-                isLoading:false
+                isLoading:false,
+                alert: {
+                    active: false,
+                    type: null,
+                    msg: null
+                },
             }
         },
         computed: {
@@ -120,13 +125,11 @@
         async created() {
             
             await this.getData()
-            this.setStatus()
             this.calPercent()
             this.setMapData()
 
             setInterval(async() => {
                 await this.getData()
-                this.setStatus()
                 this.calPercent()
                 this.setMapData()
             }, this.$interval_time);
@@ -140,11 +143,24 @@
                     option:'view'
 
                 }
-               //this.isLoading =true
+               this.isLoading =true
                 return this.$store.dispatch('data/getData',data).then((res)=>{
                     var data = res.data
                     this.list_data = data
-                    //this.isLoading = false                    
+                    this.setStatus()
+                    this.isLoading = false                    
+                }).catch((err)=>{
+                    var err_data = err.response
+                    if(err_data.status === 401){
+                        this.alert.active = true
+                        this.alert.type = 'error'
+                        this.alert.msg = err_data.data.message
+
+                        setTimeout(() => {
+                            this.closeAlert()
+                            this.$store.dispatch('auth/logout');
+                        }, 2000);
+                    }
                 })
             },
             setStatus(){
@@ -169,8 +185,12 @@
             },
             setMapData(){
                 this.group_map_data = this.list_data
+            },
+            closeAlert() {
+                this.alert.active = false
+                this.alert.type = null
+                this.alert.msg = null
             }
-
         }
     }
 </script>

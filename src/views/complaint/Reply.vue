@@ -28,9 +28,9 @@
                                     </div>
                                     <div class="col-span-3">
                                         <div class="flex lg:justify-end gap-2 my-3">
-                                            <button
-                                                class="btn-blue-gradient px-3 py-2 rounded-md text-white font-bold">{{$t(comp_data.status)}}</button>
-                                            <button
+                                            <div class="btn-blue-gradient px-3 py-2 rounded-md text-white font-bold">
+                                                {{$t(comp_data.status)}}</div>
+                                            <button @click="delcomp(comp_data.id)"
                                                 class="bg-red-600 px-3 py-2 rounded-md font-bold">{{$t('delete')}}</button>
                                         </div>
 
@@ -69,11 +69,24 @@
                             <div class="block-comp">
                                 <div class="bg-cyan-400 px-3 py-2 rounded-md text-black font-bold w-32">>{{$t('reply')}}
                                 </div>
+                                
                                 <textarea v-model="text_reply" rows="5" :class="error.active?'border border-red-600':''"
                                     class="my-3 dark:bg-gray-400 dark:text-white bg-wether-light rounded-xl placeholder:text-white"
                                     :placeholder="$t('type_something')"></textarea>
                                 <div v-if="error.active" class="text-red-600">{{$t(error.msg)}}</div>
                                 <div class="flex justify-end gap-2 my-2">
+                                    <div class="text-black">
+                                    <select v-model="status">
+                                        <option value="">Update Status</option>
+                                        <option value="Report sent">Report sent (open)</option>
+                                        <option value="Report retrived">Report retrieved (open)</option>
+                                        <option value="Report forward">Report is forwarded to Authority/Department in
+                                            charge (open)</option>
+                                        <option value="Report closed">Report closed (issues solved) (closed) </option>
+                                        <option value="Report cancelled">Report cancelled (closed)</option>
+
+                                    </select>
+                                </div>
                                     <button class="bg-cyan-400 px-3 py-2 rounded-md text-black font-bold w-32"
                                         @click="submit">{{$t('submit')}}</button>
                                     <button class="bg-red-600 px-3 py-2 rounded-md font-bold w-32"
@@ -89,6 +102,8 @@
     </main>
     <LightBoxImage :img_url="img_selected" v-if="lightbox" @close="closeLightbox"></LightBoxImage>
     <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"></AlertDialog>
+    <AlertDialogConfirm v-if="confirm.active" :type="confirm.type" :msg="confirm.msg" @submit="confirmDel"
+        @close="closeConfirm" />
     <FooterPage />
 </template>
 <script>
@@ -96,13 +111,14 @@
     import FooterPage from '../layout/FooterPage.vue'
     import LightBoxImage from '../../components/modals/LightBoxImage.vue'
     import AlertDialog from '../../components/utility/AlertDialog.vue'
+    import AlertDialogConfirm from '../../components/utility/AlertDialogConfirm.vue'
 
     export default {
         components: {
             TopMenu,
             FooterPage,
             LightBoxImage,
-            AlertDialog
+            AlertDialogConfirm
         },
         data() {
             return {
@@ -110,6 +126,7 @@
                 img_selected: null,
                 lightbox: false,
                 text_reply: null,
+                status: "",
                 error: {
                     active: false,
                     msg: null
@@ -118,7 +135,13 @@
                     active: false,
                     type: null,
                     msg: null
-                }
+                },
+                confirm: {
+                    active: false,
+                    type: null,
+                    msg: null
+                },
+                del_id: null,
             }
         },
         async created() {
@@ -130,6 +153,18 @@
                 return this.$store.dispatch('complaint/getcompID', data).then((res) => {
                     var data = res.data
                     this.comp_data = data
+                }).catch((err)=>{
+                    var err_data = err.response
+                    if(err_data.status === 401){
+                        this.alert.active = true
+                        this.alert.type = 'error'
+                        this.alert.msg = err_data.data.message
+
+                        setTimeout(() => {
+                            this.closeAlert()
+                            this.$store.dispatch('auth/logout');
+                        }, 2000);
+                    }
                 })
             },
             openImage(val) {
@@ -148,7 +183,8 @@
                     this.error.msg = null
                     var data = {
                         comp_id: this.$route.params.id,
-                        text_reply: this.text_reply
+                        text_reply: this.text_reply,
+                        status:this.status
                     }
                     this.$store.dispatch('complaint/Reply', data).then((res) => {
                         var success = res.data.success
@@ -159,10 +195,21 @@
 
                             setTimeout(() => {
                                 this.closeAlert()
+                                window.location.reload()
                             }, 2000);
                         }
                     }).catch((err) => {
-                        console.error(err);
+                        var err_data = err.response
+                    if(err_data.status === 401){
+                        this.alert.active = true
+                        this.alert.type = 'error'
+                        this.alert.msg = err_data.data.message
+
+                        setTimeout(() => {
+                            this.closeAlert()
+                            this.$store.dispatch('auth/logout');
+                        }, 2000);
+                    }
                     })
                 }
 
@@ -174,7 +221,39 @@
                 this.alert.active = false
                 this.alert.type = null
                 this.alert.msg = null
-            }
+            },
+            delcomp(id) {
+                this.del_id = id
+                this.confirm.active = true
+                this.confirm.type = 'confirmdel'
+                this.confirm.msg = 'Are you sure to Delete this Record?'
+            },
+            confirmDel() {
+                this.$store.dispatch('complaint/compDestroy', this.del_id).then((res) => {
+                    var data = res.data
+                    if (data.success) {
+                        this.alert.active = true
+                        this.alert.type = "del_success"
+                        this.alert.msg = data.message
+                        this.loading = false
+                        this.closeConfirm()
+                        setTimeout(() => {
+                            this.closeAlert()
+                            this.getComplaintData()
+                        }, 2000);
+                    } else {
+                        this.alert.active = true
+                        this.alert.type = "error"
+                        this.alert.msg = data.message
+                        setTimeout(() => {
+                            this.closeAlert()
+                            this.closeConfirm()
+                            this.loading = false
+
+                        }, 2000);
+                    }
+                })
+            },
         }
     }
 </script>

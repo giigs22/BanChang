@@ -9,10 +9,11 @@ import VueAxios from 'vue-axios'
 import './assets/style.css'
 import './assets/style_th.css'
 import './assets/responsive.css'
-import VueLoading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
+import VueLoading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
 import VueVideoPlayer from '@videojs-player/vue'
 import 'video.js/dist/video-js.css'
+import AlertDialog from './components/utility/AlertDialog.vue'
 
 const app = createApp({
     extends:App,
@@ -32,6 +33,7 @@ app.use(store)
 app.use(VueAxios, axios)
 app.use(VueVideoPlayer)
 app.component('Loading',VueLoading)
+app.component('AlertDialog',AlertDialog)
 
 app.config.globalProperties.$api_backend = import.meta.env.VITE_API_SERVER
 app.config.globalProperties.$etourism_service_backend = import.meta.env.ETOURISM_SERVICE

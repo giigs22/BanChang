@@ -187,6 +187,7 @@
     "by":"แจ้งโดย",
     "submit":"ตกลง",
     "type_something":"พิมพ์ข้อความ",
-    "please_insert_text_reply":"กรุณาใส่ข้อความเพื่อตอบกลับ"
+    "please_insert_text_reply":"กรุณาใส่ข้อความเพื่อตอบกลับ",
+    "export_csv":"ส่งออกข้อมูล CSV"
 
 }

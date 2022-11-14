@@ -38,39 +38,46 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="my-5">
-                            <label for="">Filter</label>
+                        <div class="my-5" v-if="freq !==null">
+                            <label for="" class="font-bold">Filter</label>
                             <div v-if="freq == 'daily'">
                                 <input type="date" v-model="day">
                             </div>
                             <div v-if="freq == 'week'" class="flex gap-3">
                                 <select v-model="week.year">
                                     <option value="">Year</option>
-                                    <option :value="item" v-for="item in listyearWeek">{{item}}</option>
+                                    <option :value="item" v-for="item in listyear">{{item}}</option>
                                 </select>
                                 <select v-model="week.num">
-                                    <option value="">Num</option>
+                                    <option value="">Week</option>
+                                    <option :value="num" v-for="num in 52">{{num}}</option>
+
                                 </select>
                             </div>
-                            <div v-if="freq == 'month'">
-                                <select v-model="month">
+                            <div v-if="freq == 'month'" class="flex gap-3">
+                                <select v-model="month.year">
+                                    <option value="">Year</option>
+                                    <option :value="item" v-for="item in listyear">{{item}}</option>
+                                </select>
+                                <select v-model="month.month">
                                     <option value="">Month</option>
                                 </select>
                             </div>
                             <div v-if="freq == 'year'">
                                 <select v-model="year">
                                     <option value="">Year</option>
+                                    <option :value="item" v-for="item in listyear">{{item}}</option>
                                 </select>
                             </div>
                         </div>
 
                     </div>
                     <div class="px-4 py-3 justify-end sm:px-6 sm:flex sm:flex-row">
-                        <button @click="submit()" type="button"
+                        <button @click="submit" type="button"
                             class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-600 text-white font-medium hover:bg-blue-600 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                             {{$t('export_csv')}}
                         </button>
-                        <button @click="close()" type="button"
+                        <button @click="close" type="button"
                             class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-gray-700 font-medium focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                             {{$t('close')}}
                         </button>
@@ -95,21 +102,18 @@
                     year: "",
                     num: ""
                 },
-                month: null,
+                month: {
+                    year:"",
+                    month:""
+                },
                 year: null,
-                listyearWeek:null
+                listyear:null,
             }
         },
         created() {
             this.setData()
+            this.listYear()
         },
-        watch:{
-            freq(n,o){
-                if(n == 'week'){
-                    this.listYearWeek()
-                }
-            }
-        },  
         methods: {
             setData() {
                 if (this.widget == 'env') {
@@ -137,7 +141,7 @@
                     }]
                 }
             },
-            listYearWeek() {
+            listYear() {
                 var this_year = dayjs().year()
                 var min_year = 2022
                 var list_year
@@ -151,8 +155,30 @@
                         list_year.push(y)
                     }
                 }
-                this.listyearWeek = list_year
+                this.listyear = list_year
                
+            },
+            submit(){
+                var option
+                if(this.freq == 'daily'){
+                    option = this.day
+                }else if(this.freq == 'week'){
+                    option = this.week
+                }else if(this.freq == 'month'){
+                    option = this.month
+                }else if(this.freq == 'year'){
+                    option = this.year
+                }
+
+                var data = {
+                    widget:this.widget,
+                    data:this.sdata,
+                    freq:this.freq,
+                    option:option
+                }
+                this.$store.dispatch('data/ExportCSV',data).then((res)=>{
+                    console.log(res)
+                })
             },
             close() {
                 this.$emit('close')
