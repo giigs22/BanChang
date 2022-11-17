@@ -37,6 +37,7 @@ import eTourism from '../views/eTourism/View.vue'
 import eTourismResult from '../views/eTourism/Result.vue'
 import Topic from '../views/complaint/Topic.vue'
 import CreateTopic from '../views/complaint/CreateTopic.vue'
+import EditTopic from '../views/complaint/EditTopic.vue'
 
 let admin = [
   {
@@ -50,6 +51,14 @@ let admin = [
   {
     path:'/complaint_topic/create',
     component:CreateTopic,
+    meta:{
+      middleware:auth,
+      roles:['administrator','staff']
+    }
+  },
+  {
+    path:'/complaint_topic/edit/:id',
+    component:EditTopic,
     meta:{
       middleware:auth,
       roles:['administrator','staff']

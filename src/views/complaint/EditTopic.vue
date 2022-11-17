@@ -8,9 +8,9 @@
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <loading v-model:active="loading" />
-                        <h1 class="text-xl dark:text-white ml-10">{{$t('add_complaint_topic')}}</h1>
+                        <h1 class="text-xl dark:text-white ml-10">{{$t('update_complaint_topic')}}</h1>
                         <div class="form-register mt-5 mb-5">
-                            <Form @submit="addComplaintTopic" :validation-schema="schema">
+                            <Form @submit="updateComplaintTopic" :validation-schema="schema">
                                 <div class="grid grid-cols-6 text-sm lg:gap-40">
                                     <div class="col-span-full lg:col-span-3">
 
@@ -33,7 +33,7 @@
                                             <ErrorMessage name="topic_th" class="text-xs text-red-300" />
                                         </div>
                                         <div class="my-3">
-                                            <Field name="complaint_type" v-slot="{field}"  v-model="complaint_type">
+                                            <Field name="complaint_type" v-slot="{field}" v-model="complaint_type">
                                                 <label class="dark:text-white">{{$t('type')}}</label>
                                                 <input v-bind="field"
                                                     class="form-input w-full placeholder:text-gray-400 disabled:opacity-70"
@@ -41,7 +41,6 @@
                                             </Field>
                                             <ErrorMessage name="complaint_type" class="text-xs text-red-300" />
                                         </div>
-                                        
                                         <div class="my-3">
                                              <label class="text-white">{{$t('target_role')}}</label>
                                             <Field name="target_role" as="select" v-model="target_role" class="form-select w-full" :disabled="loading">
@@ -51,11 +50,13 @@
                                             </Field>
                                             <ErrorMessage name="target_role" class="text-xs text-red-300" />
                                         </div>
+
                                     </div>
+                                    
                                 </div>
                                 <div class="flex gap-3 justify-end mt-10">
                                     <button type="submit"
-                                        class="px-5 py-2 rounded-md text-white btn-blue-gradient">{{$t('save_topic')}}</button>
+                                        class="px-5 py-2 rounded-md text-white btn-blue-gradient">{{$t('update')}}</button>
                                     <button type="reset"
                                         class="px-5 py-2 rounded-md text-white btn-red-gradient">{{$t('reset')}}</button>
                                 </div>
@@ -94,7 +95,7 @@
                 topic_en: yup.string().required('Please Insert Data'),
                 topic_th: yup.string().required('Please Insert Data'),
                 complaint_type: yup.string().required('Please Insert Data'),
-                target_role: yup.string().required('Please Select Data')
+                target_role:yup.string().required('Please Insert Data')
             })
             return {
                 schema,
@@ -109,21 +110,36 @@
                     msg: null
                 },
                 list_role:[]
+
             }
         },
         created(){
+            this.getTopic()
             this.getRole()
         },
         methods: { 
-            addComplaintTopic() {
+            getTopic(){
+                var id = this.$route.params.id;
+                this.$store.dispatch('complaint/getTopicID',id).then((res)=>{
+                    var data = res.data
+                    this.topic_en = data.en
+                    this.topic_th = data.th
+                    this.complaint_type = data.complaintType
+                    this.target_role = data.targetRole
+                }).catch((err)=>{
+                    UserService.checkUnauthen(err.response)
+                })
+            },
+            updateComplaintTopic() {
                 var data = {
+                   id:this.$route.params.id,
                    topic_en:this.topic_en,
                    topic_th:this.topic_th,
                    complaint_type:this.complaint_type,
                    target_role:this.target_role
                 }
                 this.loading = true
-                this.$store.dispatch('complaint/addTopic', data).then((res) => {
+                this.$store.dispatch('complaint/updateTopic', data).then((res) => {
                     var data = res.data
                     if (data.success) {
                         this.alert.active = true

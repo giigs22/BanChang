@@ -188,5 +188,15 @@
     "submit":"Submit",
     "type_something":"Type Something",
     "please_insert_text_reply":"Please insert text for reply",
-    "export_csv":"Export CSV"
+    "export_csv":"Export CSV",
+    "en":"EN",
+    "th":"TH",
+    "type":"Type",
+    "target_role":"Target Role",
+    "complaint_topic":"Complaint Topic",
+    "all_complaint_topic":"All Complaint Topic",
+    "create":"Create",
+    "save_topic":"Save",
+    "add_complaint_topic":"Add Complaint Topic",
+    "update_complaint_topic":"Update Complaint Topic"
 }

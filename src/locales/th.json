@@ -188,6 +188,10 @@
     "submit":"ตกลง",
     "type_something":"พิมพ์ข้อความ",
     "please_insert_text_reply":"กรุณาใส่ข้อความเพื่อตอบกลับ",
-    "export_csv":"ส่งออกข้อมูล CSV"
-
+    "export_csv":"ส่งออกข้อมูล CSV",
+    "en":"อังกฤษ",
+    "th":"ไทย",
+    "type":"ประเภท",
+    "create":"เพิ่มรายการ",
+    "save_topic":"บันทึกข้อมูล"
 }
