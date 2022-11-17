@@ -21,14 +21,14 @@
                     <div class="bg-white px-4 pt-5 pb-4">
                         <div class="flex gap-3">
                             <div>
-                                <label for="" class="font-bold">Sensor Data</label>
+                                <label for="" class="font-bold block">Sensor Data</label>
                                 <select v-model="sdata">
                                     <option value="">Select Data</option>
                                     <option :value="item.value" v-for="item in data">{{item.label}}</option>
                                 </select>
                             </div>
-                            <div>
-                                <label for="" class="font-bold">Frequency</label>
+                            <div v-if="sdata != ''">
+                                <label for="" class="font-bold block">Frequency</label>
                                 <select v-model="freq">
                                     <option value="">Select Frequency</option>
                                     <option value="daily">Daily</option>
@@ -39,7 +39,7 @@
                             </div>
                         </div>
                         <div class="my-5" v-if="freq !==null">
-                            <label for="" class="font-bold">Filter</label>
+                            <label for="" class="font-bold block">Filter</label>
                             <div v-if="freq == 'daily'">
                                 <input type="date" v-model="day">
                             </div>
@@ -73,8 +73,9 @@
 
                     </div>
                     <div class="px-4 py-3 justify-end sm:px-6 sm:flex sm:flex-row">
-                        <button @click="submit" type="button"
-                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-600 text-white font-medium hover:bg-blue-600 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        <div class="text-red-600 text-sm" v-if="error.active">Error:{{error.msg}}</div>
+                        <button @click="submit" type="button" :disabled="btn_export"
+                            class="disabled:opacity-50 mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-600 text-white font-medium hover:bg-blue-600 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                             {{$t('export_csv')}}
                         </button>
                         <button @click="close" type="button"
@@ -88,7 +89,7 @@
     </div>
 </template>
 <script>
-    import dayjs from 'dayjs'
+import dayjs from 'dayjs'
 
     export default {
         props: ['widget'],
@@ -108,11 +109,23 @@
                 },
                 year: null,
                 listyear:null,
+                error:{
+                    active:false,
+                    msg:null
+                },
+                btn_export:true
             }
         },
         created() {
             this.setData()
             this.listYear()
+        },
+        watch:{
+            freq(n,o){
+                if(n !== null || n !== ""){
+                    this.btn_export = false
+                }
+            }
         },
         methods: {
             setData() {
@@ -160,25 +173,53 @@
             },
             submit(){
                 var option
+                var getdata
                 if(this.freq == 'daily'){
-                    option = this.day
+                    if(this.day == null){
+                        getdata = false
+                    }else{
+                        getdata = true
+                        option = this.day
+                    }
                 }else if(this.freq == 'week'){
-                    option = this.week
+                    if(this.week.year == "" || this.week.num == ""){
+                        getdata = false
+                    }else{
+                        getdata = true
+                        option = this.week
+                    }
                 }else if(this.freq == 'month'){
-                    option = this.month
+                    if(this.month.year == "" || this.month.num == ""){
+                        getdata = false
+                    }else{
+                        getdata = true
+                        option = this.month
+                    }
                 }else if(this.freq == 'year'){
-                    option = this.year
+                    if(this.year == null){
+                        getdata = false
+                    }else{
+                        getdata = true
+                        option = this.year
+                    }
                 }
 
-                var data = {
-                    widget:this.widget,
-                    data:this.sdata,
-                    freq:this.freq,
-                    option:option
+                if(getdata){
+                    this.error.active = false
+                    this.error.msg = null
+                // var data = {
+                //     widget:this.widget,
+                //     data:this.sdata,
+                //     freq:this.freq,
+                //     option:option
+                // }
+                // this.$store.dispatch('data/ExportCSV',data).then((res)=>{
+                //     console.log(res)
+                // })
+                }else{
+                    this.error.active = true
+                    this.error.msg = 'Please select Filter Data'
                 }
-                this.$store.dispatch('data/ExportCSV',data).then((res)=>{
-                    console.log(res)
-                })
             },
             close() {
                 this.$emit('close')

@@ -33,9 +33,42 @@ import DeviceList from '../views/manage_widget/DeviceList.vue'
 import DeviceCreate from '../views/manage_widget/CreateDevice.vue'
 import DeviceEdit from '../views/manage_widget/EditDevice.vue'
 import DeviceDetail from '../views/manage_widget/DeviceDetail.vue'
+import eTourism from '../views/eTourism/View.vue'
+import eTourismResult from '../views/eTourism/Result.vue'
+import Topic from '../views/complaint/Topic.vue'
+import CreateTopic from '../views/complaint/CreateTopic.vue'
 
 let admin = [
- 
+  {
+    path:'/complaint_topic',
+    component:Topic,
+    meta:{
+      middleware:auth,
+      roles:['administrator','staff']
+    }
+  },
+  {
+    path:'/complaint_topic/create',
+    component:CreateTopic,
+    meta:{
+      middleware:auth,
+      roles:['administrator','staff']
+    }
+  },
+  {
+    path: '/view/etourism',
+    component: eTourism,
+    meta: {
+      middleware: auth
+    }
+  },
+  {
+    path: '/view/etourism/result',
+    component: eTourismResult,
+    meta: {
+      middleware: auth
+    }
+  },
     {
       path: '/user/register',
       component: UserRegister,

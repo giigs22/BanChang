@@ -6,8 +6,8 @@ import ForgetPass from '../views/ForgetPassword.vue'
 import ChangePass from '../views/ChangePassword.vue'
 import Page403 from '../views/errors/403.vue'
 import EditProfile from '../views/user_manage/EditProfile.vue'
-import eTourism from '../views/eTourism/View.vue'
-import eTourismResult from '../views/eTourism/Result.vue'
+import TestRtsp from '../views/TestRtsp.vue'
+
 let route_default =[
     {
     path: '/',
@@ -46,18 +46,8 @@ let route_default =[
     component:Page403,
   },
   {
-    path: '/view/etourism',
-    component: eTourism,
-    meta: {
-      middleware: auth
-    }
-  },
-  {
-    path: '/view/etourism/result',
-    component: eTourismResult,
-    meta: {
-      middleware: auth
-    }
-  },
+    path:'/test_rtsp',
+    component:TestRtsp
+  }
 ]
 export default route_default;

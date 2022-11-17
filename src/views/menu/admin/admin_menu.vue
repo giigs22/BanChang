@@ -22,7 +22,6 @@
                                     href="/view/freewifi">{{$t('freewifi')}}</a>
                                 <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
                                     href="/view/digital_signage">{{$t('digital_signage')}}</a>
-
                             </div>
                         </li>
                         <li>
@@ -35,13 +34,18 @@
                                 {{$t('sos')}}</a>
                         </li>
                         <li>
-                            <a href="/complaint" class="nav-menu"><svg xmlns="http://www.w3.org/2000/svg"
+                            <a href="/complaint" class="peer nav-menu"><svg xmlns="http://www.w3.org/2000/svg"
                                     class="w-5 h-5" viewBox="0 0 27.167 24.342">
                                     <path id="Path_1659" data-name="Path 1659"
                                         d="M107.761,278.276h20.4a3.386,3.386,0,0,1,3.386,3.386v11.979a3.386,3.386,0,0,1-3.386,3.386h-10.2v5.592l-7.516-5.592h-2.681a3.386,3.386,0,0,1-3.386-3.386V281.662A3.386,3.386,0,0,1,107.761,278.276Z"
                                         transform="translate(-104.375 -278.276)" fill="" />
                                 </svg>
                                 {{$t('complaint')}}</a>
+                                <div
+                                class="hidden peer-hover:flex hover:flex flex-col bg-blue-400 drop-shadow-lg absolute z-50">
+                                <a class="px-5 py-2 text-white border-b border-dashed hover:bg-blue-500"
+                                    href="/complaint_topic">{{$t('complaint_topic')}}</a>
+                            </div>
                         </li>
                         <li>
                             <a href="/maintenance" class="nav-menu"><svg xmlns="http://www.w3.org/2000/svg"
