@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="lg:ml-52 my-5 text-sm flex flex-col text-left lg:flex-row gap-2 lg:gap-5">
                                             <div><span class="font-bold">By</span> {{item.name_complaint}}</div>
-                                            <div><span class="font-bold">Location</span> {{item.location}}</div>
+                                            <div><span class="font-bold">Location</span> {{setLocation(item.location)}}</div>
                                             <div><span class="font-bold">Date/Time</span> {{item.date_complaint}}</div>
                                             <div><span class="font-bold">Responsible Agency</span> {{item.respon_agen}}</div>
                                         </div>
@@ -314,6 +314,15 @@
                     this.search.order_by= null
                     this.search.agency= null
                     this.getComplaintData()
+            },
+            setLocation(data){
+                var location = JSON.parse(data)
+                var long = parseFloat(location.longitude)
+                var lat = parseFloat(location.latitude)
+
+                var new_location = long.toFixed(7)+','+lat.toFixed(7)
+                return new_location
+
             }
             
         }
