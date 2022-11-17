@@ -1,4 +1,5 @@
 import axios from 'axios'
+import route from '../../router'
 
 const api_backend = import.meta.env.VITE_API_SERVER
 const local_token = JSON.parse(localStorage.getItem('token'))
@@ -50,7 +51,7 @@ export const auth = {
     logout({ commit }) {
       localStorage.clear()
       commit('logout')
-      window.location.reload()
+      route.push('/login')
     },
     
   },
