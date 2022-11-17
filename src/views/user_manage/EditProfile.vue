@@ -68,7 +68,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="my-3" v-if="user_role == 'administrator'">
+                                        <div class="my-3" v-if="user_role == 'administrator' || user_role == 'staff'">
                                              <label class="text-white">{{$t('role')}}</label>
                                             <Field name="role" as="select" v-model="role" class="form-select w-full" :disabled="loading">
                                                         <option value="">{{$t('select_group_user')}}</option>
@@ -271,6 +271,7 @@
                         this.alert.type = "success"
                         this.alert.msg = "Data has been saved successfully"
                         this.loading = false
+                        this.getUserData()
                     setTimeout(() => {
                         this.alert.active = false
                         window.location.reload()
@@ -297,6 +298,9 @@
                 this.$store.dispatch('user/getRole').then((res) => {
                     this.list_role = res.data
                 })
+            },
+            getUserData() {
+                this.$store.dispatch('user/userData').then(() => {})
             },
             previewFile(e) {
                 var file = e.target.files[0];

@@ -234,6 +234,7 @@
                 this.user.id = user_local.data.id
                 this.user.name = user_local.data.name
                 this.user.user_group = user_local.data.user_group
+                this.img_profile = user_local.img_profile
             },
             Logout() {
                 this.$store.dispatch('auth/logout')
