@@ -179,7 +179,12 @@ import dayjs from 'dayjs'
                         getdata = false
                     }else{
                         getdata = true
-                        option = this.day
+                        var s_timestamp = dayjs(this.day).startOf('day').valueOf()
+                        var e_timestamp = dayjs(this.day).endOf('day').valueOf()
+                        option = {
+                            start:s_timestamp,
+                            end:e_timestamp
+                        }
                     }
                 }else if(this.freq == 'week'){
                     if(this.week.year == "" || this.week.num == ""){
@@ -207,15 +212,15 @@ import dayjs from 'dayjs'
                 if(getdata){
                     this.error.active = false
                     this.error.msg = null
-                // var data = {
-                //     widget:this.widget,
-                //     data:this.sdata,
-                //     freq:this.freq,
-                //     option:option
-                // }
-                // this.$store.dispatch('data/ExportCSV',data).then((res)=>{
-                //     console.log(res)
-                // })
+                    var data = {
+                        widget:this.widget,
+                        data:this.sdata,
+                        freq:this.freq,
+                        option:option
+                    }
+                    this.$store.dispatch('data/ExportCSV',data).then((res)=>{
+                        console.log(res)
+                    })
                 }else{
                     this.error.active = true
                     this.error.msg = 'Please select Filter Data'
