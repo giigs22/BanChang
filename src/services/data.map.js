@@ -38,13 +38,13 @@ class dataMap{
         var html
         if(type == 'aqi'){
             //LNR
-            var co2 = dt.co2?.[0].value
-            var uv = dt.uv?.[0].value
-            var voc = dt.voc?.[0].value
+            var co2 = (dt.co2?.[0].value == undefined)?0:dt.co2?.[0].value
+            var uv = (dt.uv?.[0].value == undefined)?0:dt.uv?.[0].value
+            var voc = (dt.voc?.[0].value == undefined)?0:dt.voc?.[0].value
             //Env
-            var pm25 = dt.pm25?.[0].value
-            var temp = dt.temp?.[0].value
-            var hum = dt.humid?.[0].value
+            var pm25 = (dt.pm25?.[0].value == undefined)?0:dt.pm25?.[0].value
+            var temp = (dt.temp?.[0].value == undefined)?0:dt.temp?.[0].value
+            var hum = (dt.humid?.[0].value == undefined)?0:dt.humid?.[0].value
 
             var checkENV = _.has(dt,'pm25')
             if(checkENV){
