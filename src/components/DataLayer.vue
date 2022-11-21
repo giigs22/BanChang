@@ -6,7 +6,7 @@
             </li>
             <li>{{$t('smart_lighting')}} <input v-model="selected_widget" type="checkbox" value="smlight" class="mr-5 cus-checkbox">
             </li>
-            <li>{{$t('smart_pole')}} <input v-model="selected_widget" type="checkbox" value="smpole" class="mr-5 cus-checkbox">
+            <li>{{$t('smart_pole_energy')}} <input v-model="selected_widget" type="checkbox" value="smpole" class="mr-5 cus-checkbox">
             </li>
             <li>{{$t('cctv_camera')}} <input v-model="selected_widget" type="checkbox" value="cctv" class="mr-5 cus-checkbox">
             </li>
