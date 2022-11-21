@@ -8,7 +8,7 @@
                 <div class="main-content">
                     <div class="block-content mb-5">
                         <h1 class="text-xl dark:text-white ml-10">{{$t('air_quality')}}</h1>
-                        <FilterSearch endpoint="aqi_result"></FilterSearch>
+                        <FilterSearch endpoint="aqi_result" widget="env"></FilterSearch>
                         <div class="grid grid-cols-12 gap-4 mb-5">
                             <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false" :opacity="0.1" class="rounded-lg"/>
 
@@ -88,6 +88,7 @@
     import FilterSearch from '../../components/utility/FilterSearch.vue'
     import TableListData from './TableListData.vue'
     import _, { orderBy } from 'lodash'
+    import UserService from '../../services/user.service'
 
     export default {
         components: {
@@ -110,11 +111,6 @@
                 },
                 group_map_data:[],
                 isLoading:false,
-                alert: {
-                    active: false,
-                    type: null,
-                    msg: null
-                },
             }
         },
         computed: {
@@ -150,17 +146,7 @@
                     this.setStatus()
                     this.isLoading = false                    
                 }).catch((err)=>{
-                    var err_data = err.response
-                    if(err_data.status === 401){
-                        this.alert.active = true
-                        this.alert.type = 'error'
-                        this.alert.msg = err_data.data.message
-
-                        setTimeout(() => {
-                            this.closeAlert()
-                            this.$store.dispatch('auth/logout');
-                        }, 2000);
-                    }
+                    UserService.checkUnauthen(err.response)
                 })
             },
             setStatus(){
@@ -185,11 +171,6 @@
             },
             setMapData(){
                 this.group_map_data = this.list_data
-            },
-            closeAlert() {
-                this.alert.active = false
-                this.alert.type = null
-                this.alert.msg = null
             }
         }
     }

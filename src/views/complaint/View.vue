@@ -316,12 +316,16 @@
                     this.getComplaintData()
             },
             setLocation(data){
-                var location = JSON.parse(data)
+                try {
+                    var location = JSON.parse(data)
                 var long = parseFloat(location.longitude)
                 var lat = parseFloat(location.latitude)
 
                 var new_location = long.toFixed(7)+','+lat.toFixed(7)
                 return new_location
+                } catch (error) {
+                    return data
+                }
 
             }
             

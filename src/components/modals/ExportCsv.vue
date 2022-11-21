@@ -19,6 +19,8 @@
                             class="ml-3 text-xl">{{$t('Export Report CSV')}}</span>
                     </div>
                     <div class="bg-white px-4 pt-5 pb-4">
+                        <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false" :opacity="0.5" class="rounded-lg"/>
+
                         <div class="flex gap-3">
                             <div>
                                 <label for="" class="font-bold block">Sensor Data</label>
@@ -38,7 +40,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="my-5" v-if="freq !==null">
+                        <div class="my-5" v-if="freq != null && freq !=''">
                             <label for="" class="font-bold block">Filter</label>
                             <div v-if="freq == 'daily'">
                                 <input type="date" v-model="day">
@@ -61,6 +63,7 @@
                                 </select>
                                 <select v-model="month.month">
                                     <option value="">Month</option>
+                                    <option :value="index" v-for="(m,index) in list_month">{{m}}</option>
                                 </select>
                             </div>
                             <div v-if="freq == 'year'">
@@ -90,11 +93,19 @@
 </template>
 <script>
 import dayjs from 'dayjs'
+import UserService from '../../services/user.service'
+import * as xlsx from 'xlsx'
+import isoWeek from 'dayjs/plugin/isoWeek'
+import localeData from 'dayjs/plugin/localeData'
+dayjs.extend(isoWeek)
+dayjs.extend(localeData)
 
     export default {
         props: ['widget'],
         data() {
+            const list_month = dayjs.months()
             return {
+                list_month,
                 data: [],
                 sdata: "",
                 freq: null,
@@ -107,13 +118,14 @@ import dayjs from 'dayjs'
                     year:"",
                     month:""
                 },
-                year: null,
+                year: "",
                 listyear:null,
                 error:{
                     active:false,
                     msg:null
                 },
-                btn_export:true
+                btn_export:true,
+                isLoading:false
             }
         },
         created() {
@@ -191,21 +203,44 @@ import dayjs from 'dayjs'
                         getdata = false
                     }else{
                         getdata = true
-                        option = this.week
+                        var week = dayjs().year(this.week.year).isoWeek(this.week.num)
+                        var startOfWeek = dayjs(week).day(1)
+                        var endOfWeek = dayjs(week).day(7)
+                        var weekdays = {
+                            start:startOfWeek.startOf('day').valueOf(),
+                            end:endOfWeek.startOf('day').valueOf()
+                        }
+                        option = weekdays
                     }
                 }else if(this.freq == 'month'){
                     if(this.month.year == "" || this.month.num == ""){
                         getdata = false
                     }else{
                         getdata = true
-                        option = this.month
+                        var month = dayjs().year(this.month.year).month(this.month.month)
+                        var s = month.startOf('month').valueOf()
+                        var e = month.endOf('month').valueOf()
+                        
+                        var date_range = {
+                            start:s,
+                            end:e
+                        }
+                        option = date_range
                     }
                 }else if(this.freq == 'year'){
                     if(this.year == null){
                         getdata = false
                     }else{
                         getdata = true
-                        option = this.year
+                        var year = dayjs().year(this.year)
+                        var s = year.startOf('year').valueOf()
+                        var e = year.endOf('year').valueOf()
+
+                        var date_rang = {
+                            start:s,
+                            end:e
+                        }
+                        option =  date_rang
                     }
                 }
 
@@ -218,13 +253,36 @@ import dayjs from 'dayjs'
                         freq:this.freq,
                         option:option
                     }
+                    this.isLoading = true
                     this.$store.dispatch('data/ExportCSV',data).then((res)=>{
-                        console.log(res)
+                        this.isLoading = false
+                        this.setCsv(res.data)
+                    }).catch((err)=>{
+                        UserService.checkUnauthen(err.response)
                     })
                 }else{
                     this.error.active = true
                     this.error.msg = 'Please select Filter Data'
                 }
+            },
+            setCsv(data){
+                var dataWS = xlsx.utils.json_to_sheet(data)
+                var fileName
+                if(this.freq == 'daily'){
+                    fileName = 'export_'+this.sdata+'_'+this.freq+'_'+this.day+'.csv'
+                }
+                if(this.freq == 'week'){
+                    fileName = 'export_'+this.sdata+'_'+this.freq+'_'+this.week.year+'_'+this.week.num+'.csv'
+                }
+                if(this.freq == 'month'){
+                    fileName = 'export_'+this.sdata+'_'+this.freq+'_'+this.month.year+'_'+this.month.month+'.csv'
+                }
+                if(this.freq == 'year'){
+                    fileName = 'export_'+this.sdata+'_'+this.freq+'_'+this.year+'.csv'
+                }
+                var wb = xlsx.utils.book_new()
+                xlsx.utils.book_append_sheet(wb, dataWS)
+                xlsx.writeFile(wb,fileName)
             },
             close() {
                 this.$emit('close')

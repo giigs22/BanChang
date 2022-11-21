@@ -45,12 +45,12 @@
             </div>
         </div>
     </div>
-    <ExportCsv widget="env" v-if="exportdata" @close="modalExport"></ExportCsv>
+    <ExportCsv :widget="widget" v-if="exportdata" @close="modalExport"></ExportCsv>
 </template>
 <script>
 import ExportCsv from '../modals/ExportCsv.vue';
     export default {
-        props: ['endpoint'],
+        props: ['endpoint','widget'],
         components:{
             ExportCsv
         },

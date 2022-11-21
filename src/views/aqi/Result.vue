@@ -11,48 +11,8 @@
                             :opacity="0.1" class="rounded-lg" />
 
                         <h1 class="text-xl text-white ml-10">{{$t('air_quality')}}</h1>
-                        <div class="searachbox mt-5 mb-5 dark:bg-block-content-dark bg-block-env-light lg:p-10 p-3 rounded-md">
-                            <div class="flex">
-                                <h3 class="text-lg dark:text-white">{{$t('search')}}</h3>
+                        <FilterSearch endpoint="aqi_result" widget="env"></FilterSearch>
 
-                                <div class="ml-auto">
-                                    <button class="btn-red">Report CSV</button>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-12 form-search">
-                                <div class="lg:col-span-6 col-span-12">
-                                    <div class="grid grid-cols-4 gap-3">
-                                        <div class="lg:col-span-3 col-span-4">
-                                            <div class="grid grid-cols-4 gap-2">
-                                            <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
-                                                <select v-model="condition" class="h-12 rounded text-sm w-full lg:ml-10">
-                                                    <option value="">{{$t('condition_type')}}</option>
-                                                    <option value="id">ID</option>
-                                                    <option value="name">Name</option>
-                                                    <option value="device_id">Device ID</option>
-                                                    <option value="device_name">Device Name</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-span-4 lg:col-span-2">
-                                                <input v-model="keyword" type="text" :placeholder="$t('id')+','+$t('name')" class="form-input w-full">
-                                            </div>
-                                            <div class="col-span-4 lg:col-span-2 lg:flex items-end lg:justify-end">
-                                                <label for="" class="dark:text-white mr-1 block lg:w-16">{{$t('from')}}</label>
-                                            <input v-model="start_date" type="date" placeholder="DD/MM/YYYY" class="form-input w-full">
-                                            </div>
-                                            <div class="col-span-4 lg:col-span-2 lg:flex items-end">
-                                                <label for="" class="dark:text-white mr-1 block lg:w-16">{{$t('to')}}</label>
-                                            <input v-model="end_date" type="date" placeholder="DD/MM/YYYY" class="form-input w-full">
-                                            </div>
-                                            </div>
-                                        </div>
-                                       <div class="col-span-4 lg:col-span-1">
-                                        <button class="btn-purple rounded w-full lg:w-auto" @click="searchData()">{{$t('search')}}</button>
-                                       </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <div>
                             <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false" :opacity="0.1" class="rounded-lg"/>
@@ -72,6 +32,9 @@
                                         <td class="text-center">Status</td>
                                     </tr>
                                 </thead>
+                                <div>
+
+                                </div>
                                 <tbody class="bg-white-op6">
                                     <tr :class="[item.status?'text-green-500':'text-red-500']" v-for="item in result_data" :key="item.device.id">
                                         <td class="p-3 border border-gray-600">
@@ -109,11 +72,14 @@
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
     import dayjs from 'dayjs'
-    
+    import UserService from '../../services/user.service'
+    import FilterSearch from '../../components/utility/FilterSearch.vue'
+
     export default {
         components: {
             TopMenu,
             FooterPage,
+            FilterSearch
         },
         data() {
             return {
@@ -157,6 +123,8 @@
                 return this.$store.dispatch('data/getFilter',data).then((res)=>{
                     this.isLoading = false
                     this.result_data = res.data
+                }).catch((err)=>{
+                    UserService.checkUnauthen(err.response)
                 })
             },
             

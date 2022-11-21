@@ -8,7 +8,6 @@ class UserService{
     });
    }
    checkUnauthen(err){
-    console.log(err);
     if(err.status === 401){
         store.dispatch('auth/logout');
     }

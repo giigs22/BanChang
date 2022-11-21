@@ -10,84 +10,12 @@
                         <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false" :opacity="0.1" class="rounded-lg"/>
 
                         <h1 class="text-xl dark:text-white ml-10">{{$t('smart_pole_energy')}}</h1>
-                        <div class="searachbox mt-5 mb-5 dark:bg-block-content-dark bg-block-env-light lg:p-10 p-3 rounded-md">
-                            <div class="flex">
-                                <h3 class="text-lg dark:text-white">{{$t('search')}}</h3>
-
-                                <div class="ml-auto">
-                                    <button class="btn-red">Report CSV</button>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-12 form-search">
-                                <div class="lg:col-span-6 col-span-12">
-                                    <div class="grid grid-cols-4 gap-3">
-                                        <div class="lg:col-span-3 col-span-4">
-                                            <div class="grid grid-cols-4 gap-2">
-                                            <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
-                                                <select v-model="condition" class="h-12 rounded text-sm w-full lg:ml-10">
-                                                    <option value="">{{$t('condition_type')}}</option>
-                                                    <option value="id">ID</option>
-                                                    <option value="name">Name</option>
-                                                    <option value="device_id">Device ID</option>
-                                                    <option value="device_name">Device Name</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-span-4 lg:col-span-2">
-                                                <input v-model="keyword" type="text" :placeholder="$t('id')+','+$t('name')" class="form-input w-full">
-                                            </div>
-                                            <div class="col-span-4 lg:col-span-2 lg:flex items-end lg:justify-end">
-                                                <label for="" class="dark:text-white mr-1 block lg:w-16">{{$t('from')}}</label>
-                                            <input v-model="start_date" type="date" placeholder="DD/MM/YYYY" class="form-input w-full">
-                                            </div>
-                                            <div class="col-span-4 lg:col-span-2 lg:flex items-end">
-                                                <label for="" class="dark:text-white mr-1 block lg:w-16">{{$t('to')}}</label>
-                                            <input v-model="end_date" type="date" placeholder="DD/MM/YYYY" class="form-input w-full">
-                                            </div>
-                                            </div>
-                                        </div>
-                                       <div class="col-span-4 lg:col-span-1">
-                                        <button class="btn-purple rounded w-full lg:w-auto" @click="searchData">{{$t('search')}}</button>
-                                       </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <FilterSearch endpoint="aqi_result" widget="smpole"></FilterSearch>
 
                         <div class="grid grid-cols-12 gap-4 mb-5">
                             <div class="col-span-12 lg:col-span-3">
                                 <div class="block-layer data-layer py-2 px-3 mt-4 dark:bg-nav-dark bg-white">
-                                    <table class="dark:text-white w-full">
-                                        <thead>
-                                            <tr>
-                                                <th
-                                                    class="font-normal text-lg text-center border-r border-gray-700 w-1/2">
-                                                    {{$t('location')}}</th>
-                                                <th class="font-normal text-lg text-center">{{$t('status')}}</th>
-                                            </tr>
-                                        </thead>
-
-                                    </table>
-                                    <div v-if="sort_list_data.length == 0 && isLoading == false" class="dark:text-white text-center my-5">{{$t('no_data')}}</div>
-                                    <div class="m-1 p-1 lg:m-2 lg:p-2 list-data-layer dark:bg-black-op8" v-else>
-                                        <table class="w-full">
-                                            <tbody class="text-sm">
-                                                <tr class="border-b dark:border-gray-700 border-slate-100"
-                                                    v-for="(item,index) in sort_list_data" :key="index"
-                                                    :class="[item.status?'text-green-600':'text-red-600']">
-                                                    <td class="">
-                                                        {{index+1}}
-                                                    </td>
-                                                    <td>
-                                                        {{item.name}}
-                                                    </td>
-                                                    <td class="w-1/2 text-center">{{(item.status)?'ON':'OFF'}}</td>
-                                                </tr>
-
-                                            </tbody>
-
-                                        </table>
-                                    </div>
-
+                                    <TableListData :list_data="sort_list_data" ref="ListData"></TableListData>
                                 </div>
                             </div>
                             <div class="col-span-12 lg:col-span-6">
@@ -135,12 +63,17 @@
     import FooterPage from '../layout/FooterPage.vue'
     import _ from 'lodash'
     import MapView from '../../components/MapView.vue'
+    import FilterSearch from '../../components/utility/FilterSearch.vue'
+    import TableListData from './TableListData.vue'
+    import UserService from '../../services/user.service'
 
     export default {
         components: {
     TopMenu,
     FooterPage,
     MapView,
+    FilterSearch,
+    TableListData
 },
         data() {
             return {
@@ -191,6 +124,8 @@
                     var data = res.data
                     this.list_data = data
                     this.isLoading = false
+                }).catch((err)=>{
+                    UserService.checkUnauthen(err.response)
                 })
             },
             setStatus(){

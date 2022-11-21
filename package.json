@@ -27,6 +27,7 @@
     "vue-router": "^4.0.16",
     "vuedraggable": "^4.1.0",
     "vuex": "^4.0.2",
+    "xlsx": "^0.18.5",
     "yup": "^0.32.11"
   },
   "devDependencies": {
