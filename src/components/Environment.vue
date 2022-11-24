@@ -45,11 +45,11 @@
             </div>
             <div class="pm10 block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3>{{$t('pm10')}}</h3>
-                <span class="text-sm my-1">-</span>
+                <span class="text-sm my-1">{{avg_data.pm10}}</span>
                 <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img src="@/assets/icon_pm10.png" />
                 </div>
-                <span class="text-sm my-1 level-label">-</span>
+                <span class="text-sm my-1 level-label">{{(_pm10.label != null)?$t(_pm10.label):'-'}}</span>
             </div>
             <div class="hum block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3>{{$t('humidity')}}</h3>
@@ -57,7 +57,7 @@
                 <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img src="@/assets/icon_hum.png" />
                 </div>
-                <span class="text-sm my-1 level-label">-</span>
+                <span class="text-sm my-1 level-label">{{(_hum.label != null)?$t(_hum.label):'-'}}</span>
             </div>
             <div class="uv block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3>{{$t('uv')}}</h3>
@@ -99,6 +99,10 @@
                     label: null,
                     color: null
                 },
+                _pm10: {
+                    label: null,
+                    color: null
+                },
                 _co2: {
                     label: null,
                     color: null
@@ -111,7 +115,12 @@
                     label: null,
                     color: null
                 },
+                _hum: {
+                    label: null,
+                    color: null
+                },
                 pm25: [],
+                pm10:[],
                 hum: [],
                 temp: [],
                 co2: [],
@@ -123,7 +132,8 @@
                     voc: 0,
                     pm25: 0,
                     hum: 0,
-                    temp: 0
+                    temp: 0,
+                    pm10:0
                 },
                 
 
@@ -153,36 +163,71 @@
                 })
             },
             setDataCal(type, data) {
+        
                 if (type == 'ENV') {
                     data.forEach(el => {
+                        if(el.hasOwnProperty('pm25')){
                         this.pm25.push({
                         id: el.id,
                         data: el.pm25[0]
                         })
+                        }
+                        if(el.hasOwnProperty('pm10')){
+                        this.pm10.push({
+                        id: el.id,
+                        data: el.pm10[0]
+                        })
+                        }
+                        if(el.hasOwnProperty('temp')){
                         this.temp.push({
                             id: el.id,
                             data: el.temp[0]
                         })
+                        }
+                        if(el.hasOwnProperty('temperature')){
+                            this.temp.push({
+                            id: el.id,
+                            data: el.temperature[0]
+                        })
+                        }
+                        if(el.hasOwnProperty('humid')){
                         this.hum.push({
                             id: el.id,
                             data: el.humid[0]
                         })
+                        }
+                        if(el.hasOwnProperty('humidity')){
+                            this.hum.push({
+                            id: el.id,
+                            data: el.humidity[0]
+                        })
+                        }
                     });
                     
                 } else {
+                    
                     data.forEach(el => {
+                        if(el.hasOwnProperty('co2')){
                         this.co2.push({
                             id: el.id,
                             data: el.co2[0]
                         })
+                    }
+
+                    if(el.hasOwnProperty('uv')){
                         this.uv.push({
                             id: el.id,
                             data: el.uv[0]
                         })
+                    }
+
+                    if(el.hasOwnProperty('voc')){
                         this.voc.push({
                             id: el.id,
                             data: el.voc[0]
                         })
+                    }
+
                     });
                     
                 }
@@ -200,12 +245,20 @@
                 var sum_temp = 0
                 var count_hum = 0
                 var sum_hum = 0
+                var count_pm10 = 0
+                var sum_pm10 = 0
 
                 this.pm25.forEach(el => {
                     if (parseFloat(el.data.value) > 0) {
                         count_pm25 += 1
                     }
                     sum_pm25 += parseFloat(el.data.value)
+                })
+                this.pm10.forEach(el => {
+                    if (parseFloat(el.data.value) > 0) {
+                        count_pm10 += 1
+                    }
+                    sum_pm10 += parseFloat(el.data.value)
                 })
                 this.temp.forEach(el => {
                     if (parseFloat(el.data.value) > 0) {
@@ -243,6 +296,7 @@
                 })
 
                 var avg_pm25 = sum_pm25 / count_pm25
+                var avg_pm10 = sum_pm10 / count_pm10
                 var avg_temp = sum_temp / count_temp
                 var avg_hum = sum_hum / count_hum
                 var avg_uv = sum_uv / count_uv
@@ -250,6 +304,7 @@
                 var avg_co2 = sum_co2 / count_co2
 
                 this.avg_data.pm25 = (isNaN(avg_pm25)) ? 0 : Math.round(avg_pm25)
+                this.avg_data.pm10 = (isNaN(avg_pm10)) ? 0 : Math.round(avg_pm10)
                 this.avg_data.temp = (isNaN(avg_temp)) ? 0 : Math.round(avg_temp)
                 this.avg_data.hum = (isNaN(avg_hum)) ? 0 : Math.round(avg_hum)
                 this.avg_data.uv = (isNaN(avg_uv)) ? 0 : avg_uv.toFixed(2)
@@ -263,6 +318,8 @@
                 this._co2 = aqical.LevelCo2(this.avg_data.co2)
                 this._uv = aqical.LevelUV(this.avg_data.uv)
                 this._pm25 = aqical.LevelPM25(this.avg_data.pm25)
+                this._pm10 = aqical.LevelPM10(this.avg_data.pm10)
+                this._hum = aqical.LevelHumid(this.avg_data.hum)
 
                 this.$store.dispatch('widget/setPM25',this.avg_data.pm25)
 
@@ -274,6 +331,7 @@
                 this.co2 = []
                 this.uv = []
                 this.voc = []
+                this.pm10 = []
                 this.status_device={online:0,offline:0}
             },
         }

@@ -232,7 +232,15 @@
                 this.group_map_data = this.list_data
             },
             searchData(){
-                this.$router.push('/view/freewifi/result')
+                this.$router.push({
+                    name:'freewifi_result',
+                    params:{
+                    cond:this.search.condition,
+                    keyword:this.search.keyword,
+                    start_date:this.search.start_date,
+                    end_date:this.search.end_date
+                    }
+                })
             }
         }
     }

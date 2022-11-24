@@ -57,6 +57,7 @@
     import Pagination from '../../components/utility/Pagination.vue'
     import AlertDelTemplate from '../../components/utility/AlertDelTemplate.vue'
 import AlertDialog from '../../components/utility/AlertDialog.vue'
+import UserService from '../../services/user.service'
     export default {
         components: {
             TopMenu,
@@ -95,6 +96,8 @@ import AlertDialog from '../../components/utility/AlertDialog.vue'
             return this.$store.dispatch('template/ListTemplate',data).then((res)=>{
                 this.list_temp = res.data.list
                  this.count = res.data.count_all
+            }).catch((err)=>{
+                UserService.checkUnauthen(err.response)
             })
           },
           updateData(start){
@@ -116,6 +119,8 @@ import AlertDialog from '../../components/utility/AlertDialog.vue'
                     this.confirm.active = false
                     this.getListTemplate()
                 }
+             }).catch((err)=>{
+                UserService.checkUnauthen(err.response)
              })
           }
         }

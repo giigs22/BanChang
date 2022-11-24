@@ -14,7 +14,7 @@
     <div class="m-1 p-1 lg:m-2 lg:p-2 list-data-layer dark:bg-black-op8" v-else>
         <table class="w-full">
             <tbody class="text-sm">
-                <tr class="border-b dark:border-gray-700 border-slate-100" v-for="(item,index) in sort_list_data"
+                <tr class="border-b dark:border-gray-700 border-slate-100" v-for="(item,index) in list_data"
                     :key="index" :class="[item.status?'text-green-600':'text-red-600']">
                     <td class="">
                         {{index+1}}

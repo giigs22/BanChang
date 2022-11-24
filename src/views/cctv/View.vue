@@ -217,7 +217,7 @@
                 online: 0,
                 abnormal: 0,
                 offline: 0,
-                tab_view: 2
+                tab_view: 1
             }
         },
         computed: {

@@ -41,6 +41,7 @@
 </template>
 <script>
     import _ from 'lodash'
+    import UserService from '../../services/user.service'
 
     export default {
         data() {
@@ -70,31 +71,33 @@
                     type: 'lastdata',
                     sensor: 'wifi'
                 }
-                this.$store.dispatch('data/getData', data).then((res) => {
+                return this.$store.dispatch('data/getData', data).then((res) => {
                     var data = res.data
 
                     data.forEach(el => {
                         this.client.push(el.client[0].value)
                     })
 
+                }).catch((err)=>{
+                    UserService.checkUnauthen(err.response)
                 })
             },
             getStatus() {
                 var data = {
                     sensor: 'wifi'
                 }
-                this.$store.dispatch('data/getStatus', data).then((res) => {
+                return this.$store.dispatch('data/getStatus', data).then((res) => {
                     var data = res.data
                     this.online = data.online
                     this.offline = data.offline
+                }).catch((err)=>{
+                    UserService.checkUnauthen(err.response)
                 })
             },
             setData() {
                 var sum_client = 0;
                 var count_avg = 0;
-                var offline = 0;
-                var online = 0;
-
+            
                 this.client.forEach(el => {
                     if (el > 0) {
                         count_avg += 1
@@ -102,13 +105,9 @@
                     sum_client += parseInt(el)
                 });
 
-                offline = this.status.filter(e => e.status === 'offline').length
-                online = this.status.filter(e => e.status !== 'offline').length
-                this.offline = offline
-                this.online = online
                 this.users = sum_client
                 var avg_users = sum_client / count_avg;
-                this.avg_users = isNaN(avg_users.toFixed(2)) ? 0 : avg_users.toFixed(2)
+                this.avg_users = isNaN(avg_users.toFixed(0)) ? 0 : avg_users.toFixed(0)
             },
             clearData() {
                 this.client = []

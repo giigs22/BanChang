@@ -204,27 +204,63 @@
 <script>
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
+    import dayjs from 'dayjs'
+    import FilterSearch from '../../components/utility/FilterSearch.vue'
 
     export default {
         components: {
             TopMenu,
             FooterPage,
+            FilterSearch
         },
         data() {
             return {
-
+                condition: null,
+                keyword: null,
+                start_date: null,
+                end_date: null,
+                isLoading: false,
+                result_data: []
             }
         },
         computed: {
 
         },
         async created() {
-
+            this.setParams()
+            await this.getDataFilter()
         },
         methods: {
+            setParams() {
+                this.condition = this.$route.params.cond != "" ? this.$route.params.cond : null
+                this.keyword = this.$route.params.keyword != "" ? this.$route.params.keyword : null
+                this.start_date = this.$route.params.start_date != "" ? this.$route.params.start_date : null
+                this.end_date = this.$route.params.end_date != "" ? this.$route.params.end_date : null
+            },
+            searchData() {
+                this.getDataFilter()
+            },
+            getDataFilter() {
+                var s_timestamp = this.start_date == null ? dayjs().startOf('day').valueOf() : dayjs(this.start_date)
+                    .valueOf()
+                var e_timestamp = this.end_date == null ? dayjs().endOf('day').valueOf() : dayjs(this.end_date)
+                .valueOf()
 
-
-
+                var data = {
+                    widget: 'wifi',
+                    filter: {
+                        cond: this.condition,
+                        keyword: this.keyword,
+                        start_date: s_timestamp,
+                        end_date: e_timestamp
+                    }
+                }
+                this.isLoading = true
+                return this.$store.dispatch('data/getFilter', data).then((res) => {
+                    this.isLoading = false
+                    this.result_data = res.data
+                })
+            },
         }
     }
 </script>

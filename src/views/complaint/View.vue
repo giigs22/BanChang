@@ -150,6 +150,7 @@
     import AlertDialogConfirm from '../../components/utility/AlertDialogConfirm.vue'
     import Summary from './Summary.vue'
     import LightBoxImage from '../../components/modals/LightBoxImage.vue'
+    import UserService from '../../services/user.service'
 
     export default {
         components: {
@@ -225,17 +226,7 @@
                     }
                     this.isLoading = false
                 }).catch((err)=>{
-                    var err_data = err.response
-                    if(err_data.status === 401){
-                        this.alert.active = true
-                        this.alert.type = 'error'
-                        this.alert.msg = err_data.data.message
-
-                        setTimeout(() => {
-                            this.closeAlert()
-                            this.$store.dispatch('auth/logout');
-                        }, 2000);
-                    }
+                    UserService.checkUnauthen(err.response)
                 })
             },
             updateData(start){
@@ -270,17 +261,7 @@
                     }, 2000);
                     }
                 }).catch((err)=>{
-                    var err_data = err.response
-                    if(err_data.status === 401){
-                        this.alert.active = true
-                        this.alert.type = 'error'
-                        this.alert.msg = err_data.data.message
-
-                        setTimeout(() => {
-                            this.closeAlert()
-                            this.$store.dispatch('auth/logout');
-                        }, 2000);
-                    }
+                   UserService.checkUnauthen(err.response)
                 })
             },
             delcomp(id){
@@ -318,11 +299,11 @@
             setLocation(data){
                 try {
                     var location = JSON.parse(data)
-                var long = parseFloat(location.longitude)
-                var lat = parseFloat(location.latitude)
+                    var long = parseFloat(location.longitude)
+                    var lat = parseFloat(location.latitude)
 
-                var new_location = long.toFixed(7)+','+lat.toFixed(7)
-                return new_location
+                    var new_location = long.toFixed(7)+','+lat.toFixed(7)
+                    return new_location
                 } catch (error) {
                     return data
                 }

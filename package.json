@@ -16,6 +16,7 @@
     "chartjs-plugin-datalabels": "^2.1.0",
     "dayjs": "^1.11.4",
     "lodash": "^4.17.21",
+    "streamedian": "github:Streamedian/html5_rtsp_player",
     "vee-validate": "^4.6.1",
     "video.js": "^7.20.3",
     "vue": "^3.2.37",

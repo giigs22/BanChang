@@ -73,7 +73,7 @@ export default {
             this.map_type = '1'
                 map = new window.google.maps.Map(document.getElementById('map'), {
                             center: banchang,
-                            zoom: 15
+                            zoom: 12
                 })
                 this.setMapData()
         },
@@ -82,7 +82,7 @@ export default {
                 
                 map = new window.google.maps.Map(document.getElementById('map'), {
                     center: banchang,
-                    zoom: 13,
+                    zoom: 12,
                     mapTypeId: 'satellite'
                     });
                 this.setMapData()

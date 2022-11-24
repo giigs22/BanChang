@@ -60,7 +60,7 @@
 </template>
 <script>
     import _ from 'lodash'
-
+    import UserService from '../../services/user.service'
     export default {
         data() {
             return {
@@ -100,6 +100,8 @@
                 return this.$store.dispatch('data/getData', data).then((res) => {
                     var data = res.data
                     this.data_lnr = data
+                }).catch((err)=>{
+                    UserService.checkUnauthen(err.response)
                 })
             },
             getStatus() {
@@ -110,13 +112,17 @@
                     var data = res.data
                     this.online = data.online
                     this.offline = data.offline
+                }).catch((err)=>{
+                    UserService.checkUnauthen(err.response)
                 })
             },
             calEnergy() {
                 //Cost Energy Month
                 var month_energy = 0
                 this.data_lnr.forEach((el) => {
+                    if(el.hasOwnProperty('monthlyEnergy')){
                     month_energy += parseFloat(el.monthlyEnergy[0].value)
+                    }
                 })
 
                 var sum_energy = month_energy.toFixed(2)

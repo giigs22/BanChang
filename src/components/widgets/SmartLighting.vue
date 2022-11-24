@@ -55,7 +55,7 @@
 </template>
 <script>
     import _ from 'lodash'
-
+    import UserService from '../../services/user.service'
     export default {
         data() {
             return {
@@ -80,6 +80,8 @@
                     var data = res.data
                     this.online = data.online
                     this.offline = data.offline
+                }).catch((err)=>{
+                    UserService.checkUnauthen(err.response)
                 })
             },
             fullview() {

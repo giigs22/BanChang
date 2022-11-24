@@ -10,7 +10,7 @@
                         <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false" :opacity="0.1" class="rounded-lg"/>
 
                         <h1 class="text-xl dark:text-white ml-10">{{$t('smart_pole_energy')}}</h1>
-                        <FilterSearch endpoint="aqi_result" widget="smpole"></FilterSearch>
+                        <FilterSearch endpoint="smart_pole_result" widget="smpole"></FilterSearch>
 
                         <div class="grid grid-cols-12 gap-4 mb-5">
                             <div class="col-span-12 lg:col-span-3">

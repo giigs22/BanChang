@@ -4,7 +4,9 @@
         <button :class="[map_type=='2'?'btn-purple':'btn-gray']" @click="heatMap">{{$t('heatmap')}}</button>
     </div>
     <div id="map" class="map"></div>
-</template>
+    <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false"
+                            :opacity="0.1" class="rounded-lg" />
+    </template>
 <script>
     import { Loader } from "@googlemaps/js-api-loader"
     import { MarkerClusterer } from "@googlemaps/markerclusterer";
@@ -27,7 +29,8 @@
         data() {
             return {
                 list_map: [],
-                map_type:'1'
+                map_type:'1',
+                isLoading:false
             }
         },
         async created() {
@@ -110,12 +113,13 @@
                 var layer = val
                 var arr_data = []
                 var set_data = []
+                this.isLoading = true
                 this.$store.dispatch('map/getMapData', layer).then((res) => {
                     var data = res.data
                     data.forEach(el=>{
                         var dt = el.data
                         var loc = el.location
-                        var st = false
+                        var st = el.status
                         var n = el.name
 
                         set_data.push({
@@ -130,6 +134,7 @@
                     this.list_map = set_data
                     this.clearMarker()
                     this.setMarker()
+                    this.isLoading = false
                 });
                 
             },
@@ -137,7 +142,7 @@
                 this.map_type = '1'
                 map = new window.google.maps.Map(document.getElementById('map'), {
                             center: banchang,
-                            zoom: 15
+                            zoom: 12
                 })
             },
             heatMap(){
@@ -145,7 +150,7 @@
                     
                 map = new window.google.maps.Map(document.getElementById('map'), {
                     center: banchang,
-                    zoom: 13,
+                    zoom: 12,
                     mapTypeId: 'satellite'
                     });
             },

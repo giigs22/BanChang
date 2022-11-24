@@ -29,6 +29,56 @@ class EnvAqi{
         }
         return detail
     }
+    LevelPM10(pm10){
+        var detail = {}
+        if(pm10 < 51){
+            detail = {
+                label:'excellent',
+                color:'#00F9CF'
+            }
+        }else if(pm10 < 81){
+            detail = {
+                label:'satisfactory',
+                color:'#4CBF08'
+            }
+        }else if(pm10 < 121){
+            detail = {
+                label:'moderate',
+                color:'#FFEB50'
+            }
+        }else if(pm10 < 181){
+            detail = {
+                label:'unhealthy',
+                color:'#FFB14C'
+            }
+        }else{
+            detail = {
+                label:'very_unhealthy',
+                color:'#BF4957'
+            }
+        }
+        return detail
+    }
+    LevelHumid(humid){
+        var detail = {}
+        if(humid < 40){
+            detail = {
+                label:'too_dry',
+                color:'#FFEB50'
+            }
+        }else if(humid < 70){
+            detail = {
+                label:'comfort',
+                color:'#4CBF08'
+            }
+        }else{
+            detail = {
+                label:'too_humid',
+                color:'#00b7f9'
+            }
+        }
+        return detail
+    }
     LevelAQI(aqi){
         var detail = {}
          if(aqi < 26){

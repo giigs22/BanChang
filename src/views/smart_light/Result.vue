@@ -58,7 +58,7 @@
     import FooterPage from '../layout/FooterPage.vue'
     import dayjs from 'dayjs'
     import FilterSearch from '../../components/utility/FilterSearch.vue'
-
+    import UserService from '../../services/user.service'
     export default {
         components: {
             TopMenu,
@@ -106,6 +106,8 @@
                 return this.$store.dispatch('data/getFilter',data).then((res)=>{
                     this.isLoading = false
                     this.result_data = res.data
+                }).catch((err)=>{
+                    UserService.checkUnauthen(err.response)
                 })
             },
         }

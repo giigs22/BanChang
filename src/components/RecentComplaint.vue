@@ -2,7 +2,7 @@
     <h1 class="text-xl dark:text-white">{{$t('recent_complaint')}}</h1>
                         <div class="table-complaint px-4 lg:px-10 lg:overflow-hidden overflow-scroll">
                             <div class="text-right py-3">
-                                <button class="btn-purple">> {{$t('read_more')}}</button>
+                                <a class="btn-purple" href="/complaint">> {{$t('read_more')}}</a>
                             </div>
                             <table class="table-auto lg:w-full">
                                 <thead class="bg-head-table-comp">

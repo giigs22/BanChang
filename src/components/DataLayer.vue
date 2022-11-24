@@ -17,7 +17,7 @@
             </li>
             <li>{{$t('digital_signage')}} <input v-model="selected_widget" type="checkbox" value="digi_sig" class="mr-5 cus-checkbox disabled:bg-gray-400" disabled>
             </li>
-            <li>{{$t('sos')}} <input v-model="selected_widget" type="checkbox" value="sos" class="mr-5 cus-checkbox disabled:bg-gray-400" disabled></li>
+            <li>{{$t('sos')}} <input v-model="selected_widget" type="checkbox" value="sos" class="mr-5 cus-checkbox disabled:bg-gray-400"></li>
             <li>{{$t('complaint')}} <input v-model="selected_widget" type="checkbox" value="comp" class="mr-5 cus-checkbox disabled:bg-gray-400" disabled>
             </li>
             <li>{{$t('maintenance')}} <input v-model="selected_widget" type="checkbox" value="main" class="mr-5 cus-checkbox disabled:bg-gray-400" disabled>
@@ -60,7 +60,7 @@ export default {
     methods:{
         selectAll(){
             this.selected_widget = []
-            var list = ['aqi','smlight','smpole','cctv','wifi']
+            var list = ['aqi','smlight','smpole','cctv','wifi','sos']
             if(!this.allSelect){
                 list.forEach(el => {
                     this.selected_widget.push(el)

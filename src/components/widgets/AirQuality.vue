@@ -29,6 +29,7 @@
 </template>
 <script>
     import aqical from '../../services/env.aqi'
+    import UserService from '../../services/user.service'
     export default {
         data() {
             return {
@@ -71,15 +72,19 @@
                 return this.$store.dispatch('data/getData',data).then((res)=>{
                     var data = res.data
                     this.setDataCal('ENV',data.env)
+                }).catch((err)=>{
+                    UserService.checkUnauthen(err.response)
                 })
             },
            
             setDataCal(type,data) {
                 if (type == 'ENV') {
                     data.forEach(el => {
-                        this.pm25.push({
-                        data: el.pm25[0]
+                        if(el.hasOwnProperty('pm25')){
+                            this.pm25.push({
+                            data: el.pm25[0]
                         })
+                        }
                     });
                 } 
             },

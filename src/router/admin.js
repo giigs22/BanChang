@@ -283,6 +283,7 @@ let admin = [
     },
     {
       path: '/view/freewifi/result',
+      name:'freewifi_result',
       component: FreeWiFiResult,
       meta: {
         middleware: auth,

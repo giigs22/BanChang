@@ -220,6 +220,7 @@
     import AlertConnectAPI from '@/components/utility/AlertConnectAPI.vue'
     import AlertDialogConfirm from '@/components/utility/AlertDialogConfirm.vue'
     import widgetdata from '@/services/widget_data.json'
+    import UserService from '../services/user.service';
 
     const staticComp = {
         Environment,
@@ -278,12 +279,14 @@
         methods: {
             getUserData() {
                 //this.alert.active = true
-                this.$store.dispatch('user/userData').then(() => {
+                return this.$store.dispatch('user/userData').then(() => {
                     setTimeout(() => {
                         this.setWidget()
                         //this.alert.active = false
                     }, 2000);
 
+                }).catch((err)=>{
+                    UserService.checkUnauthen(err.response)
                 })
             },
             setWidget() {
