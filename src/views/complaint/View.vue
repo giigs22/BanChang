@@ -54,7 +54,7 @@
                         <div class="lg:mx-20 my-10 bg-white-op6 p-2 lg:p-7 rounded-lg">
                             <div class="flex justify-between">
                                 <h1 class="lg:text-xl font-bold dark:text-white uppercase">Complaint summary</h1>
-                                <button class="btn-purple rounded py-1 px-2">Export CSV</button>
+                                <button class="btn-purple rounded py-1 px-2" @click="exportdata = true">Export CSV</button>
                             </div>
                             <div class="relative pt-1">
                                 <Summary :data="stat"></Summary>
@@ -141,6 +141,7 @@
         @close="closeConfirm" />
     <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"/>
     <LightBoxImage :img_url="img_selected" v-if="lightbox" @close="closeLightbox"></LightBoxImage>
+    <ExportCsvComp v-if="exportdata" @close="modalExport"></ExportCsvComp>
     <FooterPage />
 </template>
 <script>
@@ -151,7 +152,7 @@
     import Summary from './Summary.vue'
     import LightBoxImage from '../../components/modals/LightBoxImage.vue'
     import UserService from '../../services/user.service'
-
+    import ExportCsvComp from '../../components/modals/ExportCsvComp.vue'
     export default {
         components: {
             TopMenu,
@@ -159,7 +160,8 @@
             Pagination,
             AlertDialogConfirm,
             Summary,
-            LightBoxImage
+            LightBoxImage,
+            ExportCsvComp
         },
         data() {
             return {
@@ -193,7 +195,8 @@
                     agency:null
                 },
                 img_selected:null,
-                lightbox:false
+                lightbox:false,
+                exportdata:false
             }
         },
         async created() {
@@ -308,6 +311,9 @@
                     return data
                 }
 
+            },
+            modalExport(){
+                this.exportdata = false
             }
             
         }

@@ -24,15 +24,18 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-span-4 lg:col-span-2">
-                                                    <input type="text" :placeholder="$t('id')+','+$t('name')" class="form-input w-full">
+                                                    <input type="text" :placeholder="$t('id')+','+$t('name')"
+                                                        class="form-input w-full">
                                                 </div>
                                                 <div class="col-span-4 lg:col-span-2 lg:flex items-end lg:justify-end">
-                                                    <label for="" class="dark:text-white mr-1 block lg:w-16">{{$t('from')}}</label>
+                                                    <label for=""
+                                                        class="dark:text-white mr-1 block lg:w-16">{{$t('from')}}</label>
                                                     <input type="text" placeholder="DD/MM/YYYY"
                                                         class="form-input w-full">
                                                 </div>
                                                 <div class="col-span-4 lg:col-span-2 lg:flex items-end">
-                                                    <label for="" class="dark:text-white mr-1 block lg:w-16">{{$t('to')}}</label>
+                                                    <label for=""
+                                                        class="dark:text-white mr-1 block lg:w-16">{{$t('to')}}</label>
                                                     <input type="text" placeholder="DD/MM/YYYY"
                                                         class="form-input w-full">
                                                 </div>
@@ -65,7 +68,8 @@
                                                     </div>
                                                     <div>
                                                         <ul class="dark:text-white text-sm list-disc">
-                                                            <li>{{$t('status')}} : <span class="text-green-600">{{$t('on')}}</span></li>
+                                                            <li>{{$t('status')}} : <span
+                                                                    class="text-green-600">{{$t('on')}}</span></li>
                                                             <!-- <li>Setting : <span class="text-yellow-500">720p 25fps</span></li>
                                                         <li>Time : <span class="text-yellow-500">08:00 AM</span></li> -->
                                                         </ul>
@@ -80,7 +84,8 @@
                                                     </div>
                                                     <div>
                                                         <ul class="dark:text-white text-sm list-disc">
-                                                            <li>{{$t('status')}} : <span class="text-red-600">{{$t('off')}}</span></li>
+                                                            <li>{{$t('status')}} : <span
+                                                                    class="text-red-600">{{$t('off')}}</span></li>
                                                             <!-- <li>Setting : <span class="text-yellow-500">720p 25fps</span></li>
                                                         <li>Time : <span class="text-yellow-500">08:00 AM</span></li> -->
                                                         </ul>
@@ -118,7 +123,7 @@
                                     <button :class="[tab_view=='2'?'btn-purple':'btn-gray']"
                                         @click="tab_view = 2">{{$t('camera')}}</button>
                                 </div>
-                                <MapView :datamap="group_map_data" ref="maplocation" v-if="tab_view ==1"/>
+                                <MapView :datamap="group_map_data" ref="maplocation" v-if="tab_view ==1" />
                                 <VideoStream :listdata="list_data" v-else></VideoStream>
                             </div>
                             <div class="col-span-12 lg:col-span-3">
@@ -127,24 +132,30 @@
                                     <h1 class="text-2xl dark:text-white text-center my-3">{{$t('device_status')}}</h1>
                                     <div class="grid grid-cols-3 gap-1 my-5">
                                         <div class="col-span-1">
-                                            <div class="bg-green-600 text-white flex flex-col items-center rounded-lg max-h-40 h-40">
+                                            <div
+                                                class="bg-green-600 text-white flex flex-col items-center rounded-lg max-h-40 h-40">
                                                 <h1 class="text-4xl head-status">{{$t('on')}}</h1>
                                                 <h1 class="text-7xl">{{online}}</h1>
-                                                <h1 class="text-sm mt-2 text-center">{{percent.online}}% {{$t('online')}}</h1>
+                                                <h1 class="text-sm mt-2 text-center">{{percent.online}}%
+                                                    {{$t('online')}}</h1>
                                             </div>
                                         </div>
                                         <div class="col-span-1">
-                                            <div class="bg-yellow-400 text-white flex flex-col items-center rounded-lg max-h-40 h-40">
+                                            <div
+                                                class="bg-yellow-400 text-white flex flex-col items-center rounded-lg max-h-40 h-40">
                                                 <h1 class="text-4xl head-status">{{$t('ng')}}</h1>
                                                 <h1 class="text-7xl">{{abnormal}}</h1>
-                                                <h1 class="text-sm mt-2 text-center">{{percent.abnormal}}% {{$t('abnormal')}}</h1>
+                                                <h1 class="text-sm mt-2 text-center">{{percent.abnormal}}%
+                                                    {{$t('abnormal')}}</h1>
                                             </div>
                                         </div>
                                         <div class="col-span-1">
-                                            <div class="bg-red-600 text-white flex flex-col items-center rounded-lg max-h-40 h-40">
+                                            <div
+                                                class="bg-red-600 text-white flex flex-col items-center rounded-lg max-h-40 h-40">
                                                 <h1 class="text-4xl head-status">{{$t('off')}}</h1>
                                                 <h1 class="text-7xl">{{offline}}</h1>
-                                                <h1 class="text-sm mt-2 text-center">{{percent.offline}}% {{$t('offline')}}</h1>
+                                                <h1 class="text-sm mt-2 text-center">{{percent.offline}}%
+                                                    {{$t('offline')}}</h1>
                                             </div>
                                         </div>
                                     </div>
@@ -189,6 +200,8 @@
     import StatData from './Stat.vue'
     import VideoStream from '../../components/VideoStream.vue'
     import _ from 'lodash'
+    import UserService from '../../services/user.service'
+
     export default {
         components: {
             TopMenu,
@@ -261,8 +274,8 @@
                     var data = res.data
                     this.list_data = data
                     this.isLoading = false
-                }).catch((err)=>{
-                    console.error(err)
+                }).catch((err) => {
+                    UserService.checkUnauthen(err.response)
                 })
             },
             selectAll() {

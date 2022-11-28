@@ -6,7 +6,6 @@ import ForgetPass from '../views/ForgetPassword.vue'
 import ChangePass from '../views/ChangePassword.vue'
 import Page403 from '../views/errors/403.vue'
 import EditProfile from '../views/user_manage/EditProfile.vue'
-import TestRtsp from '../views/TestRtsp.vue'
 
 let route_default =[
     {
@@ -44,10 +43,6 @@ let route_default =[
   {
     path:'/error/403',
     component:Page403,
-  },
-  {
-    path:'/test_rtsp',
-    component:TestRtsp
   }
 ]
 export default route_default;

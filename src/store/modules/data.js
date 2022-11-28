@@ -58,6 +58,17 @@ export const data = {
             }).catch((err)=>{
                 return Promise.reject(err)
             })
+        },
+        StreamCCTV({rootState},data){
+            return axios.post(api_backend+'streaming',{url_rtsp:data},{
+                headers:{
+                    Authorization:"Bearer "+rootState.auth.token.value
+                }
+            }).then((res)=>{
+                return Promise.resolve(res)
+            }).catch((err)=>{
+                return Promise.reject(err)
+            })
         }
         
     },
