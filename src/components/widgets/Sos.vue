@@ -24,12 +24,55 @@
 
             </div>
             <div class="dark:text-white">
-                <p class="text-2xl"><span class="text-6xl">0</span> {{$t('times')}}</p>
+                <p class="text-2xl"><span class="text-6xl">{{sos_count}}</span> {{$t('times')}}</p>
                 <div class="text-center">
                     <p>{{$t('sos_latest')}}</p>
-                    <!-- <p class="text-red-400">05/09/2021 6:55</p> -->
+                    <!--05/09/2021 6:55-->
+                    <p class="text-red-400" v-for="item in sort_list_data.slice(0,4)">{{$dayjs(item.ts).format('DD/MM/YYYY h:m')}}</p>
                 </div>
             </div>
         </div>
     </div>
 </template>
+<script>
+import dayjs from 'dayjs'
+import _ from 'lodash'
+
+export default {
+    data() {
+        return {    
+            sos_count:0,
+            list_calls:[],
+            list_show:[]
+        }
+    },
+    async created(){
+        await this.getStatSos()
+        this.caldata()
+    },
+    computed:{
+        sort_list_data:function(){
+                return _.orderBy(this.list_show,'ts',"desc")
+        }
+    },
+    methods: {
+        getStatSos(){
+            return this.$store.dispatch('data/getStatSos').then((res)=>{
+                this.list_calls = res.data
+            })
+        },
+        caldata(){
+            var list_value = []
+            this.list_calls.forEach(el => {
+                var v = el[0].value
+                if(v != "[]" && v.length != 0){
+                    list_value.push({ts:el[0].ts,value:v})
+                }
+            });
+            this.sos_count = list_value.length
+            this.list_show = list_value;
+            
+        }
+    },
+}
+</script>

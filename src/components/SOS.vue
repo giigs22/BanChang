@@ -19,8 +19,41 @@
                     d="M30.679,1.928A28.109,28.109,0,1,0,58.788,30.037,28.109,28.109,0,0,0,30.679,1.928ZM20.139,30.037A10.541,10.541,0,1,1,30.679,40.577,10.541,10.541,0,0,1,20.139,30.037ZM53.406,39.45l-9.74-4.035a14.091,14.091,0,0,0,0-10.759l9.74-4.035a24.659,24.659,0,0,1,0,18.828ZM40.093,7.309l-4.035,9.74a14.091,14.091,0,0,0-10.759,0l-4.035-9.74a24.66,24.66,0,0,1,18.828,0ZM7.952,20.623l9.74,4.035a14.09,14.09,0,0,0,0,10.759L7.952,39.45a24.659,24.659,0,0,1,0-18.828ZM21.265,52.764l4.035-9.74a14.091,14.091,0,0,0,10.759,0l4.035,9.74a24.659,24.659,0,0,1-18.828,0Z"
                     transform="translate(-2.571 -1.928)" fill="" />
             </svg>
-            <span class="text-xl">0</span><span class="text-sm">{{$t('times')}}</span>
+            <span class="text-xl">{{sos_count}}</span><span class="text-sm">{{$t('times')}}</span>
         </div>
 
     </div>
 </template>
+<script>
+export default {
+    data() {
+        return {    
+            sos_count:0,
+            list_calls:[],
+        }
+    },
+    async created(){
+        await this.getStatSos()
+        this.caldata()
+    },
+  
+    methods: {
+        getStatSos(){
+            return this.$store.dispatch('data/getStatSos').then((res)=>{
+                this.list_calls = res.data
+            })
+        },
+        caldata(){
+            var list_value = []
+            this.list_calls.forEach(el => {
+                var v = el[0].value
+                if(v != "[]" && v.length != 0){
+                    list_value.push({ts:el[0].ts,value:v})
+                }
+            });
+            this.sos_count = list_value.length
+            
+        }
+    },
+}
+</script>

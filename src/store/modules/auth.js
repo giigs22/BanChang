@@ -52,6 +52,7 @@ export const auth = {
       localStorage.clear()
       commit('logout')
       route.push('/login')
+      window.location.reload( )
     },
     
   },

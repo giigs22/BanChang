@@ -177,7 +177,7 @@
             AlertDialog
         },
         data() {
-            if(this.user_role == 'administrator'){
+            if(this.user_role == 'administrator' || this.user_role =='staff'){
                 schema = yup.object().shape({
                     idcard: yup.string().required(),
                     name: yup.string().required(),
@@ -215,9 +215,8 @@
             }
         },
         created() {
-            if(this.user_role == 'administator'){
-                this.getRole()
-            }
+           
+            this.getRole()
             this.getProfile()
         },
         computed:{

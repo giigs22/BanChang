@@ -2,7 +2,7 @@
     <h2 class="lg:text-lg dark:text-white mb-2">{{$t('environment')}}</h2>
     <div class="top-bar">
         <div class="dark:bg-wether-dark bg-wether-light flex flex-wrap w-full lg:w-1/4 py-3 px-7">
-            <div class="flex flex-col text-center cursor-pointer" @click="$router.push('/view/aqi_healthy')">
+            <div class="flex flex-col text-center cursor-pointer">
                 <div class="icon-env-main dark:bg-icon-env-dark bg-icon-env-light" :style="{background:aqi.level.color}">
                     <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" alt="">
                 </div>

@@ -117,6 +117,17 @@ export const complaint = {
         }).catch((err)=>{
             return Promise.reject(err)
         })
+       },
+       getStat({rootState}){
+        return axios.get(api_backend+"complaint/stat/widget",{
+            headers:{
+                Authorization:"Bearer "+rootState.auth.token.value
+            }
+        }).then((res)=>{
+            return Promise.resolve(res)
+        }).catch((err)=>{
+            return Promise.reject(err)
+        })
        }
     },
     mutations: {

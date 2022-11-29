@@ -18,7 +18,7 @@
                                 </div>
                             </div>
                             <div class="col-span-12 lg:col-span-6">
-                                <MapView :datamap="group_map_data" heatmap="true"/>
+                                <!-- <MapView :datamap="group_map_data" heatmap="true"/> -->
                             </div>
                             <div class="col-span-12 lg:col-span-3">
                                 <div class="block-layer data-layer py-2 px-3 mt-4 dark:bg-nav-dark bg-block-content-light">
@@ -75,9 +75,12 @@
                             </div>
                         </div>
                     </div>
+                    <ChartData></ChartData>
+
                 </div>
             </div>
         </section>
+        
     </main>
     <FooterPage />
 </template>
@@ -89,6 +92,7 @@
     import TableListData from './TableListData.vue'
     import _, { orderBy } from 'lodash'
     import UserService from '../../services/user.service'
+    import ChartData from './ChartData.vue'
 
     export default {
         components: {
@@ -96,7 +100,8 @@
             FooterPage,
             MapView,
             FilterSearch,
-            TableListData
+            TableListData,
+            ChartData
         },
         data() {
             return {
@@ -120,15 +125,15 @@
         },
         async created() {
             
-            await this.getData()
-            this.calPercent()
-            this.setMapData()
+            // await this.getData()
+            // this.calPercent()
+            // this.setMapData()
 
-            setInterval(async() => {
-                await this.getData()
-                this.calPercent()
-                this.setMapData()
-            }, this.$interval_time);
+            // setInterval(async() => {
+            //     await this.getData()
+            //     this.calPercent()
+            //     this.setMapData()
+            // }, this.$interval_time);
 
         },
         methods: {
