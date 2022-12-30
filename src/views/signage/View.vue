@@ -18,12 +18,21 @@
                                         <div class="lg:col-span-3 col-span-4">
                                             <div class="grid grid-cols-4 gap-2">
                                             <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
-                                                <select name="" id="" class="h-12 rounded text-sm w-full">
+                                                <select v-model="search.condition" class="h-12 rounded text-sm w-full" @change="search.keyword=null">
                                                     <option value="">{{$t('condition_type')}}</option>
+                                                    <option value="id">ID</option>
+                                                    <option value="name">Name</option>
+                                                    <option value="device_id">Device ID</option>
+                                                    <option value="device_name">Device Name</option>
+                                                    <option value="status">Status</option>
                                                 </select>
                                             </div>
                                             <div class="col-span-4 lg:col-span-2">
-                                                <input type="text" :placeholder="$t('id')+','+$t('name')" class="form-input w-full">
+                                                <input type="text" :placeholder="$t('id')+','+$t('name')" class="form-input w-full" v-model="search.keyword" v-if="search.condition != 'status'">
+                                                <select v-model="search.keyword" class="form-input w-full" v-else>
+                                                    <option value="online">Online</option>
+                                                    <option value="offline">Offline</option>
+                                                </select>
                                             </div>
                                             </div>
                                         </div>
@@ -81,22 +90,22 @@
                                         <div class="col-span-1">
                                             <div class="bg-green-600 text-white flex flex-col items-center rounded-lg max-h-40 h-40">
                                                 <h1 class="text-4xl head-status">{{$t('on')}}</h1>
-                                                <h1 class="text-7xl">0</h1>
-                                                <h1 class="text-sm mt-2 text-center">0% {{$t('online')}}</h1>
+                                                <h1 class="text-7xl">{{online}}</h1>
+                                                <h1 class="text-sm mt-2 text-center">{{percent.online}}% {{$t('online')}}</h1>
                                             </div>
                                         </div>
                                         <div class="col-span-1">
                                             <div class="bg-yellow-400 text-white flex flex-col items-center rounded-lg max-h-40 h-40">
                                                 <h1 class="text-4xl head-status">{{$t('ng')}}</h1>
-                                                <h1 class="text-7xl">0</h1>
-                                                <h1 class="text-sm mt-2 text-center">0% {{$t('abnormal')}}</h1>
+                                                <h1 class="text-7xl">{{abnormal}}</h1>
+                                                <h1 class="text-sm mt-2 text-center">{{percent.abnormal}}% {{$t('abnormal')}}</h1>
                                             </div>
                                         </div>
                                         <div class="col-span-1">
                                             <div class="bg-red-600 text-white flex flex-col items-center rounded-lg max-h-40 h-40">
                                                 <h1 class="text-4xl head-status">{{$t('off')}}</h1>
-                                                <h1 class="text-7xl">0</h1>
-                                                <h1 class="text-sm mt-2 text-center">0% {{$t('offline')}}</h1>
+                                                <h1 class="text-7xl">{{offline}}</h1>
+                                                <h1 class="text-sm mt-2 text-center">{{percent.offline}}% {{$t('offline')}}</h1>
                                             </div>
                                         </div>
                                     </div>
@@ -136,6 +145,10 @@
                     abnormal: 0,
                     offline: 0
               },
+              search:{
+                    condition:"",
+                    keyword:null,
+                }
             }
         },
         computed: {
@@ -171,6 +184,8 @@
                 })
             },
             setStatus(){
+                this.online = 0
+                this.offline = 0
                 this.list_data.forEach(el=>{
                     if(el.status){
                         this.online += 1
@@ -192,7 +207,13 @@
                 this.group_map_data = this.list_data
             },
             searchData(){
-                this.$router.push('/view/digital_signage/result')
+                this.$router.push({
+                    name:'digital_signage_result',
+                    params:{
+                    cond:this.search.condition,
+                    keyword:this.search.keyword,
+                    }
+                })
             }
         }
 
