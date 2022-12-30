@@ -18,12 +18,16 @@
                                         <div class="lg:col-span-3 col-span-4">
                                             <div class="grid grid-cols-4 gap-2">
                                             <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
-                                                <select name="" id="" class="h-12 rounded text-sm w-full">
+                                                <select v-model="search.condition" class="h-12 rounded text-sm w-full">
                                                     <option value="">{{$t('condition_type')}}</option>
+                                                    <option value="name">Device Name</option>
+                                                    <option value="pending">Status Pending</option>
+                                                    <option value="maintenance">Status Maintenance</option>
+                                                    <option value="success">Status Success</option>
                                                 </select>
                                             </div>
                                             <div class="col-span-4 lg:col-span-2">
-                                                <input type="text" :placeholder="$t('id')+','+$t('name')" class="form-input w-full">
+                                                <input type="text" placeholder="Device Name" class="form-input w-full" v-model="search.keyword">
                                             </div>
                                             </div>
                                         </div>
@@ -115,6 +119,7 @@
     import FooterPage from '../layout/FooterPage.vue'
     import MapView from '../../components/MapView.vue'
     import _ from 'lodash'
+    import UserService from '../../services/user.service'
    
     export default {
         components: {
@@ -135,7 +140,11 @@
                     offline: 0
                 },
                 group_map_data:[],
-                isLoading:false
+                isLoading:false,
+                search:{
+                    condition:"",
+                    keyword:null,
+                }
             }
         },
         computed: {
@@ -162,6 +171,8 @@
                     var data =res.data
                     this.list_data = data
                     this.isLoading = false
+                }).catch((err)=>{
+                    UserService.checkUnauthen(err.response)
                 })
             },
             setStatus(){
@@ -187,16 +198,22 @@
             setMapData(){
                 var list_off = []
                 this.list_data.forEach(el=>{
-                    if(!el.status){
+                    
                         var data = el
                         data['fix'] = true
                         list_off.push(el)
-                    }
+                    
                 })
                 this.group_map_data = list_off
             },
             searchData(){
-                this.$router.push('/maintenance/result')
+                this.$router.push({
+                    name:'maintenance_result',
+                    params:{
+                    cond:this.search.condition,
+                    keyword:this.search.keyword,
+                    }
+                })
             }
 
         }
