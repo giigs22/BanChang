@@ -10,18 +10,18 @@
             </li>
             <li>{{$t('cctv_camera')}} <input v-model="selected_widget" type="checkbox" value="cctv" class="mr-5 cus-checkbox">
             </li>
-            <li>{{$t('cctv_survillance')}} <input v-model="selected_widget" type="checkbox" value="cctv_sur" class="mr-5 cus-checkbox disabled:bg-gray-400" disabled>
-            </li>
+            <!-- <li>{{$t('cctv_survillance')}} <input v-model="selected_widget" type="checkbox" value="cctv_sur" class="mr-5 cus-checkbox disabled:bg-gray-400" disabled>
+            </li> -->
             <li>{{$t('parking')}} <input v-model="selected_widget" type="checkbox" value="park" class="mr-5 cus-checkbox disabled:bg-gray-400" disabled></li>
             <li>{{$t('freewifi')}} <input v-model="selected_widget" type="checkbox" value="wifi" class="mr-5 cus-checkbox">
             </li>
-            <li>{{$t('digital_signage')}} <input v-model="selected_widget" type="checkbox" value="digi_sig" class="mr-5 cus-checkbox disabled:bg-gray-400" disabled>
+            <li>{{$t('digital_signage')}} <input v-model="selected_widget" type="checkbox" value="digi_sig" class="mr-5 cus-checkbox disabled:bg-gray-400">
             </li>
             <li>{{$t('sos')}} <input v-model="selected_widget" type="checkbox" value="sos" class="mr-5 cus-checkbox disabled:bg-gray-400"></li>
-            <li>{{$t('complaint')}} <input v-model="selected_widget" type="checkbox" value="comp" class="mr-5 cus-checkbox disabled:bg-gray-400" disabled>
-            </li>
-            <li>{{$t('maintenance')}} <input v-model="selected_widget" type="checkbox" value="main" class="mr-5 cus-checkbox disabled:bg-gray-400" disabled>
-            </li>
+            <!-- <li>{{$t('complaint')}} <input v-model="selected_widget" type="checkbox" value="comp" class="mr-5 cus-checkbox disabled:bg-gray-400" disabled>
+            </li> -->
+            <!-- <li>{{$t('maintenance')}} <input v-model="selected_widget" type="checkbox" value="main" class="mr-5 cus-checkbox disabled:bg-gray-400" disabled>
+            </li> -->
 
         </ul>
         <div class="flex justify-between mx-5">
@@ -60,7 +60,7 @@ export default {
     methods:{
         selectAll(){
             this.selected_widget = []
-            var list = ['aqi','smlight','smpole','cctv','wifi','sos']
+            var list = ['aqi','smlight','smpole','cctv','wifi','digi_sig','sos']
             if(!this.allSelect){
                 list.forEach(el => {
                     this.selected_widget.push(el)

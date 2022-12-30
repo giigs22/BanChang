@@ -201,5 +201,15 @@
     "update_complaint_topic":"Update Complaint Topic",
     "too_dry":"Too Dry",
     "comfort":"Comfort",
-    "too_humid":"Too Humid"
+    "too_humid":"Too Humid",
+    "temperature":"Temperature",
+    "cold":"Cold",
+    "warm":"Warm",
+    "hot":"Hot",
+    "no_pm25_data":"No Pm2.5 Data",
+    "topic":"Topic",
+    "poor":"Poor",
+    "good":"Good",
+    "order_by":"Order By",
+    "complaint_summary":"Complaint Summary"
 }

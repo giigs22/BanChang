@@ -78,30 +78,28 @@
                     var traffic_violation = 0
                     var parking_violation = 0
 
-                    var faceReg_alllist_daily = _.cloneDeep(this.set_data.faceReg_alllist_daily)
-                    var faceReg_blacklist_daily = _.cloneDeep(this.set_data.faceReg_blacklist_daily)
-                    var prohibitedArea_daily = _.cloneDeep(this.set_data.prohibitedArea_daily)
-                    var tracking_daily = _.cloneDeep(this.set_data.tracking_daily)
-                    var wrongDirection_daily = _.cloneDeep(this.set_data.wrongDirection_daily)
-                    var prohibitedParking_daily = _.cloneDeep(this.set_data.prohibitedParking_daily)
+                    var faceReg_alllist = _.cloneDeep(this.set_data.faceReg_alllist)
+                    var face_recognition = _.cloneDeep(this.set_data.face_recognition)
+                    var no_park = _.cloneDeep(this.set_data.no_park)
+                    var traffic_rate = _.cloneDeep(this.set_data.traffic_rate)
+                    var wrong_direction = _.cloneDeep(this.set_data.wrong_direction)
 
-                    faceReg_alllist_daily.forEach(el=>{
-                        trespasser += el.value
+                    faceReg_alllist.forEach(el=>{
+                        suspected_face_detection += 1
                     })
-                    faceReg_blacklist_daily.forEach(el=>{
-                        suspected_face_detection += el.value
+                    face_recognition.forEach(el=>{
+                        suspected_face_detection += 1
                     })
-                    prohibitedArea_daily.forEach(el=>{
-                        traffic_violation += el.value
+
+                    traffic_rate.forEach(el=>{
+                        traffic_violation +=1
                     })
-                    tracking_daily.forEach(el=>{
-                        traffic_violation += el.value
+                    wrong_direction.forEach(el=>{
+                        traffic_violation += 1
                     })
-                    wrongDirection_daily.forEach(el=>{
-                        traffic_violation += el.value
-                    })
-                    prohibitedParking_daily.forEach(el=>{
-                        parking_violation += el.value
+                  
+                    no_park.forEach(el=>{
+                        parking_violation += 1
                     })
 
                     var chart_data = [camera_malfunction, trespasser, suspected_face_detection, group_cluster_detection,

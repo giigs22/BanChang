@@ -19,22 +19,45 @@
                 <div class="text-4xl dark:text-white absolute">0</div>
             </div>
             <div class="dark:text-white">
-                <p>{{$t('normal')}} <span class="text-3xl dark:text-cyan-400 text-green-600">0</span> {{$t('plate')}}</p>
-                <p>{{$t('suspect')}} <span class="text-3xl dark:text-indigo-400">0</span> {{$t('plate')}}</p>
+                <p>{{$t('normal')}} <span class="text-3xl dark:text-cyan-400 text-green-600">{{normal}}</span> {{$t('plate')}}</p>
+                <p>{{$t('suspect')}} <span class="text-3xl dark:text-indigo-400">{{suspect}}</span> {{$t('plate')}}</p>
             </div>
         </div>
     </div>
 </template>
 <script>
+import UserService from '../../services/user.service'
 import ChartCheckLisense from '../ChartCheckLicensePlate.vue'
 export default{
     data() {
         return {
-            data_set:[3,1]
+            data_set:[0,0],
+            normal:0,
+            suspect:0
         }
     },
     components:{
         ChartCheckLisense
-    }
+    },
+    created(){
+        this.getData()
+    },
+    methods: {
+        getData(){
+            var data = {
+                type:'lastdata',
+                sensor:'check_license_plate',
+                option:'stat'
+            }
+            this.$store.dispatch('data/getData',data).then((res)=>{
+                var data = res.data
+                this.data_set = [data.normal,data.suspect]
+                this.normal = data.normal
+                this.suspect = data.suspect
+            }).catch((err)=>{
+                UserService.checkUnauthen(err.response)
+            })
+        }
+    },
 }
 </script>

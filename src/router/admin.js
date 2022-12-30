@@ -211,6 +211,7 @@ let admin = [
     },
     {
       path: '/maintenance/result',
+      name:'maintenance_result',
       component: MaintenanceResult,
       meta: {
         middleware: auth,
@@ -300,6 +301,7 @@ let admin = [
     },
     {
       path: '/view/digital_signage/result',
+      name:"digital_signage_result",
       component: DigitalSignageResult,
       meta: {
         middleware: auth,

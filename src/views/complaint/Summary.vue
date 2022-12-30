@@ -1,68 +1,66 @@
 <template>
     <div class="overflow-hidden h-10 my-4 text-xs flex rounded-2xl">
-        <div :style="'width:'+percent.elec+'%'"
-            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500">
+        <div v-for="item in list_data" :style="'width:'+item.percent+'%;background-color:'+item.color"
+            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center">
         </div>
-        <div :style="'width:'+percent.wa+'%'"
-            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500">
-        </div>
-        <div :style="'width:'+percent.distur+'%'"
-            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-500">
-        </div>
-        <div :style="'width:'+percent.etc+'%'"
-            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-yellow-500">
-        </div>
+
     </div>
     <div class="grid grid-cols-12">
-        <div class="col-span-12 lg:col-span-4">
+        <div class="col-span-3 lg:col-span-4" v-for="item in list_data">
             <div class="flex dark:text-white items-center gap-5 text-xl mb-3">
-                <div class="w-4 h-4 rounded-full bg-red-500"></div> Electricity <span
-                    class="ml-3">{{data.electricity}}</span>
-            </div>
-            <div class="flex dark:text-white items-center gap-5 text-xl">
-                <div class="w-4 h-4 rounded-full bg-blue-500"></div> Water <span class="ml-3">{{data.water}}</span>
+                <div class="w-4 h-4 rounded-full" :style="'background-color:'+item.color"></div>
+                {{item.type.toUpperCase()}} <span class="ml-3">{{item.value}}</span>
             </div>
         </div>
-        <div class="col-span-12 lg:col-span-4">
-            <div class="flex dark:text-white items-center gap-5 text-xl mb-3">
-                <div class="w-4 h-4 rounded-full bg-yellow-500"></div> Etc <span class="ml-3">{{data.etc}}</span>
 
-            </div>
-            <div class="flex dark:text-white items-center gap-5 text-xl">
-                <div class="w-4 h-4 rounded-full bg-green-500"></div> Disturbance <span
-                    class="ml-3">{{data.disturbance}}</span>
-            </div>
-        </div>
     </div>
 </template>
 <script>
+    import _ from 'lodash'
+
     export default {
         props: ['data'],
         data() {
             return {
-                percent: {
-                    elec: 0,
-                    wa: 0,
-                    distur: 0,
-                    etc: 0
-                },
+                list_type: null,
+                list_data: null
             }
         },
-        updated() {
-            this.calPercent()
+        watch: {
+            data(n, o) {
+                const arr_type = Object.entries(n).map((arr) => ({
+                    type: arr[0],
+                    value: arr[1],
+                }));
+                this.list_type = arr_type
+                this.setData()
+            }
         },
         methods: {
-            calPercent() {
-                var all = this.data.electricity+this.data.water+this.data.disturbance+this.data.etc
-                var elec = (this.data.electricity * 100) / all
-                var wa = (this.data.water * 100) / all
-                var distur = (this.data.disturbance * 100) / all
-                var etc = (this.data.etc * 100) / all
+            setData() {
+                var list = []
+                this.list_type.forEach(el => {
+                    list.push({
+                        type: el.type,
+                        value: el.value,
+                        color: this.randomColor(),
+                        percent: this.calPercent(el.value)
+                    })
+                });
+                this.list_data = list
 
-                this.percent.elec = Math.ceil(elec)
-                this.percent.wa = Math.ceil(wa)
-                this.percent.distur = Math.ceil(distur)
-                this.percent.etc = Math.ceil(etc)
+            },
+            calPercent(value) {
+                var sum = _.sumBy(this.list_type, 'value')
+                var percent = (value * 100) / sum
+                return Math.ceil(percent)
+            },
+            randomColor() {
+                var num = Math.round(0xffffff * Math.random());
+                var r = num >> 16;
+                var g = num >> 8 & 255;
+                var b = num & 255;
+                return 'rgb(' + r + ', ' + g + ', ' + b + ')';
             }
         }
     }

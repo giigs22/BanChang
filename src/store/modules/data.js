@@ -48,6 +48,17 @@ export const data = {
                 return Promise.reject(err)
             })
         },
+        getFilterDs({rootState},data){
+            return axios.post(api_backend+'device/filter_ds',data,{
+                headers:{
+                    Authorization:"Bearer "+rootState.auth.token.value
+                }
+            }).then((res)=>{
+                return Promise.resolve(res)
+            }).catch((err)=>{
+                return Promise.reject(err)
+            })
+        },
         ExportCSV({rootState},data){
             return axios.post(api_backend+'export/csv',data,{
                 headers:{
@@ -61,6 +72,17 @@ export const data = {
         },
         StreamCCTV({rootState},data){
             return axios.post(api_backend+'streaming',{url_rtsp:data},{
+                headers:{
+                    Authorization:"Bearer "+rootState.auth.token.value
+                }
+            }).then((res)=>{
+                return Promise.resolve(res)
+            }).catch((err)=>{
+                return Promise.reject(err)
+            })
+        },
+        StreamCheck({rootState},data){
+            return axios.post(api_backend+'streaming/check',{live_url:data},{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                 }

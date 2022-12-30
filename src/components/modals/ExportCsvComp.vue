@@ -25,11 +25,7 @@
                             <div>
                                 <label for="" class="font-bold block">Data</label>
                                 <select v-model="sdata">
-                                    <option value="sum">All Summary</option>
-                                    <option value="electricity">Electricity</option>
-                                    <option value="etc">Etc</option>
-                                    <option value="water">Water</option>
-                                    <option value="disturbance">Disturbance</option>
+                                    <option value="sum">All Summary</option>                                
                                 </select>
                             </div>
                             <div v-if="sdata != ''">
@@ -84,7 +80,7 @@
                             class="disabled:opacity-50 mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-600 text-white font-medium hover:bg-blue-600 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                             {{$t('export_csv')}}
                         </button>
-                        <button @click="close" type="button"
+                        <button @click="closeModal" type="button"
                             class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-gray-700 font-medium focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                             {{$t('close')}}
                         </button>
@@ -96,10 +92,10 @@
 </template>
 <script>
 import dayjs from 'dayjs'
-import UserService from '../../services/user.service'
 import * as xlsx from 'xlsx'
 import isoWeek from 'dayjs/plugin/isoWeek'
 import localeData from 'dayjs/plugin/localeData'
+
 dayjs.extend(isoWeek)
 dayjs.extend(localeData)
 
@@ -228,10 +224,16 @@ dayjs.extend(localeData)
                     }
                     this.isLoading = true
                     this.$store.dispatch('complaint/ExportCSV',data).then((res)=>{
+                        var data = res.data
+                        var group = Object.entries(data).map((arr) => ({
+                            type: arr[0],
+                            value: arr[1],
+                        }));
+                        this.setCsv(group)
                         this.isLoading = false
-                        this.setCsv(res.data)
+
                     }).catch((err)=>{
-                        UserService.checkUnauthen(err.response)
+                        console.log(err);
                     })
                 }else{
                     this.error.active = true
@@ -257,7 +259,7 @@ dayjs.extend(localeData)
                 xlsx.utils.book_append_sheet(wb, dataWS)
                 xlsx.writeFile(wb,fileName)
             },
-            close() {
+            closeModal() {
                 this.$emit('close')
             }
         }

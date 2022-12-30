@@ -18,7 +18,7 @@
                                 </div>
                             </div>
                             <div class="col-span-12 lg:col-span-6">
-                                <!-- <MapView :datamap="group_map_data" heatmap="true"/> -->
+                                <MapView :datamap="group_map_data" heatmap="true"/>
                             </div>
                             <div class="col-span-12 lg:col-span-3">
                                 <div class="block-layer data-layer py-2 px-3 mt-4 dark:bg-nav-dark bg-block-content-light">
@@ -52,23 +52,27 @@
                                     <table class="w-full my-3">
                                         <tr class="dark:text-[#00F9CF] text-cyan-500">
                                             <td>{{$t('excellent')}}</td>
-                                            <td>0</td>
+                                            <td>{{(sum_aqi.excell != undefined)?sum_aqi.excell:0}}</td>
                                         </tr>
                                         <tr class="dark:text-[#4CBF08] text-green-600">
                                             <td>{{$t('satisfactory')}}</td>
-                                            <td>0</td>
+                                            <td>{{(sum_aqi.satis != undefined)?sum_aqi.satis:0}}</td>
                                         </tr>
                                         <tr class="dark:text-[#FFEB50] text-yellow-400">
                                             <td>{{$t('moderate')}}</td>
-                                            <td>0</td>
+                                            <td>{{(sum_aqi.mod != undefined)?sum_aqi.mod:0}}</td>
                                         </tr>
                                         <tr class="dark:text-[#FFB14C] text-orange-500">
                                             <td>{{$t('unhealthy')}}</td>
-                                            <td>0</td>
+                                            <td>{{(sum_aqi.unheal != undefined)?sum_aqi.unheal:0}}</td>
                                         </tr>
                                         <tr class="dark:text-[#BF4957] text-fuchsia-900" >
                                             <td>{{$t('very_unhealthy')}}</td>
-                                            <td>0</td>
+                                            <td>{{(sum_aqi.very_unheal != undefined)?sum_aqi.very_unheal:0}}</td>
+                                        </tr>
+                                         <tr class="dark:text-gray text-slate-300" >
+                                            <td>{{$t('no_pm25_data')}}</td>
+                                            <td>{{nonpm25}}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -90,9 +94,10 @@
     import MapView from '../../components/MapView.vue'
     import FilterSearch from '../../components/utility/FilterSearch.vue'
     import TableListData from './TableListData.vue'
-    import _, { orderBy } from 'lodash'
+    import _, { forEach, orderBy } from 'lodash'
     import UserService from '../../services/user.service'
     import ChartData from './ChartData.vue'
+    import aqical from '../../services/env.aqi'
 
     export default {
         components: {
@@ -116,6 +121,15 @@
                 },
                 group_map_data:[],
                 isLoading:false,
+                pm25:[],
+                sum_aqi:{
+                    excell:0,
+                    satis:0,
+                    mod:0,
+                    unheal:0,
+                    very_unheal:0
+                },
+                nonpm25:0
             }
         },
         computed: {
@@ -125,15 +139,19 @@
         },
         async created() {
             
-            // await this.getData()
-            // this.calPercent()
-            // this.setMapData()
+            await this.getData()
+            this.calPercent()
+            this.setMapData()
+            this.setDataPM25()
+            this.calAqiLevel()
 
-            // setInterval(async() => {
-            //     await this.getData()
-            //     this.calPercent()
-            //     this.setMapData()
-            // }, this.$interval_time);
+            setInterval(async() => {
+                await this.getData()
+                this.calPercent()
+                this.setMapData()
+                this.setDataPM25()
+                this.calAqiLevel()
+            }, this.$interval_time);
 
         },
         methods: {
@@ -173,6 +191,32 @@
                 this.percent.online = Math.round(per_online)
                 this.percent.offline = Math.round(per_offline)
                 this.percent.abnormal = Math.round(per_abnormal)
+            },
+            setDataPM25(){
+                this.list_data.forEach(el => {
+                    if(el.data.hasOwnProperty('pm25')){
+                        this.pm25.push({
+                            data: el.data.pm25[0]
+                        })
+                    }else{
+                        this.nonpm25 += 1
+                    }
+
+                });
+            },
+            calAqiLevel(){
+                var arr_level = []
+                this.pm25.forEach(el=>{
+                    var level = aqical.LevelAQI(el.data.value)
+                    arr_level.push(level)
+                })
+                var group = _.groupBy(arr_level,'label')
+                this.sum_aqi.excell = group.excellent?.length??0
+                this.sum_aqi.satis = group.satisfactory?.length??0
+                this.sum_aqi.mod = group.moderate?.length??0
+                this.sum_aqi.unheal = group.unhealthy?.length??0
+                this.sum_aqi.very_unheal = group.veryunhealthy?.length??0
+                
             },
             setMapData(){
                 this.group_map_data = this.list_data

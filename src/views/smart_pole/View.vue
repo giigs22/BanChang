@@ -129,6 +129,8 @@
                 })
             },
             setStatus(){
+                this.online = 0
+                this.offline = 0
                 this.list_data.forEach(el=>{
                     if(el.status){
                         this.online += 1

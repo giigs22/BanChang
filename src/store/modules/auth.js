@@ -49,10 +49,12 @@ export const auth = {
     })
     },
     logout({ commit }) {
-      localStorage.clear()
+      //localStorage.clear()
+      localStorage.removeItem('user_data')
+      localStorage.removeItem('widget')
       commit('logout')
       route.push('/login')
-      window.location.reload( )
+      //window.location.reload()
     },
     
   },

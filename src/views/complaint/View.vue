@@ -9,9 +9,9 @@
                     <div class="block-content mb-5">
                         <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false" :opacity="0.1" class="rounded-lg"/>
 
-                        <h1 class="text-xl dark:text-white ml-10">Complaint</h1>
+                        <h1 class="text-xl dark:text-white ml-10">{{$t('complaint')}}</h1>
                         <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg dark:text-white">Search</h3>
+                            <h3 class="text-lg dark:text-white">{{$t('search')}}</h3>
                             <div class="grid grid-cols-12 form-search">
                                 <div class="col-span-12 lg:col-span-10">
                                     <div class="grid grid-cols-12 gap-3">
@@ -21,43 +21,43 @@
                                         </select>
                                         </div> -->
                                         <div class="col-span-12 lg:col-span-8 flex lg:justify-end">
-                                            <input v-model="search.title" type="text" placeholder="Title" class="form-input w-full lg:ml-20">
+                                            <input v-model="search.title" type="text" :placeholder="$t('title')" class="form-input w-full lg:ml-20">
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex flex-col lg:flex-row lg:items-end justify-end">
-                                            <label for="" class="dark:text-white">Order by</label>
+                                            <label for="" class="dark:text-white">{{$t('order_by')}}</label>
                                         <select v-model="search.order_by" class="h-12 rounded text-sm lg:ml-4 w-full lg:w-2/3">
-                                            <option value="">Order by</option>
-                                            <option value="asc">ASC</option>
-                                            <option value="desc">DESC</option>
+                                            <option value="">{{$t('order_by')}}</option>
+                                            <option value="asc">{{$t('asc')}}</option>
+                                            <option value="desc">{{$t('desc')}}</option>
                                         </select>
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex flex-col lg:flex-row lg:items-end justify-end">
-                                            <label for="" class="dark:text-white">From</label>
+                                            <label for="" class="dark:text-white">{{$t('from')}}</label>
                                         <input v-model="search.start_date" type="date" placeholder="DD/MM/YYYY" class="form-input lg:ml-3 w-full lg:w-2/3">
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex flex-col lg:flex-row lg:items-end justify-end">
-                                            <label for="" class="dark:text-white">To</label>
+                                            <label for="" class="dark:text-white">{{$t('to')}}</label>
                                         <input v-model="search.end_date" type="date" placeholder="DD/MM/YYYY" class="form-input lg:ml-3 w-full lg:w-2/3">
                                         </div>
                                         <div class="col-span-12 lg:col-span-4 flex flex-col lg:flex-row lg:items-end justify-end">
-                                            <label for="" class="dark:text-white">Agency</label>
+                                            <label for="" class="dark:text-white">{{$agency}}</label>
                                         <input v-model="search.agency" type="text" placeholder="Unit name" class="form-input lg:ml-5 w-full file:lg:w-2/3">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-span-12 lg:col-span-2">
-                                    <button class="h-12 btn-purple rounded my-3 lg:my-0 lg:ml-3 w-full lg:w-auto" @click="searchComp">Search</button>
-                                    <button class="h-12 btn-red rounded my-3 lg:my-0 lg:ml-3 w-full lg:w-auto" @click="resetfilter">Reset</button>
+                                    <button class="h-12 btn-purple rounded my-3 lg:my-0 lg:ml-3 w-full lg:w-auto" @click="searchComp">{{$t('search')}}</button>
+                                    <button class="h-12 btn-red rounded my-3 lg:my-0 lg:ml-3 w-full lg:w-auto" @click="resetfilter">{{$t('reset')}}</button>
                                 </div>
                             </div>
                         </div>
                         <div class="lg:mx-20 my-10 bg-white-op6 p-2 lg:p-7 rounded-lg">
                             <div class="flex justify-between">
-                                <h1 class="lg:text-xl font-bold dark:text-white uppercase">Complaint summary</h1>
-                                <button class="btn-purple rounded py-1 px-2" @click="exportdata = true">Export CSV</button>
+                                <h1 class="lg:text-xl font-bold dark:text-white uppercase">{{$t('complaint_summary')}}</h1>
+                                <button class="btn-purple rounded py-1 px-2" @click="modalExport">{{$t('export_csv')}}</button>
                             </div>
                             <div class="relative pt-1">
-                                <Summary :data="stat"></Summary>
+                                <ComplaintSummary :data="stat"/>
                             </div>
                            
                         </div>
@@ -120,7 +120,7 @@
                                     v-for="item_re in item.reply">
                                     {{item_re.text_reply}}
                                     <div class="mt-10 text-sm flex flex-col text-left lg:flex-row gap-2 lg:gap-5">
-                                        <div><span class="font-bold">{{$t('by')}}</span> {{item_re.user.name}}</div>
+                                        <div><span class="font-bold">{{$t('by')}}</span> {{(item_re.user?.name == null)?'-':item_re.user.name}}</div>
                                         <div><span class="font-bold">{{$t('date_time')}}</span> {{item_re.created_at}}
                                         </div>
                                     </div>
@@ -137,29 +137,29 @@
             </div>
         </section>
     </main>
-    <AlertDialogConfirm v-if="confirm.active" :type="confirm.type" :msg="confirm.msg" @submit="confirmDel"
-        @close="closeConfirm" />
+    <AlertDialogConfirm v-if="confirm.active" :type="confirm.type" :msg="confirm.msg" @submit="confirmDel" @close="closeConfirm" />
     <AlertDialog v-if="alert.active" :type="alert.type" :msg="alert.msg"/>
-    <LightBoxImage :img_url="img_selected" v-if="lightbox" @close="closeLightbox"></LightBoxImage>
-    <ExportCsvComp v-if="exportdata" @close="modalExport"></ExportCsvComp>
-    <FooterPage />
+    <LightBoxImage :img_url="img_selected" v-if="lightbox" @close="closeLightbox"/>
+    <ExportCsvComp v-if="exportdata" @close="modalExport"/>
+    <FooterPage/>
 </template>
 <script>
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
     import Pagination from '../../components/utility/Pagination.vue'
     import AlertDialogConfirm from '../../components/utility/AlertDialogConfirm.vue'
-    import Summary from './Summary.vue'
+    import ComplaintSummary from './Summary.vue'
     import LightBoxImage from '../../components/modals/LightBoxImage.vue'
-    import UserService from '../../services/user.service'
     import ExportCsvComp from '../../components/modals/ExportCsvComp.vue'
+    import UserService from '../../services/user.service'
+
     export default {
         components: {
             TopMenu,
             FooterPage,
             Pagination,
             AlertDialogConfirm,
-            Summary,
+            ComplaintSummary,
             LightBoxImage,
             ExportCsvComp
         },
@@ -181,12 +181,7 @@
                 },
                 del_id:null,
                 isLoading:false,
-                stat:{
-                    electricity:0,
-                    water:0,
-                    etc:0,
-                    disturbance:0,
-                },
+                stat:null,
                 search:{
                     title:null,
                     start_date:null,
@@ -202,6 +197,16 @@
         async created() {
             await this.getComplaintData()
         },
+        watch:{
+          '$store.state.template.lang':{
+            deep: true,
+                handler(n) {
+                    if(n != null){
+                        this.getComplaintData()
+                    }
+                }
+          }  
+        },
         methods:{
             getComplaintData(){
                 var data = {
@@ -213,7 +218,8 @@
                         end_date:this.search.end_date,
                         order_by:this.search.order_by,
                         agency:this.search.agency
-                    }
+                    },
+                    lang:localStorage.getItem('lang')
                 }
                 var type = 'all'
                 this.isLoading = true
@@ -221,15 +227,11 @@
                     var data = res.data
                     this.count = data.count_all
                     this.list_comp = data.list_comp
-                    this.stat = {
-                        electricity:data.stat.electricity?data.stat.electricity:0,
-                        water:data.stat.water?data.stat.water:0,
-                        etc:data.stat.etc?data.stat.etc:0,
-                        disturbance:data.stat.disturbance?data.stat.disturbance:0,
-                    }
                     this.isLoading = false
+                    this.stat = data.stat
                 }).catch((err)=>{
                     UserService.checkUnauthen(err.response)
+                    console.log(err);
                 })
             },
             updateData(start){
@@ -313,8 +315,9 @@
 
             },
             modalExport(){
-                this.exportdata = false
-            }
+                this.exportdata = !this.exportdata
+            },
+            
             
         }
     }

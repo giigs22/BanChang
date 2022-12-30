@@ -22,6 +22,12 @@ const app = createApp({
             var theme = localStorage.getItem('theme')
             if(theme == null || theme == undefined){
                 localStorage.setItem('theme','dark')
+            }else{
+                if(theme == 'dark'){
+                    document.documentElement.classList.add('dark')
+                }else{
+                    document.documentElement.classList.remove('dark')
+                }
             }
             var lang = localStorage.getItem('lang')
             if(lang == null || lang == undefined){

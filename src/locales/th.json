@@ -196,5 +196,15 @@
     "save_topic":"บันทึกข้อมูล",
     "too_dry":"แห้ง",
     "comfort":"สบาย",
-    "too_humid":"ชื้นสูง"
+    "too_humid":"ชื้นสูง",
+    "temperature":"อุณหภูมิ",
+    "cold":"เย็น",
+    "warm":"อบอุ่น",
+    "hot":"ร้อน",
+    "no_pm25_data":"ไม่พบข้อมูล PM2.5",
+    "topic":"เรื่อง",
+    "poor":"แย่มาก",
+    "good":"ดี",
+    "order_by":"เรียงลำดับ",
+    "complaint_summary":"สถิติร้องเรียน"
 }

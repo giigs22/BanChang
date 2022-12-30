@@ -210,7 +210,7 @@
         mounted(){
             setTimeout(() => {
                 this.setUser()
-            }, 2000);
+            }, 3000);
         },
         watch: {
             '$store.state.user.user_data': {

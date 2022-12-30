@@ -28,15 +28,15 @@
                 <p class="text-lg">{{cost_energy}} {{$t('baht')}}</p>
                 <div class="flex items-baseline gap-3">
                     <div>
+                        <p class="text-4xl">{{online}}</p>
+                        <p class="text-xs">{{$t('online')}}</p>
+                    </div>
+                    <div class="border border-slate-500 h-10 my-auto"></div>
+                    <div>
                         <p class="text-4xl">{{offline}}</p>
                         <p class="text-xs">{{$t('offline')}}</p>
                     </div>
-                    <div class="border border-slate-500 h-10 my-auto"></div>
-
-                    <div>
-                        <p class="text-4xl">{{no_good}}</p>
-                        <p class="text-xs">{{$t('no_good')}}</p>
-                    </div>
+                   
                 </div>
                 <div class="flex mt-2 content-center">
                     <div class="flex flex-col text-left text-xs">

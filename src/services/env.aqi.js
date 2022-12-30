@@ -174,6 +174,62 @@ class EnvAqi{
         }
         return detail
     }
+    LevelTemp(temp){
+        var detail = {}
+        if(temp < 11){
+            detail = {
+                label:'cold',
+                color:'#0ea5e9'
+            }
+        }else if(temp < 21){
+            detail = {
+                label:'moderate',
+                color:'#fde047'
+            }
+        
+        }else if(temp < 31){
+            detail = {
+                label:'warm',
+                color:'#fb923c'
+            }
+        }else{
+            detail = {
+                label:'hot',
+                color:'#dc2626'
+            }
+        }
+        return detail
+    }
+    LevelVoc(voc){
+        var detail = {}
+        if(voc <0.4){
+            detail = {
+                label:'excellent',
+                color:'#66cc33'
+            }
+        }else if(voc <=1 ){
+            detail = {
+                label:'good',
+                color:'#c1eaad'
+            }
+        }else if(voc <4){
+            detail = {
+                label:'moderate',
+                color:'#ffff00'
+            }
+        }else if(voc < 11){
+            detail = {
+                label:'poor',
+                color:'#ff6600'
+            }
+        }else{
+            detail = {
+                label:'unhealthy',
+                color:'#c00000'
+            }
+        }
+        return detail
+    }
     CalAQI(pm25){
         var aqi = 0
         var cmax = 0

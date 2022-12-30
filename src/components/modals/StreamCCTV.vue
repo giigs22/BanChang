@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed z-50 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed z-[9999] inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
            <transition name="bg-fade">
                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
@@ -16,7 +16,7 @@
       </svg>
                     </div>
                     
-                        <video-player @error="handleError" class="mx-auto" controls :options="option" v-if="playVideo"/>
+                        <video-player class="mx-auto" controls :options="option" v-if="playVideo"/>
 
                    </div>
                    <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row fixed bottom-0 justify-end">
@@ -53,14 +53,27 @@ export default {
             await this.postRtsp()
             this.stream = setInterval(async() => {
                 await this.postRtsp()
-            }, 39999);
+            }, 40000);
         },
    methods:{
     postRtsp(){
-        this.playVideo = false
+        //this.playVideo = false
         return this.$store.dispatch('data/StreamCCTV',this.url_rtsp).then((res)=>{
             this.option.sources[0].src = res.data.live_url
-            this.setPlay()
+            this.checkBeforePlay()
+        }).catch((err)=>{
+            UserService.checkUnauthen(err.response)
+        })
+    },
+    checkBeforePlay(){
+        return this.$store.dispatch('data/StreamCheck',this.option.sources[0].src).then((res)=>{
+            if(res.data === 404){
+                setTimeout(() => {
+                    this.postRtsp();
+                }, 10000);
+            }else{
+                this.setPlay();
+            }
         }).catch((err)=>{
             UserService.checkUnauthen(err.response)
         })
@@ -73,14 +86,7 @@ export default {
         clearInterval(this.stream)
         this.$emit('close')
     },
-    handleError(e){
-        var error = e.type
-        if(error == 'error'){
-            setTimeout(() => {
-                this.postRtsp()
-            }, 5000);
-        }
-    },
+   
    }
 }
 </script>

@@ -21,6 +21,10 @@
     var markers = []
     var mkcluster
     var heatmapData = []
+
+    const spiderfier = document.createElement('script');
+            spiderfier.src = "https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.min.js";
+            document.querySelector('head').appendChild(spiderfier);
     
 export default {
     props:['datamap','heatmap'],
@@ -31,9 +35,7 @@ export default {
         }
     },
     async created(){
-            const spiderfier = document.createElement('script');
-            spiderfier.src = "https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.min.js";
-            document.querySelector('head').appendChild(spiderfier);
+            
 
             await loader.load().then(() => {
                 banchang = new window.google.maps.LatLng(12.676913467590238, 101.06454892912522);
@@ -104,7 +106,9 @@ export default {
                             data: dt,
                             location: loc,
                             status: st,
-                            fix:el.fix
+                            fix:el.fix,
+                            detail:el.detail,
+                            status_ma:el.status_ma
                             })
                         }else{
                             set_data.push({
@@ -149,7 +153,7 @@ export default {
                this.list_map.forEach(el => {
                    var icon_sensor
                    if(el.fix){
-                    icon_sensor = dataMap.setIconMapFix()
+                    icon_sensor = dataMap.setIconMapFix(el.status)
                    }else{
                     icon_sensor = dataMap.setIconMap(el.widget,el.status)
                    }
@@ -167,7 +171,7 @@ export default {
 
                    if(el.fix){
                     content_html = `<h5 class="font-bold my-2">${el.name}</h5>`
-                    content_html += dataMap.setContentFix(el.widget,el.data)
+                    content_html += dataMap.setContentFix(el.widget,{detail:el.detail,status_ma:el.status_ma})
                     content_html += `<h5 class="font-bold my-2">Location:LAT${latlong.lat},LONG${latlong.lng}</h5>`
                     }else{
                     content_html = `<h5 class="font-bold my-2">${el.name}</h5>`

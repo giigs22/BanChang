@@ -190,7 +190,7 @@
                         this.loading = false
                         setTimeout(() => {
                             this.alert.active = false
-                            this.$router.push('/widgets/list')
+                            this.$router.push('/devices/list')
                         }, 2000);
                     } else {
                         this.alert.active = true

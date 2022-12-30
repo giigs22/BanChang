@@ -19,6 +19,7 @@
             </div>
         </div>
         <div class="flex lg:flex-nowrap gap-1 lg:overflow-hidden overflow-x-scroll">
+            
             <div class="aqi block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3>{{$t('aqi')}}</h3>
                 <span class="text-sm my-1">{{aqi.value}}</span>
@@ -26,6 +27,14 @@
                     <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" />
                 </div>
                 <span class="text-sm my-1 level-label">{{(aqi.level.label != null)?$t(aqi.level.label):'-'}}</span>
+            </div>
+            <div class="temp block-env dark:bg-block-env-dark bg-block-env-light">
+                <h3>{{$t('temperature')}}</h3>
+                <span class="text-sm my-1">{{avg_data.temp}}</span>
+                <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
+                    <img src="@/assets/icon_temp.png" />
+                </div>
+                <span class="text-sm my-1 level-label">{{(_temp.label != null)?$t(_temp.label):'-'}}</span>
             </div>
             <div class="co2 block-env dark:bg-block-env-dark bg-block-env-light">
                 <h3 class="break-words">{{$t('co2')}}</h3>
@@ -73,7 +82,7 @@
                 <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
                     <img src="@/assets/icon_voc.png" />
                 </div>
-                <span class="text-sm my-1 level-label">-</span>
+                <span class="text-sm my-1 level-label">{{(_voc.label != null)?$t(_voc.label):'-'}}</span>
             </div>
         </div>
 
@@ -118,6 +127,10 @@
                 _hum: {
                     label: null,
                     color: null
+                },
+                _temp:{
+                    label:null,
+                    color:null
                 },
                 pm25: [],
                 pm10:[],
@@ -320,6 +333,8 @@
                 this._pm25 = aqical.LevelPM25(this.avg_data.pm25)
                 this._pm10 = aqical.LevelPM10(this.avg_data.pm10)
                 this._hum = aqical.LevelHumid(this.avg_data.hum)
+                this._temp = aqical.LevelTemp(this.avg_data.temp)
+                this._voc = aqical.LevelVoc(this.avg_data.voc)
 
                 this.$store.dispatch('widget/setPM25',this.avg_data.pm25)
 
