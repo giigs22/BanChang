@@ -7,6 +7,8 @@
                 <option value="humid">Humidity</option>
                 <option value="uv">Uv Index</option>
                 <option value="voc">Voc</option>
+                <option value="co2">Co2</option>
+                <option value="pm10">PM10</option>
             </select>
             <select v-model="freq">
                 <option value="daily">Daily</option>
@@ -31,10 +33,10 @@
             <select v-model="month.month" v-if="freq == 'month' && month.year !== ''">
                 <option value="">Month</option>
                 <template v-if="month.year == '2022'">
-                    <option :value="m" v-for="(m,index) in list_month.slice(9)">{{m}}</option>
+                    <option :value="m" v-for="(m) in list_month.slice(9)">{{m}}</option>
                 </template>
                 <template v-else>
-                    <option :value="m" v-for="(m,index) in list_month">{{m}}</option>
+                    <option :value="m" v-for="(m) in list_month.slice(0,month_now)">{{m}}</option>
                 </template>
             </select>
             <!-- <select v-model="year" v-if="freq == 'year'">
@@ -92,7 +94,8 @@
                 data_set: [],
                 isLoading: false,
                 list_month_year: [],
-                option: null
+                option: null,
+                month_now:dayjs().month()+1
             }
         },
         created() {
@@ -103,12 +106,12 @@
             listYear() {
                 var this_year = dayjs().year()
                 var min_year = 2022
-                var list_year
+                var list_year = []
                 if (this_year == min_year) {
                     list_year = ['2022']
                 } else {
                     var rang_year = this_year - min_year
-
+                    list_year.push(min_year)
                     for (let index = 0; index < rang_year; index++) {
                         var y = min_year + 1
                         list_year.push(y)
