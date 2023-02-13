@@ -138,6 +138,7 @@
     import MapView from '../../components/MapView.vue'
     import _ from 'lodash'
     import dayjs from 'dayjs'
+    import UserService from '../../services/user.service'
 
     export default {
         components: {
@@ -191,10 +192,10 @@
                 this.isLoading = true
                 return this.$store.dispatch('data/getData', data).then((res) => {
                     var data = res.data
-                    console.log("wifi:getDAta:dispatch:return:data:")
-                    console.log(data)
                     this.list_data = data
                     this.isLoading = false
+                }).catch((err)=>{
+                    UserService.checkUnauthen(err.response)
                 })
             },
             setStatus() {
@@ -221,7 +222,9 @@
                 var client = []
                 var sum_client = 0
                 this.list_data.forEach(el=>{
+                    if(el.status){
                         client.push(el.data.client[0].value)
+                    }
                 })
                 client.forEach(el => {
                     sum_client += parseInt(el)

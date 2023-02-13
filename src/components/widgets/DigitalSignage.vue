@@ -24,15 +24,43 @@
 
             </div>
             <div class="flex flex-col justify-center dark:text-white">
-                <h1 class="text-6xl">0 <span class="text-lg">/0</span></h1>
+                <h1 class="text-6xl">{{online}} <span class="text-lg">/{{ online+offline }}</span></h1>
                 <div class="flex items-baseline gap-3">
-                    <h3 class="text-xl">0 <p class="text-red-400 text-xs">{{$t('offline')}}</p>
+                    <h3 class="text-xl">{{ online }} <p class="dark:text-cyan-300 text-green-700 text-xs">{{$t('online')}}</p>
                     </h3>
                     <div class="border border-slate-500 h-6 my-auto"></div>
-                    <h3 class="text-2xl">0 <p class="dark:text-indigo-400 text-orange-400 text-xs">{{$t('no_good')}}</p>
+                    <h3 class="text-2xl">{{offline}} <p class="text-red-400 text-xs">{{$t('offline')}}</p>
                     </h3>
                 </div>
             </div>
         </div>
     </div>
 </template>
+<script>
+export default {
+    data() {
+        return {
+            online:0,
+            offline:0
+        }
+    },
+    async created() {
+            await this.getStatus()
+            setInterval(async () => {
+                await this.getStatus()
+            }, this.$interval_time);
+        },
+        methods: {
+            getStatus() {
+                var data = {
+                    sensor: 'digi_sig'
+                }
+                return this.$store.dispatch('data/getStatus', data).then((res) => {
+                    var data = res.data
+                    this.online = data.online
+                    this.offline = data.offline
+                })
+            }
+        }
+}
+</script>
