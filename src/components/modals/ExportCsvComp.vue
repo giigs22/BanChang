@@ -139,19 +139,20 @@ dayjs.extend(localeData)
             listYear() {
                 var this_year = dayjs().year()
                 var min_year = 2022
-                var list_year
-                if(this_year == min_year){
+                var list_year = []
+                if (this_year == min_year) {
                     list_year = ['2022']
-                }else{
+                } else {
                     var rang_year = this_year - min_year
-
+                    list_year.push(min_year)
                     for (let index = 0; index < rang_year; index++) {
-                        var y = min_year+1
+                        var y = min_year + 1
                         list_year.push(y)
                     }
                 }
                 this.listyear = list_year
-               
+
+
             },
             submit(){
                 var option
@@ -250,7 +251,8 @@ dayjs.extend(localeData)
                     fileName = 'export_'+this.sdata+'_'+this.freq+'_'+this.week.year+'_'+this.week.num+'.csv'
                 }
                 if(this.freq == 'month'){
-                    fileName = 'export_'+this.sdata+'_'+this.freq+'_'+this.month.year+'_'+this.month.month+'.csv'
+                    var m = this.month.month + 1
+                    fileName = 'export_'+this.sdata+'_'+this.freq+'_'+this.month.year+'_'+m+'.csv'
                 }
                 if(this.freq == 'year'){
                     fileName = 'export_'+this.sdata+'_'+this.freq+'_'+this.year+'.csv'
