@@ -28,7 +28,6 @@
             return {
                 chart_data: null,
                 set_data:[],
-                offline:0
             }
         },
         components: {
@@ -37,12 +36,10 @@
         async created() {
            
             await this.getData()
-            await this.getStatus()
             this.setChartData()
             
             setInterval(async() => {
                 await this.getData()
-                await this.getStatus()
                 this.setChartData()
             }, this.$interval_time);
             
@@ -60,51 +57,19 @@
                 })
 
             },
-            getStatus(){
-                var data = {
-                    sensor:'cctv'
-                }
-                return this.$store.dispatch('data/getStatus',data).then((res)=>{
-                    var data = res.data
-                    this.offline = data.offline
-                })
-            },
             setChartData(){
-                    
-                    var camera_malfunction = this.offline
-                    var trespasser = 0
-                    var suspected_face_detection = 0
-                    var group_cluster_detection = 0
-                    var traffic_violation = 0
-                    var parking_violation = 0
+                    var face_recognition = this.set_data.face_recognition
+                    var camera_mulfunction = this.set_data.camera_mulfunction
+                    var trespasser = this.set_data.trespasser
+                    var suspected_face_detection = this.set_data.suspected_face_detection
+                    var group_cluster_detection = this.set_data.group_cluster_detection
+                    var traffic_violation = this.set_data.traffic_violation
+                    var parking_violation = this.set_data.parking_violation
 
-                    var faceReg_alllist = _.cloneDeep(this.set_data.faceReg_alllist)
-                    var face_recognition = _.cloneDeep(this.set_data.face_recognition)
-                    var no_park = _.cloneDeep(this.set_data.no_park)
-                    var traffic_rate = _.cloneDeep(this.set_data.traffic_rate)
-                    var wrong_direction = _.cloneDeep(this.set_data.wrong_direction)
-
-                    faceReg_alllist.forEach(el=>{
-                        suspected_face_detection += 1
-                    })
-                    face_recognition.forEach(el=>{
-                        suspected_face_detection += 1
-                    })
-
-                    traffic_rate.forEach(el=>{
-                        traffic_violation +=1
-                    })
-                    wrong_direction.forEach(el=>{
-                        traffic_violation += 1
-                    })
-                  
-                    no_park.forEach(el=>{
-                        parking_violation += 1
-                    })
-
-                    var chart_data = [camera_malfunction, trespasser, suspected_face_detection, group_cluster_detection,
+                    var chart_data = [face_recognition,camera_mulfunction, trespasser, suspected_face_detection, group_cluster_detection,
                         traffic_violation, parking_violation
                     ]
+                    
                     this.chart_data = chart_data
             }
         }

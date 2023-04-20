@@ -9,13 +9,13 @@ export const data = {
     },
     actions: {
         getData({rootState},data){
-            if(data.type == 'lastdata'){
-                if(data.option){
-                    var url = api_backend+'get_data/'+data.type+'/'+data.sensor+'/'+data.option
-                }else{
-                    var url = api_backend+'get_data/'+data.type+'/'+data.sensor
-                }
+           
+            if(data.option){
+                var url = api_backend+'get_data/'+data.type+'/'+data.sensor+'/'+data.option
+            }else{
+                var url = api_backend+'get_data/'+data.type+'/'+data.sensor
             }
+            
             return axios.get(url,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value

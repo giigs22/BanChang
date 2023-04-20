@@ -5,7 +5,8 @@
     </ul>
     <div id="tab1" v-if="tab==1">
         <ul class="dark:text-white p-2 list-event">
-            <li>{{$t('camera_malfunction')}} <span class="text-red-600">{{camera_malfunction}}</span></li>
+            <li>{{$t('face_recognition')}} <span class="text-red-600">{{face_recognition}}</span></li>
+            <li>{{$t('camera_mulfunction')}} <span class="text-red-600">{{camera_mulfunction}}</span></li>
             <li>{{$t('trespasser')}} <span class="text-red-600">{{trespasser}}</span></li>
             <li>{{$t('suspected_face_detection')}} <span class="text-red-600">{{suspected_face_detection}}</span></li>
             <li>{{$t('group_cluster_detection')}} <span class="text-red-600">{{group_cluster_detection}}</span></li>
@@ -30,7 +31,8 @@
             return {
                 tab: 1,
                 set_data: [],
-                camera_malfunction: 0,
+                face_recognition:0,
+                camera_mulfunction: 0,
                 trespasser: 0,
                 suspected_face_detection: 0,
                 group_cluster_detection: 0,
@@ -45,7 +47,7 @@
         methods: {
             getData() {
                 var data = {
-                    type: 'lastdata',
+                    type: 'history',
                     sensor: 'cctv_sur',
                     option: 'chartdata'
                 }
@@ -56,45 +58,13 @@
 
             },
             setStatData() {
-
-                var camera_malfunction = 0
-                var trespasser = 0 
-                var suspected_face_detection = 0
-                var group_cluster_detection = 0
-                var traffic_violation = 0
-                var parking_violation = 0
-
-                var faceReg_alllist_daily = _.cloneDeep(this.set_data.faceReg_alllist_daily)
-                var faceReg_blacklist_daily = _.cloneDeep(this.set_data.faceReg_blacklist_daily)
-                var prohibitedArea_daily = _.cloneDeep(this.set_data.prohibitedArea_daily)
-                var tracking_daily = _.cloneDeep(this.set_data.tracking_daily)
-                var wrongDirection_daily = _.cloneDeep(this.set_data.wrongDirection_daily)
-                var prohibitedParking_daily = _.cloneDeep(this.set_data.prohibitedParking_daily)
-
-                faceReg_alllist_daily.forEach(el => {
-                    trespasser += el.value
-                })
-                faceReg_blacklist_daily.forEach(el => {
-                    suspected_face_detection += el.value
-                })
-                prohibitedArea_daily.forEach(el => {
-                    traffic_violation += el.value
-                })
-                tracking_daily.forEach(el => {
-                    traffic_violation += el.value
-                })
-                wrongDirection_daily.forEach(el => {
-                    traffic_violation += el.value
-                })
-                prohibitedParking_daily.forEach(el => {
-                    parking_violation += el.value
-                })
-                this.camera_malfunction = this.status.offline
-                this.trespasser = trespasser
-                this.suspected_face_detection = suspected_face_detection
-                this.group_cluster_detection = group_cluster_detection
-                this.traffic_violation = traffic_violation
-                this.parking_violation = parking_violation
+                this.face_recognition = this.set_data.face_recognition
+                this.camera_mulfunction = this.set_data.camera_mulfunction
+                this.trespasser = this.set_data.trespasser
+                this.suspected_face_detection = this.set_data.suspected_face_detection
+                this.group_cluster_detection = this.set_data.group_cluster_detection
+                this.traffic_violation = this.set_data.traffic_violation
+                this.parking_violation = this.set_data.parking_violation
             }
         }
     }
