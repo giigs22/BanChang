@@ -10,33 +10,9 @@
                         <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false"
                             :opacity="0.1" class="rounded-lg" />
                         <h1 class="text-xl dark:text-white ml-10">{{$t('sos')}}</h1>
-                        <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg dark:text-white">{{$t('search')}}</h3>
-                            <div class="grid grid-cols-12 form-search">
-                                <div class="lg:col-span-6 col-span-12">
-                                    <div class="grid grid-cols-4 gap-3">
-                                        <div class="lg:col-span-3 col-span-4">
-                                            <div class="grid grid-cols-4 gap-2">
-                                                <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
-                                                    <select name="" id="" class="h-12 rounded text-sm w-full">
-                                                        <option value="">{{$t('condition_type')}}</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-span-4 lg:col-span-2">
-                                                    <input type="text" :placeholder="$t('id')+','+$t('name')"
-                                                        class="form-input w-full">
-                                                </div>
+                        
+                        <FilterSearch endpoint="sos_result" widget="sos"></FilterSearch>
 
-
-                                            </div>
-                                        </div>
-                                        <div class="col-span-4 lg:col-span-1">
-                                            <button class="btn-purple rounded w-full lg:w-auto h-12" @click="searchData">{{$t('search')}}</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="grid grid-cols-12 gap-4 mb-5">
                             <div class="col-span-12 lg:col-span-3">
                                 <div class="block-layer data-layer py-2 px-3 mt-4 dark:bg-nav-dark bg-white">
@@ -118,13 +94,15 @@
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
     import MapView from '../../components/MapView.vue'
+    import FilterSearch from '../../components/utility/FilterSearch.vue'
     import _ from 'lodash'
 
     export default {
         components: {
             TopMenu,
             FooterPage,
-            MapView
+            MapView,
+            FilterSearch
         },
         data() {
             return {

@@ -59,6 +59,17 @@ export const data = {
                 return Promise.reject(err)
             })
         },
+        getFilterSOS({rootState},data){
+            return axios.post(api_backend+'device/filter_sos',data,{
+                headers:{
+                    Authorization:"Bearer "+rootState.auth.token.value
+                }
+            }).then((res)=>{
+                return Promise.resolve(res)
+            }).catch((err)=>{
+                return Promise.reject(err)
+            })
+        },
         ExportCSV({rootState},data){
             return axios.post(api_backend+'export/csv',data,{
                 headers:{

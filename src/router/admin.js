@@ -195,6 +195,7 @@ let admin = [
     },
     {
       path: '/sos/result',
+      name:'sos_result',
       component: SOSResult,
       meta: {
         middleware: auth,

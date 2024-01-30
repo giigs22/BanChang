@@ -178,6 +178,13 @@ dayjs.extend(localeData)
                         label: 'Energy Usage',
                         value: 'energy'
                     }]
+                }else if(this.widget == 'sos'){
+                    this.data = [
+                        {
+                            label:'Push',
+                            value:'calls'
+                        }
+                    ]
                 }
             },
             listYear() {
@@ -189,8 +196,8 @@ dayjs.extend(localeData)
                 } else {
                     var rang_year = this_year - min_year
                     list_year.push(min_year)
-                    for (let index = 0; index < rang_year; index++) {
-                        var y = min_year + 1
+                    for (let index = 1; index <= rang_year; index++) {
+                        var y = min_year + index
                         list_year.push(y)
                     }
                 }

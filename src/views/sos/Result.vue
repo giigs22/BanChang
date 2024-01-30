@@ -10,41 +10,9 @@
                         <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false"
                             :opacity="0.1" class="rounded-lg" />
 
-                        <h1 class="text-xl text-white ml-10">Smart Pole</h1>
-                        <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg text-white">Search</h3>
-                            <div class="grid grid-cols-12 form-search">
-                                <div class="lg:col-span-6 col-span-12">
-                                    <div class="grid grid-cols-4 gap-3">
-                                        <div class="lg:col-span-3 col-span-4">
-                                            <div class="grid grid-cols-4 gap-2">
-                                                <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
-                                                    <select name="" id="" class="h-12 rounded text-sm w-full">
-                                                        <option value="">Condition Type</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-span-4 lg:col-span-2">
-                                                    <input type="text" placeholder="ID.Name" class="form-input w-full">
-                                                </div>
-                                                <div class="col-span-4 lg:col-span-2 lg:flex items-end lg:justify-end">
-                                                    <label for="" class="text-white mr-1 block">From</label>
-                                                    <input type="text" placeholder="DD/MM/YYYY"
-                                                        class="form-input w-full">
-                                                </div>
-                                                <div class="col-span-4 lg:col-span-2 lg:flex items-end">
-                                                    <label for="" class="text-white mr-1 block">To</label>
-                                                    <input type="text" placeholder="DD/MM/YYYY"
-                                                        class="form-input w-full">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-span-4 lg:col-span-1">
-                                            <button class="btn-purple rounded w-full lg:w-auto">Search</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <h1 class="text-xl text-white ml-10">{{$t('sos')}}</h1>
+                        
+                        <FilterSearch endpoint="sos_result" widget="sos"></FilterSearch>
 
                         <div>
                             <table class="table-auto w-full result-table">
@@ -59,127 +27,23 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white-op6">
-                                    <tr class="text-green-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
+                                    <tr :class="[item.status?'text-green-500':'text-red-500']" v-for="item in result_data" :key="item.device.id">
+                                        <td class="p-3 border border-gray-600">
+                                            <template v-if="item.date_data.diff > 0">
+                                                {{$dayjs(item.date_data.start).format('DD/MM/YYYY')}}-{{$dayjs(item.date_data.end).format('DD/MM/YYYY')}}
+                                            </template>
+                                            <template v-else>
+                                                {{$dayjs().format('dddd')}}<br>
+                                            {{$dayjs().format('DD MMMM YYYY')}}<br>
+                                            {{$dayjs().format('H:mm A')}}
+                                            </template>
                                             </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">ON</td>
-                                        <td class="border border-gray-600 text-center">1</td>
-                                    </tr>
-                                    <tr class="text-red-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">OFF</td>
-                                        <td class="border border-gray-600 text-center">1</td>
-                                    </tr>
-                                    <tr class="text-orange-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">NG</td>
-                                        <td class="border border-gray-600 text-center">1</td>
-                                    </tr>
-                                    <tr class="text-green-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">ON</td>
-                                        <td class="border border-gray-600 text-center">1</td>
-                                    </tr>
-                                    <tr class="text-green-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">ON</td>
-                                        <td class="border border-gray-600 text-center">1</td>
-                                    </tr>
-                                    <tr class="text-green-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">ON</td>
-                                        <td class="border border-gray-600 text-center">1</td>
-                                    </tr>
-                                    <tr class="text-green-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">ON</td>
-                                        <td class="border border-gray-600 text-center">1</td>
-                                    </tr>
-                                    <tr class="text-green-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">ON</td>
-                                        <td class="border border-gray-600 text-center">1</td>
-                                    </tr>
-                                    <tr class="text-green-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">ON</td>
-                                        <td class="border border-gray-600 text-center">1</td>
-                                    </tr>
-                                    <tr class="text-green-500">
-                                        <td class="p-3 border border-gray-600"><p>Saturday</p>
-                                            <p>12 October 2021</p>
-                                            <p>01:00AM</p>
-                                            </td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">001</td>
-                                        <td class="border border-gray-600 text-center">13.556248,<br>
-                                            100.754866</td>
-                                        <td class="border border-gray-600 text-center">ON</td>
-                                        <td class="border border-gray-600 text-center">1</td>
-                                    </tr>
-                                    
+                                        <td class="border border-gray-600 text-center">{{item.device.id}}</td>
+                                        <td class="border border-gray-600 text-center">{{item.device.name}}</td>
+                                        <td class="border border-gray-600 text-center">{{item.location.lat}}<br>{{item.location.long}}</td>
+                                        <td class="border border-gray-600 text-center">{{item.status==1?'On':'Off'}}</td>
+                                        <td class="border border-gray-600 text-center">{{item.data}}</td>
+                                    </tr>                          
                                 </tbody>
                             </table>
                         </div>
@@ -193,25 +57,61 @@
 <script>
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
+    import dayjs from 'dayjs'
+    import UserService from '../../services/user.service'
+    import FilterSearch from '../../components/utility/FilterSearch.vue'
 
     export default {
         components: {
             TopMenu,
             FooterPage,
+            FilterSearch
         },
         data() {
             return {
-
+              condition:null,
+              keyword:null,
+              start_date:null,
+              end_date:null,
+              isLoading:false,
+              result_data:[]  
             }
         },
-        computed: {
-
-        },
         async created() {
-
+            this.setParams()
+            await this.getDataFilter()
         },
         methods: {
+            setParams(){
+                this.condition = this.$route.params.cond != "" ? this.$route.params.cond: null
+                this.keyword = this.$route.params.keyword != "" ? this.$route.params.keyword : null
+                this.start_date = this.$route.params.start_date != "" ? this.$route.params.start_date : null
+                this.end_date =  this.$route.params.end_date != "" ? this.$route.params.end_date : null
+            },
+            searchData(){
+                this.getDataFilter()
+            },
+            getDataFilter(){
+                var s_timestamp = this.start_date == null ? dayjs().startOf('day').valueOf(): dayjs(this.start_date).valueOf()
+                var e_timestamp = this.end_date == null ? dayjs().endOf('day').valueOf() : dayjs(this.end_date).valueOf()
 
+                var data = {
+                    widget:'sos',
+                    filter:{
+                        cond:this.condition,
+                        keyword:this.keyword,
+                        start_date:s_timestamp,
+                        end_date:e_timestamp
+                    }
+                }
+                this.isLoading = true
+                return this.$store.dispatch('data/getFilterSOS',data).then((res)=>{
+                    this.isLoading = false
+                    this.result_data = res.data
+                }).catch((err)=>{
+                    UserService.checkUnauthen(err.response)
+                })
+            },
 
 
         }
