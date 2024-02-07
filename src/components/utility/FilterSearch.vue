@@ -4,7 +4,7 @@
             <h3 class="text-lg dark:text-white">{{$t('search')}}</h3>
 
             <div class="ml-auto">
-                <button class="btn-red" @click="modalExport">Report CSV</button>
+                <button class="btn-red" @click="modalExport" v-if="csv">Report CSV</button>
             </div>
         </div>
         <div class="grid grid-cols-12 form-search">
@@ -12,7 +12,7 @@
                 <div class="grid grid-cols-4 gap-3">
                     <div class="lg:col-span-3 col-span-4">
                         <div class="grid grid-cols-4 gap-2">
-                            <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
+                            <!-- <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
                                 <select v-model="search.condition" class="h-12 rounded text-sm w-full lg:ml-10">
                                     <option value="">{{$t('condition_type')}}</option>
                                     <option value="id">ID</option>
@@ -20,8 +20,8 @@
                                     <option value="device_id">Device ID</option>
                                     <option value="device_name">Device Name</option>
                                 </select>
-                            </div>
-                            <div class="col-span-4 lg:col-span-2">
+                            </div> -->
+                            <div class="col-span-4" :class="[!showCondition?'lg:col-span-4':'lg:col-span-2']">
                                 <input v-model="search.keyword" type="text" :placeholder="$t('id')+','+$t('name')"
                                     class="form-input w-full">
                             </div>
@@ -50,7 +50,20 @@
 <script>
 import ExportCsv from '../modals/ExportCsv.vue';
     export default {
-        props: ['endpoint','widget'],
+        props: {
+            endpoint:{
+                type:String,
+                default:null
+            },
+            widget:{
+                type:String,
+                default:null
+            },
+            csv:{
+                type:Boolean,
+                default:true
+            }
+        },
         components:{
             ExportCsv
         },
@@ -67,7 +80,8 @@ import ExportCsv from '../modals/ExportCsv.vue';
         },
         methods: {
             searchData() {
-                this.$router.push({
+                if(this.$route.name === this.endpoint){
+                    this.$emit('filter',{
                     name: this.endpoint,
                     params: {
                         cond: this.search.condition,
@@ -76,6 +90,18 @@ import ExportCsv from '../modals/ExportCsv.vue';
                         end_date: this.search.end_date
                     }
                 })
+                }else{
+                    this.$router.push({
+                    name: this.endpoint,
+                    params: {
+                        cond: this.search.condition,
+                        keyword: this.search.keyword,
+                        start_date: this.search.start_date,
+                        end_date: this.search.end_date
+                    }
+                })
+                }
+                
             },
             modalExport(){
                 this.exportdata = !this.exportdata

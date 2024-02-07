@@ -11,7 +11,7 @@
                             :opacity="0.1" class="rounded-lg" />
 
                         <h1 class="text-xl text-white ml-10">{{$t('air_quality')}}</h1>
-                        <FilterSearch endpoint="aqi_result" widget="env"></FilterSearch>
+                        <FilterSearch endpoint="aqi_result" widget="env" @filter="emitFilter"></FilterSearch>
 
 
                         <div>
@@ -107,8 +107,8 @@
                 this.getDataFilter()
             },
             getDataFilter(){
-                var s_timestamp = this.start_date == null ? dayjs().startOf('day').valueOf(): dayjs(this.start_date).valueOf()
-                var e_timestamp = this.end_date == null ? dayjs().endOf('day').valueOf() : dayjs(this.end_date).valueOf()
+                var s_timestamp = this.start_date == null ? dayjs().startOf('day').valueOf(): dayjs(this.start_date).startOf('day').valueOf()
+                var e_timestamp = this.end_date == null ? dayjs().endOf('day').valueOf() : dayjs(this.end_date).endOf('day').valueOf()
 
                 var data = {
                     widget:'env',
@@ -127,6 +127,14 @@
                     UserService.checkUnauthen(err.response)
                 })
             },
+            emitFilter(val){
+                this.condition = val.params.cond != "" ? val.params.cond: null
+                this.keyword = val.params.keyword != "" ? val.params.keyword : null
+                this.start_date = val.params.start_date != "" ? val.params.start_date : null
+                this.end_date =  val.params.end_date != "" ? val.params.end_date : null
+
+                this.searchData()
+            }
             
         }
     }

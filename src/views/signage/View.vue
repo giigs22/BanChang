@@ -17,7 +17,7 @@
                                     <div class="grid grid-cols-4 gap-3">
                                         <div class="lg:col-span-3 col-span-4">
                                             <div class="grid grid-cols-4 gap-2">
-                                            <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
+                                            <!-- <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
                                                 <select v-model="search.condition" class="h-12 rounded text-sm w-full" @change="search.keyword=null">
                                                     <option value="">{{$t('condition_type')}}</option>
                                                     <option value="id">ID</option>
@@ -26,8 +26,8 @@
                                                     <option value="device_name">Device Name</option>
                                                     <option value="status">Status</option>
                                                 </select>
-                                            </div>
-                                            <div class="col-span-4 lg:col-span-2">
+                                            </div> -->
+                                            <div class="col-span-4">
                                                 <input type="text" :placeholder="$t('id')+','+$t('name')" class="form-input w-full" v-model="search.keyword" v-if="search.condition != 'status'">
                                                 <select v-model="search.keyword" class="form-input w-full" v-else>
                                                     <option value="online">Online</option>

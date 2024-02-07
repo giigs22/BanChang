@@ -10,40 +10,8 @@
                         <loading v-model:active="isLoading" color="#202A5A" loader="dots" :is-full-page="false"
                             :opacity="0.1" class="rounded-lg" />
                         <h1 class="text-xl dark:text-white ml-10">Wifi</h1>
-                        <div class="searchbox mt-5 mb-5">
-                            <h3 class="text-lg dark:text-white">Search</h3>
-                            <div class="grid grid-cols-12 form-search">
-                                <div class="lg:col-span-6 col-span-12">
-                                    <div class="grid grid-cols-4 gap-3">
-                                        <div class="lg:col-span-3 col-span-4">
-                                            <div class="grid grid-cols-4 gap-2">
-                                                <div class="col-span-4 lg:col-span-2 flex lg:justify-end">
-                                                    <select name="" id="" class="h-12 rounded text-sm w-full">
-                                                        <option value="">Condition Type</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-span-4 lg:col-span-2">
-                                                    <input type="text" placeholder="ID.Name" class="form-input w-full">
-                                                </div>
-                                                <div class="col-span-4 lg:col-span-2 lg:flex items-end lg:justify-end">
-                                                    <label for="" class="dark:text-white mr-1 block">From</label>
-                                                    <input type="text" placeholder="DD/MM/YYYY"
-                                                        class="form-input w-full">
-                                                </div>
-                                                <div class="col-span-4 lg:col-span-2 lg:flex items-end">
-                                                    <label for="" class="dark:text-white mr-1 block">To</label>
-                                                    <input type="text" placeholder="DD/MM/YYYY"
-                                                        class="form-input w-full">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-span-4 lg:col-span-1">
-                                            <button class="btn-purple rounded w-full lg:w-auto" @click="searchData">Search</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <FilterSearch endpoint="freewifi_result" widget="wifi" :showCondition="false" :csv="false"></FilterSearch>
+
                         <div class="grid grid-cols-12 gap-4 mb-5">
                             <div class="col-span-12 lg:col-span-3">
                                 <div class="block-layer data-layer py-2 px-3 mt-4 dark:bg-nav-dark bg-white">
@@ -139,12 +107,14 @@
     import _ from 'lodash'
     import dayjs from 'dayjs'
     import UserService from '../../services/user.service'
+    import FilterSearch from '../../components/utility/FilterSearch.vue'
 
     export default {
         components: {
             TopMenu,
             FooterPage,
-            MapView
+            MapView,
+            FilterSearch
         },
         data() {
             return {
