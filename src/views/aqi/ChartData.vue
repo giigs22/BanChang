@@ -36,7 +36,7 @@
                     <option :value="m" v-for="(m) in list_month.slice(9)">{{m}}</option>
                 </template>
                 <template v-else>
-                    <option :value="m" v-for="(m) in list_month.slice(0,month_now)">{{m}}</option>
+                    <option :value="m" v-for="(m) in list_month">{{m}}</option>
                 </template>
             </select>
             <!-- <select v-model="year" v-if="freq == 'year'">
@@ -112,8 +112,8 @@
                 } else {
                     var rang_year = this_year - min_year
                     list_year.push(min_year)
-                    for (let index = 0; index < rang_year; index++) {
-                        var y = min_year + 1
+                    for (let index = 1; index <= rang_year; index++) {
+                        var y = min_year + index
                         list_year.push(y)
                     }
                 }

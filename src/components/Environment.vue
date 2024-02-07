@@ -4,7 +4,7 @@
         <div class="dark:bg-wether-dark bg-wether-light flex flex-wrap w-full lg:w-1/4 py-3 px-7">
             <div class="flex flex-col text-center cursor-pointer">
                 <div class="icon-env-main dark:bg-icon-env-dark bg-icon-env-light" :style="{background:aqi.level.color}">
-                    <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" alt="">
+                    <img :src="'/src/assets/'+aqi.level.icon" alt="">
                 </div>
                 <h3 class="text-lg dark:text-white">{{(aqi.level.label != null)?$t(aqi.level.label):'-'}}</h3>
             </div>
@@ -24,7 +24,7 @@
                 <h3>{{$t('aqi')}}</h3>
                 <span class="text-sm my-1">{{aqi.value}}</span>
                 <div class="icon-env dark:bg-icon-env-dark bg-icon-env-light">
-                    <img :src="'/src/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" />
+                    <img :src="'/src/assets/'+aqi.level.icon" />
                 </div>
                 <span class="text-sm my-1 level-label">{{(aqi.level.label != null)?$t(aqi.level.label):'-'}}</span>
             </div>
