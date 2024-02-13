@@ -16,7 +16,7 @@
         </div>
         <div class="detail gap-10">
             <div class="icon-env-main" :style="{background:aqi.level.color}">
-                <img :src="'/assets/'+((aqi.level.icon == null)?'icon_aqi_1.png':aqi.level.icon)" alt=""
+                <img :src="aqi.level.icon" alt=""
                     class="w-32">
             </div>
             <div class="flex flex-col text-center dark:text-white">

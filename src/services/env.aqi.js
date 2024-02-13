@@ -1,3 +1,7 @@
+import icon_aqi_1 from '@/assets/icon_aqi_1.png'
+import icon_aqi_3 from '@/assets/icon_aqi_3.png'
+import icon_aqi_4 from '@/assets/icon_aqi_4.png'
+import icon_aqi_5 from '@/assets/icon_aqi_5.png'
 class EnvAqi{
     LevelPM25(pm25){
         var detail={}
@@ -84,31 +88,31 @@ class EnvAqi{
          if(aqi < 26){
             detail = {
                 label:'excellent',
-                icon:'icon_aqi_1.png',
+                icon:icon_aqi_1,
                 color:'#00F9CF'
             }
         }else if(aqi < 51){
             detail = {
                 label:'satisfactory',
-                icon:'icon_aqi_1.png',
+                icon:icon_aqi_1,
                 color:'#4CBF08'
             }
         }else if(aqi < 101){
             detail = {
                 label:'moderate',
-                icon:'icon_aqi_3.png',
+                icon:icon_aqi_3,
                 color:'#FFEB50'
             }
         }else if(aqi < 201){
             detail = {
                 label:'unhealthy',
-                icon:'icon_aqi_4.png',
+                icon:icon_aqi_4,
                 color:'#FFB14C'
             }
         }else{
             detail = {
                 label:'very_unhealthy',
-                icon:'icon_aqi_5.png',
+                icon:icon_aqi_5,
                 color:'#BF4957'
             }
         }

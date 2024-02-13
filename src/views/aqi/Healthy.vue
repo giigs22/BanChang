@@ -16,7 +16,7 @@
                                 <div class="block-layer data-layer py-2 px-3">
                                     <div class="flex flex-col items-center my-10">
                                         <div class="icon-env-main2" :style="{background:aqi.level.color}">
-                                            <img :src="'/src/assets/'+((aqi.level.icon == null)?'':aqi.level.icon)"
+                                            <img :src="aqi.level.icon"
                                                 alt="">
                                         </div>
                                         <h3 class="text-2xl text-white">{{(aqi.level.label == null?'':aqi.level.label)}}
