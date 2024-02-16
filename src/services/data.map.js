@@ -1,37 +1,62 @@
 import _ from 'lodash'
-const url_img = window.location.origin+'/src/assets/'
+import aqi_g from '@/assets/icon_aqi_green.png'
+import aqi_r from '@/assets/icon_aqi_red.png'
+import sml_g from '@/assets/icon_smart_light_green.png'
+import sml_r from '@/assets/icon_smart_light_red.png'
+import smp_g from '@/assets/icon_smart_pole_green.png'
+import smp_r from '@/assets/icon_smart_pole_red.png'
+import cctv_g from '@/assets/icon_cctv_green.png'
+import cctv_r from '@/assets/icon_cctv_red.png'
+import wifi_g from '@/assets/icon_wifi_green.png'
+import wifi_r from '@/assets/icon_wifi_red.png'
+import digis_g from '@/assets/icon_digis_green.png'
+import digis_r from '@/assets/icon_digis_red.png'
+import sos_g from '@/assets/icon_sos_green.png'
+import sos_r from '@/assets/icon_sos_red.png'
+import hotel_g from '@/assets/icon_hotel_green.svg'
+import hotel_r from '@/assets/icon_hotel_red.svg'
+import res_g from '@/assets/icon_restaurant_green.svg'
+import res_r from '@/assets/icon_restaurant_red.svg'
+import att_g from '@/assets/icon_attraction_green.svg'
+import att_r from '@/assets/icon_attraction_red.svg'
+import otop_g from '@/assets/icon_otop_green.png'
+import otop_r from '@/assets/icon_otop_red.png'
+import fix_g from '@/assets/icon_fix_green.png'
+import fix_r from '@/assets/icon_fix_red.png'
+
+const url_img = window.location.origin
 class dataMap{
     setIconMap(type,status){
         if(type == 'aqi'){
-            return status?url_img+'icon_aqi_green.png':url_img+'icon_aqi_red.png'
+            return status?url_img+aqi_g:url_img+aqi_r
         }else if(type == 'smlight'){
-            return status?url_img+'icon_smart_light_green.png':url_img+'icon_smart_light_red.png'
+            return status?url_img+sml_g:url_img+sml_r
         }else if(type == 'smpole'){
-            return status?url_img+'icon_smart_pole_green.png':url_img+'icon_smart_pole_red.png'
+            return status?url_img+smp_g:url_img+smp_r
         }else if(type == 'cctv'){
-            return status?url_img+'icon_cctv_green.png':url_img+'icon_cctv_red.png'
+            return status?url_img+cctv_g:url_img+cctv_r
         }else if(type == 'wifi'){
-            return status?url_img+'icon_wifi_green.png':url_img+'icon_wifi_red.png'
+            return status?url_img+wifi_g:url_img+wifi_r
         }else if(type == 'digi_sig'){
-            return status?url_img+'icon_digis_green.png':url_img+'icon_digis_red.png'
+            return status?url_img+digis_g:url_img+digis_r
         }else if(type == 'sos'){
-            return status?url_img+'icon_sos_green.png':url_img+'icon_sos_red.png'
+            return status?url_img+sos_g:url_img+sos_r
         } else if(type == 'hotel'){
             console.log('selected hotel')
-            return status?url_img+'icon_hotel_green.svg':url_img+'icon_hotel_red.svg'
+            return status?url_img+hotel_g:url_img+hotel_r
         } else if(type == 'restaurant'){
             console.log('selected restaurant')
-            return status?url_img+'icon_restaurant_green.svg':url_img+'icon_restaurant_red.svg'
+            return status?url_img+res_g:url_img+res_r
         } else if(type == 'attraction'){
             console.log('selected attraction')
-            return status?url_img+'icon_attraction_green.svg':url_img+'icon_attraction_red.svg'
+            return status?url_img+att_g:url_img+att_r
         } else if(type == 'otop'){
             console.log('selected otop')
-            return status?url_img+'icon_otop_green.png':url_img+'icon_otop_red.png'
+            return status?url_img+otop_g:url_img+otop_r
         }
     }
     setIconMapFix(status){
-        return status?url_img+'icon_fix_green.png':url_img+'icon_fix_red.png'
+        return status?url_img+fix_g:url_img+fix_r
     }
     setContent(type,data,status){
         var dt = _.cloneDeep(data)

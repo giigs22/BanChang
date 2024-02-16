@@ -139,6 +139,7 @@
     import TopMenu from '../layout/TopMenu.vue'
     import FooterPage from '../layout/FooterPage.vue'
     import aqical from '../../services/env.aqi'
+    import conImg from '../../services/convertImage'
     export default {
         components: {
             TopMenu,
@@ -226,6 +227,7 @@
                         this.pm25.level = aqical.LevelPM25(pm25)
                         this.aqi.value = Math.ceil(aqical.CalAQI(pm25))
                         this.aqi.level = aqical.LevelAQI(this.aqi.value)
+                        this.convertToBase64(this.aqi.level.icon)
 
                         this.temp = Math.ceil(temp).toFixed(2)
                         this.hum = Math.ceil(hum)
@@ -312,6 +314,13 @@
                 // Level
                 this._co2 = aqical.LevelCo2(this.avg_data.co2)
                 this._uv = aqical.LevelUV(this.avg_data.uv)
+            },
+            async convertToBase64(img){
+                await conImg.toBase64(img).then((res)=>{
+                    this.aqi.level.icon =  res
+                })
+                return a;
+                
             }
 
 

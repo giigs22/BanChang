@@ -30,6 +30,7 @@
 <script>
     import aqical from '../../services/env.aqi'
     import UserService from '../../services/user.service'
+    import conImg from '../../services/convertImage'
     export default {
         data() {
             return {
@@ -92,6 +93,7 @@
                 if (this.statusAPI) {
                     this.aqi.value = Math.ceil(aqical.CalAQI(this.avg_data.pm25))
                     this.aqi.level = aqical.LevelAQI(this.avg_data.pm25)
+                    this.convertToBase64(this.aqi.level.icon)
 
                     this._pm25 = aqical.LevelPM25(this.avg_data.pm25)
                 } else {
@@ -109,6 +111,7 @@
 
                     this.aqi.value = Math.ceil(aqical.CalAQI(this.avg_data.pm25))
                     this.aqi.level = aqical.LevelAQI(this.avg_data.pm25)
+                    this.convertToBase64(this.aqi.level.icon)
 
                     this._pm25 = aqical.LevelPM25(this.avg_data.pm25)
                 }
@@ -118,6 +121,12 @@
             },
             fullview() {
                 this.$router.push('/view/aqi')
+            },
+            async convertToBase64(img){
+                await conImg.toBase64(img).then((res)=>{
+                    this.aqi.level.icon =  res
+                })
+                
             }
         }
     }

@@ -10,5 +10,16 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  build: {
+    assetsInlineLimit: 0
+  },
+  copy: {
+    patterns: [
+      {
+        from: 'src/assets',
+        to: 'assets',
+      }
+    ]
   }
 })

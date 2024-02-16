@@ -90,6 +90,7 @@
 </template>
 <script>
     import aqical from '../services/env.aqi'
+    import conImg from '../services/convertImage'
     import _ from 'lodash'
 
     export default {
@@ -326,6 +327,7 @@
 
                 this.aqi.value = Math.ceil(aqical.CalAQI(this.avg_data.pm25))
                 this.aqi.level = aqical.LevelAQI(this.avg_data.pm25)
+                this.convertToBase64(this.aqi.level.icon)
 
                 // Level
                 this._co2 = aqical.LevelCo2(this.avg_data.co2)
@@ -349,6 +351,11 @@
                 this.pm10 = []
                 this.status_device={online:0,offline:0}
             },
+            async convertToBase64(img){
+                await conImg.toBase64(img).then((res)=>{
+                    this.aqi.level.icon =  res
+                })                
+            }
         }
     }
 </script>
