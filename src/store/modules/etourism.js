@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const api_backend = import.meta.env.VITE_API_SERVER;
 // const etourism_service_backend  = import.meta.env.ETOURISM_SERVICE ;
-const etourism_service_backend  = "http://ec2-13-251-222-89.ap-southeast-1.compute.amazonaws.com:3003/"
+const etourism_service_backend  = "https://mobile-baanchang.mashub.io/etourism/"
 export const etourism = {
     namespaced: true,
     state: {
@@ -12,7 +12,7 @@ export const etourism = {
        hotel({rootState},data){
             console.log('etourism_service_backend:', etourism_service_backend)
            const my_url = data.option == 'onlyUnassigned' ? '?onlyUnassigned=true' : '';
-            return axios.get(etourism_service_backend+`hotels${my_url}`,data,{
+            return axios.get(etourism_service_backend+`hotels/${my_url}`,data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                   }
@@ -26,7 +26,7 @@ export const etourism = {
        },
         restaurant({rootState},data){
             const my_url = data.option == 'onlyUnassigned' ? '?onlyUnassigned=true' : '';
-            return axios.get(etourism_service_backend+`restaurants${my_url}`,data,{
+            return axios.get(etourism_service_backend+`restaurants/${my_url}`,data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                 }
@@ -40,7 +40,7 @@ export const etourism = {
         },
         attraction({rootState},data){
             const my_url = data.option == 'onlyUnassigned' ? '?onlyUnassigned=true' : '';
-            return axios.get(etourism_service_backend+`attractions${my_url}`,data,{
+            return axios.get(etourism_service_backend+`attractions/${my_url}`,data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                 }
@@ -54,7 +54,7 @@ export const etourism = {
         },
         otop({rootState},data){
             const my_url = data.option == 'onlyUnassigned' ? '?onlyUnassigned=true' : '';
-            return axios.get(etourism_service_backend+`otop${my_url}`,data,{
+            return axios.get(etourism_service_backend+`otop/${my_url}`,data,{
                 headers:{
                     Authorization:"Bearer "+rootState.auth.token.value
                 }
