@@ -89,7 +89,7 @@
     "read_more":"Read More",
     "search":"Search",
     "condition_type":"Condition Type",
-    "id":"ID",
+    "en_id":"Entity ID",
     "name":"Name",
     "from":"From",
     "to":"To",

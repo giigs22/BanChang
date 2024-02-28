@@ -63,20 +63,26 @@ class dataMap{
         var html
         if(type == 'aqi'){
             //LNR
-            var co2 = (dt.co2?.[0].value == undefined)?0:dt.co2?.[0].value
-            var uv = (dt.uv?.[0].value == undefined)?0:dt.uv?.[0].value
-            var voc = (dt.voc?.[0].value == undefined)?0:dt.voc?.[0].value
+            //var co2 = (dt.co2?.[0].value == undefined)?0:dt.co2?.[0].value
+            //var uv = (dt.uv?.[0].value == undefined)?0:dt.uv?.[0].value
+            //var voc = (dt.voc?.[0].value == undefined)?0:dt.voc?.[0].value
             //Env
-            var pm25 = (dt.pm25?.[0].value == undefined)?0:dt.pm25?.[0].value
-            var temp = (dt.temp?.[0].value == undefined)?0:dt.temp?.[0].value
-            var hum = (dt.humid?.[0].value == undefined)?0:dt.humid?.[0].value
+            //var pm25 = (dt.pm25?.[0].value == undefined)?0:dt.pm25?.[0].value
+            //var temp = (dt.temperature?.[0].value == undefined)?0:dt.temperature?.[0].value
+            //var hum = (dt.humidity?.[0].value == undefined)?0:dt.humidity?.[0].value
 
-            var checkENV = _.has(dt,'pm25')
-            if(checkENV){
-                 html = `<ul><li><span class="font-bold mr-2">PM2.5:</span>${pm25}</li><li><span class="font-bold mr-2">Temperature:</span>${temp}</li><li><span class="font-bold mr-2">Humidity:</span>${hum}</li></ul>`
-            }else{
-                 html = `<ul><li><span class="font-bold mr-2">Co2:</span>${co2}</li><li><span class="font-bold mr-2">UV Index:</span>${uv}</li><li><span class="font-bold mr-2">VOC:</span>${voc}</li></ul>`
+            // var checkENV = _.has(dt,'pm25')
+            // if(checkENV){
+            //      html = `<ul><li><span class="font-bold mr-2">PM2.5:</span>${pm25}</li><li><span class="font-bold mr-2">Temperature:</span>${temp}</li><li><span class="font-bold mr-2">Humidity:</span>${hum}</li></ul>`
+            // }else{
+            //      html = `<ul><li><span class="font-bold mr-2">Co2:</span>${co2}</li><li><span class="font-bold mr-2">UV Index:</span>${uv}</li><li><span class="font-bold mr-2">VOC:</span>${voc}</li></ul>`
+            // }
+            html = `<ul>`;
+            for (let key in dt) {
+            html += `<li><span class="font-bold mr-2">${key.toUpperCase()}:</span>`+parseFloat(dt[key][0].value).toFixed(2)+`</li>`
             }
+            html += `</ul>`;
+            
 
         }
         if(type == 'smlight'){

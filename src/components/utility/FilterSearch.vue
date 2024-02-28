@@ -22,7 +22,7 @@
                                 </select>
                             </div> -->
                             <div class="col-span-4" :class="[!showCondition?'lg:col-span-4':'lg:col-span-2']">
-                                <input v-model="search.keyword" type="text" :placeholder="$t('id')+','+$t('name')"
+                                <input v-model="search.keyword" type="text" :placeholder="$t('en_id')+','+$t('device_name')"
                                     class="form-input w-full">
                             </div>
                             <div class="col-span-4 lg:col-span-2 lg:flex items-end lg:justify-end">
@@ -84,7 +84,7 @@ import ExportCsv from '../modals/ExportCsv.vue';
                     this.$emit('filter',{
                     name: this.endpoint,
                     params: {
-                        cond: this.search.condition,
+                        //cond: this.search.condition,
                         keyword: this.search.keyword,
                         start_date: this.search.start_date,
                         end_date: this.search.end_date
@@ -94,7 +94,7 @@ import ExportCsv from '../modals/ExportCsv.vue';
                     this.$router.push({
                     name: this.endpoint,
                     params: {
-                        cond: this.search.condition,
+                        //cond: this.search.condition,
                         keyword: this.search.keyword,
                         start_date: this.search.start_date,
                         end_date: this.search.end_date

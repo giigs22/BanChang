@@ -20,7 +20,7 @@
                                 <thead class="text-white font-bold bg-head-table text-lg">
                                     <tr>
                                         <td>Date-Time</td>
-                                        <td class="text-center">ID</td>
+                                        <td class="text-center">Device Name</td>
                                         <td class="text-center">Location</td>
                                         <td class="text-center">Co2</td>
                                         <td class="text-center">PM2.5</td>
@@ -47,15 +47,15 @@
                                             {{$dayjs().format('H:mm A')}}
                                             </template>
                                             </td>
-                                        <td class="border border-gray-600 text-center">{{item.device.id}}</td>
+                                        <td class="border border-gray-600 text-center">{{item.device.device_name}}</td>
                                         <td class="border border-gray-600 text-center">{{item.location.lat}}<br>{{item.location.long}}</td>
                                         <td class="border border-gray-600 text-center">{{(item.data.co2)?item.data.co2.toFixed(2):'-'}}</td>
                                         <td class="border border-gray-600 text-center">{{(item.data.pm25)?item.data.pm25.toFixed(2):'-'}}</td>
                                         <td class="border border-gray-600 text-center">{{(item.data.pm10)?item.data.pm10.toFixed(2):'-'}}</td>
-                                        <td class="border border-gray-600 text-center">{{(item.data.humid)?item.data.humid.toFixed(2):'-'}}</td>
+                                        <td class="border border-gray-600 text-center">{{(item.data.humidity)?item.data.humidity.toFixed(2):'-'}}</td>
                                         <td class="border border-gray-600 text-center">{{(item.data.uv)?item.data.uv.toFixed(2):'-'}}</td>
                                         <td class="border border-gray-600 text-center">{{(item.data.voc)?item.data.voc.toFixed(2):'-'}}</td>
-                                        <td class="border border-gray-600 text-center">{{(item.data.temp)?item.data.temp.toFixed(2):'-'}}</td>
+                                        <td class="border border-gray-600 text-center">{{(item.data.temperature)?item.data.temperature.toFixed(2):'-'}}</td>
                                         <td class="border border-gray-600 text-center">{{item.status==1?'On':'Off'}}</td>
                                     </tr>                          
                                 </tbody>
@@ -98,7 +98,7 @@
         },
         methods: {
             setParams(){
-                this.condition = this.$route.params.cond != "" ? this.$route.params.cond: null
+                //this.condition = this.$route.params.cond != "" ? this.$route.params.cond: null
                 this.keyword = this.$route.params.keyword != "" ? this.$route.params.keyword : null
                 this.start_date = this.$route.params.start_date != "" ? this.$route.params.start_date : null
                 this.end_date =  this.$route.params.end_date != "" ? this.$route.params.end_date : null
@@ -113,7 +113,7 @@
                 var data = {
                     widget:'env',
                     filter:{
-                        cond:this.condition,
+                        //cond:this.condition,
                         keyword:this.keyword,
                         start_date:s_timestamp,
                         end_date:e_timestamp
@@ -128,7 +128,7 @@
                 })
             },
             emitFilter(val){
-                this.condition = val.params.cond != "" ? val.params.cond: null
+                //this.condition = val.params.cond != "" ? val.params.cond: null
                 this.keyword = val.params.keyword != "" ? val.params.keyword : null
                 this.start_date = val.params.start_date != "" ? val.params.start_date : null
                 this.end_date =  val.params.end_date != "" ? val.params.end_date : null
