@@ -263,50 +263,63 @@
                 var sum_pm10 = 0
 
                 this.pm25.forEach(el => {
-                    if (parseFloat(el.data.value) > 0) {
+                    if(el.data !== undefined){
+                        if (parseFloat(el.data.value) > 0) {
                         count_pm25 += 1
                     }
                     sum_pm25 += parseFloat(el.data.value)
+                    }
                 })
                 this.pm10.forEach(el => {
-                    if (parseFloat(el.data.value) > 0) {
+                    if(el.data !== undefined){
+                        if (parseFloat(el.data.value) > 0) {
                         count_pm10 += 1
                     }
                     sum_pm10 += parseFloat(el.data.value)
+                    }
                 })
                 this.temp.forEach(el => {
-                    if (parseFloat(el.data.value) > 0) {
+                    if(el.data !== undefined){
+                        if (parseFloat(el.data.value) > 0) {
                         count_temp += 1
                     }
                     sum_temp += parseFloat(el.data.value)
+                    }
                 })
                 this.hum.forEach(el => {
-                    if (parseFloat(el.data.value) > 0) {
+                    if(el.data !== undefined){
+                        if (parseFloat(el.data.value) > 0) {
                         count_hum += 1
                     }
                     sum_hum += parseFloat(el.data.value)
+                    }
                 })
 
                 this.uv.forEach(el => {
-                    if (parseFloat(el.data.value) > 0) {
+                    if(el.data !== undefined){
+                        if (parseFloat(el.data.value) > 0) {
                         count_uv += 1
                     }
                     sum_uv += parseFloat(el.data.value)
+                    }
                 })
 
                 this.voc.forEach(el => {
-                    if (parseFloat(el.data.value) > 0) {
+                    if(el.data !== undefined){
+                        if (parseFloat(el.data.value) > 0) {
                         count_voc += 1
                     }
                     sum_voc += parseFloat(el.data.value)
-
+                    }
                 })
 
                 this.co2.forEach(el => {
-                    if (parseFloat(el.data.value) > 0) {
+                    if(el.data !== undefined){
+                        if (parseFloat(el.data.value) > 0) {
                         count_co2 += 1
                     }
                     sum_co2 += parseFloat(el.data.value)
+                    }
                 })
 
                 var avg_pm25 = sum_pm25 / count_pm25
