@@ -282,23 +282,29 @@
                 var sum_co2 = 0
 
                 this.uv.forEach(el => {
+                    if(el.data !== undefined){
                     if (parseFloat(el.data.value) > 0) {
                         count_uv += 1
+                    }
                     }
                     sum_uv += parseFloat(el.data.value)
                 })
 
                 this.voc.forEach(el => {
+                    if(el.data !== undefined){
                     if (parseFloat(el.data.value) > 0) {
                         count_voc += 1
+                    }
                     }
                     sum_voc += parseFloat(el.data.value)
 
                 })
 
                 this.co2.forEach(el => {
+                    if(el.data !== undefined){
                     if (parseFloat(el.data.value) > 0) {
                         count_co2 += 1
+                    }
                     }
                     sum_co2 += parseFloat(el.data.value)
                 })

@@ -101,8 +101,10 @@
                     var sum_pm25 = 0
 
                     this.pm25.forEach(el => {
+                        if(el.data !== undefined){
                         if (parseFloat(el.data.value) > 0) {
                             count_pm25 += 1
+                        }
                         }
                         sum_pm25 += parseFloat(el.data.value)
                     })

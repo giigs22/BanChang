@@ -46,9 +46,10 @@ export default {
         caldata(){
             var list_value = []
             this.list_calls.forEach(el => {
-                var v = el[0].value
-                if(v != "[]" && v.length != 0){
-                    list_value.push({ts:el[0].ts,value:v})
+                //console.log(el.data.calls[0]);
+                var v = el.data.calls[0]
+                if(v.value.length != 0){
+                    list_value.push({ts:v.ts.ts,value:v.value})
                 }
             });
             this.sos_count = list_value.length
