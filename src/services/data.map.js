@@ -79,7 +79,17 @@ class dataMap{
             // }
             html = `<ul>`;
             for (let key in dt) {
+            if(dt[key][0] && dt[key][0].value !== undefined){
             html += `<li><span class="font-bold mr-2">${key.toUpperCase()}:</span>`+parseFloat(dt[key][0].value).toFixed(2)+`</li>`
+            }else{
+            if(typeof dt[key] == 'number'){
+            html += `<li><span class="font-bold mr-2">${key.toUpperCase()}</span>`+parseFloat(dt[key]).toFixed(2)+`</li>`
+            }else{
+                if(key !== 'status'){
+                    html += `<li><span class="font-bold mr-2">${key.toUpperCase()}</span>`+dt[key]+`</li>`
+                }
+            }
+            }
             }
             html += `</ul>`;
             
